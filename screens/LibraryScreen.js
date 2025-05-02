@@ -4,7 +4,7 @@ import { View, Text, StyleSheet } from "react-native";
 export default function LibraryScreen() {
   return (
     <View style={StyleSheet.container}>
-      <Text>Activity Library</Text>
+      <Text></Text>
     </View>
   );
 }

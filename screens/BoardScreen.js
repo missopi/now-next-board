@@ -4,7 +4,7 @@ import { View, Text, StyleSheet } from "react-native";
 export default function BoardScreen() {
   return (
     <View style={StyleSheet.container}>
-      <Text>Now/Next Board</Text>
+      <Text></Text>
     </View>
   );
 }
