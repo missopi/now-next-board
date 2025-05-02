@@ -1,5 +1,5 @@
-import React from "react";
-import { Pressable, Text, View } from "react-native";
+import React, { useRef } from "react";
+import { Pressable, Text, View, Animated } from "react-native";
 import styles from "./styles";
 import { MaterialIcons } from "@expo/vector-icons";
 
@@ -12,26 +12,47 @@ const darkenColor = (hex, amount = 0.01) => {
 };
 
 const CustomButton = ({ title, onPress, icon, color = '#4a90e2' }) => {
+  const animation = useRef(new Animated.Value(0)).current;
+
   const pressedColor = darkenColor(color, 0.15); // darken by 15%
 
+  const backgroundColor = animation.interpolate({
+    inputRange: [0, 1],
+    outputRange: [color, pressedColor],
+  });
+
+  const handlePressIn = () => {
+    Animated.timing(animation, {
+      toValue: 1,
+      duration: 150,
+      useNativeDriver: false,
+    }).start();
+  };
+
+  const handlePressOut = () => {
+    Animated.timing(animation, {
+      toValue: 0,
+      duration: 150,
+      useNativeDriver: false,
+    }).start();
+  };
+
   return (
-    <Pressable
-      style={({ pressed }) => [
-        {
-          backgroundColor: pressed ? pressedColor : color,
-        },
-        styles.button,
-        pressed && styles.buttonPressed,
-      ]}
-      onPress={onPress}
-    >
-      <View style={styles.buttonContent}>
-        {icon && (
-          <MaterialIcons name={icon} size={25} color="#fff" style={styles.icon} />
-        )}
-        <Text style={styles.buttonText}>{title}</Text>
-      </View>
-    </Pressable>
+    <Animated.View style={[styles.button, { backgroundColor }]}>
+      <Pressable 
+      onPress={onPress} 
+      onPressIn={handlePressIn} 
+      onPressOut={handlePressOut}
+      style={{ paddingVertical: 12, alignItems: 'center' }}
+      >
+        <View style={styles.buttonContent}>
+          {icon && (
+            <MaterialIcons name={icon} size={25} color="#fff" style={styles.icon} />
+          )}
+          <Text style={styles.buttonText}>{title}</Text>
+        </View>
+        </Pressable>
+    </Animated.View>
   );
 };
 

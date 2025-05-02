@@ -13,7 +13,7 @@ export default StyleSheet.create({
   },
   button: {
     backgroundColor: '#4a90e2',
-    paddingVertical: 25,
+    paddingVertical: 15,
     paddingHorizontal: 16,
     borderRadius: 8,
     marginVertical: 8,
