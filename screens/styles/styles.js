@@ -10,10 +10,11 @@ export default StyleSheet.create({
   },
   button: {
     backgroundColor: '#4a90e2',
-    paddingVertical: 12,
-    paddingHorizontal: 24,
+    paddingVertical: 25,
+    paddingHorizontal: 16,
     borderRadius: 8,
-    marginVertical: 10,
+    marginVertical: 8,
+    width: '80%', // stretch button
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
