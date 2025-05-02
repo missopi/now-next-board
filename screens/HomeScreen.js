@@ -9,7 +9,6 @@ export default function HomeScreen({ navigation }) {
       <CustomButton
         title="Today"
         icon="today"
-        color="#f0ad4e"
         onPress={() => navigation.navigate('Today')}
       />
       <CustomButton
@@ -23,13 +22,11 @@ export default function HomeScreen({ navigation }) {
       <CustomButton
         title="Tools"
         icon="construction"
-        color="#f0ad4e"
         onPress={() => navigation.navigate('Tools')}
       />
       <CustomButton
         title="Settings"
         icon="settings"
-        color="#f0ad4e"
         onPress={() => navigation.navigate('Settings')}
       />
       <CustomButton
