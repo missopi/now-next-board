@@ -3,7 +3,7 @@ import { Pressable, Text, View, Animated } from "react-native";
 import styles from "./styles";
 import { MaterialIcons } from "@expo/vector-icons";
 
-const darkenColor = (hex, amount = 0.01) => {
+const darkenColor = (hex, amount = 0.15) => {
   const num = parseInt(hex.replace('#', ''), 16);
   const r = Math.max(0, (num >> 16) - 255 * amount);
   const g = Math.max(0, ((num >> 8) & 0x00ff) - 255 * amount);
