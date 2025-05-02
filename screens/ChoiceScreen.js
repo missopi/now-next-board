@@ -1,9 +1,10 @@
 import React from "react";
-import { View, Text, StyleSheet, Button } from "react-native";
+import { View, Text, Button } from "react-native";
+import styles from './styles';
 
 export default function ChoiceScreen({ navigation }) {
   return (
-    <View style={StyleSheet.container}>
+    <View style={styles.container}>
       <Button title="I Feel..." onPress={() => navigation.navigate('Feelings Board')} />
       <Button title="I Wan't..." onPress={() => navigation.navigate('Want Board')} />
       <Button title="I Need..." onPress={() => navigation.navigate('Need Board')} />
@@ -11,7 +12,3 @@ export default function ChoiceScreen({ navigation }) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: 'center', padding: 20, gap: 20 },
-});
