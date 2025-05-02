@@ -5,8 +5,11 @@ export default StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    alignSelf: 'center',
     padding: 20,
-    backgroundColor: '#f6f8fa',
+    maxWidth: 400, // optional for larger screens
+    backgroundColor: '#fff',
+    width: '100%',
   },
   button: {
     backgroundColor: '#4a90e2',
