@@ -22,10 +22,14 @@ export default function HomeScreen({ navigation }) {
       />
       <CustomButton
         title="Tools"
+        icon="construction"
+        color="#f0ad4e"
         onPress={() => navigation.navigate('Tools')}
       />
       <CustomButton
         title="Settings"
+        icon="settings"
+        color="#f0ad4e"
         onPress={() => navigation.navigate('Settings')}
       />
       <CustomButton
