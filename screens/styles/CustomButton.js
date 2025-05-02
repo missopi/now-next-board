@@ -1,6 +1,7 @@
 import React from "react";
-import { Pressable, Text } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import styles from "./styles";
+import { MaterialIcons } from "@expo/vector-icons";
 
 const darkenColor = (hex, amount = 0.01) => {
   const num = parseInt(hex.replace('#', ''), 16);
@@ -24,7 +25,12 @@ const CustomButton = ({ title, onPress, icon, color = '#4a90e2' }) => {
       ]}
       onPress={onPress}
     >
-      <Text style={styles.buttonText}>{title}</Text>
+      <View style={styles.buttonContent}>
+        {icon && (
+          <MaterialIcons name={icon} size={25} color="#fff" style={styles.icon} />
+        )}
+        <Text style={styles.buttonText}>{title}</Text>
+      </View>
     </Pressable>
   );
 };

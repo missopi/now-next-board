@@ -33,8 +33,16 @@ export default StyleSheet.create({
     fontWeight: '600',
     textAlign: 'center',
   },
+  buttonContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   text: {
     fontSize: 18,
     color: '#333',
+  },
+  icon: {
+    marginRight: 8,
   },
 });

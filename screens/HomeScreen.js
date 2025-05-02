@@ -8,6 +8,8 @@ export default function HomeScreen({ navigation }) {
     <View style={styles.container}>
       <CustomButton
         title="Today"
+        icon="today"
+        color="#f0ad4e"
         onPress={() => navigation.navigate('Today')}
       />
       <CustomButton
