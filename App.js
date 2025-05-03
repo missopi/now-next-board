@@ -9,6 +9,7 @@ import BoardScreen from "./screens/BoardScreen";
 import ToolsScreen from "./screens/ToolsScreen";
 import SettingsScreen from "./screens/SettingsScreen";
 import LibraryScreen from "./screens/LibraryScreen";
+import Countdown from "./screens/tools/Countdown";
 
 const Stack = createNativeStackNavigator();
 
@@ -23,6 +24,7 @@ export default function App() {
         <Stack.Screen name="Tools" component={ToolsScreen} />
         <Stack.Screen name="Settings" component={SettingsScreen} />
         <Stack.Screen name="Library" component={LibraryScreen} />
+        <Stack.Screen name="Countdown" component={Countdown} />
       </Stack.Navigator>
     </NavigationContainer>
   );

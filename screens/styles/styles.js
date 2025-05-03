@@ -45,4 +45,18 @@ export default StyleSheet.create({
   icon: {
     marginRight: 8,
   },
+
+  // countdown screen
+
+  countdownContainer: {
+    flex: 1,
+    backgroundColor: '#222',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  count: {
+    fontSize: 250,
+    color: '#fff',
+    fontWeight: 'bold',
+  },
 });
