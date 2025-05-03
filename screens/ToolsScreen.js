@@ -12,7 +12,9 @@ export default function ToolsScreen({ navigation }) {
       />
       <CustomButton
         title="Countdown"
-        onPress={() => navigation.navigate('Countdown')}
+        onPress={() => navigation.navigate('Countdown', {
+          activity: { name: '', image: require('./images/water_play.jpg') }
+        })}
       />
       <CustomButton
         title="Traffic Lights"

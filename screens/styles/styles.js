@@ -59,4 +59,27 @@ export default StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
   },
+  doneText: {
+    fontSize: 32,
+    color: '#fff',
+    marginBottom: 20,
+  },
+  card: {
+    alignItems:'center',
+    backgroundColor: '#fff',
+    borderRadius: 20,
+    padding: 30,
+    elevation: 3,
+  },
+  activityText: {
+    fontSize: 28,
+    fontWeight: '600',
+    marginTop: 10,
+  },
+  image: {
+    width: 250,
+    height: 250,
+    borderColor: '#000',
+    borderWidth: 5,
+  },
 });
