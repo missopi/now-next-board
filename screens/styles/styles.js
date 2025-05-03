@@ -46,13 +46,19 @@ export default StyleSheet.create({
     marginRight: 8,
   },
 
-  // countdown screen
+  // countdown screens
 
   countdownContainer: {
     flex: 1,
     backgroundColor: '#222',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  countdownSetupContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    padding: 40,
+    backgroundColor: '#f5f5f5',
   },
   count: {
     fontSize: 250,
@@ -81,5 +87,17 @@ export default StyleSheet.create({
     height: 250,
     borderColor: '#000',
     borderWidth: 5,
+  },
+  label: {
+    fontSize: 24,
+    marginBottom: 10,
+  },
+  input: {
+    fontSize: 28,
+    padding: 10,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 10,
+    marginBottom: 20,
   },
 });

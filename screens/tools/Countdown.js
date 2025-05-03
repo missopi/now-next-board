@@ -2,9 +2,8 @@ import React, { useState } from "react";
 import { View, Text, Pressable, Animated, Image } from "react-native";
 import styles from '../styles/styles';
 
-const Countdown = ({ route }) => {
-  const { activity } = route.params;
-  const [count, setCount] = useState(10);
+const Countdown = ({ activity, countStart }) => {
+  const [count, setCount] = useState(countStart);
   const [isDone, setIsDone] = useState(false);
 
   const handleNext = () => {
