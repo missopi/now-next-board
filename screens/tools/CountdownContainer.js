@@ -7,7 +7,7 @@ const CountdownContainer = () => {
 
   const activity = {
     name: '',
-    image: require('../images/water_play.jpg'),
+    image: require('../images/hair_cut.jpg'),
   };
 
   if (startCount !== null) {
