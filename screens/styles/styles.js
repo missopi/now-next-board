@@ -50,7 +50,6 @@ export default StyleSheet.create({
 
   countdownContainer: {
     flex: 1,
-    backgroundColor: '#222',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -82,13 +81,7 @@ export default StyleSheet.create({
     fontWeight: '600',
     marginTop: 10,
   },
-  image: {
-    width: 250,
-    height: 250,
-    borderColor: '#000',
-    borderWidth: 5,
-  },
-  label: { fontSize: 24, marginBottom: 10 },
+  label: { fontSize: 24, marginTop: 20, marginBottom: 15, fontWeight: 'bold' },
   input: {
     fontSize: 30,
     padding: 10,
@@ -100,24 +93,26 @@ export default StyleSheet.create({
     marginBottom: 20,
     textAlign: 'center',
   },
-  activityCard: {
-    marginRight: 80,
-    marginLeft: 80,
-    marginBottom: 10,
-    alignItems: 'center',
-    padding: 10,
-    gap: 5,
-    borderRadius: 10,
-    borderWidth: 2,
-    borderColor:'#ccc',
-  },
-  selectedCard: {
-    borderColor: '#007bff',
-    backgroundColor: '#e6f0ff',
-  },
   activityImage: {
-    width: 90,
-    height: 90,
+    width: 250,
+    height: 250,
     marginBottom: 5,
+    borderColor: '#000',
+    borderWidth: 4,
+    borderRadius: 20,
+  },
+  activityCountdownEndImage: {
+    width: 250,
+    height: 250,
+    alignSelf: 'center',
+    resizeMode: 'contain',
+    borderColor: '#000',
+    borderWidth: 5,
+  },
+  countdownBackground: {
+    backgroundColor: '#222',
+  },
+  activityBackground: {
+    backgroundColor: '#fff',
   },
 });
