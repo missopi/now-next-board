@@ -14,4 +14,19 @@ export const activityLibrary = [
     name: '',
     image: require('./images/wash_hands.jpg')
   },
+  {
+    id: '4',
+    name: '',
+    image: require('./images/reward.jpg')
+  },
+  {
+    id: '5',
+    name: '',
+    image: require('./images/water_play.jpg')
+  },
+  {
+    id: '6',
+    name: '',
+    image: require('./images/snack.jpg')
+  },
 ]
