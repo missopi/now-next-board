@@ -123,4 +123,30 @@ export default StyleSheet.create({
     alignItems: "center",
     width: "100%",
   },
+
+  // traffic lights
+
+  starting: {
+    backgroundColor: '#7dbf7d',
+    textAlign: 'center',
+    color: '#4e8e4e',
+    fontSize: 150,
+    fontWeight: 'bold',
+  },
+
+  nearlyFinished: {
+    backgroundColor: '#e0a958',
+    textAlign: 'center',
+    color: '#b27833',
+    fontSize: 150,
+    fontWeight: 'bold',
+  },
+
+  finished: {
+    backgroundColor: '#d96c6c',
+    textAlign: 'center',
+    color: '#a54242',
+    fontSize: 150,
+    fontWeight: 'bold',
+  },
 });
