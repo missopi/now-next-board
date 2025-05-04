@@ -46,6 +46,16 @@ export default StyleSheet.create({
     marginRight: 8,
   },
 
+  // libary
+
+  libraryContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 50,
+
+  },
+
   // countdown screens
 
   countdownContainer: {
