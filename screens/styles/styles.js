@@ -12,7 +12,6 @@ export default StyleSheet.create({
     width: '100%',
   },
   button: {
-    backgroundColor: '#4a90e2',
     paddingVertical: 15,
     paddingHorizontal: 16,
     borderRadius: 8,
@@ -23,9 +22,6 @@ export default StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 3,
     elevation: 5, // for android
-  },
-  buttonPressed: {
-    backgroundColor: '#357ab8',
   },
   buttonText: {
     color: '#fff',
@@ -70,14 +66,9 @@ export default StyleSheet.create({
     backgroundColor: '#f5f5f5',
   },
   count: {
-    fontSize: 250,
+    fontSize: 280,
     color: '#fff',
     fontWeight: 'bold',
-  },
-  doneText: {
-    fontSize: 32,
-    color: '#fff',
-    marginBottom: 20,
   },
   card: {
     alignItems:'center',
@@ -121,7 +112,7 @@ export default StyleSheet.create({
     borderRadius: 20,
   },
   countdownBackground: {
-    backgroundColor: '#222',
+    backgroundColor: '#add8e6',
   },
   activityBackground: {
     backgroundColor: '#fff',

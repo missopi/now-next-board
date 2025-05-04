@@ -25,7 +25,7 @@ const Countdown = ({ route }) => {
 
   const interpolatedBackground = backgroundColor.interpolate({
     inputRange: [0, 1],
-    outputRange: ["#222", "#fff"],
+    outputRange: ["#87ceeb", "#ffffff"],
   });
 
   return (

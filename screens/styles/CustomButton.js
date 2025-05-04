@@ -11,7 +11,7 @@ const darkenColor = (hex, amount = 0.15) => {
   return `rgb(${Math.round(r)}, ${Math.round(g)}, ${Math.round(b)})`;
 };
 
-const CustomButton = ({ title, onPress, icon, color = '#4a90e2' }) => {
+const CustomButton = ({ title, onPress, icon, color = '#6395e0' }) => {
   const animation = useRef(new Animated.Value(0)).current;
 
   const pressedColor = darkenColor(color, 0.15); // darken by 15%
