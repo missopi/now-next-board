@@ -96,23 +96,30 @@ export default StyleSheet.create({
   activityImage: {
     width: 250,
     height: 250,
-    marginBottom: 5,
+    marginBottom: 2,
     borderColor: '#000',
     borderWidth: 4,
     borderRadius: 20,
   },
   activityCountdownEndImage: {
-    width: 250,
-    height: 250,
+    width: 300,
+    height: 300,
     alignSelf: 'center',
     resizeMode: 'contain',
     borderColor: '#000',
     borderWidth: 5,
+    borderRadius: 20,
   },
   countdownBackground: {
     backgroundColor: '#222',
   },
   activityBackground: {
     backgroundColor: '#fff',
+  },
+  pressable: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
   },
 });

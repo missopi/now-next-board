@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { View, Text, Image, Pressable } from "react-native";
+import React, { useRef, useState } from "react";
+import { View, Text, Image, Pressable, Animated } from "react-native";
 import styles from '../styles/styles';
 
 const Countdown = ({ route }) => {
@@ -7,35 +7,40 @@ const Countdown = ({ route }) => {
   const [count, setCount] = useState(countStart);
   const [showActivity, setShowActivity] = useState(false);
 
+  const backgroundColor = useRef(new Animated.Value(0)).current;
+
   const handleNext = () => {
     if (count > 1) {
       setCount(count - 1);
     } else {
       setCount(0);
+      Animated.timing(backgroundColor, {
+        toValue: 1,
+        duration: 200,
+        useNativeDriver: false,
+      }).start();
       setShowActivity(true);
     }
   };
 
+  const interpolatedBackground = backgroundColor.interpolate({
+    inputRange: [0, 1],
+    outputRange: ["#222", "#fff"],
+  });
+
   return (
-    <Pressable 
-      style={[
-        styles.countdownContainer,
-        showActivity ? styles.activityBackground : styles.countdownBackground
-      ]}
-      onPress={handleNext}>
-      {!showActivity ? (
-        <Text style={styles.count}>{count}</Text>
-      ) : (
-        <>
-          <Image
-              source={activity.image}
-              style={styles.activityCountdownEndImage}
-              resizeMode="contain"
-          />
-          <Text style={styles.activityText}>{activity.name}</Text>
-        </>
-      )}
-    </Pressable>
+    <Animated.View style={[styles.countdownContainer, { backgroundColor: interpolatedBackground }]}>
+      <Pressable style={styles.pressable} onPress={handleNext}>
+        {!showActivity ? (
+          <Text style={styles.count}>{count}</Text>
+        ) : (
+          <>
+            <Image source={activity.image} style={styles.activityCountdownEndImage} resizeMode="contain"/>
+            <Text style={styles.activityText}>{activity.name}</Text>
+          </>
+        )}
+      </Pressable>
+    </Animated.View>
   );
 };
 
