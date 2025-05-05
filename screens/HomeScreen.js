@@ -1,9 +1,20 @@
-import React from 'react';
+import React, { useLayoutEffect } from 'react';
 import { View, Text, Pressable, Button } from 'react-native';
 import styles from './styles/styles';
 import CustomButton from './styles/CustomButton';
+import CogIcon from '../assets/icons/cog.svg';
 
 export default function HomeScreen({ navigation }) {
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <Pressable onPress={() => navigation.navigate('Settings')} style={{ maarginRight: 15 }}>
+          <CogIcon width={24} height={24} />
+        </Pressable>
+      ),
+    });
+  }, [navigation]);
+
   return (
     <View style={styles.container}>
       <CustomButton
@@ -23,11 +34,6 @@ export default function HomeScreen({ navigation }) {
         title="Tools"
         icon="construction"
         onPress={() => navigation.navigate('Tools')}
-      />
-      <CustomButton
-        title="Settings"
-        icon="settings"
-        onPress={() => navigation.navigate('Settings')}
       />
       <CustomButton
         title="Activity Library"
