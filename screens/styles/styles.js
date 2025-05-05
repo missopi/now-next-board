@@ -135,14 +135,4 @@ export default StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
   },
-
-  // timers
-
-  timerContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#add8cc'
-  },
-
 });
