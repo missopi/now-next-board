@@ -126,45 +126,14 @@ export default StyleSheet.create({
 
   // traffic lights
 
-  startingBackground: {
+  trafficContainer: {
     flex: 1,
-    backgroundColor: '#7dbf7d',
   },
 
-  startingText: {
-    flex: 1,
-    marginTop: 150,
-    textAlign: 'center',
-    color: '#4e8e4e',
+  trafficText: {
     fontSize: 80,
     fontWeight: 'bold',
-  },
-
-  nearlyFinishedBackground: {
-    flex: 1,
-    backgroundColor: '#e0a958',
-  },
-
-  nearlyFinishedText: {
-    flex: 1,
-    marginTop: 250,
     textAlign: 'center',
-    color: '#b27833',
-    fontSize: 80,
-    fontWeight: 'bold',
   },
 
-  finishedBackground: {
-    flex: 1,
-    backgroundColor: '#d96c6c',
-  },
-
-  finishedText: {
-    flex: 1,
-    marginTop: 400,
-    textAlign: 'center',
-    color: '#a54242',
-    fontSize: 80,
-    fontWeight: 'bold',
-  },
 });
