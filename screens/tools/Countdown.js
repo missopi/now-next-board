@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { View, Text, Image, Pressable, Animated } from "react-native";
-import styles from '../styles/styles';
+import styles from '../styles/countdownStyles';
 
 const Countdown = ({ route }) => {
   const { activity, countStart = 10 } = route.params

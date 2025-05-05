@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, Button, Pressable, TextInput, TouchableOpacity, Image, FlatList } from "react-native";
-import styles from "../styles/styles";
+import styles from "../styles/countdownStyles";
 import { activityLibrary } from "../ActivityLibrary";
 
 const CountdownSetup = ({ navigation }) => {
