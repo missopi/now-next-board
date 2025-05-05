@@ -11,6 +11,7 @@ import SettingsScreen from "./screens/SettingsScreen";
 import LibraryScreen from "./screens/LibraryScreen";
 import CountdownContainer from "./screens/tools/CountdownContainer";
 import TrafficLights from "./screens/tools/TrafficLights";
+import Timers from "./screens/tools/Timers"
 
 const Stack = createNativeStackNavigator();
 
@@ -27,6 +28,7 @@ export default function App() {
         <Stack.Screen name="Library" component={LibraryScreen} />
         <Stack.Screen name="CountdownContainer" component={CountdownContainer} />
         <Stack.Screen name="Traffic Lights" component={TrafficLights} />
+        <Stack.Screen name="Timers" component={Timers} />
       </Stack.Navigator>
     </NavigationContainer>
   );
