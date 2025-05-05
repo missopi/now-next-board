@@ -7,7 +7,7 @@ export default function ToolsScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <CustomButton
-        title="Timers"
+        title="Timer"
         onPress={() => navigation.navigate('Timers')}
       />
       <CustomButton
