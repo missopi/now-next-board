@@ -43,4 +43,10 @@ export default StyleSheet.create({
     color: '#333',
     fontWeight: '500',
   },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '600',
+    textAlign: 'center',
+  },
 });
