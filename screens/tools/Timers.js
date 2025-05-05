@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
-import {View, Text, Image, Pressable, Animated} from "react-native"
-import styles from "../styles/styles";
+import { View, Text, Pressable } from "react-native"
+import styles from "../styles/timerStyles";
 
 const Timers = () => {
-  const [seconds, setSeconds] = useState(30);
+  const [seconds, setSeconds] = useState(60);
+  const [initialSeconds, setInitialSeconds] = useState(60)
   const [isRunning, setIsRunning] = useState(false);
   const intervalRef = useRef(null);
 
@@ -26,25 +27,46 @@ const Timers = () => {
   
   const resetTimer = () => {
     clearInterval(intervalRef.current);
-    setSeconds(30);
+    setSeconds(initialSeconds);
     setIsRunning(false);
+  };
+
+  const selectTime = (minutes) => {
+    if (!isRunning) {
+      const newTime = minutes * 60;
+      setSeconds(newTime);
+      setInitialSeconds(newTime);
+    }
   };
 
   const formatTime = (time) => {
     const mins = String(Math.floor(time / 60)).padStart(2, '0');
     const secs = String(time % 60).padStart(2, '0');
-    return `${secs}`;
+    return `${mins}:${secs}`;
   };
 
   return (
     <View style={styles.timerContainer}>
-      <Text style={styles.count}>{formatTime(seconds)}</Text>
+      <View style={styles.timeSelector}>
+        {[1, 5, 10].map((min) => (
+          <Pressable
+            key={min}
+            onPress={() => selectTime(min)}
+            style={[styles.timeOption, initialSeconds === min * 60 && !isRunning && styles.selectedTimeOption,]}
+          >
+            <Text style={styles.timeOptionText}>{min} min</Text>
+          </Pressable>
+        ))}
+      </View>
+
+      <Text style={styles.timerCount}>{formatTime(seconds)}</Text>
+      
       <View style={styles.buttonRow}>
         <Pressable style={styles.button} onPress={() => setIsRunning(!isRunning)}> 
           <Text style={styles.buttonText}>{isRunning ? 'pause' : 'start'}</Text>
         </Pressable>
         <Pressable style={styles.button} onPress={resetTimer}>
-          <Text style={styles.buttonText}>Reset</Text>
+          <Text style={styles.buttonText}>reset</Text>
         </Pressable>
       </View>
     </View>

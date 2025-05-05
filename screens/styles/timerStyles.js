@@ -36,7 +36,7 @@ export default StyleSheet.create({
     borderRadius: 20,
     marginHorizontal: 6,
   },
-  selectorTimeOption: {
+  selectedTimeOption: {
     backgroundColor: '#4caf50',
   },
   timeOptionText: {
@@ -45,7 +45,8 @@ export default StyleSheet.create({
   },
   buttonText: {
     color: '#fff',
-    fontSize: 16,
+    fontSize: 30,
+    marginBottom: 10,
     fontWeight: '600',
     textAlign: 'center',
   },
