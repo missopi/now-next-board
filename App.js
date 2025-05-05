@@ -9,7 +9,7 @@ import BoardScreen from "./screens/BoardScreen";
 import ToolsScreen from "./screens/ToolsScreen";
 import SettingsScreen from "./screens/SettingsScreen";
 import LibraryScreen from "./screens/LibraryScreen";
-import CountdownContainer from "./screens/tools/CountdownContainer";
+import Countdown from "./screens/tools/Countdown";
 import TrafficLights from "./screens/tools/TrafficLights";
 import Timers from "./screens/tools/Timers"
 
@@ -26,7 +26,7 @@ export default function App() {
         <Stack.Screen name="Tools" component={ToolsScreen} />
         <Stack.Screen name="Settings" component={SettingsScreen} />
         <Stack.Screen name="Library" component={LibraryScreen} />
-        <Stack.Screen name="CountdownContainer" component={CountdownContainer} />
+        <Stack.Screen name="Countdown" component={Countdown} />
         <Stack.Screen name="Traffic Lights" component={TrafficLights} />
         <Stack.Screen name="Timers" component={Timers} />
       </Stack.Navigator>

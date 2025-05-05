@@ -12,7 +12,7 @@ export default function ToolsScreen({ navigation }) {
       />
       <CustomButton
         title="Countdown"
-        onPress={() => navigation.navigate('CountdownContainer')}
+        onPress={() => navigation.navigate('Countdown')}
       />
       <CustomButton
         title="Traffic Lights"
