@@ -6,10 +6,10 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
-    padding: 20,
-    maxWidth: 400, // optional for larger screens
+    paddingTop: 20,
     backgroundColor: '#fff',
     width: '100%',
+    position: 'relative',
   },
   button: {
     paddingVertical: 15,
@@ -73,7 +73,10 @@ export default StyleSheet.create({
     backgroundColor: '#f9f9f9',
     position: 'absolute',
     bottom: 0,
+    left: 0,
+    right: 0,
     width: '100%',
+    paddingBottom: 30,
   },
   footerButton: {
     alignItems: 'center',
