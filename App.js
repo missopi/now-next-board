@@ -16,6 +16,7 @@ import Timers from "./screens/tools/Timers";
 
 import CogIcon from "./assets/icons/cog.svg";
 import { TouchableOpacity } from "react-native";
+import SavedScreen from "./screens/savedScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -41,6 +42,15 @@ export default function App() {
               </TouchableOpacity>
             ),
           }} 
+        />
+        <Stack.Screen
+          name="SavedScreen"
+          component={SavedScreen}
+          options={({ navigation }) => ({
+            headerLeft: (props) => (
+              <HeaderBackButton {...props} labelVisible={false} onPress={() => navigation.goBack()} />
+            ),
+          })}  
         />
         <Stack.Screen 
           name="Today" 
@@ -109,7 +119,7 @@ export default function App() {
           })} 
         />
         <Stack.Screen 
-          name="Traffic Lights" 
+          name="TrafficLights" 
           component={TrafficLights} 
           options={({ navigation }) => ({
             headerTransparent: true, 
