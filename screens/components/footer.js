@@ -13,8 +13,6 @@ const Footer = () => {
     return state.routes[state.index].name;
   });
 
-  console.log('Current rout name:', currentRoute);
-
   const options = [
     { name: 'home', icon: HomeIcon, route: 'Home', matchRoutes: ['Home'] },
     { name: 'saved', icon: SaveIcon, route: 'SavedScreen', matchRoutes: ['SavedScreen'] },
@@ -24,12 +22,9 @@ const Footer = () => {
   return (
     <View style={styles.footer}>
       {options.map((option) => {
-        console.log('checking:', option.route, 'Against', currentRoute);
 
         const isActive = option.matchRoutes.includes(currentRoute);
         const Icon = option.icon;
-
-        console.log(`Option: ${option.name}, route: ${option.route}, matchRoutes:`, option.matchRoutes, 'is active', isActive);
 
         return (
           <Pressable
