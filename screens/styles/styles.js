@@ -42,13 +42,18 @@ export default StyleSheet.create({
     marginRight: 8,
   },
 
-  // libary
+  // library
 
   libraryContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 50,
+  },
+
+  activityImage: {
+    width: 80,
+    height: 80,
   },
 
   // traffic lights

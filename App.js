@@ -98,7 +98,7 @@ export default function App() {
           })}
         />
         <Stack.Screen 
-          name="Library" 
+          name="LibraryScreen" 
           component={LibraryScreen} 
           options={({ navigation }) => ({
             headerLeft: (props) => (

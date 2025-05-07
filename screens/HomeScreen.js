@@ -38,7 +38,7 @@ export default function HomeScreen({ navigation }) {
       />
       <CustomButton
         title="Activity Library"
-        onPress={() => navigation.navigate('Library')}
+        onPress={() => navigation.navigate('LibraryScreen')}
       />
       <Footer />
     </View>
