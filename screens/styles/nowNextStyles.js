@@ -1,41 +1,46 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
+
+const screenWidth = Dimensions.get('window').width;
+const screenHeight = Dimensions.get('window').height;
 
 export default StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    padding: 16,
-  },
-  column: {
-    alignItems: 'center',
     flex: 1,
+    justifyContent: 'space-evenly',
+    padding: 15,
+    backgroundColor: '#f5f5f5'
+  },
+  cardContainer: {
+    alignItems: 'center',
   },
   header: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 12,
+    marginBottom: 8,
   },
   card: {
     borderWidth: 1,
     borderColor: '#ccc',
-    borderRadius: 10,
-    width: 140,
-    height: 140,
+    borderRadius: 12,
+    width: screenWidth * 0.9,
+    height: screenHeight * 0.2,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 10,
     backgroundColor: '#fff',
   },
   image: {
-    width: 80,
-    height: 80,
-    marginBottom: 10,
+    width: '90%',
+    height: '70%',
     resizeMode: 'contain',
   },
   label: {
-    fontSize: 16,
+    fontSize: 15,
+    marginTop: 4,
+    fontWeight: '600',
+    color: '#333',
   },
   placeholder: {
-    color: '#999',
+    fontSize: 15,
+    color: '#aaa',
   },
 });

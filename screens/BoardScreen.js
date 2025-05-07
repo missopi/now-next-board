@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { View, Text } from "react-native";
 import NowNextBoard from "./components/NowNextBoard"
-import styles from "./styles/styles";
 
 const NowNextBoardScreen = ({ navigation }) => {
   const [nowActivity, setNowActivity] = useState(null);

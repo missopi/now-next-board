@@ -74,6 +74,7 @@ export default function App() {
           name="Now/Next Board" 
           component={BoardScreen} 
           options={({ navigation }) => ({
+            headerTransparent: true, 
             headerLeft: (props) => (
               <HeaderBackButton {...props} labelVisible={false} onPress={() => navigation.goBack()} />
             ),
