@@ -32,6 +32,9 @@ export default StyleSheet.create({
     width: '90%',
     height: '70%',
     resizeMode: 'contain',
+    // borderColor: '#222',
+    // borderWidth: 2,
+    // borderRadius: 10,
   },
   label: {
     fontSize: 15,

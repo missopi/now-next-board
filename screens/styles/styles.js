@@ -52,8 +52,11 @@ export default StyleSheet.create({
   },
 
   activityImage: {
-    width: 80,
-    height: 80,
+    width: 200,
+    height: 200,
+    borderColor: '#222',
+    borderWidth: 2,
+    borderRadius: 10,
   },
 
   // traffic lights
