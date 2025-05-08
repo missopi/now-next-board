@@ -4,7 +4,7 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    backgroundColor: '#f5f5f5'
+    backgroundColor: '#f3eda6'
   },
   wrapper: {
     flex: 1,
@@ -26,24 +26,21 @@ export default StyleSheet.create({
   header: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 8,
+    marginBottom: 10,
   },
   card: {
     borderWidth: 3,
-    borderColor: '#aaa',
-    borderRadius: 12,
+    borderColor: '#000',
+    borderRadius: 15,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#fff',
-    padding: 1,
+    padding: 2,
   },
   image: {
     width: '80%',
     height: '80%',
     resizeMode: 'contain',
-    // borderColor: '#222',
-    // borderWidth: 2,
-    // borderRadius: 10,
   },
   label: {
     fontSize: 20,
