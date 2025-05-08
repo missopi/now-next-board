@@ -29,8 +29,8 @@ export default StyleSheet.create({
     marginBottom: 8,
   },
   card: {
-    borderWidth: 1,
-    borderColor: '#ddd',
+    borderWidth: 3,
+    borderColor: '#aaa',
     borderRadius: 12,
     alignItems: 'center',
     justifyContent: 'center',
