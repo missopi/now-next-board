@@ -1,32 +1,32 @@
 export const activityLibrary = [
   {
     id: '1',
-    name: '',
-    image: require('../screens/images/hair_cut.jpg')
+    name: 'hair cut',
+    image: require('../screens/images/haircut.png')
   },
   {
     id: '2',
-    name: '',
-    image: require('../screens/images/cut_nails.jpg')
+    name: 'cut nails',
+    image: require('../screens/images/cutnails.png')
   },
   {
     id: '3',
-    name: '',
-    image: require('../screens/images/wash_hands.jpg')
+    name: 'wash hands',
+    image: require('../screens/images/washhands.png')
   },
   {
     id: '4',
-    name: '',
-    image: require('../screens/images/reward.jpg')
+    name: 'reward',
+    image: require('../screens/images/reward.png')
   },
   {
     id: '5',
-    name: '',
-    image: require('../screens/images/water_play.jpg')
+    name: 'water play',
+    image: require('../screens/images/waterplay.png')
   },
   {
     id: '6',
-    name: '',
-    image: require('../screens/images/snack.jpg')
+    name: 'snack',
+    image: require('../screens/images/snack.png')
   },
 ]
