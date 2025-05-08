@@ -1,17 +1,27 @@
-import { StyleSheet, Dimensions } from "react-native";
-
-const screenWidth = Dimensions.get('window').width;
-const screenHeight = Dimensions.get('window').height;
+import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'space-evenly',
-    padding: 15,
+    padding: 16,
     backgroundColor: '#f5f5f5'
   },
-  cardContainer: {
+  wrapper: {
+    flex: 1,
     alignItems: 'center',
+    justifyContent: 'center',
+  },
+  landscape: {
+    flexDirection: 'row',  // switch to horizontal layout
+    justifyContent: 'space-around',
+  },
+  portrait: {
+    flexDirection: 'column',
+  },
+  column: {
+    alignItems: 'center',
+    marginVertical: 5,
+    marginHorizontal: 8,
   },
   header: {
     fontSize: 18,
@@ -20,24 +30,23 @@ export default StyleSheet.create({
   },
   card: {
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: '#ddd',
     borderRadius: 12,
-    width: screenWidth * 0.9,
-    height: screenHeight * 0.2,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#fff',
+    padding: 1,
   },
   image: {
-    width: '90%',
-    height: '70%',
+    width: '80%',
+    height: '80%',
     resizeMode: 'contain',
     // borderColor: '#222',
     // borderWidth: 2,
     // borderRadius: 10,
   },
   label: {
-    fontSize: 15,
+    fontSize: 20,
     marginTop: 4,
     fontWeight: '600',
     color: '#333',

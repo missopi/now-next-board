@@ -25,7 +25,7 @@ const NowNextBoardScreen = ({ navigation }) => {
         nextActivity={nextActivity} 
         thenActivity={thenActivity} 
         onSelect={handleSelect} 
-        showThen={true} 
+        showThen={false} 
       />
     </View>
   );
