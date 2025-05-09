@@ -13,7 +13,7 @@ export default StyleSheet.create({
   },
   landscape: {
     flexDirection: 'row',  // switch to horizontal layout
-    justifyContent: 'space-around',
+    justifyContent: 'center',
   },
   portrait: {
     flexDirection: 'column',

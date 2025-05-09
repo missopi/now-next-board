@@ -13,8 +13,8 @@ const NowNextBoard = ({ nowActivity, nextActivity, thenActivity, onSelect, showT
         style={[
           styles.card, 
           { 
-            width: isLandscape ? height * 0.4 : width * 0.7, 
-            height: isLandscape ? height * 0.7 : height * 0.23, 
+            width: isLandscape ? height * 0.6 : width * 0.7, 
+            height: isLandscape ? height * 0.65 : height * 0.24, 
           },
         ]} 
         onPress={() => onSelect(label)}
