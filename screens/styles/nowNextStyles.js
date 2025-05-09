@@ -14,9 +14,14 @@ export default StyleSheet.create({
   landscape: {
     flexDirection: 'row',  // switch to horizontal layout
     justifyContent: 'center',
+    paddingHorizontal: 10,
+    paddingVertical: 20,
   },
   portrait: {
     flexDirection: 'column',
+    justifyContent: 'center',
+    paddingHorizontal: 10,
+    paddingVertical: 20,
   },
   column: {
     alignItems: 'center',
@@ -26,7 +31,7 @@ export default StyleSheet.create({
   header: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 10,
+    marginBottom: 15,
   },
   card: {
     borderWidth: 3,
