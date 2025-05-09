@@ -8,13 +8,16 @@ import Today from "./screens/Today";
 import ChoiceScreen from "./screens/ChoiceScreen";
 import BoardScreen from "./screens/BoardScreen";
 import ToolsScreen from "./screens/ToolsScreen";
-import SettingsScreen from "./screens/SettingsScreen";
 import LibraryScreen from "./screens/LibraryScreen";
 import Countdown from "./screens/tools/Countdown";
 import TrafficLights from "./screens/tools/TrafficLights";
 import Timers from "./screens/tools/Timers";
 
 import CogIcon from "./assets/icons/cog.svg";
+import HomeSettings from "./screens/settings/HomeSettings";
+import NowNextSettings from "./screens/settings/NowNextSettings";
+
+
 import { TouchableOpacity } from "react-native";
 import SavedScreen from "./screens/savedScreen";
 
@@ -37,8 +40,8 @@ export default function App() {
           options={{
             headerTitle: '',
             headerRight: () => (  // for settings cog icon on top right of screen
-              <TouchableOpacity onPress={() => navigation.navigate('Settings')}>
-                <CogIcon width={24} height={24} style={{ marginRight: 16 }} />
+              <TouchableOpacity onPress={() => navigation.navigate('HomeSettings')}>
+                <CogIcon width={24} height={24} style={{ marginRight: 10 }} />
               </TouchableOpacity>
             ),
           }} 
@@ -78,6 +81,11 @@ export default function App() {
             headerLeft: (props) => (
               <HeaderBackButton {...props} labelVisible={false} onPress={() => navigation.goBack()} />
             ),
+            headerRight: () => (  // for settings cog icon on top right of screen
+              <TouchableOpacity onPress={() => navigation.navigate('NowNextSettings')}>
+                <CogIcon width={24} height={24} style={{ marginRight: 10 }} />
+              </TouchableOpacity>
+            ),
           })}
         />
         <Stack.Screen 
@@ -90,8 +98,17 @@ export default function App() {
           })} 
         />
         <Stack.Screen 
-          name="Settings" 
-          component={SettingsScreen} 
+          name="HomeSettings" 
+          component={HomeSettings} 
+          options={({ navigation }) => ({
+            headerLeft: (props) => (
+              <HeaderBackButton {...props} labelVisible={false} onPress={() => navigation.goBack()} />
+            ),
+          })}
+        />
+        <Stack.Screen 
+          name="NowNextSettings" 
+          component={NowNextSettings} 
           options={({ navigation }) => ({
             headerLeft: (props) => (
               <HeaderBackButton {...props} labelVisible={false} onPress={() => navigation.goBack()} />
@@ -102,6 +119,7 @@ export default function App() {
           name="LibraryScreen" // attached to atcivity library for list of activity cards
           component={LibraryScreen} 
           options={({ navigation }) => ({
+            headerTransparent: true, 
             headerLeft: (props) => (
               <HeaderBackButton {...props} labelVisible={false} onPress={() => navigation.goBack()} />
             ),
