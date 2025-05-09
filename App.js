@@ -32,11 +32,11 @@ export default function App() {
         }}
       >
         <Stack.Screen 
-          name="Home" 
+          name="Home" // main menu screen that app starts at
           component={HomeScreen}
           options={{
             headerTitle: '',
-            headerRight: () => (
+            headerRight: () => (  // for settings cog icon on top right of screen
               <TouchableOpacity onPress={() => navigation.navigate('Settings')}>
                 <CogIcon width={24} height={24} style={{ marginRight: 16 }} />
               </TouchableOpacity>
@@ -44,7 +44,7 @@ export default function App() {
           }} 
         />
         <Stack.Screen
-          name="SavedScreen"
+          name="SavedScreen" // for saved now/next & choice boards 
           component={SavedScreen}
           options={({ navigation }) => ({
             headerLeft: (props) => (
@@ -53,16 +53,16 @@ export default function App() {
           })}  
         />
         <Stack.Screen 
-          name="Today" 
+          name="Today" // daily timetable screen, will include a now/next board i think
           component={Today} 
           options={({ navigation }) => ({
-            headerLeft: (props) => (
+            headerLeft: (props) => ( // back button to only inlcude a '<' and no word 'back'
               <HeaderBackButton {...props} labelVisible={false} onPress={() => navigation.goBack()} />
             ),
           })}  
         />
         <Stack.Screen 
-          name="Choice Boards" 
+          name="Choice Boards"  // for multi choice boards eg. snacks
           component={ChoiceScreen} 
           options={({ navigation }) => ({
             headerLeft: (props) => (
@@ -71,7 +71,7 @@ export default function App() {
           })}
         />
         <Stack.Screen 
-          name="Now/Next Board" 
+          name="Now/Next Board"  // will be able to toggle between now/next and now/next & then
           component={BoardScreen} 
           options={({ navigation }) => ({
             headerTransparent: true, 
@@ -81,7 +81,7 @@ export default function App() {
           })}
         />
         <Stack.Screen 
-          name="Tools" 
+          name="Tools" // menu screen for countdown etc
           component={ToolsScreen} 
           options={({ navigation }) => ({
             headerLeft: (props) => (
@@ -99,7 +99,7 @@ export default function App() {
           })}
         />
         <Stack.Screen 
-          name="LibraryScreen" 
+          name="LibraryScreen" // attached to atcivity library for list of activity cards
           component={LibraryScreen} 
           options={({ navigation }) => ({
             headerLeft: (props) => (
@@ -109,7 +109,7 @@ export default function App() {
         />
         <Stack.Screen 
           name="Countdown" 
-          component={Countdown} 
+          component={Countdown}  // default is 10, tap on screen to reduce
           options={({ navigation }) => ({
             headerTransparent: true, 
             headerLeft: (props) => (
@@ -120,7 +120,7 @@ export default function App() {
           })} 
         />
         <Stack.Screen 
-          name="TrafficLights" 
+          name="TrafficLights" // green - amber - red, tap to progress
           component={TrafficLights} 
           options={({ navigation }) => ({
             headerTransparent: true, 
@@ -131,7 +131,7 @@ export default function App() {
           })} 
         />
         <Stack.Screen 
-          name="Timers" 
+          name="Timers" // default is 1, 5 & 10 mins
           component={Timers} 
           options={({ navigation }) => ({
             headerTransparent: true, 
