@@ -6,17 +6,15 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
-    paddingTop: 20,
-    backgroundColor: '#fff',
     width: '100%',
     position: 'relative',
   },
   button: {
-    paddingVertical: 15,
+    paddingVertical: 25,
     paddingHorizontal: 16,
     borderRadius: 8,
     marginVertical: 8,
-    width: '80%', // stretch button
+    width: '75%', // stretch button
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
@@ -44,19 +42,22 @@ export default StyleSheet.create({
 
   // library
 
-  libraryContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 50,
+  activityImage: {
+    width: 280,
+    height: 200,
+    padding: 10,
+    resizeMode: 'contain',
+    borderColor: '#000',
+    borderWidth: 3,
+    borderRadius: 15,
+    margin: 5,
+    backgroundColor: '#fff',
   },
 
-  activityImage: {
-    width: 200,
-    height: 200,
-    borderColor: '#222',
-    borderWidth: 2,
-    borderRadius: 10,
+  activityName: {
+    fontSize: 20,
+    fontWeight: '600',
+    color: '#333',
   },
 
   // traffic lights
