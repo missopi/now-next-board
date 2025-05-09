@@ -1,3 +1,7 @@
+// Static list of available activity cards
+// Each activity includes id, name, and image
+// Used by Library screen flatlist to render selectable cards
+
 export const activityLibrary = [
   {
     id: '1',
