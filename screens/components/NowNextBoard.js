@@ -2,7 +2,7 @@
 
 import React from "react";
 import { View, Text, TouchableOpacity, Image, useWindowDimensions } from "react-native";
-import styles from "../styles/nowNextStyles";
+import styles from "../styles/NowNextBoardStyles";
 
 const NowNextBoard = ({ nowActivity, nextActivity, thenActivity, onSelect, showThen }) => {
   const { width, height } = useWindowDimensions();
