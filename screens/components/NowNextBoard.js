@@ -1,3 +1,5 @@
+// Visual layout for Now/Next boards
+
 import React from "react";
 import { View, Text, TouchableOpacity, Image, useWindowDimensions } from "react-native";
 import styles from "../styles/nowNextStyles";
@@ -9,11 +11,11 @@ const NowNextBoard = ({ nowActivity, nextActivity, thenActivity, onSelect, showT
 
   const renderCard = (activity, label) => {
     return (
-      <TouchableOpacity 
+      <TouchableOpacity // USed for selecting each card
         style={[
           styles.card, 
           { 
-            width: isLandscape ? height * 0.6 : width * 0.7, 
+            width: isLandscape ? height * 0.6 : width * 0.7,  // orientation aware layout using useWindowDimentions
             height: isLandscape ? height * 0.65 : height * 0.24, 
           },
         ]} 
@@ -42,7 +44,7 @@ const NowNextBoard = ({ nowActivity, nextActivity, thenActivity, onSelect, showT
           <Text style={styles.header}>Next</Text>
           {renderCard(nextActivity, 'Next')}
         </View>
-        {showThen && (
+        {showThen && ( // showthen determines if 'then' card is displayed on screen
           <View style={styles.column}>
             <Text style={styles.header}>Then</Text>
             {renderCard(thenActivity, 'Then')}
