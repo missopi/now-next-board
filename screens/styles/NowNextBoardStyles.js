@@ -57,4 +57,32 @@ export default StyleSheet.create({
     fontSize: 15,
     color: '#aaa',
   },
+
+  // Settings Modal
+
+  modal: {
+    justifyContent: 'flex-end',
+    margin: 0,
+  },
+  modalContent: {
+    backgroundColor: '#fff',
+    padding: 24,
+    borderTopLeftRadius: 20,
+    borderBottomRightRadius: 20,
+    paddingBottom: 40,
+  },
+  modalTitle: {
+    fontWeight: 'bold',
+    fontSize: 20,
+    marginBottom: 16,
+  },
+  modalRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginVertical: 10,
+  },
+  modalLabel: {
+    fontSize: 18,
+  },
 });
