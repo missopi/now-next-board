@@ -6,7 +6,6 @@ import styles from "../styles/NowNextBoardStyles";
 
 const NowNextBoard = ({ nowActivity, nextActivity, thenActivity, onSelect, showThen }) => {
   const { width, height } = useWindowDimensions();
-  console.log('width', width, 'height', height);
   const isLandscape = width > height;
 
   const renderCard = (activity, label) => {
