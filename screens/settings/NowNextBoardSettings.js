@@ -25,9 +25,10 @@ const NowNextSettingsModal = ({ onClose }) => {
     <View style={styles.modal}>
       <Text style={styles.modalTitle}>Settings</Text>
       <View style={styles.modalRow}>
-        <Text style={styles.modalLabel}>Now/Next/Then</Text>
+        <Text style={styles.modalLabel}>Now/Next/Then   </Text>
         <Switch value={showThen} onValueChange={toggleSwitch} />
       </View>
+      <Text style={styles.modalText}>Adds a third step, the eventual next step, to provide a broader sequence of events.</Text>
     </View>
   );
 };
