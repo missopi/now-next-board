@@ -35,13 +35,10 @@ const NowNextBoardScreen = ({ navigation }) => {   // useState used to track sel
     });
   };
 
-  console.log('typeof Text:', typeof Text);
-  console.log('type of setSettingsVisible:', typeof setSettingsVisible);
-
   return (
     <View style={{ flex: 1 }}>
       <NowNextBoard 
-        nowActivity={nowActivity} 
+        nowActivity={nowActivity}
         nextActivity={nextActivity} 
         thenActivity={thenActivity} 
         onSelect={handleSelect} 
@@ -57,7 +54,10 @@ const NowNextBoardScreen = ({ navigation }) => {   // useState used to track sel
           <TouchableOpacity style={styles.closeButton} onPress={() => setSettingsVisible(false)}>
             <Text style={styles.closeX}>x</Text>
           </TouchableOpacity>
-          <NowNextSettingsModal />
+          <NowNextSettingsModal
+            showThen={showThen}
+            setShowThen={setShowThen}
+          />
         </View>
         </Modal>
     </View>

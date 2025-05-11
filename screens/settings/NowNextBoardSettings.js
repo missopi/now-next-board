@@ -3,8 +3,7 @@ import { View, Text, Switch, TouchableOpacity } from "react-native";
 import styles from "../styles/NowNextBoardStyles";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const NowNextSettingsModal = () => {
-  const [showThen, setShowThen] = useState(false);
+const NowNextSettingsModal = ({ showThen, setShowThen }) => {
 
   useEffect(() => {
     AsyncStorage.getItem('showThen').then(value => {
