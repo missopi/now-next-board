@@ -1,7 +1,7 @@
 // Main board screen containing the Now/Next/Then board
 
 import React, { useState } from "react";  
-import { View, TouchableOpacity, Modal } from "react-native";
+import { View, Text, TouchableOpacity, Modal } from "react-native";
 import NowNextBoard from "./components/NowNextBoard";
 import CogIcon from "../assets/icons/cog.svg";
 import NowNextSettingsModal from "./settings/NowNextBoardSettings";
@@ -11,13 +11,13 @@ const NowNextBoardScreen = ({ navigation }) => {   // useState used to track sel
   const [nowActivity, setNowActivity] = useState(null);
   const [nextActivity, setNextActivity] = useState(null);
   const [thenActivity, setThenActivity] = useState(null);
-  const [settingsVisible, setSettingVisible] = useState(false);
+  const [settingsVisible, setSettingsVisible] = useState(false);
   const [showThen, setShowThen] = useState(false);
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <TouchableOpacity onPress={() => setSettingVisible(true)}>
+        <TouchableOpacity onPress={() => setSettingsVisible(true)}>
           <CogIcon width={24} height={24} style={{ marginRight: 10 }} />
         </TouchableOpacity>
       ),
@@ -35,6 +35,9 @@ const NowNextBoardScreen = ({ navigation }) => {   // useState used to track sel
     });
   };
 
+  console.log('typeof Text:', typeof Text);
+  console.log('type of setSettingsVisible:', typeof setSettingsVisible);
+
   return (
     <View style={{ flex: 1 }}>
       <NowNextBoard 
@@ -51,7 +54,10 @@ const NowNextBoardScreen = ({ navigation }) => {   // useState used to track sel
         supportedOrientations={['portrait', 'landscape']}
         >
         <View style={styles.modalView}>
-          <NowNextSettingsModal onClose={() => setSettingVisible(false) } />
+          <TouchableOpacity style={styles.closeButton} onPress={() => setSettingsVisible(false)}>
+            <Text style={styles.closeX}>x</Text>
+          </TouchableOpacity>
+          <NowNextSettingsModal />
         </View>
         </Modal>
     </View>

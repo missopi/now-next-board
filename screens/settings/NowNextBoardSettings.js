@@ -3,10 +3,7 @@ import { View, Text, Switch } from "react-native";
 import styles from "../styles/NowNextBoardStyles";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const NowNextSettingsModal = ({ onClose }) => {
-
-  console.log('Now/next settings loaded'); // test
-
+const NowNextSettingsModal = () => {
   const [showThen, setShowThen] = useState(false);
 
   useEffect(() => {
@@ -18,7 +15,6 @@ const NowNextSettingsModal = ({ onClose }) => {
     const newValue = !showThen;
     setShowThen(newValue);
     await AsyncStorage.setItem('showThen', JSON.stringify(newValue));
-    return onClose(newValue);
   };
 
   return (
