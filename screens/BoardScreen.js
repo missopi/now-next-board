@@ -1,13 +1,27 @@
 // Main board screen containing the Now/Next/Then board
 
 import React, { useState } from "react";  
-import { View, Text } from "react-native";
-import NowNextBoard from "./components/NowNextBoard"
+import { View, TouchableOpacity, Modal } from "react-native";
+import NowNextBoard from "./components/NowNextBoard";
+import CogIcon from "../assets/icons/cog.svg";
+import NowNextSettingsModal from "./settings/NowNextBoardSettings";
 
 const NowNextBoardScreen = ({ navigation }) => {   // useState used to track selected activities
   const [nowActivity, setNowActivity] = useState(null);
   const [nextActivity, setNextActivity] = useState(null);
   const [thenActivity, setThenActivity] = useState(null);
+  const [settingsVisible, setSettingVisible] = useState(false);
+  const [showThen, setShowThen] = useState(false);
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity onPress={() => setSettingVisible(true)}>
+          <CogIcon width={24} height={24} style={{ marginRight: 10 }} />
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation]);
 
   const handleSelect = (slot) => {  // navigates to library screen with a call back to receive activity cards
     navigation.navigate('LibraryScreen', {
@@ -27,8 +41,14 @@ const NowNextBoardScreen = ({ navigation }) => {   // useState used to track sel
         nextActivity={nextActivity} 
         thenActivity={thenActivity} 
         onSelect={handleSelect} 
-        showThen={true} 
+        showThen={showThen} 
       />
+      <Modal  // setting for toggling on 'then' activity at bottom of screen
+        visible={settingsVisible}
+        onDismiss={() => setSettingVisible(false)}
+        >
+        <NowNextSettingsModal onClose={() => setSettingVisible(false)} />
+      </Modal>
     </View>
   );
 };

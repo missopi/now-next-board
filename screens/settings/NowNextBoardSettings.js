@@ -18,7 +18,7 @@ const NowNextSettingsModal = ({ onClose }) => {
     const newValue = !showThen;
     setShowThen(newValue);
     await AsyncStorage.setItem('showThen', JSON.stringify(newValue));
-    return newValue;
+    return onClose(newValue);
   };
 
   return (
