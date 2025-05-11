@@ -2,6 +2,7 @@ import React from "react";
 import { View } from "react-native";
 import styles from './styles/styles';
 import CustomButton from './styles/CustomButton';
+import Footer from "./components/Footer";
 
 export default function ChoiceScreen({ navigation }) {
   return (
@@ -18,6 +19,7 @@ export default function ChoiceScreen({ navigation }) {
         title="I Need..."
         onPress={() => navigation.navigate('NeedsBoard')}
       />
+      <Footer />
     </View>
   );
 }
