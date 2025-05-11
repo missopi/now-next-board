@@ -2,7 +2,7 @@ import React from "react";
 import { View, Pressable, Text } from "react-native";
 import { useNavigation, useNavigationState } from "@react-navigation/native";
 import HomeIcon from "../../assets/icons/home.svg";
-import SaveIcon from "../../assets/icons/star.svg";
+import SaveIcon from "../../assets/icons/heart.svg";
 import TrafficLightIcon from "../../assets/icons/traffic-light.svg";
 import styles from "../styles/styles"
 
