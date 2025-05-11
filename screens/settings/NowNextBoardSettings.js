@@ -5,17 +5,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const NowNextSettingsModal = ({ showThen, setShowThen }) => {
 
-  useEffect(() => {
-    AsyncStorage.getItem('showThen').then(value => {
-      if (value !== null) setShowThen(JSON.parse(value));
-    });
-  }, []);
-    const toggleSwitch = async () => {
-    const newValue = !showThen;
-    setShowThen(newValue);
-    await AsyncStorage.setItem('showThen', JSON.stringify(newValue));
-  };
-
   return (
     <View style={styles.modal}>
       <Text style={styles.modalTitle}>Settings</Text>
