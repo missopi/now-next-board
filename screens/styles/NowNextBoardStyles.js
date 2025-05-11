@@ -84,13 +84,6 @@ export default StyleSheet.create({
     margin: 0,
     flex: 1,
   },
-  modalContent: {
-    backgroundColor: '#fff',
-    padding: 24,
-    borderTopLeftRadius: 20,
-    borderBottomRightRadius: 20,
-    paddingBottom: 40,
-  },
   modalTitle: {
     fontWeight: 'bold',
     fontSize: 24,
