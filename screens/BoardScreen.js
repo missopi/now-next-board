@@ -5,6 +5,7 @@ import { View, TouchableOpacity, Modal } from "react-native";
 import NowNextBoard from "./components/NowNextBoard";
 import CogIcon from "../assets/icons/cog.svg";
 import NowNextSettingsModal from "./settings/NowNextBoardSettings";
+import styles from "./styles/NowNextBoardStyles";
 
 const NowNextBoardScreen = ({ navigation }) => {   // useState used to track selected activities
   const [nowActivity, setNowActivity] = useState(null);
@@ -45,10 +46,14 @@ const NowNextBoardScreen = ({ navigation }) => {   // useState used to track sel
       />
       <Modal  // setting for toggling on 'then' activity at bottom of screen
         visible={settingsVisible}
-        onDismiss={() => setSettingVisible(false)}
+        transparent={true}
+        animationType="slide"
+        supportedOrientations={['portrait', 'landscape']}
         >
-        <NowNextSettingsModal onClose={() => setSettingVisible(false)} />
-      </Modal>
+        <View style={styles.modalView}>
+          <NowNextSettingsModal onClose={() => setSettingVisible(false) } />
+        </View>
+        </Modal>
     </View>
   );
 };
