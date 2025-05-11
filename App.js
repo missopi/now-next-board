@@ -16,6 +16,10 @@ import Countdown from "./screens/tools/Countdown";
 import TrafficLights from "./screens/tools/TrafficLights";
 import Timers from "./screens/tools/Timers";
 
+import FeelingsBoard from "./screens/choice_boards/FeelingsBoard";
+import WantBoard from "./screens/choice_boards/WantBoard";
+import NeedsBoard from "./screens/choice_boards/NeedsBoard";
+
 import CogIcon from "./assets/icons/cog.svg";
 import HomeSettings from "./screens/settings/HomeSettings";
 
@@ -68,6 +72,33 @@ export default function App() {
         <Stack.Screen 
           name="Choice Boards"  // for multi choice boards eg. snacks
           component={ChoiceScreen} 
+          options={({ navigation }) => ({
+            headerLeft: (props) => (
+              <HeaderBackButton {...props} labelVisible={false} onPress={() => navigation.goBack()} />
+            ),
+          })}
+        />
+        <Stack.Screen 
+          name="FeelingsBoard"  // for multi choice boards eg. snacks
+          component={FeelingsBoard} 
+          options={({ navigation }) => ({
+            headerLeft: (props) => (
+              <HeaderBackButton {...props} labelVisible={false} onPress={() => navigation.goBack()} />
+            ),
+          })}
+        />
+        <Stack.Screen 
+          name="NeedsBoard"  // for multi choice boards eg. snacks
+          component={NeedsBoard} 
+          options={({ navigation }) => ({
+            headerLeft: (props) => (
+              <HeaderBackButton {...props} labelVisible={false} onPress={() => navigation.goBack()} />
+            ),
+          })}
+        />
+        <Stack.Screen 
+          name="WantBoard"  // for multi choice boards eg. snacks
+          component={WantBoard} 
           options={({ navigation }) => ({
             headerLeft: (props) => (
               <HeaderBackButton {...props} labelVisible={false} onPress={() => navigation.goBack()} />
