@@ -59,7 +59,7 @@ const NowNextBoardScreen = ({ navigation }) => {   // useState used to track sel
             setShowThen={setShowThen}
           />
         </View>
-        </Modal>
+      </Modal>
     </View>
   );
 };
