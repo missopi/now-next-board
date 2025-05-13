@@ -22,6 +22,7 @@ const LibraryScreen = ({ navigation, route }) => {
     <SafeAreaView style={{ flex: 1, backgroundColor: '#abaf' }}> 
       <FlatList
         contentContainerStyle={{ alignItems: 'center', paddingVertical: 16 }}
+        showsVerticalScrollIndicator={false}
         data={activityLibrary}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
