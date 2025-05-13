@@ -22,7 +22,7 @@ const LibraryScreen = ({ navigation, route }) => {
     <SafeAreaView style={{ flex: 1, backgroundColor: '#abaf' }}> 
       <FlatList
         contentContainerStyle={{ alignItems: 'center', paddingVertical: 16 }}
-        showsVerticalScrollIndicator={false}
+        showsVerticalScrollIndicator={false} // remove line on right when scrolling
         data={activityLibrary}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
