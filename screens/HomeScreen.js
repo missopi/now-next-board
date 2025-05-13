@@ -3,7 +3,6 @@ import { View, Text, Pressable, Button } from 'react-native';
 import styles from './styles/styles';
 import CustomButton from './styles/CustomButton';
 import CogIcon from '../assets/icons/cog.svg';
-import Footer from './components/Footer';
 
 export default function HomeScreen({ navigation }) {
   useLayoutEffect(() => {
@@ -39,7 +38,6 @@ export default function HomeScreen({ navigation }) {
         title="Activity Library"
         onPress={() => navigation.navigate('LibraryScreen')}
       />
-      <Footer />
     </View>
   );
 }
