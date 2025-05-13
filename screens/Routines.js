@@ -1,19 +1,17 @@
-// Main board screen containing the Now/Next/Then board
-
-import React, { useState } from "react";  
+import React, { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, Modal } from "react-native";
-import NowNextBoard from "./components/NowNextBoard";
 import CogIcon from "../assets/icons/cog.svg";
-import NowNextSettingsModal from "./settings/NowNextBoardSettings";
-import styles from "./styles/NowNextBoardStyles";
+import RoutineCard from "./components/RoutineCard";
+import styles from "./styles/RoutineStyles";
 import { setActivityCallback } from "./components/CallbackStore";
 
-const NowNextBoardScreen = ({ navigation }) => {   // useState used to track selected activities
-  const [nowActivity, setNowActivity] = useState(null);
-  const [nextActivity, setNextActivity] = useState(null);
-  const [thenActivity, setThenActivity] = useState(null);
+const RoutineScreen = ({ navigation }) => {
+  const [firstActivity, setFirstActivity] = useState(null);
+  const [secondActivity, setSecondActivity] = useState(null);
+  const [thirdActivity, setThirdActivity] = useState(null);
+  const [fourthActivity, setFourthActivity] = useState(null);
+  const [fifthActivity, setFifthActivity] = useState(null);
   const [settingsVisible, setSettingsVisible] = useState(false);
-  const [showThen, setShowThen] = useState(false);
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -25,11 +23,16 @@ const NowNextBoardScreen = ({ navigation }) => {   // useState used to track sel
     });
   }, [navigation]);
 
-  const handleSelect = (slot) => {  // navigates to library screen with a call back to receive activity cards
+  const handleSelect = (slot) => {  // navigates to library screen with a call back to receive activity card
     setActivityCallback(slot, (activity) => {
-      if (slot === 'Now') setNowActivity(activity);
-      else if (slot === 'Next') setNextActivity(activity);
-      else setThenActivity(activity);
+      const slotMap = {
+        'First Activity' : setFirstActivity,
+        'Second Activity' : setSecondActivity,
+        'Third Activity' : setThirdActivity,
+        'Fourth Activity' : setFourthActivity,
+        'Fifth Activity' : setFifthActivity,
+      };
+      (slotMap[slot] || setFifthActivity)(activity);
     });
 
     navigation.navigate('LibraryScreen', { slot });
@@ -37,31 +40,31 @@ const NowNextBoardScreen = ({ navigation }) => {   // useState used to track sel
 
   return (
     <View style={{ flex: 1 }}>
-      <NowNextBoard 
-        nowActivity={nowActivity}
-        nextActivity={nextActivity} 
-        thenActivity={thenActivity} 
+      <RoutineCard 
+        firstActivity={firstActivity}
+        secondActivity={secondActivity} 
+        thirdActivity={thirdActivity} 
+        fourthActivity={fourthActivity}
+        fifthActivity={fifthActivity}
         onSelect={handleSelect} 
-        showThen={showThen} 
       />
       <Modal  // setting for toggling on 'then' activity at bottom of screen
         visible={settingsVisible}
         transparent={true}
         animationType="slide"
         supportedOrientations={['portrait', 'landscape']}
-        >
+      >
         <View style={styles.modalView}>
           <TouchableOpacity style={styles.closeButton} onPress={() => setSettingsVisible(false)}>
             <Text style={styles.closeX}>x</Text>
           </TouchableOpacity>
-          <NowNextSettingsModal
-            showThen={showThen}
-            setShowThen={setShowThen}
-          />
         </View>
       </Modal>
     </View>
   );
-};
 
-export default NowNextBoardScreen;
+}
+
+export default RoutineScreen;
+
+

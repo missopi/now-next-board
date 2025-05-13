@@ -1,21 +1,22 @@
 // Flatlist of all available activity cards for users to choose from
 
 import React from "react";
-import { Text, FlatList, TouchableOpacity, Image } from "react-native";
+import { Text, FlatList, TouchableOpacity, Image, SafeAreaView } from "react-native";
 import styles from './styles/styles';
 import { activityLibrary } from "../data/ActivityLibrary";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { triggerActivityCallback } from "./components/CallbackStore";
 
-const LibraryScreen = ({ navigation, route }) => {   
-  const onSelectActivity = route?.params?.onSelectActivity; // for board screen - selecting activity triggers callback and returns to board
-
+const LibraryScreen = ({ navigation, route }) => {  
+  const slot = route?.params?.slot;
+  if (!slot) {
+    console.warn("No slot provided to LibraryScreen");
+  }
+  
   const handlePress = (activity) => {
-    if (onSelectActivity) {
-      onSelectActivity(activity);
-      navigation.goBack();
-    } else {
-      console.warn('onSelectActivity not defined');
-    }
+    if (!slot) return; // avoid breaking things
+
+    triggerActivityCallback(slot, activity);
+    navigation.goBack();
   };
 
   return ( // wrapped in safeview to respect notches/status bar
