@@ -2,9 +2,9 @@
 
 import React from "react";
 import { View, Text, TouchableOpacity, Image, useWindowDimensions, FlatList, SafeAreaView } from "react-native";
-import styles from "../styles/TodayStyles";
+import styles from "../styles/RoutineStyles";
 
-const TodayCard = ({ firstActivity, secondActivity, thirdActivity, fourthActivity, fifthActivity, onSelect }) => {
+const RoutineCard = ({ firstActivity, secondActivity, thirdActivity, fourthActivity, fifthActivity, onSelect }) => {
   const { width, height } = useWindowDimensions();
   const isLandscape = width > height;
 
@@ -70,4 +70,4 @@ const TodayCard = ({ firstActivity, secondActivity, thirdActivity, fourthActivit
   );
 };
 
-export default TodayCard;
+export default RoutineCard;

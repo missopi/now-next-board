@@ -19,9 +19,8 @@ export default function HomeScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <CustomButton
-        title="Today"
-        icon="today"
-        onPress={() => navigation.navigate('Today')}
+        title="Routines"
+        onPress={() => navigation.navigate('Routines')}
       />
       <CustomButton
         title="Now/Next Board"

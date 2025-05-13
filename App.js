@@ -7,7 +7,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { HeaderBackButton } from '@react-navigation/elements'
 
 import HomeScreen from "./screens/HomeScreen";
-import Today from "./screens/Today";
+import Routines from "./screens/Routines";
 import ChoiceScreen from "./screens/ChoiceScreen";
 import BoardScreen from "./screens/BoardScreen";
 import ToolsScreen from "./screens/ToolsScreen";
@@ -61,8 +61,8 @@ export default function App() {
           })}  
         />
         <Stack.Screen 
-          name="Today" // daily timetable screen, will include a now/next board i think
-          component={Today} 
+          name="Routines" // daily timetable screen, will include a now/next board i think
+          component={Routines} 
           options={({ navigation }) => ({
             headerTransparent: true,
             headerLeft: (props) => ( // back button to only inlcude a '<' and no word 'back'
