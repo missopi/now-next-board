@@ -1,7 +1,7 @@
 // Visual layout for activity cards on Today screen
 
 import React from "react";
-import { View, Text, TouchableOpacity, Image, useWindowDimensions, FlatList } from "react-native";
+import { View, Text, TouchableOpacity, Image, useWindowDimensions, FlatList, SafeAreaView } from "react-native";
 import styles from "../styles/TodayStyles";
 
 const TodayCard = ({ firstActivity, secondActivity, thirdActivity, fourthActivity, fifthActivity, onSelect }) => {
@@ -52,17 +52,19 @@ const TodayCard = ({ firstActivity, secondActivity, thirdActivity, fourthActivit
           <View style={styles.column}>{renderCard(fifthActivity, 'Fifth Activity')}</View>
         </View>
       ) : (
-        <FlatList 
-          data={activities}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <View style={styles.column}>
-              {renderCard(item.data, item.label)}
-            </View>
-          )}
-          contentContainerStyle={[styles.wrapper, styles.portrait]}
-          showsVerticalScrollIndicator={false}
-        />
+        <SafeAreaView style={{ flex: 1 }}> 
+          <FlatList 
+            data={activities}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <View style={styles.column}>
+                {renderCard(item.data, item.label)}
+              </View>
+            )}
+            contentContainerStyle={[ styles.portrait]}
+            showsVerticalScrollIndicator={false}
+          />
+        </SafeAreaView>
       )}
     </View>
   );

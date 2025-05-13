@@ -11,6 +11,9 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  wrapperPortrait: {
+    flex: 1,
+  },
   landscape: {
     flexDirection: 'row',  // switch to horizontal layout
     justifyContent: 'center',
