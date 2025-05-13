@@ -22,16 +22,15 @@ export default function HomeScreen({ navigation }) {
         onPress={() => navigation.navigate('Routines')}
       />
       <CustomButton
-        title="Now/Next Board"
-        onPress={() => navigation.navigate('Now/Next Board')}
+        title="Now/Next"
+        onPress={() => navigation.navigate('Now/Next')}
       />
       <CustomButton
-        title="Choice Boards"
-        onPress={() => navigation.navigate('Choice Boards')}
+        title="Choices"
+        onPress={() => navigation.navigate('Choices')}
       />
       <CustomButton
         title="Tools"
-        icon="construction"
         onPress={() => navigation.navigate('Tools')}
       />
       <CustomButton

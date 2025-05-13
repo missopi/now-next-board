@@ -34,6 +34,7 @@ export default function App() {
       <Stack.Navigator 
         initialRouteName="Home"
         screenOptions={{
+          headerTransparent: true,
           headerBackTitleVisible: false,
           headerTitle: '',
           headerTintColor: '#000',
@@ -71,7 +72,7 @@ export default function App() {
           })}  
         />
         <Stack.Screen 
-          name="Choice Boards"  // for multi choice boards eg. snacks
+          name="Choices"  // for multi choice boards eg. snacks
           component={ChoiceScreen} 
           options={({ navigation }) => ({
             headerLeft: (props) => (
@@ -107,7 +108,7 @@ export default function App() {
           })}
         />
         <Stack.Screen 
-          name="Now/Next Board"  // will be able to toggle between now/next and now/next & then
+          name="Now/Next"  // will be able to toggle between now/next and now/next & then
           component={BoardScreen} 
           options={({ navigation }) => ({
             headerTransparent: true, 

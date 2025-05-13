@@ -12,7 +12,7 @@ export default StyleSheet.create({
   button: {
     paddingVertical: 25,
     paddingHorizontal: 16,
-    borderRadius: 8,
+    borderRadius: 15,
     marginVertical: 8,
     width: '75%', // stretch button
     shadowColor: '#000',
@@ -23,7 +23,7 @@ export default StyleSheet.create({
   },
   buttonText: {
     color: '#fff',
-    fontSize: 16,
+    fontSize: 22,
     fontWeight: '600',
     textAlign: 'center',
   },
