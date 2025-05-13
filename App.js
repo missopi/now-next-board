@@ -64,6 +64,7 @@ export default function App() {
           name="Today" // daily timetable screen, will include a now/next board i think
           component={Today} 
           options={({ navigation }) => ({
+            headerTransparent: true,
             headerLeft: (props) => ( // back button to only inlcude a '<' and no word 'back'
               <HeaderBackButton {...props} labelVisible={false} onPress={() => navigation.goBack()} />
             ),
