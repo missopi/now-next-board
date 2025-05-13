@@ -25,12 +25,16 @@ const TodayScreen = ({ navigation }) => {
   const handleSelect = (slot) => {  // navigates to library screen with a call back to receive activity cards
     navigation.navigate('LibraryScreen', {
       onSelectActivity: (activity) => {
-        console.log('Selected Activity:', activity);
-        if (slot === 'First Activity') setFirstActivity(activity);
-        else if (slot === 'Second Activity') setSecondActivity(activity);
-        else if (slot === 'Third Activity') setThirdActivity(activity);
-        else if (slot === 'Fourth Activity') setFourthActivity(activity);
-        else setFifthActivity(activity);
+
+        const slotMap = {
+          'First Activity' : setFirstActivity,
+          'Second Activity' : setSecondActivity,
+          'Third Activity' : setThirdActivity,
+          'Fourth Activity' : setFourthActivity,
+          'Fifth Activity' : setFifthActivity,
+        };
+
+        (slotMap[slot] || setFifthActivity)(activity);
       },
     });
   };
