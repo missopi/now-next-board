@@ -40,7 +40,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#fff',
-    padding: 2,
+    padding: 5,
   },
   image: {
     width: '80%',
