@@ -1,0 +1,1 @@
+// Visual layout for activity cards on Today screen
