@@ -1,10 +1,22 @@
-import React, { useLayoutEffect } from 'react';
-import { View, Text, Pressable, Button } from 'react-native';
+import React, { useLayoutEffect, useCallback } from 'react';
+import { View, Pressable } from 'react-native';
+import * as ScreenOrientation from 'expo-screen-orientation';
+import { useFocusEffect } from '@react-navigation/native';
 import styles from './styles/styles';
 import CustomButton from './styles/CustomButton';
 import CogIcon from '../assets/icons/cog.svg';
 
 export default function HomeScreen({ navigation }) {
+  useFocusEffect(
+    useCallback(() => {
+      ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
+
+      return () => {
+        ScreenOrientation.unlockAsync();
+      };
+    }, [])
+  );
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
