@@ -20,7 +20,7 @@ export default function ChoiceScreen({ navigation }) {
   useLayoutEffect(() => {
       navigation.setOptions({
         headerRight: () => (
-          <Pressable onPress={() => navigation.navigate('HomeSettings')} style={{ maarginRight: 15 }}>
+          <Pressable onPress={() => navigation.navigate('HomeSettings')} style={{ marginRight: 15 }}>
             <CogIcon width={24} height={24} />
           </Pressable>
         ),
