@@ -20,10 +20,6 @@ import FeelingsBoard from "./screens/choice_boards/FeelingsBoard";
 import WantBoard from "./screens/choice_boards/WantBoard";
 import NeedsBoard from "./screens/choice_boards/NeedsBoard";
 
-import CogIcon from "./assets/icons/cog.svg";
-import HomeSettings from "./screens/settings/HomeSettings";
-
-import { TouchableOpacity } from "react-native";
 import SavedScreen from "./screens/savedScreen";
 
 const Stack = createNativeStackNavigator();
@@ -45,11 +41,6 @@ export default function App() {
           component={HomeScreen}
           options={{
             headerTitle: '',
-            headerRight: () => (  // for settings cog icon on top right of screen
-              <TouchableOpacity onPress={() => navigation.navigate('HomeSettings')}>
-                <CogIcon width={24} height={24} style={{ marginRight: 10 }} />
-              </TouchableOpacity>
-            ),
           }} 
         />
         <Stack.Screen
@@ -125,15 +116,6 @@ export default function App() {
               <HeaderBackButton {...props} labelVisible={false} onPress={() => navigation.goBack()} />
             ),
           })} 
-        />
-        <Stack.Screen 
-          name="HomeSettings" 
-          component={HomeSettings} 
-          options={({ navigation }) => ({
-            headerLeft: (props) => (
-              <HeaderBackButton {...props} labelVisible={false} onPress={() => navigation.goBack()} />
-            ),
-          })}
         />
         <Stack.Screen 
           name="LibraryScreen" // attached to atcivity library for list of activity cards

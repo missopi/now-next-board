@@ -32,7 +32,7 @@ const NowNextBoardScreen = ({ navigation }) => {   // useState used to track sel
       else setThenActivity(activity);
     });
 
-    navigation.navigate('LibraryScreen', { slot });
+    navigation.navigate('LibraryScreen', { slot })
   };
 
   return (
