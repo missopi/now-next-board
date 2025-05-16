@@ -1,21 +1,44 @@
 // Main board screen containing the Now/Next/Then board
 
-import React, { useState } from "react";  
-import { View, Text, TouchableOpacity, Modal } from "react-native";
+import { useEffect, useState } from "react";  
+import { View, Text, TouchableOpacity, Modal, Alert, Image, Button, TextInput } from "react-native";
 import NowNextBoard from "./components/NowNextBoard";
 import CogIcon from "../assets/icons/cog.svg";
 import NowNextSettingsModal from "./settings/NowNextBoardSettings";
 import styles from "./styles/NowNextBoardStyles";
-import { setActivityCallback } from "./components/CallbackStore";
+import { setActivityCallback, triggerActivityCallback } from "./components/CallbackStore";
+import * as ImagePicker from "expo-image-picker";
 
-const NowNextBoardScreen = ({ navigation }) => {   // useState used to track selected activities
+export default function NowNextBoardScreen({ navigation }) {   // useState used to track selected activities
+  // track which slot (Now | Next | Then) was tapped
+  const [slot, setSlot] = useState(null);
+
+  // track the 3 activities
   const [nowActivity, setNowActivity] = useState(null);
   const [nextActivity, setNextActivity] = useState(null);
   const [thenActivity, setThenActivity] = useState(null);
+
+  // modal for settings
   const [settingsVisible, setSettingsVisible] = useState(false);
   const [showThen, setShowThen] = useState(false);
+  
+  // modal for adding custom card
+  const [newCardImage, setNewCardImage] = useState(null);
+  const [newCardTitle, setNewCardTitle] = useState('');
+  const [isNewCardVisible, setIsNewCardVisible] = useState(false);
 
-  React.useLayoutEffect(() => {
+  // ask for gallery permissions
+  useEffect(() => {
+    (async () => {
+      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (status !== 'granted') {
+        alert('Sorry, we need media library permissions to make this work!');
+      }
+    })();
+  }, []);
+
+  // setting cog in header
+  useEffect(() => { 
     navigation.setOptions({
       headerRight: () => (
         <TouchableOpacity onPress={() => setSettingsVisible(true)}>
@@ -25,14 +48,81 @@ const NowNextBoardScreen = ({ navigation }) => {   // useState used to track sel
     });
   }, [navigation]);
 
-  const handleSelect = (slot) => {  // navigates to library screen with a call back to receive activity cards
-    setActivityCallback(slot, (activity) => {
-      if (slot === 'Now') setNowActivity(activity);
-      else if (slot === 'Next') setNextActivity(activity);
-      else setThenActivity(activity);
+  function pickOrCaptureImage(slot) { // pop up option to choose type of image for activity card
+    Alert.alert(
+      'Add Image',
+      'Choose image source',
+      [
+        {
+          text: 'Camera',
+          onPress: async () => {
+            const { status } = await ImagePicker.requestCameraPermissionsAsync();
+            if (status === 'granted') {
+              const result = await ImagePicker.launchCameraAsync({
+                allowsEditing: true,
+                aspect: [4, 3],
+                quality: 1,
+              });
+              if (!result.canceled) {
+                setNewCardImage(result.assets[0].uri);
+                setIsNewCardVisible(true);
+              }
+            }
+          },
+        },
+        {
+          text: 'Photo Gallery',
+          onPress: async () => {
+            const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+            if (status === 'granted') {
+              const result = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ['images', 'videos'],
+                allowsEditing: true,
+                aspect: [4, 3],
+                quality: 1,
+              });
+              if (!result.canceled) {
+                setNewCardImage(result.assets[0].uri);
+                setIsNewCardVisible(true);
+              }
+            }
+          }
+        },
+        {
+          text: 'Activity Library',
+          onPress: () => {  // navigates to library screen with a call back to receive activity cards
+            setActivityCallback(slot, (activity) => {
+              console.log('setting activity for:', slot, activity);
+              if (slot === 'Now') setNowActivity(activity);
+              else if (slot === 'Next') setNextActivity(activity);
+              else setThenActivity(activity);
+            });
+            console.log('navigating to library screen with slot:', slot);
+            navigation.navigate('LibraryScreen', { slot: slot });
+          }
+        },
+        { text: 'Cancel', style: 'cancel' },
+      ],
+      { cancelable: true }
+    );
+  }
+  
+  function saveNewActivityCard() {
+    const newCard = { name: newCardTitle, image: { uri: newCardImage } };
+    console.log('saving new card', {
+      title: newCardTitle,
+      image: newCardImage,
     });
 
-    navigation.navigate('LibraryScreen', { slot })
+    if (slot === 'Now') setNowActivity(newCard);
+    else if (slot === 'Next') setNextActivity(newCard);
+    else setThenActivity(newCard);
+    console.log('updating slot:', slot);
+
+    // reset and close
+    setIsNewCardVisible(false);
+    setNewCardImage(null);
+    setNewCardTitle('');
   };
 
   return (
@@ -41,9 +131,24 @@ const NowNextBoardScreen = ({ navigation }) => {   // useState used to track sel
         nowActivity={nowActivity}
         nextActivity={nextActivity} 
         thenActivity={thenActivity} 
-        onSelect={handleSelect} 
+        onSelect={({ slot }) => {
+          setSlot(slot);
+          pickOrCaptureImage(slot);
+        }}
         showThen={showThen} 
       />
+      <Modal visible={isNewCardVisible} transparent={true} animationType="slide">
+        <View style={styles.modalView}>
+          <TextInput
+            placeholder="Enter card title"
+            value={newCardTitle}
+            onChangeText={setNewCardTitle}
+            style={styles.input}
+          />
+          <Button title="Save card" onPress={saveNewActivityCard} />
+          <Button title="Cancel" onPressIn={() => setIsNewCardVisible(false)} />
+        </View>
+      </Modal>
       <Modal  // setting for toggling on 'then' activity at bottom of screen
         visible={settingsVisible}
         transparent={true}
@@ -63,5 +168,3 @@ const NowNextBoardScreen = ({ navigation }) => {   // useState used to track sel
     </View>
   );
 };
-
-export default NowNextBoardScreen;

@@ -1,23 +1,39 @@
 // Flatlist of all available activity cards for users to choose from
 
-import React from "react";
+import { useEffect } from "react";
 import { Text, FlatList, TouchableOpacity, Image, SafeAreaView } from "react-native";
 import styles from './styles/styles';
 import { activityLibrary } from "../data/ActivityLibrary";
-import { triggerActivityCallback } from "./components/CallbackStore";
+import { setActivityCallback, triggerActivityCallback } from "./components/CallbackStore";
 
 const LibraryScreen = ({ navigation, route }) => {  
   const slot = route?.params?.slot;
-  if (!slot) {
-    console.warn("No slot provided to LibraryScreen");
-  }
-  
+
+  useEffect(() => {
+    if (!slot) {
+      console.warn("No slot provided to LibraryScreen");
+      return;
+    }
+
+    console.log('Library screen received slot:', slot);
+
+    // set activity callback so BoardScreen can handle selection
+    setActivityCallback((activity) => {
+      console.log('triggering activity with:', activity)
+
+    });
+  }, [slot]);
+
   const handlePress = (activity) => {
+   
     if (!slot) return; // avoid breaking things
 
+    console.log('library picked activity:', activity);
+    
     triggerActivityCallback(slot, activity);
     navigation.goBack();
   };
+
 
   return ( // wrapped in safeview to respect notches/status bar
     <SafeAreaView style={{ flex: 1, backgroundColor: '#abaf' }}> 

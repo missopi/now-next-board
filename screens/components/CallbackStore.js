@@ -1,12 +1,15 @@
-let callbackMap = {};
+const activityCallbacks = {};
 
-export const setActivityCallback = (slot, callback) => {
-  callbackMap[slot] = callback;
-};
+export function setActivityCallback(slot, callback) {
+  console.log('[CallbackStore] Setting new callback for slot:', slot);
+  activityCallbacks[slot] = callback;
+}
 
-export const triggerActivityCallback = (slot, activity) => {
-  if (callbackMap[slot]) {
-    callbackMap[slot](activity);
-    delete callbackMap[slot]; // remove after calling
+export function triggerActivityCallback(slot, activity) {
+  if (activityCallbacks[slot]) {
+    activityCallbacks[slot](activity);
+    delete activityCallbacks[slot]; // clear after use
+  } else {
+    console.warn('no callback registered for slot', slot);
   }
 };

@@ -9,6 +9,8 @@ const NowNextBoard = ({ nowActivity, nextActivity, thenActivity, onSelect, showT
   const isLandscape = width > height;
 
   const renderCard = (activity, label) => {
+    console.log(`Rendering activity for ${label}:`, activity);
+  
     return (
       <TouchableOpacity // Used for selecting each card
         style={[
@@ -18,11 +20,14 @@ const NowNextBoard = ({ nowActivity, nextActivity, thenActivity, onSelect, showT
             height: isLandscape ? height * 0.65 : height * 0.24, 
           },
         ]} 
-        onPress={() => onSelect(label)}
+        onPress={() => onSelect({ slot: label })}
       >
         {activity ? (
           <>
-            <Image source={activity.image} style={styles.image} />
+            <Image 
+              source={typeof activity.image === 'number' ? activity.image : activity.image.uri ? { uri: activity.image.uri } : null}
+              style={styles.image} 
+            />
             <Text style={styles.label}>{activity.name}</Text>
           </>
         ) : (
