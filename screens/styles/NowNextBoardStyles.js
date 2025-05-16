@@ -58,6 +58,13 @@ export default StyleSheet.create({
     color: '#aaa',
   },
 
+  input: {
+    backgroundColor: '#fff',
+    padding: 10,
+    borderRadius: 5,
+    marginBottom: 10,
+  },
+
   // Settings Modal
 
   modalView: {
