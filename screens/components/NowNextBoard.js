@@ -10,7 +10,7 @@ const NowNextBoard = ({ nowActivity, nextActivity, thenActivity, onSelect, showT
 
   const renderCard = (activity, label) => {
     return (
-      <TouchableOpacity // USed for selecting each card
+      <TouchableOpacity // Used for selecting each card
         style={[
           styles.card, 
           { 
