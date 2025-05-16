@@ -1,7 +1,7 @@
 // Main board screen containing the Now/Next/Then board
 
 import { useEffect, useState } from "react";  
-import { View, Text, TouchableOpacity, Modal, Alert, Image, Button, TextInput } from "react-native";
+import { View, Text, TouchableOpacity, Modal, Alert, Image, Button, Pressable, TextInput } from "react-native";
 import NowNextBoard from "./components/NowNextBoard";
 import CogIcon from "../assets/icons/cog.svg";
 import NowNextSettingsModal from "./settings/NowNextBoardSettings";
@@ -92,12 +92,10 @@ export default function NowNextBoardScreen({ navigation }) {   // useState used 
           text: 'Activity Library',
           onPress: () => {  // navigates to library screen with a call back to receive activity cards
             setActivityCallback(slot, (activity) => {
-              console.log('setting activity for:', slot, activity);
               if (slot === 'Now') setNowActivity(activity);
               else if (slot === 'Next') setNextActivity(activity);
               else setThenActivity(activity);
             });
-            console.log('navigating to library screen with slot:', slot);
             navigation.navigate('LibraryScreen', { slot: slot });
           }
         },
@@ -108,16 +106,16 @@ export default function NowNextBoardScreen({ navigation }) {   // useState used 
   }
   
   function saveNewActivityCard() {
+    if (!newCardImage || !newCardTitle.trim()){
+      alert("Please provide both an image and title.");
+      return;
+    }
+
     const newCard = { name: newCardTitle, image: { uri: newCardImage } };
-    console.log('saving new card', {
-      title: newCardTitle,
-      image: newCardImage,
-    });
 
     if (slot === 'Now') setNowActivity(newCard);
     else if (slot === 'Next') setNextActivity(newCard);
     else setThenActivity(newCard);
-    console.log('updating slot:', slot);
 
     // reset and close
     setIsNewCardVisible(false);
@@ -137,16 +135,31 @@ export default function NowNextBoardScreen({ navigation }) {   // useState used 
         }}
         showThen={showThen} 
       />
-      <Modal visible={isNewCardVisible} transparent={true} animationType="slide">
-        <View style={styles.modalView}>
+      <Modal visible={isNewCardVisible} transparent={true} animationType="fade">
+        <View style={styles.modalCard}>
+          <Text style={styles.modalHeader}>Enter Card Title</Text>
+          <Text style={styles.modalDialog}>Please enter a title for your activity card.</Text>
           <TextInput
-            placeholder="Enter card title"
+            placeholder="e.g., brush teeth"
+            placeholderTextColor="#9999"
             value={newCardTitle}
             onChangeText={setNewCardTitle}
             style={styles.input}
           />
-          <Button title="Save card" onPress={saveNewActivityCard} />
-          <Button title="Cancel" onPressIn={() => setIsNewCardVisible(false)} />
+          <View style={styles.buttonRow}>
+            <Pressable 
+              onPress={saveNewActivityCard} 
+              style={styles.addButton}
+            >
+              <Text style={styles.addText}>Add</Text>
+            </Pressable>
+            <Pressable 
+              onPressIn={() => setIsNewCardVisible(false)} 
+              style={styles.cancelButton}
+            >
+              <Text style={styles.cancelText}>Cancel</Text>
+            </Pressable> 
+          </View>
         </View>
       </Modal>
       <Modal  // setting for toggling on 'then' activity at bottom of screen
