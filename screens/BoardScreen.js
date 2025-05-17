@@ -26,6 +26,7 @@ export default function NowNextBoardScreen({ navigation }) {   // useState used 
   const [newCardImage, setNewCardImage] = useState(null);
   const [newCardTitle, setNewCardTitle] = useState('');
   const [isNewCardVisible, setIsNewCardVisible] = useState(false);
+  const [isImageSourceVisible, setIsImageSourceVisible] = useState(false);
 
   // ask for gallery permissions
   useEffect(() => {
@@ -49,63 +50,79 @@ export default function NowNextBoardScreen({ navigation }) {   // useState used 
   }, [navigation]);
 
   function pickOrCaptureImage(slot) { // pop up option to choose type of image for activity card
-    Alert.alert(
-      'Add Image',
-      'Choose image source',
-      [
-        {
-          text: 'Camera',
-          onPress: async () => {
-            const { status } = await ImagePicker.requestCameraPermissionsAsync();
-            if (status === 'granted') {
-              const result = await ImagePicker.launchCameraAsync({
-                allowsEditing: true,
-                aspect: [4, 3],
-                quality: 1,
-              });
-              if (!result.canceled) {
-                setNewCardImage(result.assets[0].uri);
-                setIsNewCardVisible(true);
-              }
-            }
-          },
-        },
-        {
-          text: 'Photo Gallery',
-          onPress: async () => {
-            const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-            if (status === 'granted') {
-              const result = await ImagePicker.launchImageLibraryAsync({
-                mediaTypes: ['images', 'videos'],
-                allowsEditing: true,
-                aspect: [4, 3],
-                quality: 1,
-              });
-              if (!result.canceled) {
-                setNewCardImage(result.assets[0].uri);
-                setIsNewCardVisible(true);
-              }
-            }
-          }
-        },
-        {
-          text: 'Activity Library',
-          onPress: () => {  // navigates to library screen with a call back to receive activity cards
-            setActivityCallback(slot, (activity) => {
-              if (slot === 'Now') setNowActivity(activity);
-              else if (slot === 'Next') setNextActivity(activity);
-              else setThenActivity(activity);
-            });
-            navigation.navigate('LibraryScreen', { slot: slot });
-          }
-        },
-        { text: 'Cancel', style: 'cancel' },
-      ],
-      { cancelable: true }
-    );
+    setSlot(slot);
+    setIsImageSourceVisible(true)
+  }
+
+
+
+  async function handleImagePick(type = 'camera') {
+    try {
+      console.log('Opening image picker:', type);
+      
+      let permissionStatus;
+      if (type === 'camera') {
+        const { status } = await ImagePicker.requestCameraPermissionsAsync();
+        permissionStatus = status;
+      } else {
+        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        permissionStatus = status;
+      }
+
+      if (permissionStatus !== 'granted') {
+        alert('Permission denied. Please enable permissions in settings.');
+        return;
+      }
+
+      let result;
+      if (type === 'camera') {
+        result = await ImagePicker.launchCameraAsync({
+          allowsEditing: true,
+          aspect: [4, 3],
+          quality: 1,
+        });
+      } else {
+        result = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ['images', 'videos'],
+          allowsEditing: true,
+          aspect: [4, 3],
+          quality: 1,
+        });
+      }
+
+      console.log("Picker result:", result);
+
+      if (!result.canceled && result.assets && result.assets.length > 0) {
+        const uri = result.assets[0].uri;
+        console.log("Image URI:", uri);
+
+        setNewCardImage(uri);
+        setIsNewCardVisible(true);
+        console.log('setting newCardVisible = true');
+      } else {
+        console.log("User cancelled or no image selected");
+      }
+    } catch (e) {
+      console.error('Image picking error:', e);
+      alert('Something went wrong while picking the image.');
+    } finally {
+      console.log("Resetting isImageSourceVisible -> false from [handleImagePick]");
+      setIsImageSourceVisible(false);
+    }
+  }
+  
+  function handleLibraryPick() {
+    setIsImageSourceVisible(false);
+    setActivityCallback(slot, (activity) => {
+      if (slot === 'Now') setNowActivity(activity);
+      else if (slot === 'Next') setNextActivity(activity);
+      else setThenActivity(activity);
+    });
+    navigation.navigate('LibraryScreen', { slot: slot });
   }
   
   function saveNewActivityCard() {
+    console.log("===> SAVE TRIGGERED", newCardImage, newCardTitle);
     if (!newCardImage || !newCardTitle.trim()){
       alert("Please provide both an image and title.");
       return;
@@ -118,6 +135,7 @@ export default function NowNextBoardScreen({ navigation }) {   // useState used 
     else setThenActivity(newCard);
 
     // reset and close
+    console.log("Resetting isNewCardVisible -> false from [saveNewActivityCard]");
     setIsNewCardVisible(false);
     setNewCardImage(null);
     setNewCardTitle('');
@@ -135,7 +153,12 @@ export default function NowNextBoardScreen({ navigation }) {   // useState used 
         }}
         showThen={showThen} 
       />
+      {/* Modal for entering card title */}
       <Modal visible={isNewCardVisible} transparent={true} animationType="fade">
+        {console.log("Render: isNewCardVisible =", isNewCardVisible)}
+        {isNewCardVisible && <Text style={{ color: 'red', fontSize: 24 }}>MODAL VISIBLE</Text>}
+        <Text>newCardImage: {newCardImage}</Text>
+        <Text>newCardTitle: {newCardTitle}</Text>
         <View style={styles.modalCard}>
           <Text style={styles.modalHeader}>Enter Card Title</Text>
           <Text style={styles.modalDialog}>Please enter a title for your activity card.</Text>
@@ -162,6 +185,33 @@ export default function NowNextBoardScreen({ navigation }) {   // useState used 
           </View>
         </View>
       </Modal>
+
+      {/* Modal for choosing image source */}
+      <Modal visible={isImageSourceVisible} transparent={true} animationType="fade">
+        {console.log("Render: isImageSourceVisible =", isImageSourceVisible)}
+        <View style={styles.modalCard}>
+          <Text style={styles.modalHeader}>Add Image</Text>
+          <Text style={styles.modalDialog}>Please choose an image source.</Text>
+          <View style={styles.buttonColumn}>
+            <Pressable onPress={() => handleImagePick('camera')} style={styles.imageButton}>
+              <Text style={styles.addText}>Camera</Text>
+            </Pressable>
+            <Pressable onPress={() => handleImagePick('gallery')} style={styles.imageButton}>
+              <Text style={styles.addText}>Photo Gallery</Text>
+            </Pressable>
+            <Pressable onPress={handleLibraryPick} style={styles.imageButton}>
+              <Text style={styles.addText}>Image Library</Text>
+            </Pressable>
+            <Pressable 
+              onPressIn={() => setIsImageSourceVisible(false)} 
+              style={styles.cancelButton}
+            >
+              <Text style={styles.cancelText}>Cancel</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+
       <Modal  // setting for toggling on 'then' activity at bottom of screen
         visible={settingsVisible}
         transparent={true}
