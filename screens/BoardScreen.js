@@ -1,12 +1,12 @@
 // Main board screen containing the Now/Next/Then board
 
 import { useEffect, useState } from "react";  
-import { View, Text, TouchableOpacity, Modal, Alert, Image, Button, Pressable, TextInput } from "react-native";
+import { View, Text, TouchableOpacity, Modal, Pressable, TextInput } from "react-native";
 import NowNextBoard from "./components/NowNextBoard";
 import CogIcon from "../assets/icons/cog.svg";
 import NowNextSettingsModal from "./settings/NowNextBoardSettings";
 import styles from "./styles/NowNextBoardStyles";
-import { setActivityCallback, triggerActivityCallback } from "./components/CallbackStore";
+import { setActivityCallback } from "./components/CallbackStore";
 import * as ImagePicker from "expo-image-picker";
 
 export default function NowNextBoardScreen({ navigation }) {   // useState used to track selected activities
@@ -64,7 +64,7 @@ export default function NowNextBoardScreen({ navigation }) {   // useState used 
       if (type === 'camera') {
         const { status } = await ImagePicker.requestCameraPermissionsAsync();
         permissionStatus = status;
-      } else {
+      } else if (type === 'gallery') {
         const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
         permissionStatus = status;
       }
@@ -81,7 +81,7 @@ export default function NowNextBoardScreen({ navigation }) {   // useState used 
           aspect: [4, 3],
           quality: 1,
         });
-      } else {
+      } else if (type === 'gallery') {
         result = await ImagePicker.launchImageLibraryAsync({
           mediaTypes: ['images', 'videos'],
           allowsEditing: true,
@@ -97,10 +97,7 @@ export default function NowNextBoardScreen({ navigation }) {   // useState used 
         console.log("Image URI:", uri);
 
         setNewCardImage(uri);
-
-        setTimeout(() => {
-          setIsNewCardVisible(true);
-        }, 200);
+        setTimeout(() => setIsNewCardVisible(true), 200);
         
         console.log('setting newCardVisible = true');
       } else {
