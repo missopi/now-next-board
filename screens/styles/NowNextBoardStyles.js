@@ -95,6 +95,19 @@ export default StyleSheet.create({
     alignSelf: 'flex-end',
     paddingTop: 10,
   },
+  buttonColumn: {
+    flexDirection: 'column',
+    gap: 12,
+    alignSelf: 'center',
+    padding: 15,
+  },
+
+  imageButton: {
+    backgroundColor: "#6395e0",
+    borderRadius: 10,
+    paddingHorizontal: 25,
+    paddingVertical: 15,
+  },
 
   addButton: {
     backgroundColor: "#6395e0",
