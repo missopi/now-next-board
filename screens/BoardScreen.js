@@ -157,9 +157,6 @@ export default function NowNextBoardScreen({ navigation }) {   // useState used 
       {/* Modal for entering card title */}
       <Modal visible={isNewCardVisible} transparent={true} animationType="fade">
         {console.log("Render: isNewCardVisible =", isNewCardVisible)}
-        {isNewCardVisible && <Text style={{ color: 'red', fontSize: 24 }}>MODAL VISIBLE</Text>}
-        <Text>newCardImage: {newCardImage}</Text>
-        <Text>newCardTitle: {newCardTitle}</Text>
         <View style={styles.modalCard}>
           <Text style={styles.modalHeader}>Enter Card Title</Text>
           <Text style={styles.modalDialog}>Please enter a title for your activity card.</Text>
