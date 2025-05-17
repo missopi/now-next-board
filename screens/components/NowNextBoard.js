@@ -16,7 +16,7 @@ const NowNextBoard = ({ nowActivity, nextActivity, thenActivity, onSelect, showT
         style={[
           styles.card, 
           { 
-            width: isLandscape ? height * 0.6 : width * 0.7,  // orientation aware layout using useWindowDimentions
+            width: isLandscape ? width * 0.29 : width * 0.68,  // orientation aware layout using useWindowDimentions
             height: isLandscape ? height * 0.65 : height * 0.24, 
           },
         ]} 
