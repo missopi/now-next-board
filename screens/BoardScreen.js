@@ -97,7 +97,11 @@ export default function NowNextBoardScreen({ navigation }) {   // useState used 
         console.log("Image URI:", uri);
 
         setNewCardImage(uri);
-        setIsNewCardVisible(true);
+
+        setTimeout(() => {
+          setIsNewCardVisible(true);
+        }, 200);
+        
         console.log('setting newCardVisible = true');
       } else {
         console.log("User cancelled or no image selected");
