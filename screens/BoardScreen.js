@@ -1,6 +1,6 @@
 // Main board screen containing the Now/Next/Then board
 
-import { useEffect, useState } from "react";  
+import { useEffect, useRef, useState } from "react";  
 import { View, Text, TouchableOpacity, Modal, Pressable, TextInput } from "react-native";
 import NowNextBoard from "./components/NowNextBoard";
 import CogIcon from "../assets/icons/cog.svg";
@@ -49,9 +49,12 @@ export default function NowNextBoardScreen({ navigation }) {   // useState used 
     });
   }, [navigation]);
 
+  const slotRef = useRef(null);
+
   function pickOrCaptureImage(slot) { // pop up option to choose type of image for activity card
     setSlot(slot);
-    setIsImageSourceVisible(true)
+    slotRef.current = slot;
+    setIsImageSourceVisible(true);
   }
 
 
@@ -92,16 +95,15 @@ export default function NowNextBoardScreen({ navigation }) {   // useState used 
 
       console.log("Picker result:", result);
 
-      if (!result.canceled && result.assets && result.assets.length > 0) {
+      if (!result.canceled && result.assets && result.assets.length > 0 && result.assets[0].uri) {
         const uri = result.assets[0].uri;
         console.log("Image URI:", uri);
-
         setNewCardImage(uri);
         setTimeout(() => setIsNewCardVisible(true), 200);
-        
         console.log('setting newCardVisible = true');
       } else {
-        console.log("User cancelled or no image selected");
+        console.warn("Invalid or unsupported image selected", result);
+        alert("That image could not be used. Try another one or re-save it in your Photos app.");
       }
     } catch (e) {
       console.error('Image picking error:', e);
@@ -124,22 +126,27 @@ export default function NowNextBoardScreen({ navigation }) {   // useState used 
   
   function saveNewActivityCard() {
     console.log("===> SAVE TRIGGERED", newCardImage, newCardTitle);
+    console.log("saving to slot:", slotRef.current);
+
     if (!newCardImage || !newCardTitle.trim()){
       alert("Please provide both an image and title.");
       return;
     }
 
-    const newCard = { name: newCardTitle, image: { uri: newCardImage } };
+    const newCard = { name: newCardTitle.trim(), image: { uri: newCardImage } };
+    const currentSlot = slotRef.current;
 
-    if (slot === 'Now') setNowActivity(newCard);
-    else if (slot === 'Next') setNextActivity(newCard);
-    else setThenActivity(newCard);
-
+    if (currentSlot === 'Now') setNowActivity(newCard);
+    else if (currentSlot === 'Next') setNextActivity(newCard);
+    else if (currentSlot === 'Then') setThenActivity(newCard);
+    else console.warn("Invalid slot. Could not assign activity.");
+    
     // reset and close
     console.log("Resetting isNewCardVisible -> false from [saveNewActivityCard]");
     setIsNewCardVisible(false);
     setNewCardImage(null);
     setNewCardTitle('');
+    slotRef.current = null;
   };
 
   return (
