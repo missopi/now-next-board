@@ -8,6 +8,7 @@ import NowNextSettingsModal from "./settings/NowNextBoardSettings";
 import styles from "./styles/NowNextBoardStyles";
 import { setActivityCallback } from "./components/CallbackStore";
 import * as ImagePicker from "expo-image-picker";
+import * as ImageManipulator from "expo-image-manipulator";
 
 export default function NowNextBoardScreen({ navigation }) {   // useState used to track selected activities
   // track which slot (Now | Next | Then) was tapped
@@ -57,8 +58,6 @@ export default function NowNextBoardScreen({ navigation }) {   // useState used 
     setIsImageSourceVisible(true);
   }
 
-
-
   async function handleImagePick(type = 'camera') {
     try {
       console.log('Opening image picker:', type);
@@ -96,14 +95,27 @@ export default function NowNextBoardScreen({ navigation }) {   // useState used 
       console.log("Picker result:", result);
 
       if (!result.canceled && result.assets && result.assets.length > 0 && result.assets[0].uri) {
-        const uri = result.assets[0].uri;
+        let uri = result.assets[0].uri;
         console.log("Image URI:", uri);
+        // fallback for images that may not render
+        try {
+          const manipulated = await ImageManipulator.manipulateAsync(
+            uri,
+            [],
+            { compress: 1, format: ImageManipulator.SaveFormat.JPEG }
+          );
+          uri = manipulated.uri;
+          console.log("fallback image converted to jpeg:", uri);
+        } catch (e) {
+          console.warn("image manipulation failed:", e);
+          alert("That image could not be used. Try another one or re-save it in your Photos app.");
+          return;
+        }
         setNewCardImage(uri);
         setTimeout(() => setIsNewCardVisible(true), 200);
         console.log('setting newCardVisible = true');
       } else {
-        console.warn("Invalid or unsupported image selected", result);
-        alert("That image could not be used. Try another one or re-save it in your Photos app.");
+        alert("couldn't use that image. Try a different one.");
       }
     } catch (e) {
       console.error('Image picking error:', e);
