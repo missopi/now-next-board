@@ -8,7 +8,6 @@ import NowNextSettingsModal from "./settings/NowNextBoardSettings";
 import styles from "./styles/NowNextBoardStyles";
 import { setActivityCallback } from "./components/CallbackStore";
 import * as ImagePicker from "expo-image-picker";
-import * as ImageManipulator from "expo-image-manipulator";
 
 export default function NowNextBoardScreen({ navigation }) {   // useState used to track selected activities
   // track which slot (Now | Next | Then) was tapped
@@ -57,21 +56,6 @@ export default function NowNextBoardScreen({ navigation }) {   // useState used 
     setIsImageSourceVisible(true);
   }
 
-  async function forceConvertToJPG(uri) {
-    try {
-      const manipulated = await ImageManipulator.manipulateAsync(
-        uri,
-        [],
-        { compress: 1, format: ImageManipulator.SaveFormat.JPEG, base64: false }
-      );
-        return manipulated.uri;
-      } catch (e) {
-        console.warn("image manipulation failed:", e);
-        alert("That image could not be used. Try another one or re-save it in your Photos app.");
-        return null;
-    }
-  }
-
   async function handleImagePick(type = 'camera') {
     try {
       let permissionStatus;
@@ -99,27 +83,18 @@ export default function NowNextBoardScreen({ navigation }) {   // useState used 
       } else if (type === 'gallery') {
         result = await ImagePicker.launchImageLibraryAsync({
           mediaTypes: ['images', 'videos'],
-          allowsEditing: true,
+          allowsEditing: false,
+          base64: true,
           aspect: [4, 3],
           quality: 1,
         });
       }
 
-      if (!result.canceled && result.assets && result.assets.length > 0 && result.assets[0].uri) {
-        let uri = result.assets[0].uri;
+      if (!result.canceled && result.assets && result.assets.length > 0) {
+        const asset = result.assets[0];
+        const based64Image = `data:image/jpeg;base64,${asset.base64}`;
 
-        // fallback for  potential iCloud/screenshot images
-        if (uri.endsWith('.png') || uri.endsWith('.heic') || uri.endsWith('.HEIC')) {
-          const fallbackUri = await forceConvertToJPG(uri);
-          if (fallbackUri) {
-            uri = fallbackUri;
-          }
-          else {
-            alert("This image couldn't be used. Try another one or re-save it in your Photos app.");
-            return;
-          }
-        }
-        setNewCardImage(uri);
+        setNewCardImage(based64Image);
         setTimeout(() => setIsNewCardVisible(true), 200);
       } else {
         alert("No image was selected.");
