@@ -51,18 +51,31 @@ export default function NowNextBoardScreen({ navigation }) {   // useState used 
   }, [navigation]);
 
   const slotRef = useRef(null);
-
   function pickOrCaptureImage(slot) { // pop up option to choose type of image for activity card
     setSlot(slot);
     slotRef.current = slot;
     setIsImageSourceVisible(true);
   }
 
+  async function forceConvertToJPG(uri) {
+    try {
+      const manipulated = await ImageManipulator.manipulateAsync(
+        uri,
+        [],
+        { compress: 1, format: ImageManipulator.SaveFormat.JPEG, base64: false }
+      );
+        return manipulated.uri;
+      } catch (e) {
+        console.warn("image manipulation failed:", e);
+        alert("That image could not be used. Try another one or re-save it in your Photos app.");
+        return null;
+    }
+  }
+
   async function handleImagePick(type = 'camera') {
     try {
-      console.log('Opening image picker:', type);
-      
       let permissionStatus;
+
       if (type === 'camera') {
         const { status } = await ImagePicker.requestCameraPermissionsAsync();
         permissionStatus = status;
@@ -92,36 +105,29 @@ export default function NowNextBoardScreen({ navigation }) {   // useState used 
         });
       }
 
-      console.log("Picker result:", result);
-
       if (!result.canceled && result.assets && result.assets.length > 0 && result.assets[0].uri) {
         let uri = result.assets[0].uri;
-        console.log("Image URI:", uri);
-        // fallback for images that may not render
-        try {
-          const manipulated = await ImageManipulator.manipulateAsync(
-            uri,
-            [],
-            { compress: 1, format: ImageManipulator.SaveFormat.JPEG }
-          );
-          uri = manipulated.uri;
-          console.log("fallback image converted to jpeg:", uri);
-        } catch (e) {
-          console.warn("image manipulation failed:", e);
-          alert("That image could not be used. Try another one or re-save it in your Photos app.");
-          return;
+
+        // fallback for  potential iCloud/screenshot images
+        if (uri.endsWith('.png') || uri.endsWith('.heic') || uri.endsWith('.HEIC')) {
+          const fallbackUri = await forceConvertToJPG(uri);
+          if (fallbackUri) {
+            uri = fallbackUri;
+          }
+          else {
+            alert("This image couldn't be used. Try another one or re-save it in your Photos app.");
+            return;
+          }
         }
         setNewCardImage(uri);
         setTimeout(() => setIsNewCardVisible(true), 200);
-        console.log('setting newCardVisible = true');
       } else {
-        alert("couldn't use that image. Try a different one.");
+        alert("No image was selected.");
       }
     } catch (e) {
       console.error('Image picking error:', e);
       alert('Something went wrong while picking the image.');
     } finally {
-      console.log("Resetting isImageSourceVisible -> false from [handleImagePick]");
       setIsImageSourceVisible(false);
     }
   }
@@ -137,9 +143,6 @@ export default function NowNextBoardScreen({ navigation }) {   // useState used 
   }
   
   function saveNewActivityCard() {
-    console.log("===> SAVE TRIGGERED", newCardImage, newCardTitle);
-    console.log("saving to slot:", slotRef.current);
-
     if (!newCardImage || !newCardTitle.trim()){
       alert("Please provide both an image and title.");
       return;
@@ -154,7 +157,6 @@ export default function NowNextBoardScreen({ navigation }) {   // useState used 
     else console.warn("Invalid slot. Could not assign activity.");
     
     // reset and close
-    console.log("Resetting isNewCardVisible -> false from [saveNewActivityCard]");
     setIsNewCardVisible(false);
     setNewCardImage(null);
     setNewCardTitle('');
@@ -167,7 +169,7 @@ export default function NowNextBoardScreen({ navigation }) {   // useState used 
         nowActivity={nowActivity}
         nextActivity={nextActivity} 
         thenActivity={thenActivity} 
-        onSelect={({ slot }) => {
+        onSelect={({ slot }) => { 
           setSlot(slot);
           pickOrCaptureImage(slot);
         }}
@@ -175,7 +177,6 @@ export default function NowNextBoardScreen({ navigation }) {   // useState used 
       />
       {/* Modal for entering card title */}
       <Modal visible={isNewCardVisible} transparent={true} animationType="fade">
-        {console.log("Render: isNewCardVisible =", isNewCardVisible)}
         <View style={styles.modalCard}>
           <Text style={styles.modalHeader}>Enter Card Title</Text>
           <Text style={styles.modalDialog}>Please enter a title for your activity card.</Text>
@@ -187,16 +188,10 @@ export default function NowNextBoardScreen({ navigation }) {   // useState used 
             style={styles.input}
           />
           <View style={styles.buttonRow}>
-            <Pressable 
-              onPress={saveNewActivityCard} 
-              style={styles.addButton}
-            >
+            <Pressable onPress={saveNewActivityCard} style={styles.addButton}>
               <Text style={styles.addText}>Add</Text>
             </Pressable>
-            <Pressable 
-              onPressIn={() => setIsNewCardVisible(false)} 
-              style={styles.cancelButton}
-            >
+            <Pressable onPressIn={() => setIsNewCardVisible(false)} style={styles.cancelButton}>
               <Text style={styles.cancelText}>Cancel</Text>
             </Pressable> 
           </View>
@@ -205,7 +200,6 @@ export default function NowNextBoardScreen({ navigation }) {   // useState used 
 
       {/* Modal for choosing image source */}
       <Modal visible={isImageSourceVisible} transparent={true} animationType="fade">
-        {console.log("Render: isImageSourceVisible =", isImageSourceVisible)}
         <View style={styles.modalCard}>
           <Text style={styles.modalHeader}>Add Image</Text>
           <Text style={styles.modalDialog}>Please choose an image source.</Text>
@@ -219,10 +213,7 @@ export default function NowNextBoardScreen({ navigation }) {   // useState used 
             <Pressable onPress={handleLibraryPick} style={styles.imageButton}>
               <Text style={styles.addText}>Image Library</Text>
             </Pressable>
-            <Pressable 
-              onPressIn={() => setIsImageSourceVisible(false)} 
-              style={styles.cancelButton}
-            >
+            <Pressable onPressIn={() => setIsImageSourceVisible(false)} style={styles.cancelButton}>
               <Text style={styles.cancelText}>Cancel</Text>
             </Pressable>
           </View>
@@ -239,10 +230,7 @@ export default function NowNextBoardScreen({ navigation }) {   // useState used 
           <TouchableOpacity style={styles.closeButton} onPress={() => setSettingsVisible(false)}>
             <Text style={styles.closeX}>x</Text>
           </TouchableOpacity>
-          <NowNextSettingsModal
-            showThen={showThen}
-            setShowThen={setShowThen}
-          />
+          <NowNextSettingsModal showThen={showThen} setShowThen={setShowThen} />
         </View>
       </Modal>
     </View>
