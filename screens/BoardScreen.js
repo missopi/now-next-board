@@ -93,6 +93,7 @@ export default function NowNextBoardScreen({ navigation }) {   // useState used 
       if (!result.canceled && result.assets && result.assets.length > 0) {
         const asset = result.assets[0];
         const based64Image = `data:image/jpeg;base64,${asset.base64}`;
+        console.log('Base64 image file:', based64Image);
 
         setNewCardImage(based64Image);
         setTimeout(() => setIsNewCardVisible(true), 200);
