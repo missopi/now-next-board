@@ -1,6 +1,5 @@
 // Visual layout for Now/Next boards
 
-import React from "react";
 import { View, Text, TouchableOpacity, Image, useWindowDimensions } from "react-native";
 import styles from "../styles/NowNextBoardStyles";
 
@@ -10,7 +9,15 @@ const NowNextBoard = ({ nowActivity, nextActivity, thenActivity, onSelect, showT
 
   const renderCard = (activity, label) => {
     console.log(`Rendering activity for ${label}:`, activity);
-  
+
+    const getImageSource = (image) => {
+      if (!image) return null;
+      if (typeof image === 'number') return image;
+      if (typeof image === 'string') return { uri: image };
+      if (image.uri && typeof image.uri === 'string') return { uri: image.uri };
+      return null;
+    };
+    
     return (
       <TouchableOpacity // Used for selecting each card
         style={[
@@ -25,8 +32,9 @@ const NowNextBoard = ({ nowActivity, nextActivity, thenActivity, onSelect, showT
         {activity ? (
           <>
             <Image 
-              source={typeof activity.image === 'number' ? activity.image : activity.image.uri ? { uri: activity.image.uri } : null}
-              style={styles.image} 
+              source={getImageSource(activity.image)}
+              style={styles.image}
+              resizeMode="fill"
             />
             <Text style={styles.label}>{activity.name}</Text>
           </>
