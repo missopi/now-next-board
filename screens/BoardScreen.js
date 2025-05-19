@@ -1,7 +1,7 @@
 // Main board screen containing the Now/Next/Then board
 
 import { useEffect, useRef, useState } from "react";  
-import { View, Text, TouchableOpacity, Modal, Pressable, TextInput } from "react-native";
+import { View, Text, TouchableOpacity, Image, Modal, Pressable, TextInput } from "react-native";
 import NowNextBoard from "./components/NowNextBoard";
 import CogIcon from "../assets/icons/cog.svg";
 import NowNextSettingsModal from "./settings/NowNextBoardSettings";
@@ -26,7 +26,7 @@ export default function NowNextBoardScreen({ navigation }) {   // useState used 
   const [newCardImage, setNewCardImage] = useState(null);
   const [newCardTitle, setNewCardTitle] = useState('');
   const [isNewCardVisible, setIsNewCardVisible] = useState(false);
-  const [isImageSourceVisible, setIsImageSourceVisible] = useState(false);
+  const [isPickingImage, setIsPickingImage] = useState(false);
 
   // setting cog in header
   useEffect(() => { 
@@ -43,21 +43,22 @@ export default function NowNextBoardScreen({ navigation }) {   // useState used 
   function pickOrCaptureImage(slot) { // pop up option to choose type of image for activity card
     setSlot(slot);
     slotRef.current = slot;
-    setIsImageSourceVisible(true);
+    setNewCardTitle('');
+    setNewCardImage(null);
+    setIsPickingImage(false);
+    setIsNewCardVisible(true);
   }
 
   async function handleImagePick(type) {
-    const based64Image = await pickImage(type);
-    console.log('gallery asset:', type, based64Image )
-    if (based64Image) {
-      setNewCardImage(based64Image);
-      setIsImageSourceVisible(false);
-      setTimeout(() => setIsNewCardVisible(true), 200);
+    const imageUri = await pickImage(type);
+    if (imageUri) {
+      setNewCardImage(imageUri);
+    } else {
+      console.warn('[handleImagePick] no image returned');
     }
   }
   
   function handleLibraryPick() {
-    setIsImageSourceVisible(false);
     setActivityCallback(slot, (activity) => {
       if (slot === 'Now') setNowActivity(activity);
       else if (slot === 'Next') setNextActivity(activity);
@@ -72,8 +73,13 @@ export default function NowNextBoardScreen({ navigation }) {   // useState used 
       return;
     }
 
+    console.log('saving new card with image uri:', newCardImage);
+
     const newCard = { name: newCardTitle.trim(), image: { uri: newCardImage } };
     const currentSlot = slotRef.current;
+
+    console.log('new card name and image:', newCard);
+    console.log('current slot:', currentSlot);
 
     if (currentSlot === 'Now') setNowActivity(newCard);
     else if (currentSlot === 'Next') setNextActivity(newCard);
@@ -89,6 +95,7 @@ export default function NowNextBoardScreen({ navigation }) {   // useState used 
 
   return (
     <View style={{ flex: 1 }}>
+      {console.log('rendering nownextboard')}
       <NowNextBoard 
         nowActivity={nowActivity}
         nextActivity={nextActivity} 
@@ -102,45 +109,65 @@ export default function NowNextBoardScreen({ navigation }) {   // useState used 
       {/* Modal for entering card title */}
       <Modal visible={isNewCardVisible} transparent={true} animationType="fade">
         <View style={styles.modalCard}>
-          <Text style={styles.modalHeader}>Enter Card Title</Text>
-          <Text style={styles.modalDialog}>Please enter a title for your activity card.</Text>
-          <TextInput
-            placeholder="e.g., brush teeth"
-            placeholderTextColor="#9999"
-            value={newCardTitle}
-            onChangeText={setNewCardTitle}
-            style={styles.input}
-          />
-          <View style={styles.buttonRow}>
-            <Pressable onPress={saveNewActivityCard} style={styles.addButton}>
-              <Text style={styles.addText}>Add</Text>
-            </Pressable>
-            <Pressable onPressIn={() => setIsNewCardVisible(false)} style={styles.cancelButton}>
-              <Text style={styles.cancelText}>Cancel</Text>
-            </Pressable> 
-          </View>
-        </View>
-      </Modal>
+          {!isPickingImage ? (
+            <>
+              <Text style={styles.modalHeader}>Enter Card Title</Text>
+              <Text style={styles.modalDialog}>Please enter a title for your activity card.</Text>
+              <TextInput
+                placeholder="e.g., brush teeth"
+                placeholderTextColor="#9999"
+                value={newCardTitle}
+                onChangeText={setNewCardTitle}
+                style={styles.input}
+              />
+              <View style={styles.buttonRow}>
+                <Pressable
+                  onPress={() => {
+                    if (!newCardTitle.trim()) {
+                      alert('Please enter a title.');
+                      return;
+                    }
+                    setIsPickingImage(true);
+                  }}
+                  style={styles.addButton}
+                >
+                  <Text style={styles.addText}>Next</Text>
+                </Pressable>
+                <Pressable onPress={() => setIsNewCardVisible(false)} style={styles.cancelButton}>
+                  <Text style={styles.cancelText}>Cancel</Text>
+                </Pressable>
+              </View>
+            </>
+          ) : (
+            <>
+              <Text style={styles.modalHeader}>Add Image</Text>
+              <Text style={styles.modalDialog}>Please choose an image source.</Text>
+              <View style={styles.buttonColumn}>
+                <Pressable onPress={() => handleImagePick('camera')} style={styles.imageButton}>
+                  <Text style={styles.addText}>Camera</Text>
+                </Pressable>
+                <Pressable onPress={() => handleImagePick('gallery')} style={styles.imageButton}>
+                  <Text style={styles.addText}>Photo Gallery</Text>
+                </Pressable>
+                <Pressable onPress={handleLibraryPick} style={styles.imageButton}>
+                  <Text style={styles.addText}>Image Library</Text>
+                </Pressable>
+              </View>
 
-      {/* Modal for choosing image source */}
-      <Modal visible={isImageSourceVisible} transparent={true} animationType="fade">
-        <View style={styles.modalCard}>
-          <Text style={styles.modalHeader}>Add Image</Text>
-          <Text style={styles.modalDialog}>Please choose an image source.</Text>
-          <View style={styles.buttonColumn}>
-            <Pressable onPress={() => handleImagePick('camera')} style={styles.imageButton}>
-              <Text style={styles.addText}>Camera</Text>
-            </Pressable>
-            <Pressable onPress={() => handleImagePick('gallery')} style={styles.imageButton}>
-              <Text style={styles.addText}>Photo Gallery</Text>
-            </Pressable>
-            <Pressable onPress={handleLibraryPick} style={styles.imageButton}>
-              <Text style={styles.addText}>Image Library</Text>
-            </Pressable>
-            <Pressable onPressIn={() => setIsImageSourceVisible(false)} style={styles.cancelButton}>
-              <Text style={styles.cancelText}>Cancel</Text>
-            </Pressable>
-          </View>
+              {newCardImage && (
+                <Image source={{ uri: newCardImage }} style={styles.previewImage} resizeMode="contain" />
+              )}
+
+              <View style={styles.buttonRow}>
+                <Pressable onPress={saveNewActivityCard} style={styles.addButton}>
+                  <Text style={styles.addText}>Add</Text>
+                </Pressable>
+                <Pressable onPressIn={() => setIsNewCardVisible(false)} style={styles.cancelButton}>
+                  <Text style={styles.cancelText}>Cancel</Text>
+                </Pressable> 
+              </View>
+            </>
+          )}
         </View>
       </Modal>
 
