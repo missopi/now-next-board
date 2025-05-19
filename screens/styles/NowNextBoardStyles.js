@@ -47,6 +47,12 @@ export default StyleSheet.create({
     height: '80%',
     resizeMode: 'contain',
   },
+  previewImage: {
+    width: 200,
+    height: 200,
+    marginTop: 20,
+    borderRadius: 10,
+  },
   label: {
     fontSize: 20,
     marginTop: 4,
