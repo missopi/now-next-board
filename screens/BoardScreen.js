@@ -7,7 +7,7 @@ import CogIcon from "../assets/icons/cog.svg";
 import NowNextSettingsModal from "./settings/NowNextBoardSettings";
 import styles from "./styles/NowNextBoardStyles";
 import { setActivityCallback } from "./components/CallbackStore";
-import * as ImagePicker from "expo-image-picker";
+import { pickImage } from "../utilities/imagePickerHelper";
 
 export default function NowNextBoardScreen({ navigation }) {   // useState used to track selected activities
   // track which slot (Now | Next | Then) was tapped
@@ -28,16 +28,6 @@ export default function NowNextBoardScreen({ navigation }) {   // useState used 
   const [isNewCardVisible, setIsNewCardVisible] = useState(false);
   const [isImageSourceVisible, setIsImageSourceVisible] = useState(false);
 
-  // ask for gallery permissions
-  useEffect(() => {
-    (async () => {
-      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-      if (status !== 'granted') {
-        alert('Sorry, we need media library permissions to make this work!');
-      }
-    })();
-  }, []);
-
   // setting cog in header
   useEffect(() => { 
     navigation.setOptions({
@@ -56,55 +46,13 @@ export default function NowNextBoardScreen({ navigation }) {   // useState used 
     setIsImageSourceVisible(true);
   }
 
-  async function handleImagePick(type = 'camera') {
-    try {
-      let permissionStatus;
-
-      if (type === 'camera') {
-        const { status } = await ImagePicker.requestCameraPermissionsAsync();
-        permissionStatus = status;
-      } else if (type === 'gallery') {
-        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-        permissionStatus = status;
-      }
-
-      if (permissionStatus !== 'granted') {
-        alert('Permission denied. Please enable permissions in settings.');
-        return;
-      }
-
-      let result;
-      if (type === 'camera') {
-        result = await ImagePicker.launchCameraAsync({
-          allowsEditing: true,
-          aspect: [4, 3],
-          quality: 1,
-        });
-      } else if (type === 'gallery') {
-        result = await ImagePicker.launchImageLibraryAsync({
-          mediaTypes: ['images', 'videos'],
-          allowsEditing: false,
-          base64: true,
-          aspect: [4, 3],
-          quality: 1,
-        });
-      }
-
-      if (!result.canceled && result.assets && result.assets.length > 0) {
-        const asset = result.assets[0];
-        const based64Image = `data:image/jpeg;base64,${asset.base64}`;
-        console.log('Base64 image file:', based64Image);
-
-        setNewCardImage(based64Image);
-        setTimeout(() => setIsNewCardVisible(true), 200);
-      } else {
-        alert("No image was selected.");
-      }
-    } catch (e) {
-      console.error('Image picking error:', e);
-      alert('Something went wrong while picking the image.');
-    } finally {
+  async function handleImagePick(type) {
+    const based64Image = await pickImage(type);
+    console.log('gallery asset:', type, based64Image )
+    if (based64Image) {
+      setNewCardImage(based64Image);
       setIsImageSourceVisible(false);
+      setTimeout(() => setIsNewCardVisible(true), 200);
     }
   }
   
