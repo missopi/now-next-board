@@ -34,7 +34,7 @@ const NowNextBoard = ({ nowActivity, nextActivity, thenActivity, onSelect, showT
             <Image 
               source={getImageSource(activity.image)}
               style={styles.image}
-              resizeMode="fill"
+              resizeMode="cover"
             />
             <Text style={styles.label}>{activity.name}</Text>
           </>
