@@ -25,6 +25,9 @@ export default function NowNextBoardScreen({ navigation }) {   // useState used 
   const [isNewCardVisible, setIsNewCardVisible] = useState(false);
   const [isPickingImage, setIsPickingImage] = useState(false);
 
+  // modal steps: choose || create || preview
+  const [modalStep, setModalStep] = useState('choose');
+
   // setting cog in header
   useEffect(() => { 
     navigation.setOptions({
@@ -38,24 +41,23 @@ export default function NowNextBoardScreen({ navigation }) {   // useState used 
 
   const slotRef = useRef(null);
 
-  function onSelectLibrary(slot) {
+  function onSelectSlot(slot) {
     slotRef.current = slot;
-
-    setActivityCallback(slot, (activity) => {
-      if (slot === 'Now') setNowActivity(activity);
-      else if (slot === 'Next') setNextActivity(activity);
-      else setThenActivity(activity);
-    });
-
-    navigation.navigate('LibraryScreen', { slot });
+    setModalStep('choose');
+    setIsNewCardVisible(true);
   };
 
-  function onSelectCreate(slot) { // pop up option to choose type of image for activity card
-    slotRef.current = slot;
-    setNewCardTitle('');
-    setNewCardImage(null);
-    setIsPickingImage(false);
-    setIsNewCardVisible(true);
+  function handleSetActivity(activity) {
+    const currentSlot = typeof slotRef.current === 'string'
+      ? slotRef.current
+      : slotRef.current?.slot;
+
+    console.log('[handleSetActivity] Current Slot Ref:', currentSlot);
+      
+    if (currentSlot === 'Now') setNowActivity(activity);
+    else if (currentSlot === 'Next') setNextActivity(activity);
+    else if (currentSlot === 'Then') setThenActivity(activity);
+    else console.warn('Invalid slot. Could not assign activity.');
   };
 
   async function handleImagePick(type) {
@@ -65,7 +67,7 @@ export default function NowNextBoardScreen({ navigation }) {   // useState used 
     } else {
       console.warn('[handleImagePick] no image returned');
     }
-  }
+  };
   
   function saveNewActivityCard() {
     if (!newCardImage || !newCardTitle.trim()){
@@ -76,7 +78,9 @@ export default function NowNextBoardScreen({ navigation }) {   // useState used 
     console.log('saving new card with image uri:', newCardImage);
 
     const newCard = { name: newCardTitle.trim(), image: { uri: newCardImage } };
-    const currentSlot = slotRef.current;
+    const currentSlot = typeof slotRef.current === 'string'
+      ? slotRef.current
+      : slotRef.current?.slot;
 
     console.log('new card name and image:', newCard);
     console.log('current slot:', currentSlot);
@@ -100,14 +104,51 @@ export default function NowNextBoardScreen({ navigation }) {   // useState used 
         nowActivity={nowActivity}
         nextActivity={nextActivity} 
         thenActivity={thenActivity}
-        onSelectLibrary={onSelectLibrary}
-        onSelectCreate={onSelectCreate}
+        onSelectSlot={onSelectSlot}
         showThen={showThen} 
       />
       {/* Modal for entering card title */}
       <Modal visible={isNewCardVisible} transparent={true} animationType="fade">
         <View style={styles.modalCard}>
-          {!isPickingImage ? (
+          {modalStep === 'choose' && (
+            <>
+              <Text style={styles.modalHeader}>Choose Source</Text>
+              <View style={styles.buttonColumn}>
+                <Pressable
+                  onPress={() => {
+                    const slotKey = typeof slotRef.current === 'string'
+                      ? slotRef.current
+                      : slotRef.current?.slot;
+
+                    setActivityCallback(slotKey, handleSetActivity);
+                    navigation.navigate('LibraryScreen', { slot: slotKey });
+                    {console.log('libary current slot:', slotKey )}
+                    setIsNewCardVisible(false);
+                  }}
+                  style={styles.smallButton}
+                >
+                  <Text style={styles.smallButtonText}>Image Library</Text>
+                </Pressable>
+
+                <Pressable
+                  onPress={() => {
+                    setNewCardTitle('');
+                    setNewCardImage(null);
+                    setIsPickingImage(false);
+                    setModalStep('create');
+                  }}
+                  style={styles.smallButton}
+                >
+                  <Text style={styles.smallButtonText}>Create New Card</Text>
+                </Pressable>
+
+                <Pressable onPress={() => setIsNewCardVisible(false)} style={styles.cancelButton}>
+                  <Text style={styles.cancelText}>Cancel</Text>
+                </Pressable>
+              </View>
+            </>
+          )}
+          {modalStep === 'create' && !isPickingImage && (
             <>
               <Text style={styles.modalHeader}>Enter Card Title</Text>
               <Text style={styles.modalDialog}>Please enter a title for your activity card.</Text>
@@ -136,7 +177,9 @@ export default function NowNextBoardScreen({ navigation }) {   // useState used 
                 </Pressable>
               </View>
             </>
-          ) : (
+          )}
+
+          {modalStep === 'create' && isPickingImage && (
             <>
               <Text style={styles.modalHeader}>Add Image</Text>
               <Text style={styles.modalDialog}>Please choose an image source.</Text>
