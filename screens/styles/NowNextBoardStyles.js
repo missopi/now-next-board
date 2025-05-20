@@ -40,18 +40,27 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#fff',
-    padding: 2,
+    padding: 5,
   },
   image: {
     width: '80%',
     height: '80%',
+    marginTop: 10,
+    borderRadius: 8,
     resizeMode: 'contain',
   },
   previewImage: {
-    width: 200,
-    height: 200,
+    width: '100%',
+    height: '100%',
     marginTop: 20,
     borderRadius: 10,
+  },
+  previewView: {
+    width: 200,
+    height: 200,
+    alignSelf: 'center',
+    borderRadius: 8,
+    overflow: 'hidden',
   },
   label: {
     fontSize: 20,
@@ -106,14 +115,14 @@ export default StyleSheet.create({
 
   modalDialog: {
     fontSize: 17,
-    paddingBottom: 10,
+    paddingBottom: 1,
   },
 
   buttonRow: {
     flexDirection: 'row',
     gap: 10,
     alignSelf: 'flex-end',
-    paddingTop: 10,
+    paddingTop: 15,
   },
   buttonColumn: {
     flexDirection: 'column',

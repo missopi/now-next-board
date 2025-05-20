@@ -42,7 +42,7 @@ const NowNextBoard = ({ nowActivity, nextActivity, thenActivity, onSelectLibrary
           <>
             <View style={styles.buttonColumn}>
               <Pressable onPress={() => onSelectLibrary(label)} style={styles.smallButton}>
-                <Text style={styles.smallButtonText}>Choose from Library</Text>
+                <Text style={styles.smallButtonText}>Image Library</Text>
               </Pressable>
               <Pressable onPress={() => onSelectCreate(label)} style={styles.smallButton}>
                 <Text style={styles.smallButtonText}>Create New Card</Text>
