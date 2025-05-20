@@ -64,6 +64,20 @@ export default StyleSheet.create({
     color: '#aaa',
   },
 
+  smallButton: {
+    backgroundColor: "#6395e0",
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    alignSelf: 'center',
+  },
+  smallButtonText: {
+    fontSize: 18,
+    color: "#fff",
+    fontWeight: "bold",
+    alignSelf: "center",
+  },
+
   // card modal
 
   modalCard: {

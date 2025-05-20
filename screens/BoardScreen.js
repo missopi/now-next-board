@@ -10,9 +10,6 @@ import { setActivityCallback } from "./components/CallbackStore";
 import { pickImage } from "../utilities/imagePickerHelper";
 
 export default function NowNextBoardScreen({ navigation }) {   // useState used to track selected activities
-  // track which slot (Now | Next | Then) was tapped
-  const [slot, setSlot] = useState(null);
-
   // track the 3 activities
   const [nowActivity, setNowActivity] = useState(null);
   const [nextActivity, setNextActivity] = useState(null);
@@ -40,14 +37,26 @@ export default function NowNextBoardScreen({ navigation }) {   // useState used 
   }, [navigation]);
 
   const slotRef = useRef(null);
-  function pickOrCaptureImage(slot) { // pop up option to choose type of image for activity card
-    setSlot(slot);
+
+  function onSelectLibrary(slot) {
+    slotRef.current = slot;
+
+    setActivityCallback(slot, (activity) => {
+      if (slot === 'Now') setNowActivity(activity);
+      else if (slot === 'Next') setNextActivity(activity);
+      else setThenActivity(activity);
+    });
+
+    navigation.navigate('LibraryScreen', { slot });
+  };
+
+  function onSelectCreate(slot) { // pop up option to choose type of image for activity card
     slotRef.current = slot;
     setNewCardTitle('');
     setNewCardImage(null);
     setIsPickingImage(false);
     setIsNewCardVisible(true);
-  }
+  };
 
   async function handleImagePick(type) {
     const imageUri = await pickImage(type);
@@ -56,15 +65,6 @@ export default function NowNextBoardScreen({ navigation }) {   // useState used 
     } else {
       console.warn('[handleImagePick] no image returned');
     }
-  }
-  
-  function handleLibraryPick() {
-    setActivityCallback(slot, (activity) => {
-      if (slot === 'Now') setNowActivity(activity);
-      else if (slot === 'Next') setNextActivity(activity);
-      else setThenActivity(activity);
-    });
-    navigation.navigate('LibraryScreen', { slot: slot });
   }
   
   function saveNewActivityCard() {
@@ -99,11 +99,9 @@ export default function NowNextBoardScreen({ navigation }) {   // useState used 
       <NowNextBoard 
         nowActivity={nowActivity}
         nextActivity={nextActivity} 
-        thenActivity={thenActivity} 
-        onSelect={({ slot }) => { 
-          setSlot(slot);
-          pickOrCaptureImage(slot);
-        }}
+        thenActivity={thenActivity}
+        onSelectLibrary={onSelectLibrary}
+        onSelectCreate={onSelectCreate}
         showThen={showThen} 
       />
       {/* Modal for entering card title */}
@@ -148,9 +146,6 @@ export default function NowNextBoardScreen({ navigation }) {   // useState used 
                 </Pressable>
                 <Pressable onPress={() => handleImagePick('gallery')} style={styles.imageButton}>
                   <Text style={styles.addText}>Photo Gallery</Text>
-                </Pressable>
-                <Pressable onPress={handleLibraryPick} style={styles.imageButton}>
-                  <Text style={styles.addText}>Image Library</Text>
                 </Pressable>
               </View>
 

@@ -1,9 +1,9 @@
 // Visual layout for Now/Next boards
 
-import { View, Text, TouchableOpacity, Image, useWindowDimensions } from "react-native";
+import { View, Text, TouchableOpacity, Image, useWindowDimensions, Pressable } from "react-native";
 import styles from "../styles/NowNextBoardStyles";
 
-const NowNextBoard = ({ nowActivity, nextActivity, thenActivity, onSelect, showThen }) => {
+const NowNextBoard = ({ nowActivity, nextActivity, thenActivity, onSelectLibrary, onSelectCreate, showThen }) => {
   const { width, height } = useWindowDimensions();
   const isLandscape = width > height;
 
@@ -39,7 +39,16 @@ const NowNextBoard = ({ nowActivity, nextActivity, thenActivity, onSelect, showT
             <Text style={styles.label}>{activity.name}</Text>
           </>
         ) : (
-          <Text style={styles.placeholder}>Set {label}</Text>
+          <>
+            <View style={styles.buttonColumn}>
+              <Pressable onPress={() => onSelectLibrary(label)} style={styles.smallButton}>
+                <Text style={styles.smallButtonText}>Choose from Library</Text>
+              </Pressable>
+              <Pressable onPress={() => onSelectCreate(label)} style={styles.smallButton}>
+                <Text style={styles.smallButtonText}>Create New Card</Text>
+              </Pressable>
+            </View>
+          </>
         )}
       </TouchableOpacity>
     );
