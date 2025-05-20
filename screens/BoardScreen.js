@@ -140,14 +140,17 @@ export default function NowNextBoardScreen({ navigation }) {   // useState used 
             <>
               <Text style={styles.modalHeader}>Add Image</Text>
               <Text style={styles.modalDialog}>Please choose an image source.</Text>
-              <View style={styles.buttonColumn}>
-                <Pressable onPress={() => handleImagePick('camera')} style={styles.imageButton}>
-                  <Text style={styles.addText}>Camera</Text>
-                </Pressable>
-                <Pressable onPress={() => handleImagePick('gallery')} style={styles.imageButton}>
-                  <Text style={styles.addText}>Photo Gallery</Text>
-                </Pressable>
-              </View>
+              
+              {!newCardImage && (
+                <View style={styles.buttonColumn}>
+                  <Pressable onPress={() => handleImagePick('camera')} style={styles.imageButton}>
+                    <Text style={styles.addText}>Camera</Text>
+                  </Pressable>
+                  <Pressable onPress={() => handleImagePick('gallery')} style={styles.imageButton}>
+                    <Text style={styles.addText}>Photo Gallery</Text>
+                  </Pressable>
+                </View>
+              )}
 
               {newCardImage && (
                 <Image source={{ uri: newCardImage }} style={styles.previewImage} resizeMode="contain" />
