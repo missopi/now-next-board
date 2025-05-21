@@ -15,6 +15,14 @@ const RoutineScreen = ({ navigation }) => {
   const [fourthActivity, setFourthActivity] = useState(null);
   const [fifthActivity, setFifthActivity] = useState(null);
 
+  const slotMap = {
+    'First Activity' : setFirstActivity,
+    'Second Activity' : setSecondActivity,
+    'Third Activity' : setThirdActivity,
+    'Fourth Activity' : setFourthActivity,
+    'Fifth Activity' : setFifthActivity,
+  };
+
   // modal for settings
   const [settingsVisible, setSettingsVisible] = useState(false);
 
@@ -58,20 +66,9 @@ const RoutineScreen = ({ navigation }) => {
   };  
 
   function handleSetActivity(activity) {
-    console.log('[handleSetActivity slot ref:', slotRef.current);
-
     const currentSlot = typeof slotRef.current === 'string'
       ? slotRef.current
       : slotRef.current?.slot;
-    console.log('[handleSetActivity] Current Slot Ref:', currentSlot);
-
-    const slotMap = {
-      'First Activity' : setFirstActivity,
-      'Second Activity' : setSecondActivity,
-      'Third Activity' : setThirdActivity,
-      'Fourth Activity' : setFourthActivity,
-      'Fifth Activity' : setFifthActivity,
-    };
 
     const setSlot = slotMap[currentSlot];
     if (setSlot) setSlot(activity);
@@ -93,23 +90,10 @@ const RoutineScreen = ({ navigation }) => {
       return;
     }
 
-    console.log('saving new card with image uri:', newCardImage);
-
     const newCard = { name: newCardTitle.trim(), image: { uri: newCardImage } };
     const currentSlot = typeof slotRef.current === 'string'
       ? slotRef.current
       : slotRef.current?.slot;
-
-    console.log('new card name and image:', newCard);
-    console.log('current slot:', currentSlot);
-
-    const slotMap = {
-      'First Activity' : setFirstActivity,
-      'Second Activity' : setSecondActivity,
-      'Third Activity' : setThirdActivity,
-      'Fourth Activity' : setFourthActivity,
-      'Fifth Activity' : setFifthActivity,
-    };
 
     const setSlot = slotMap[currentSlot];
     if (setSlot) setSlot(newCard);
