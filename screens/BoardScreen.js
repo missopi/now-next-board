@@ -8,6 +8,7 @@ import NowNextSettingsModal from "./settings/NowNextBoardSettings";
 import styles from "./styles/NowNextBoardStyles";
 import { setActivityCallback } from "./components/CallbackStore";
 import { pickImage } from "../utilities/imagePickerHelper";
+import ImageCardCreatorModal from "./components/ImageCardCreatorModal";
 
 export default function NowNextBoardScreen({ navigation }) {   // useState used to track selected activities
   // track the 3 activities
@@ -43,11 +44,23 @@ export default function NowNextBoardScreen({ navigation }) {   // useState used 
 
   function onSelectSlot(slot) {
     slotRef.current = slot;
+    setNewCardTitle('');
+    setNewCardImage(null);
+    setIsPickingImage(false);
     setModalStep('choose');
     setIsNewCardVisible(true);
   };
 
+  const closeModal = () => {
+    setIsNewCardVisible(false);
+    setNewCardImage(null);
+    setNewCardTitle('');
+    setIsPickingImage(false);
+    setModalStep('choose');
+  };
+
   function handleSetActivity(activity) {
+    console.log('[handleSetActivity slot ref:', slotRef.current);
     const currentSlot = typeof slotRef.current === 'string'
       ? slotRef.current
       : slotRef.current?.slot;
@@ -107,113 +120,26 @@ export default function NowNextBoardScreen({ navigation }) {   // useState used 
         onSelectSlot={onSelectSlot}
         showThen={showThen} 
       />
-      {/* Modal for entering card title */}
-      <Modal visible={isNewCardVisible} transparent={true} animationType="fade">
-        <View style={styles.modalCard}>
-          {modalStep === 'choose' && (
-            <>
-              <Text style={styles.modalHeader}>Choose Source</Text>
-              <Text style={styles.modalDialog}>Please pick an option to add to your card.</Text>
-              <View style={styles.buttonColumn}>
-                <Pressable
-                  onPress={() => {
-                    const slotKey = typeof slotRef.current === 'string'
-                      ? slotRef.current
-                      : slotRef.current?.slot;
 
-                    setActivityCallback(slotKey, handleSetActivity);
-                    navigation.navigate('LibraryScreen', { slot: slotKey });
-                    {console.log('libary current slot:', slotKey )}
-                    setIsNewCardVisible(false);
-                  }}
-                  style={styles.smallButton}
-                >
-                  <Text style={styles.smallButtonText}>Image Library</Text>
-                </Pressable>
-
-                <Pressable
-                  onPress={() => {
-                    setNewCardTitle('');
-                    setNewCardImage(null);
-                    setIsPickingImage(false);
-                    setModalStep('create');
-                  }}
-                  style={styles.smallButton}
-                >
-                  <Text style={styles.smallButtonText}>Create New Card</Text>
-                </Pressable>
-
-                <Pressable onPress={() => setIsNewCardVisible(false)} style={styles.cancelButton}>
-                  <Text style={styles.cancelText}>Cancel</Text>
-                </Pressable>
-              </View>
-            </>
-          )}
-          {modalStep === 'create' && !isPickingImage && (
-            <>
-              <Text style={styles.modalHeader}>Enter Card Title</Text>
-              <Text style={styles.modalDialog}>Please enter a title to match your image.</Text>
-              <TextInput
-                placeholder="e.g., brush teeth"
-                placeholderTextColor="#9999"
-                value={newCardTitle}
-                onChangeText={setNewCardTitle}
-                style={styles.input}
-              />
-              <View style={styles.buttonRow}>
-                <Pressable
-                  onPress={() => {
-                    if (!newCardTitle.trim()) {
-                      alert('Please enter a title.');
-                      return;
-                    }
-                    setIsPickingImage(true);
-                  }}
-                  style={styles.addButton}
-                >
-                  <Text style={styles.addText}>Next</Text>
-                </Pressable>
-                <Pressable onPress={() => setIsNewCardVisible(false)} style={styles.cancelButton}>
-                  <Text style={styles.cancelText}>Cancel</Text>
-                </Pressable>
-              </View>
-            </>
-          )}
-
-          {modalStep === 'create' && isPickingImage && (
-            <>
-              <Text style={styles.modalHeader}>Add Image</Text>
-              <Text style={styles.modalDialog}>Please choose an image source.</Text>
-
-              {!newCardImage && (
-                <View style={styles.buttonColumn}>
-                  <Pressable onPress={() => handleImagePick('camera')} style={styles.imageButton}>
-                    <Text style={styles.addText}>Camera</Text>
-                  </Pressable>
-                  <Pressable onPress={() => handleImagePick('gallery')} style={styles.imageButton}>
-                    <Text style={styles.addText}>Photo Gallery</Text>
-                  </Pressable>
-                </View>
-              )}
-
-              {newCardImage && (
-                <View style={styles.previewView}>
-                  <Image source={{ uri: newCardImage }} style={styles.previewImage} resizeMode="cover" />
-                </View>
-              )}
-
-              <View style={styles.buttonRow}>
-                <Pressable onPress={saveNewActivityCard} style={styles.addButton}>
-                  <Text style={styles.addText}>Add</Text>
-                </Pressable>
-                <Pressable onPressIn={() => setIsNewCardVisible(false)} style={styles.cancelButton}>
-                  <Text style={styles.cancelText}>Cancel</Text>
-                </Pressable> 
-              </View>
-            </>
-          )}
-        </View>
-      </Modal>
+      <ImageCardCreatorModal
+        visible={isNewCardVisible}
+        modalStep={modalStep}
+        setModalStep={setModalStep}
+        slotRef={slotRef}
+        handleSetActivity={handleSetActivity}
+        newCardTitle={newCardTitle}
+        setNewCardTitle={setNewCardTitle}
+        isPickingImage={isPickingImage}
+        setIsPickingImage={setIsPickingImage}
+        pickImage={handleImagePick}
+        newCardImage={newCardImage}
+        setNewCardImage={setNewCardImage}
+        setIsNewCardVisible={setIsNewCardVisible}
+        saveNewCard={saveNewActivityCard}
+        setActivityCallback={setActivityCallback}
+        navigation={navigation}
+        closeModal={closeModal}
+      />
 
       <Modal  // setting for toggling on 'then' activity at bottom of screen
         visible={settingsVisible}
