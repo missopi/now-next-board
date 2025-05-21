@@ -113,6 +113,7 @@ export default function NowNextBoardScreen({ navigation }) {   // useState used 
           {modalStep === 'choose' && (
             <>
               <Text style={styles.modalHeader}>Choose Source</Text>
+              <Text style={styles.modalDialog}>Please pick an option to add to your card.</Text>
               <View style={styles.buttonColumn}>
                 <Pressable
                   onPress={() => {
@@ -151,7 +152,7 @@ export default function NowNextBoardScreen({ navigation }) {   // useState used 
           {modalStep === 'create' && !isPickingImage && (
             <>
               <Text style={styles.modalHeader}>Enter Card Title</Text>
-              <Text style={styles.modalDialog}>Please enter a title for your activity card.</Text>
+              <Text style={styles.modalDialog}>Please enter a title to match your image.</Text>
               <TextInput
                 placeholder="e.g., brush teeth"
                 placeholderTextColor="#9999"

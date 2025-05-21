@@ -76,8 +76,8 @@ export default StyleSheet.create({
   smallButton: {
     backgroundColor: "#6395e0",
     borderRadius: 10,
-    paddingVertical: 10,
-    paddingHorizontal: 12,
+    paddingVertical: 15,
+    paddingHorizontal: 15,
     alignSelf: 'center',
   },
   smallButtonText: {
@@ -115,7 +115,7 @@ export default StyleSheet.create({
 
   modalDialog: {
     fontSize: 17,
-    paddingBottom: 1,
+    paddingBottom: 10,
   },
 
   buttonRow: {
