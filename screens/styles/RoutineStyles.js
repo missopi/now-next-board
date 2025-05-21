@@ -48,6 +48,8 @@ export default StyleSheet.create({
   image: {
     width: '80%',
     height: '80%',
+    marginTop: 10,
+    borderRadius: 8,
     resizeMode: 'contain',
   },
   label: {

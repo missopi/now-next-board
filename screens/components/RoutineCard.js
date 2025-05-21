@@ -1,10 +1,9 @@
 // Visual layout for activity cards on Today screen
 
-import React from "react";
 import { View, Text, TouchableOpacity, Image, useWindowDimensions, FlatList, SafeAreaView } from "react-native";
 import styles from "../styles/RoutineStyles";
 
-const RoutineCard = ({ firstActivity, secondActivity, thirdActivity, fourthActivity, fifthActivity, onSelect }) => {
+const RoutineCard = ({ firstActivity, secondActivity, thirdActivity, fourthActivity, fifthActivity, onSelectSlot }) => {
   const { width, height } = useWindowDimensions();
   const isLandscape = width > height;
 
@@ -16,6 +15,14 @@ const RoutineCard = ({ firstActivity, secondActivity, thirdActivity, fourthActiv
     {id: '5', data: fifthActivity, label: 'Fifth Activity' },
   ];
 
+  const getImageSource = (image) => {
+    if (!image) return null;
+    if (typeof image === 'number') return image;
+    if (typeof image === 'string') return { uri: image };
+    if (image.uri && typeof image.uri === 'string') return { uri: image.uri };
+    return null;
+  };
+
   const renderCard = (activity, label) => {
     return (
       <TouchableOpacity // USed for selecting each card
@@ -26,11 +33,15 @@ const RoutineCard = ({ firstActivity, secondActivity, thirdActivity, fourthActiv
             height: isLandscape ? height * 0.35 : height * 0.24, 
           },
         ]} 
-        onPress={() => onSelect(label)}
+        onPress={() => onSelectSlot({ slot: label })}
       >
         {activity ? (
           <>
-            <Image source={activity.image} style={styles.image} />
+            <Image 
+              source={getImageSource(activity.image)}
+              style={styles.image}
+              resizeMode="cover"
+            />
             <Text style={styles.label}>{activity.name}</Text>
           </>
         ) : (
