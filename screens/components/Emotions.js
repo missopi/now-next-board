@@ -68,7 +68,7 @@ const EmotionBoard = () => {
             borderWidth: 4,
             borderRadius: 15,
             borderColor: isSelected ? 'green' : '#999',
-            backgroundColor: isSelected ? 'palegreen' : 'white',
+            backgroundColor: isSelected ? '#cdffcd' : 'white',
             width: height * 0.13,
             height: height * 0.14,
             justifyContent: 'center',
