@@ -21,7 +21,7 @@ const FeelingsBoard = ({ navigation }) => {
     <SafeAreaView style={{ flex: 1 }}>
       <View style={{ paddingHorizontal: 30, paddingTop: 10 }}>
         <Text style={{ fontSize: 18, fontWeight: 'bold', paddingBottom: 10 }}>Feelings Board</Text>
-        <Text>Pick which emotions you want to include on your board.</Text>
+        <Text style={{ paddingBottom: 30 }}>Select which emotions you want to include on your "I feel..." board.</Text>
       </View>
       <View style={{ flex: 1 }}>
         <Emotions />
