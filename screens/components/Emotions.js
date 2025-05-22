@@ -1,6 +1,6 @@
 // Visual layout for emotion selection
 
-import { View, Text, TouchableOpacity, useWindowDimensions, SafeAreaView, FlatList } from "react-native";
+import { Text, TouchableOpacity, useWindowDimensions, SafeAreaView, FlatList } from "react-native";
 import styles from "../styles/EmotionStyles";
 import { useState } from "react";
 
@@ -20,6 +20,9 @@ import Scared from "../../assets/emotions/scared.svg";
 import Hot from "../../assets/emotions/hot.svg";
 import Cold from "../../assets/emotions/cold.svg";
 import Embarressed from "../../assets/emotions/embarressed.svg";
+import Worried from "../../assets/emotions/worried.svg";
+import Cheeky from "../../assets/emotions/cheeky.svg";
+import Annoyed from "../../assets/emotions/annoyed.svg";
 
 // List of emotion icons and labels
 const emotions = [
@@ -38,11 +41,13 @@ const emotions = [
   {id: '13', Icon: Cold, label: 'cold'},
   {id: '14', Icon: Embarressed, label: 'embarressed'},
   {id: '15', Icon: Confused, label: 'confused'},
+  {id: '16', Icon: Worried, label: 'worried'},
+  {id: '17', Icon: Cheeky, label: 'cheeky'},
+  {id: '18', Icon: Annoyed, label: 'annoyed'},
 ];
 
 const EmotionBoard = () => {
-  const { width, height } = useWindowDimensions();
-  const isLandscape = width > height;
+  const { height } = useWindowDimensions();
 
   const [selectedEmotions, setSelectedEmotions] = useState([]);
 
