@@ -2,31 +2,55 @@ import { View, Text, SafeAreaView, useWindowDimensions } from "react-native";
 
 const CreatedFeelingsBoard = ({ route }) => {
   const { selectedEmotions = [] } = route.params || {};
-  const { width } = useWindowDimensions();
+  const { width, height } = useWindowDimensions();
+  const isPortrait = height > width;
 
-  // calculate size based on count
   const num = selectedEmotions.length;
-  const columns = Math.ceil(Math.sqrt(num));
-  const size = width / columns - 20; // margin buffer
+
+  // dynamically calculate columns
+  const columns = num <=4 ? 1 : isPortrait
+    ? Math.min(3, Math.ceil(Math.sqrt(num)))
+    : Math.min(4, Math.ceil(Math.sqrt(num)));
+  
+  // calculate icon size
+  const spacing = 16;
+  const size = (width - spacing * (columns + 1)) / columns;
+
+  // break into rows
+  const rows = [];
+  for (let i = 0; i < num; i += columns) {
+    rows.push(selectedEmotions.slice(i, i + columns));
+  }
+   
+  // fallback
+  if (!selectedEmotions || selectedEmotions.length === 0) {
+    return (
+      <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text style={{ fontSize: 12, marginBottom: 10 }}>No emotions selected</Text>
+      </SafeAreaView>
+    );
+  }
 
   return (
-    <SafeAreaView style={{ flex: 1, padding: 16 }}>
-      <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 10, alignSelf: 'center' }}>I feel...</Text>
-      {selectedEmotions.length === 0 ? (
-          <Text style={{ fontSize: 12, marginBottom: 10 }}>No emotions selected</Text>
-        ) : (
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center' }}>
-            {selectedEmotions.map(({ label, Icon }) => (
-              <View
-                key={label}
-                style={{ width: size, height: size, margin: 5, alignItems: 'center', justifyContent: 'center' }}
-              >
-                <Icon width={size * 0.6} height={size * 0.6} />
-                <Text style={{ marginTop: 4 }}>{label}</Text>
-              </View>
-            ))}
-          </View>
-        )}
+    <SafeAreaView style={{ flex: 1, padding: spacing }}>
+      <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 16, alignSelf: 'center' }}>I feel...</Text>
+
+      {rows.map((row, rowIndex) => (
+        <View
+          key={rowIndex}
+          style={{ flexDirection: 'row', justifyContent: 'center', marginBottom: spacing }}
+        >
+          {row.map(({ label, Icon }) => (
+            <View
+              key={label}
+              style={{ width: size, alignItems: 'center', marginHorizontal: spacing / 2 }}
+            >
+              <Icon width={size * 0.8} height={size * 0.8} />
+              <Text style={{ marginTop: 8, fontWeight: '500' }}>{label}</Text>
+            </View>
+          ))}
+        </View>
+      ))}
     </SafeAreaView>
   );
 };
