@@ -2,16 +2,7 @@ import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
 
-  createBoardButton: {
-    borderWidth: 2,
-    padding: 10,
-    borderRadius: 8,
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  createBoardButtonText: {
-    fontWeight: '600',
-  },
+  
 
   // modal
 

@@ -61,13 +61,13 @@ const EmotionBoard = ({ onCreateBoard }) => {
          disabled={selectedEmotions.length === 0}
          style={[
           styles.createBoardButton,
-          { borderColor: selectedEmotions.length === 0 ? '#999' : '007bff' },
+          { borderColor: selectedEmotions.length === 0 ? '#999' : '#007bff' },
          ]}
         >
           <Text 
             style={[
               styles.createBoardButtonText,
-              { color: selectedEmotions.length === 0 ? '#999' : '007bff' },
+              { color: selectedEmotions.length === 0 ? '#999' : '#007bff' },
             ]}
           >Create Board</Text>
         </TouchableOpacity>
