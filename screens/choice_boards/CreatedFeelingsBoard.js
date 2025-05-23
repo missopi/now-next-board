@@ -7,23 +7,8 @@ const CreatedFeelingsBoard = ({ route }) => {
 
   const num = selectedEmotions.length;
 
-  // dynamically calculate columns
-  const columns = num <=4 ? 1 : isPortrait
-    ? Math.min(3, Math.ceil(Math.sqrt(num)))
-    : Math.min(4, Math.ceil(Math.sqrt(num)));
-  
-  // calculate icon size
-  const spacing = 16;
-  const size = (width - spacing * (columns + 1)) / columns;
-
-  // break into rows
-  const rows = [];
-  for (let i = 0; i < num; i += columns) {
-    rows.push(selectedEmotions.slice(i, i + columns));
-  }
-   
   // fallback
-  if (!selectedEmotions || selectedEmotions.length === 0) {
+  if (num === 0) {
     return (
       <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Text style={{ fontSize: 12, marginBottom: 10 }}>No emotions selected</Text>
@@ -31,26 +16,42 @@ const CreatedFeelingsBoard = ({ route }) => {
     );
   }
 
-  return (
-    <SafeAreaView style={{ flex: 1, padding: spacing }}>
-      <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 16, alignSelf: 'center' }}>I feel...</Text>
+  const getGridDimension = (count) => {
+    if (count <= 4) return 1;
+    if (count <= 8) return 2;
+    return 3;
+  };
 
-      {rows.map((row, rowIndex) => (
-        <View
-          key={rowIndex}
-          style={{ flexDirection: 'row', justifyContent: 'center', marginBottom: spacing }}
-        >
-          {row.map(({ label, Icon }) => (
-            <View
-              key={label}
-              style={{ width: size, alignItems: 'center', marginHorizontal: spacing / 2 }}
-            >
-              <Icon width={size * 0.8} height={size * 0.8} />
-              <Text style={{ marginTop: 8, fontWeight: '500' }}>{label}</Text>
-            </View>
-          ))}
-        </View>
-      ))}
+  let rows, columns;
+
+  if (isPortrait) {
+    columns =getGridDimension(num);
+    rows = Math.ceil(num / columns);
+  } else {
+    rows = getGridDimension(num);
+    columns = Math.ceil(num / rows);
+  };
+
+  const spacing = 10;
+  const size = (width - spacing * (columns + 1)) / columns;
+
+  return (
+    <SafeAreaView style={{ flex: 1 }}>
+      <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 10, textAlign: 'center' }}>I feel...</Text>
+      <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', paddingHorizontal: 8 }}>
+        {selectedEmotions.map(({ label, Icon }, index) => (
+          <View
+            key={label + index}
+            style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <Icon width={size * 0.85} height={size * 0.85} />
+            <Text style={{ marginTop: 2, fontSize: 16, fontWeight: 'bold' }}>{label}</Text>
+          </View>
+        ))}
+      </View>
     </SafeAreaView>
   );
 };
