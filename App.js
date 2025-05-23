@@ -17,6 +17,7 @@ import TrafficLights from "./screens/tools/TrafficLights";
 import Timers from "./screens/tools/Timers";
 
 import FeelingsBoard from "./screens/choice_boards/FeelingsBoard";
+import CreatedFeelingsBoard from "./screens/choice_boards/CreatedFeelingsBoard";
 import WantBoard from "./screens/choice_boards/WantBoard";
 import NeedsBoard from "./screens/choice_boards/NeedsBoard";
 
@@ -74,6 +75,15 @@ export default function App() {
         <Stack.Screen 
           name="FeelingsBoard"  // for multi choice boards eg. snacks
           component={FeelingsBoard} 
+          options={({ navigation }) => ({
+            headerLeft: (props) => (
+              <HeaderBackButton {...props} labelVisible={false} onPress={() => navigation.goBack()} />
+            ),
+          })}
+        />
+        <Stack.Screen 
+          name="CreatedFeelingsBoard"  // for multi choice boards eg. snacks
+          component={CreatedFeelingsBoard} 
           options={({ navigation }) => ({
             headerLeft: (props) => (
               <HeaderBackButton {...props} labelVisible={false} onPress={() => navigation.goBack()} />

@@ -19,12 +19,12 @@ const FeelingsBoard = ({ navigation }) => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <View style={{ paddingHorizontal: 30, paddingTop: 10 }}>
-        <Text style={{ fontSize: 18, fontWeight: 'bold', paddingBottom: 10 }}>Feelings Board</Text>
-        <Text style={{ paddingBottom: 30 }}>Select which emotions you want to include on your "I feel..." board.</Text>
-      </View>
       <View style={{ flex: 1 }}>
-        <Emotions />
+        <Emotions 
+          onCreateBoard={(selected) => 
+            navigation.navigate('CreatedFeelingsBoard', { selectedEmotions: selected })
+          } 
+        />
       </View>
       <Modal  // setting for toggling on 'then' activity at bottom of screen
         visible={settingsVisible}

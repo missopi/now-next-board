@@ -1,53 +1,15 @@
 // Visual layout for emotion selection
 
-import { Text, TouchableOpacity, useWindowDimensions, SafeAreaView, FlatList } from "react-native";
+import { View, Text, TouchableOpacity, useWindowDimensions, SafeAreaView, FlatList } from "react-native";
 import styles from "../styles/EmotionStyles";
 import { useState } from "react";
+import emojiSet from "./emotionSets/EmojiMap";
 
-// SVG imports
-import Amused from "../../assets/emotions/amused.svg";
-import Angry from "../../assets/emotions/angry.svg";
-import Confused from "../../assets/emotions/confused.svg";
-import Happy from "../../assets/emotions/happy.svg";
-import Sad from "../../assets/emotions/sad.svg";
-import Hurt from "../../assets/emotions/hurt.svg";
-import Silly from "../../assets/emotions/silly.svg";
-import Sick from "../../assets/emotions/sick.svg";
-import Tired from "../../assets/emotions/tired.svg";
-import Upset from "../../assets/emotions/upset.svg";
-import Shocked from "../../assets/emotions/shocked.svg";
-import Scared from "../../assets/emotions/scared.svg";
-import Hot from "../../assets/emotions/hot.svg";
-import Cold from "../../assets/emotions/cold.svg";
-import Embarressed from "../../assets/emotions/embarressed.svg";
-import Worried from "../../assets/emotions/worried.svg";
-import Cheeky from "../../assets/emotions/cheeky.svg";
-import Annoyed from "../../assets/emotions/annoyed.svg";
-
-// List of emotion icons and labels
-const emotions = [
-  {id: '1', Icon: Happy, label: 'happy'},
-  {id: '2', Icon: Sad, label: 'sad'},
-  {id: '3', Icon: Angry, label: 'angry'},
-  {id: '4', Icon: Hurt, label: 'hurt'},
-  {id: '5', Icon: Silly, label: 'silly'},
-  {id: '6', Icon: Sick, label: 'sick'},
-  {id: '7', Icon: Tired, label: 'tired'},
-  {id: '8', Icon: Upset, label: 'upset'},
-  {id: '9', Icon: Amused, label: 'amused'},
-  {id: '10', Icon: Shocked, label: 'shocked'},
-  {id: '11', Icon: Scared, label: 'scared'},
-  {id: '12', Icon: Hot, label: 'hot'},
-  {id: '13', Icon: Cold, label: 'cold'},
-  {id: '14', Icon: Embarressed, label: 'embarressed'},
-  {id: '15', Icon: Confused, label: 'confused'},
-  {id: '16', Icon: Worried, label: 'worried'},
-  {id: '17', Icon: Cheeky, label: 'cheeky'},
-  {id: '18', Icon: Annoyed, label: 'annoyed'},
-];
-
-const EmotionBoard = () => {
+const EmotionBoard = ({ onCreateBoard }) => {
   const { height } = useWindowDimensions();
+
+  const emojis = emojiSet;
+  console.log('emojiSet emojis:', emojis);
 
   const [selectedEmotions, setSelectedEmotions] = useState([]);
 
@@ -57,8 +19,11 @@ const EmotionBoard = () => {
     );
   };
 
-  const renderEmotion = ({ Icon, label }) => {  
-    const isSelected = selectedEmotions.includes(label);
+  const renderEmotion = ({ item }) => {
+    if (!item || !item.label || !item.Icon) return null;
+
+    const isSelected = selectedEmotions.includes(item.label);
+    const Icon = item.Icon;
 
     return (
       <TouchableOpacity // to select each emotion
@@ -76,22 +41,43 @@ const EmotionBoard = () => {
             margin: 5,
           },
         ]} 
-        onPress={() => toggleEmotion(label)}
+        onPress={() => toggleEmotion(item.label)}
       >
         <Icon width={60} height={60} />
-        {console.log('emotion label:', label)}
-        <Text style={styles.label}>{label}</Text>
+        {console.log('emotion label:', item.label)}
+        <Text style={styles.label}>{item.label}</Text>
       </TouchableOpacity>
     );
   };
-  console.log('Emotions:', emotions);
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
+      <View style={{ paddingHorizontal: 30, paddingTop: 10 }}>
+        <Text style={{ fontSize: 18, fontWeight: 'bold', paddingBottom: 10 }}>Feelings Board</Text>
+        <Text style={{ paddingBottom: 10 }}>Select which emotions you want to include on your "I feel..." board.</Text>
+
+        <TouchableOpacity
+         onPress={() => onCreateBoard(emojis.filter((e) => selectedEmotions.includes(e.label)))}
+         disabled={selectedEmotions.length === 0}
+         style={[
+          styles.createBoardButton,
+          { borderColor: selectedEmotions.length === 0 ? '#999' : '007bff' },
+         ]}
+        >
+          <Text 
+            style={[
+              styles.createBoardButtonText,
+              { color: selectedEmotions.length === 0 ? '#999' : '007bff' },
+            ]}
+          >Create Board</Text>
+        </TouchableOpacity>
+      </View>
+      
       <FlatList
-        data={emotions}
+        data={emojis}
         keyExtractor={(item) => item.id}
         numColumns={3}
-        renderItem={({ item }) => renderEmotion(item)}
+        renderItem={renderEmotion}
         contentContainerStyle={[styles.portrait]}
         showsVerticalScrollIndicator={false}
       />
