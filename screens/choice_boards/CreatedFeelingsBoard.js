@@ -11,7 +11,7 @@ const CreatedFeelingsBoard = ({ route }) => {
 
   return (
     <SafeAreaView style={{ flex: 1, padding: 16 }}>
-      <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 10 }}>I feel...</Text>
+      <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 10, alignSelf: 'center' }}>I feel...</Text>
       {selectedEmotions.length === 0 ? (
           <Text style={{ fontSize: 12, marginBottom: 10 }}>No emotions selected</Text>
         ) : (
