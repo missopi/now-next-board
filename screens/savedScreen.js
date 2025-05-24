@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Text, FlatList, TouchableOpacity } from "react-native";
-import { getBoards } from "./components/BoardStore";
+import { getBoards } from "../utilities/BoardStore";
 
 
 const SavedScreen = ({ onBoardSelected }) => {
