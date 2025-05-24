@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { View, Text, TouchableOpacity, Modal } from "react-native";
+import { View, Text, TouchableOpacity, Modal, TextInput, SafeAreaView } from "react-native";
 import CogIcon from "../assets/icons/cog.svg";
 import RoutineCard from "./components/RoutineCard";
 import RoutineSettingsModal from "./settings/RoutineSettings";
@@ -16,6 +16,9 @@ const RoutineScreen = ({ navigation }) => {
   const [thirdActivity, setThirdActivity] = useState(null);
   const [fourthActivity, setFourthActivity] = useState(null);
   const [fifthActivity, setFifthActivity] = useState(null);
+
+  // title
+  const [customTitle, setCustomTitle] = useState('');
 
   // modal for settings
   const [showFourth, setShowFourth] = useState(false);
@@ -123,7 +126,26 @@ const RoutineScreen = ({ navigation }) => {
   };
 
   return (
-    <View style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1 }}>
+      <View style={{ paddingHorizontal: 60, paddingTop: 1 }}>
+        <TextInput
+          value={customTitle}
+          onChangeText={setCustomTitle}
+          placeholder="Enter your routine title..."
+          style={{
+            fontSize: 20,
+            fontWeight: 'bold',
+            textAlign: 'center',
+            borderBottomWidth: 1,
+            borderColor: '#ccc',
+            paddingVertical: 8,
+            margin: 1,
+            backgroundColor: '#fff',
+            borderRadius: 8,
+          }}
+        />
+      </View>
+
       <RoutineCard 
         firstActivity={firstActivity}
         secondActivity={secondActivity} 
@@ -173,7 +195,7 @@ const RoutineScreen = ({ navigation }) => {
           />
         </View>
       </Modal>
-    </View>
+    </SafeAreaView>
   );
 }
 
