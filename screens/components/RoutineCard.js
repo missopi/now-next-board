@@ -3,7 +3,7 @@
 import { View, Text, TouchableOpacity, Image, useWindowDimensions, FlatList, SafeAreaView } from "react-native";
 import styles from "../styles/RoutineStyles";
 
-const RoutineCard = ({ firstActivity, secondActivity, thirdActivity, fourthActivity, fifthActivity, onSelectSlot }) => {
+const RoutineCard = ({ firstActivity, secondActivity, thirdActivity, fourthActivity, fifthActivity, onSelectSlot, showFourth, showFifth }) => {
   const { width, height } = useWindowDimensions();
   const isLandscape = width > height;
 
@@ -11,8 +11,8 @@ const RoutineCard = ({ firstActivity, secondActivity, thirdActivity, fourthActiv
     {id: '1', data: firstActivity, label: 'First Activity' },
     {id: '2', data: secondActivity, label: 'Second Activity' },
     {id: '3', data: thirdActivity, label: 'Third Activity' },
-    {id: '4', data: fourthActivity, label: 'Fourth Activity' },
-    {id: '5', data: fifthActivity, label: 'Fifth Activity' },
+    ...(showFourth ? [{id: '4', data: fourthActivity, label: 'Fourth Activity' }] : []),
+    ...(showFifth ? [{id: '5', data: fifthActivity, label: 'Fifth Activity' }] : []),
   ];
 
   const getImageSource = (image) => {
@@ -59,8 +59,12 @@ const RoutineCard = ({ firstActivity, secondActivity, thirdActivity, fourthActiv
           <View style={styles.column}>{renderCard(firstActivity, 'First Activity')}</View>
           <View style={styles.column}>{renderCard(secondActivity, 'Second Activity')}</View>
           <View style={styles.column}>{renderCard(thirdActivity, 'Third Activity')}</View>
-          <View style={styles.column}>{renderCard(fourthActivity, 'Fourth Activity')}</View>
-          <View style={styles.column}>{renderCard(fifthActivity, 'Fifth Activity')}</View>
+          {showFourth && (
+            <View style={styles.column}>{renderCard(fourthActivity, 'Fourth Activity')}</View>
+          )}
+          {showFifth && (
+            <View style={styles.column}>{renderCard(fifthActivity, 'Fifth Activity')}</View>
+          )}
         </View>
       ) : (
         <SafeAreaView style={{ flex: 1 }}> 

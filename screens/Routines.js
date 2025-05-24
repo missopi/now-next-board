@@ -2,10 +2,12 @@ import { useEffect, useRef, useState } from "react";
 import { View, Text, TouchableOpacity, Modal } from "react-native";
 import CogIcon from "../assets/icons/cog.svg";
 import RoutineCard from "./components/RoutineCard";
+import RoutineSettingsModal from "./settings/RoutineSettings";
 import styles from "./styles/RoutineStyles";
 import { setActivityCallback } from "./components/CallbackStore";
 import { pickImage } from "../utilities/imagePickerHelper";
 import ImageCardCreatorModal from "./components/ImageCardCreatorModal";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const RoutineScreen = ({ navigation }) => {
   // track the 5 activities
@@ -14,6 +16,10 @@ const RoutineScreen = ({ navigation }) => {
   const [thirdActivity, setThirdActivity] = useState(null);
   const [fourthActivity, setFourthActivity] = useState(null);
   const [fifthActivity, setFifthActivity] = useState(null);
+
+  // modal for settings
+  const [showFourth, setShowFourth] = useState(false);
+  const [showFifth, setShowFifth] = useState(false);
 
   const slotMap = {
     'First Activity' : setFirstActivity,
@@ -45,6 +51,16 @@ const RoutineScreen = ({ navigation }) => {
       ),
     });
   }, [navigation]);
+
+  useEffect(() => {
+    const loadSettings = async () => {
+      const fourth = await AsyncStorage.getItem('showFourth');
+      const fifth = await AsyncStorage.getItem('showFifth');
+      setShowFourth(fourth === 'true');
+      setShowFifth(fifth === 'true');
+    };
+    loadSettings();
+  }, []);
 
   const slotRef = useRef(null);
   
@@ -115,6 +131,8 @@ const RoutineScreen = ({ navigation }) => {
         fourthActivity={fourthActivity}
         fifthActivity={fifthActivity}
         onSelectSlot={onSelectSlot}
+        showFourth={showFourth}
+        showFifth={showFifth}
       />
 
       <ImageCardCreatorModal
@@ -147,6 +165,12 @@ const RoutineScreen = ({ navigation }) => {
           <TouchableOpacity style={styles.closeButton} onPress={() => setSettingsVisible(false)}>
             <Text style={styles.closeX}>x</Text>
           </TouchableOpacity>
+          <RoutineSettingsModal 
+            showFourth={showFourth} 
+            setShowFourth={setShowFourth}
+            showFifth={showFifth}
+            setShowFifth={setShowFifth}
+          />
         </View>
       </Modal>
     </View>
