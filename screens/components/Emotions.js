@@ -35,6 +35,7 @@ const EmotionBoard = ({ onCreateBoard }) => {
 
     const isSelected = selectedEmotions.includes(item.label);
     const Icon = item.Icon;
+    const isLimitReached = selectedEmotions.length >= 8;
 
     return (
       <TouchableOpacity // to select each emotion
@@ -45,6 +46,7 @@ const EmotionBoard = ({ onCreateBoard }) => {
             borderRadius: 15,
             borderColor: isSelected ? 'green' : '#999',
             backgroundColor: isSelected ? '#cdffcd' : 'white',
+            opacity: !isSelected && isLimitReached ? 0.4 : 1,
             width: height * 0.13,
             height: height * 0.14,
             justifyContent: 'center',
@@ -53,6 +55,7 @@ const EmotionBoard = ({ onCreateBoard }) => {
           },
         ]} 
         onPress={() => toggleEmotion(item.label)}
+        disabled={!isSelected && isLimitReached}c
       >
         <Icon width={60} height={60} />
         {console.log('emotion label:', item.label)}
