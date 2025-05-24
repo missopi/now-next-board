@@ -14,9 +14,20 @@ const EmotionBoard = ({ onCreateBoard }) => {
   const [selectedEmotions, setSelectedEmotions] = useState([]);
 
   const toggleEmotion = (label) => {
-    setSelectedEmotions((prev) =>
-      prev.includes(label) ? prev.filter((l) => l !== label) : [...prev, label]
-    );
+    setSelectedEmotions((prev) => {
+      const isSelected = prev.includes(label);
+
+      if (isSelected) {
+        return prev.filter((l) => l !== label);
+      }
+
+      // limits to 8 selected
+      if (prev.length >= 8) {
+        return prev; // do nothing if limit reached
+      }
+
+      return [...prev, label];
+    });
   };
 
   const renderEmotion = ({ item }) => {

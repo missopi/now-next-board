@@ -18,8 +18,7 @@ const CreatedFeelingsBoard = ({ route }) => {
 
   const getGridDimension = (count) => {
     if (count <= 4) return 1;
-    if (count <= 8) return 2;
-    return 3;
+    return 2;
   };
 
   let rows, columns;
