@@ -22,6 +22,7 @@ import WantBoard from "./screens/choice_boards/WantBoard";
 import NeedsBoard from "./screens/choice_boards/NeedsBoard";
 
 import SavedScreen from "./screens/savedScreen";
+import NowNextBoardChooser from "./screens/components/NowNextBoardChooser";
 
 const Stack = createNativeStackNavigator();
 
@@ -111,6 +112,16 @@ export default function App() {
         <Stack.Screen 
           name="Now/Next"  // will be able to toggle between now/next and now/next & then
           component={BoardScreen} 
+          options={({ navigation }) => ({
+            headerTransparent: true, 
+            headerLeft: (props) => (
+              <HeaderBackButton {...props} labelVisible={false} onPress={() => navigation.goBack()} />
+            ),
+          })}
+        />
+        <Stack.Screen 
+          name="NowNextBoardChooser"  // will be able to toggle between now/next and now/next & then
+          component={NowNextBoardChooser} 
           options={({ navigation }) => ({
             headerTransparent: true, 
             headerLeft: (props) => (
