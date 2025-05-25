@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, FlatList } from "react-native";
 import { getBoards } from "../../utilities/BoardStore";
+import SavedScreen from "../savedScreen";
 
 export default function NowNextBoardChooser({ navigation }) {
   const [boards, setBoards] = useState([]);
+  const [showSavedScreen, setShowSavedScreen] = useState(false);
 
   useEffect(() => {
     const loadBoards = async () => {
@@ -37,6 +39,20 @@ export default function NowNextBoardChooser({ navigation }) {
           </TouchableOpacity>
         )}
       />
+
+      {showSavedScreen && (
+        <SavedScreen
+          boardType="nowNextThen"
+          onBoardSelected={(board) => {
+            navigation.navigate('Now/Next', {
+              mode: 'load',
+              board,
+            });
+            setShowSavedScreen(false);
+          }}
+          onClose={() => setShowSavedScreen(false)}
+        />
+      )}
     </View>
   );
 }
