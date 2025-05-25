@@ -60,6 +60,15 @@ export default StyleSheet.create({
     color: '#aaa',
   },
 
+  chooserTextInput: {
+    fontSize: 16,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 5,
+    padding: 8,
+    marginBottom: 10,
+  },
+
   // Settings Modal
 
   modalView: {

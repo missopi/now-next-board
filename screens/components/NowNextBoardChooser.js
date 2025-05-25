@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
-import { View, Text, TouchableOpacity, FlatList } from "react-native";
+import { View, Text, TouchableOpacity, FlatList, TextInput } from "react-native";
 import { getBoards } from "../../utilities/BoardStore";
 import SavedScreen from "../savedScreen";
+import styles from "../styles/NowNextBoardStyles";
 
 export default function NowNextBoardChooser({ navigation }) {
   const [boards, setBoards] = useState([]);
+  const [newBoardTitle, setNewBoardTitle] = useState('');
   const [showSavedScreen, setShowSavedScreen] = useState(false);
 
   useEffect(() => {
@@ -18,8 +20,23 @@ export default function NowNextBoardChooser({ navigation }) {
 
   return (
     <View style={{ flex: 1, padding: 20 }}>
+      <TextInput
+        placeholder="Enter new board title..."
+        value={newBoardTitle}
+        onChangeText={setNewBoardTitle}
+        style={styles.chooserTextInput}
+      />
       <TouchableOpacity
-        onPress={() => navigation.navigate('Now/Next', { mode: 'new' })}
+        onPress={() => {
+          if (!newBoardTitle.trim()) {
+            alert('Please enter a title for your new board.');
+            return;
+          }
+          navigation.navigate('Now/Next', { 
+            mode: 'new',
+            initialTitle: newBoardTitle.trim(), 
+          });
+        }}
         style={{ backgroundColor: '#000', padding: 12, marginBottom: 20 }}
       >
         <Text style={{ color: '#fff', textAlign: 'center' }}>Create New Board</Text>
