@@ -17,7 +17,7 @@ export default function NowNextBoardChooser({ navigation }) {
   return (
     <View style={{ flex: 1, padding: 20 }}>
       <TouchableOpacity
-        onPress={() => navigation.navigate('BoardScreen', { mode: 'new' })}
+        onPress={() => navigation.navigate('Now/Next', { mode: 'new' })}
         style={{ backgroundColor: '#000', padding: 12, marginBottom: 20 }}
       >
         <Text style={{ color: '#fff', textAlign: 'center' }}>Create New Board</Text>
@@ -30,7 +30,7 @@ export default function NowNextBoardChooser({ navigation }) {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <TouchableOpacity
-            onPress={() => navigation.navigate('BoardScreen', { mode: 'load', board: item })}
+            onPress={() => navigation.navigate('Now/Next', { mode: 'load', board: item })}
             style={{ padding: 12, backgroundColor: '#eee', marginBottom: 10 }}
           >
             <Text>{item.title}</Text>
