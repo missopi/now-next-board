@@ -1,7 +1,7 @@
 // Main board screen containing the Now/Next/Then board
 
 import { useEffect, useRef, useState } from "react";  
-import { View, Text, TouchableOpacity, Modal } from "react-native";
+import { View, Text, TouchableOpacity, Modal, SafeAreaView } from "react-native";
 import NowNextBoard from "./components/NowNextBoard";
 import CogIcon from "../assets/icons/cog.svg";
 import NowNextSettingsModal from "./settings/NowNextBoardSettings";
@@ -9,8 +9,12 @@ import styles from "./styles/NowNextBoardStyles";
 import { setActivityCallback } from "./components/CallbackStore";
 import { pickImage } from "../utilities/imagePickerHelper";
 import ImageCardCreatorModal from "./components/ImageCardCreatorModal";
+import uuid from "react-native-uuid";
+import { saveBoard, updateBoard } from "../utilities/BoardStore";
 
-export default function NowNextBoardScreen({ navigation }) {   // useState used to track selected activities
+export default function NowNextBoardScreen({ navigation, route }) {  // useState used to track selected activities
+  const { mode, board } = route.params || {};
+
   // track the 3 activities
   const [nowActivity, setNowActivity] = useState(null);
   const [nextActivity, setNextActivity] = useState(null);
@@ -28,6 +32,24 @@ export default function NowNextBoardScreen({ navigation }) {   // useState used 
 
   // modal steps: choose || create || preview
   const [modalStep, setModalStep] = useState('choose');
+
+  // saving boards
+  const [customTitle, setCustomTitle] = useState('');
+  const [currentBoardId, setCurrentBoardId] = useState(null);
+
+  // loading saved boards
+  useEffect(() => {
+    if (mode === 'load' && board) {
+      loadNowNextBoard(board);
+    }
+  }, [mode, board]);
+
+  // grab title
+  useEffect(() => {
+    if (route.params?.mode === 'new' && route.params.initialTitle) {
+      setCustomTitle(route.params.initialTitle);
+    }
+  }, [route.params]);
 
   // setting cog in header
   useEffect(() => { 
@@ -88,15 +110,10 @@ export default function NowNextBoardScreen({ navigation }) {   // useState used 
       return;
     }
 
-    console.log('saving new card with image uri:', newCardImage);
-
     const newCard = { name: newCardTitle.trim(), image: { uri: newCardImage } };
     const currentSlot = typeof slotRef.current === 'string'
       ? slotRef.current
       : slotRef.current?.slot;
-
-    console.log('new card name and image:', newCard);
-    console.log('current slot:', currentSlot);
 
     if (currentSlot === 'Now') setNowActivity(newCard);
     else if (currentSlot === 'Next') setNextActivity(newCard);
@@ -110,9 +127,41 @@ export default function NowNextBoardScreen({ navigation }) {   // useState used 
     slotRef.current = null;
   };
 
+  const saveCurrentNowNextBoard = async () => {
+    const board = {
+      id: currentBoardId || uuid.v4(),
+      type: 'nowNextThen',
+      title: customTitle,
+      cards: [nowActivity, nextActivity, showThen ? thenActivity : null].filter(Boolean),
+      Settings: { showThen },
+    };
+
+    if (currentBoardId) {
+      await updateBoard(board); // replace existing
+    } else {
+      await saveBoard(board) // new board
+    };
+    setCurrentBoardId(board.id);
+    alert('Board saved!');
+  };
+
+  const loadNowNextBoard = (board) => {
+    setCustomTitle(board.title);
+    setNowActivity(board.cards[0] || null);
+    setNextActivity(board.cards[1] || null);
+    setThenActivity(board.cards[2] || null);
+    setShowThen(board.settings?.showThen ?? false);
+    setCurrentBoardId(board.id);
+  };
+
   return (
-    <View style={{ flex: 1 }}>
-      {console.log('rendering nownextboard')}
+    <SafeAreaView style={{ flex: 1 }}>
+      <TouchableOpacity onPress={saveCurrentNowNextBoard}>
+        <Text style={{ padding: 10, backgroundColor: 'black', color: 'white', textAlign: 'center' }}>
+          Save This Board
+        </Text>
+      </TouchableOpacity>
+      
       <NowNextBoard 
         nowActivity={nowActivity}
         nextActivity={nextActivity} 
@@ -154,6 +203,6 @@ export default function NowNextBoardScreen({ navigation }) {   // useState used 
           <NowNextSettingsModal showThen={showThen} setShowThen={setShowThen} />
         </View>
       </Modal>
-    </View>
+    </SafeAreaView>
   );
 };
