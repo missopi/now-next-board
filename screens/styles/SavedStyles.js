@@ -13,7 +13,12 @@ export default StyleSheet.create({
   boardRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 12,
+    justifyContent: 'space-between',
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    backgroundColor: '#f9f9f9',
+    marginBottom: 8,
+    borderRadius: 6,
   },
   boardItem: {
     flex: 1,
@@ -22,7 +27,10 @@ export default StyleSheet.create({
     fontsize: 16,
   },
   deleteButton: {
-    marginLeft: 12,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    backgroundColor: '#eee',
+    borderRadius: 6,
   },
   deleteText: {
     color: 'red',
