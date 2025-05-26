@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { View, Text, FlatList, TouchableOpacity, Alert, SafeAreaView } from "react-native";
+import { View, Text, FlatList, TouchableOpacity, Alert, SafeAreaView, Image } from "react-native";
 import styles from "./styles/SavedStyles";
 import { getBoards, deleteBoard } from "../utilities/BoardStore";
 
@@ -26,7 +26,8 @@ const SavedScreen = ({ boardType, onBoardSelected, onClose }) => {
           style: 'destructive',
           onPress: async () => {
             const updated = await deleteBoard(boardId);
-            setBoards(updated.filter((b) => b.type === boardType));
+            const filtered = updated.filter((b) => b.type === boardType);
+            setBoards(filtered);
           },
         },
       ]
@@ -38,9 +39,19 @@ const SavedScreen = ({ boardType, onBoardSelected, onClose }) => {
       <View style={{ flex: 1 }}>
         <TouchableOpacity onPress={() => onBoardSelected(item)} style={styles.boardItem}>
           <Text style={styles.boardTitle}>{item.title}</Text>
+          <View style={styles.previewRow}>
+            {item.cards?.map((card, index) => (
+              <View key={index} style={styles.miniCard}>
+                {card?.image?.uri && (
+                  <Image source={{ uri: card.image.uri }} style={styles.miniCardImage} />
+                )}
+                <Text style={styles.miniCardText} numberOfLines={1}>{card?.name || 'Empty'}</Text>
+              </View>
+            ))}
+          </View>
         </TouchableOpacity>
       </View>
-      
+
       <TouchableOpacity onPress={() => handleDelete(item.id)} style={styles.deleteButton}>
         <Text style={styles.deleteText}>x</Text>
       </TouchableOpacity>

@@ -1,3 +1,5 @@
+// This screen allows users to either create a new NowNext board or load a previously saved one
+
 import { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, FlatList, TextInput, SafeAreaView } from "react-native";
 import { getBoards } from "../../utilities/BoardStore";
@@ -19,7 +21,7 @@ export default function NowNextBoardChooser({ navigation }) {
   }, []);
 
   return (
-    <SafeAreaView style={{ flex: 1, padding: 20 }}>
+    <SafeAreaView style={styles.chooserContainer}>
       <TextInput
         placeholder="Enter new board title..."
         value={newBoardTitle}
@@ -37,14 +39,16 @@ export default function NowNextBoardChooser({ navigation }) {
             initialTitle: newBoardTitle.trim(), 
           });
         }}
-        style={{ backgroundColor: '#000', padding: 12, marginBottom: 20 }}
+        style={styles.chooserCreateButton}
       >
-        <Text style={{ color: '#fff', textAlign: 'center' }}>Create New Board</Text>
+        <Text style={styles.chooserCreateText}>Create New Board</Text>
       </TouchableOpacity>
 
-      <Text style={{ fontWeight: 'bold', fontSize: 18, marginBottom: 10 }}>Saved Boards</Text>
-
-      <FlatList
+      <TouchableOpacity onPress={() => setShowSavedScreen(true)}>
+        <Text style={styles.chooserLoadText}>Load Saved Board</Text>
+      </TouchableOpacity>
+      
+      {/*<FlatList
         data={boards}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
@@ -55,7 +59,7 @@ export default function NowNextBoardChooser({ navigation }) {
             <Text>{item.title}</Text>
           </TouchableOpacity>
         )}
-      />
+      />*/}
 
       {showSavedScreen && (
         <SavedScreen
