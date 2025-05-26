@@ -60,13 +60,36 @@ export default StyleSheet.create({
     color: '#aaa',
   },
 
+  // chooser screen
+
+  chooserContainer: {
+    flex: 1,
+    padding: 20,
+  },
+  chooserCreateButton: {
+    backgroundColor: '#000',
+    padding: 12,
+    borderRadius: 6,
+    marginBottom: 10,
+  },
+  chooserCreateText: {
+    color: '#fff',
+    textAlign: 'center',
+    fontSize: 16,
+  },
+  chooserLoadText: {
+    textAlign: 'center',
+    color: '#007bff',
+    marginTop: 12,
+    fontSize: 15,
+  },
   chooserTextInput: {
     fontSize: 16,
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 5,
-    padding: 8,
-    marginBottom: 10,
+    padding: 10,
+    marginBottom: 12,
   },
 
   // Settings Modal
