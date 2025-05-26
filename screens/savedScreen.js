@@ -35,9 +35,12 @@ const SavedScreen = ({ boardType, onBoardSelected, onClose }) => {
 
   const renderItem = ({ item }) => (
     <View style={styles.boardRow}>
-      <TouchableOpacity onPress={() => onBoardSelected(item)} style={styles.boardItem}>
-        <Text style={styles.boardTitle}>{item.title}</Text>
-      </TouchableOpacity>
+      <View style={{ flex: 1 }}>
+        <TouchableOpacity onPress={() => onBoardSelected(item)} style={styles.boardItem}>
+          <Text style={styles.boardTitle}>{item.title}</Text>
+        </TouchableOpacity>
+      </View>
+      
       <TouchableOpacity onPress={() => handleDelete(item.id)} style={styles.deleteButton}>
         <Text style={styles.deleteText}>x</Text>
       </TouchableOpacity>
