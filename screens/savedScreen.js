@@ -37,8 +37,8 @@ export default function SavedScreen({ boardType, onBoardSelected }) {
     <View key={board.id} style={styles.boardBlock}>
       <View style={styles.boardHeader}>
         <Text style={styles.boardTitle}>{board.title}</Text>
-        <TouchableOpacity onPress={() => handleDelete(board.id)}>
-          <Text style={styles.deleteIcon}>❌</Text>
+        <TouchableOpacity style={styles.deleteButton} onPress={() => handleDelete(board.id)}>
+          <Text style={styles.deleteText}>x</Text>
         </TouchableOpacity>
       </View>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
@@ -48,7 +48,9 @@ export default function SavedScreen({ boardType, onBoardSelected }) {
             style={styles.cardPreview}
             onPress={() => onBoardSelected(board)}
           >
-            <Image source={{ uri: card.image?.uri }} style={styles.cardImage} />
+            <Image 
+              source={typeof card.image === 'string' ? { uri: card.image } : card.image} 
+              style={styles.cardImage} />
             <Text style={styles.cardLabel}>{card.name}</Text>
           </TouchableOpacity>
         ))}

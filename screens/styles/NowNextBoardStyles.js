@@ -4,6 +4,7 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
+    paddingBottom: 32,
     backgroundColor: '#f3eda6'
   },
   wrapper: {
@@ -66,16 +67,24 @@ export default StyleSheet.create({
     flex: 1,
     padding: 20,
   },
+  chooserTop: {
+    padding: 16,
+    paddingTop: 24,
+  },
   chooserCreateButton: {
-    backgroundColor: '#000',
-    padding: 12,
-    borderRadius: 6,
+    backgroundColor: '#007bff',
+    paddingVertical: 12,
+    borderRadius: 10,
     marginBottom: 10,
+    alignItems: 'center',
+    borderColor: '#aaa',
+    borderWidth: 1,
   },
   chooserCreateText: {
     color: '#fff',
     textAlign: 'center',
     fontSize: 16,
+    fontWeight: 'bold',
   },
   chooserLoadText: {
     textAlign: 'center',
@@ -87,9 +96,11 @@ export default StyleSheet.create({
     fontSize: 16,
     borderWidth: 1,
     borderColor: '#ccc',
-    borderRadius: 5,
-    padding: 10,
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 14,
     marginBottom: 12,
+    backgroundColor: 'f9f9f9',
   },
 
   // Settings Modal
