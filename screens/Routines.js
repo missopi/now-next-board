@@ -8,8 +8,12 @@ import { setActivityCallback } from "./components/CallbackStore";
 import { pickImage } from "../utilities/imagePickerHelper";
 import ImageCardCreatorModal from "./components/ImageCardCreatorModal";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import uuid from "react-native-uuid";
+import { saveBoard, updateBoard } from "../utilities/BoardStore";
 
-const RoutineScreen = ({ navigation }) => {
+const RoutineScreen = ({ navigation, route }) => {
+  const { mode, board } = route.params || {};
+
   // track the 5 activities
   const [firstActivity, setFirstActivity] = useState(null);
   const [secondActivity, setSecondActivity] = useState(null);
@@ -43,6 +47,23 @@ const RoutineScreen = ({ navigation }) => {
 
   // modal steps: choose || create || preview
   const [modalStep, setModalStep] = useState('choose');
+
+  // saving boards
+  const [currentBoardId, setCurrentBoardId] = useState(null);
+
+  // loading saved boards
+  useEffect(() => {
+    if (mode === 'load' && board) {
+      loadRoutineBoard(board);
+    }
+  }, [mode, board]);
+
+  // grab title
+  useEffect(() => {
+    if (route.params?.mode === 'new' && route.params.initialTitle) {
+      setCustomTitle(route.params.initialTitle);
+    }
+  }, [route.params]);
 
   // setting cog in header
   useEffect(() => { 
@@ -125,26 +146,49 @@ const RoutineScreen = ({ navigation }) => {
     slotRef.current = null;
   };
 
+  const saveCurrentRoutineBoard = async () => {
+    const board = {
+      id: currentBoardId || uuid.v4(),
+      type: 'routine',
+      title: customTitle,
+      cards: 
+        [firstActivity, 
+          secondActivity, 
+          thirdActivity, 
+          showFourth ? fourthActivity : null, 
+          showFifth ? fourthActivity && fifthActivity : null
+        ].filter(Boolean),
+      Settings: { showFourth, showFifth },
+    };
+
+    if (currentBoardId) {
+      await updateBoard(board); // replace existing
+    } else {
+      await saveBoard(board) // new board
+    };
+    setCurrentBoardId(board.id);
+    alert('Routine saved!');
+  };
+
+  const loadRoutineBoard = (board) => {
+    setCustomTitle(board.title);
+    setFirstActivity(board.cards[0] || null);
+    setSecondActivity(board.cards[1] || null);
+    setThirdActivity(board.cards[2] || null);
+    setFourthActivity(board.cards[3] || null);
+    setFifthActivity(board.cards[4] || null);
+    setShowFourth(board.settings?.showFourth ?? false);
+    setShowFifth(board.settings?.showFifth ?? false);
+    setCurrentBoardId(board.id);
+  };
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <View style={{ paddingHorizontal: 60, paddingTop: 1 }}>
-        <TextInput
-          value={customTitle}
-          onChangeText={setCustomTitle}
-          placeholder="Enter your routine title..."
-          style={{
-            fontSize: 20,
-            fontWeight: 'bold',
-            textAlign: 'center',
-            borderBottomWidth: 1,
-            borderColor: '#ccc',
-            paddingVertical: 8,
-            margin: 1,
-            backgroundColor: '#fff',
-            borderRadius: 8,
-          }}
-        />
-      </View>
+      <TouchableOpacity onPress={saveCurrentRoutineBoard}>
+        <Text style={{ padding: 10, backgroundColor: 'black', color: 'white', textAlign: 'center' }}>
+          Save This Routine
+        </Text>
+      </TouchableOpacity>
 
       <RoutineCard 
         firstActivity={firstActivity}
