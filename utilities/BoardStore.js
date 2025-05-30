@@ -27,7 +27,7 @@ export const saveBoard = async (newBoard) => {
 };
 
 // update an existing board
-export const updateBoard = async (updatedBoard) => {
+export const updateBoard = async (updateBoard) => {
   try {
     const boards = await getBoards();
     const updated = boards.map((b) => (b.id === updateBoard.id ? updateBoard : b));
