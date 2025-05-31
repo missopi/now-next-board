@@ -184,12 +184,6 @@ const RoutineScreen = ({ navigation, route }) => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <TouchableOpacity onPress={saveCurrentRoutineBoard}>
-        <Text style={{ padding: 10, backgroundColor: 'black', color: 'white', textAlign: 'center' }}>
-          Save This Routine
-        </Text>
-      </TouchableOpacity>
-
       <RoutineCard 
         firstActivity={firstActivity}
         secondActivity={secondActivity} 
@@ -237,6 +231,11 @@ const RoutineScreen = ({ navigation, route }) => {
             showFifth={showFifth}
             setShowFifth={setShowFifth}
           />
+          <TouchableOpacity onPress={saveCurrentRoutineBoard}>
+            <Text style={{ paddingTop: 30, color: 'black', textDecorationLine: 'underline', fontWeight: 'bold', textAlign: 'center' }}>
+              Save This Routine
+            </Text>
+          </TouchableOpacity>
         </View>
       </Modal>
     </SafeAreaView>
