@@ -36,19 +36,19 @@ export default function HomeScreen({ navigation }) {
         onPress={() => navigation.navigate('RoutineChooser')}
       />
       <CustomButton
-        title="Now/Next Board"
+        title="Now/Next/Then"
         onPress={() => navigation.navigate('NowNextBoardChooser')}
       />
       <CustomButton
-        title="Choices"
+        title="Choice Boards"
         onPress={() => navigation.navigate('Choices')}
       />
       <CustomButton
-        title="Tools"
+        title="Timers"
         onPress={() => navigation.navigate('Tools')}
       />
       <CustomButton
-        title="Activity Library"
+        title="Image Library"
         onPress={() => navigation.navigate('LibraryScreen')}
       />
       <Modal  // setting for toggling on 'then' activity at bottom of screen
