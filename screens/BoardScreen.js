@@ -156,12 +156,6 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <TouchableOpacity onPress={saveCurrentNowNextBoard}>
-        <Text style={{ padding: 10, backgroundColor: 'black', color: 'white', textAlign: 'center' }}>
-          Save This Board
-        </Text>
-      </TouchableOpacity>
-      
       <NowNextBoard 
         nowActivity={nowActivity}
         nextActivity={nextActivity} 
@@ -201,6 +195,11 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
             <Text style={styles.closeX}>x</Text>
           </TouchableOpacity>
           <NowNextSettingsModal showThen={showThen} setShowThen={setShowThen} />
+          <TouchableOpacity onPress={saveCurrentNowNextBoard}>
+            <Text style={{ paddingTop: 30, color: 'black', textDecorationLine: 'underline', fontWeight: 'bold', textAlign: 'center' }}>
+              Save This Board
+            </Text>
+          </TouchableOpacity>
         </View>
       </Modal>
     </SafeAreaView>
