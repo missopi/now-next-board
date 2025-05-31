@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { View, Text, TouchableOpacity, Modal, TextInput, SafeAreaView } from "react-native";
+import { View, Text, TouchableOpacity, Modal, SafeAreaView } from "react-native";
 import CogIcon from "../assets/icons/cog.svg";
 import RoutineCard from "./components/RoutineCard";
 import RoutineSettingsModal from "./settings/RoutineSettings";
@@ -68,13 +68,15 @@ const RoutineScreen = ({ navigation, route }) => {
   // setting cog in header
   useEffect(() => { 
     navigation.setOptions({
+      headerTitle: customTitle,
+      headerTitleAlign: 'center',
       headerRight: () => (
         <TouchableOpacity onPress={() => setSettingsVisible(true)}>
           <CogIcon width={24} height={24} style={{ marginRight: 10 }} />
         </TouchableOpacity>
       ),
     });
-  }, [navigation]);
+  }, [navigation, customTitle]);
 
   useEffect(() => {
     const loadSettings = async () => {
