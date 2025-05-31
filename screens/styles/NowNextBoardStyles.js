@@ -23,6 +23,22 @@ export default StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 20,
   },
+  tick: {
+    width: 35,
+    height: 35,
+  },
+  textRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 5,
+  },
+  iconRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 3,
+    paddingBottom: 12,
+  },
   column: {
     alignItems: 'center',
     marginVertical: 5,
