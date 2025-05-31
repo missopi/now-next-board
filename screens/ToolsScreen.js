@@ -15,7 +15,7 @@ export default function ToolsScreen({ navigation }) {
         onPress={() => navigation.navigate('Countdown')}
       />
       <CustomButton
-        title="TrafficLights"
+        title="Traffic Lights"
         onPress={() => navigation.navigate('TrafficLights')}
       />
     </View>
