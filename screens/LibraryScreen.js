@@ -1,29 +1,26 @@
 // Flatlist of all available activity cards for users to choose from
 
 import { useEffect, useState } from "react";
-import { Text, View, FlatList, TouchableOpacity, Image, SafeAreaView, ScrollView, TextInput, Modal } from "react-native";
+import { Text, View, FlatList, TouchableOpacity, Image, SafeAreaView, ScrollView, Switch, TextInput, Modal } from "react-native";
 import styles from './styles/styles';
 import { activityLibrary } from "../data/ActivityLibrary";
 import { setActivityCallback, triggerActivityCallback } from "./components/CallbackStore";
 import CogIcon from "../assets/icons/cog.svg";
+import { allCategories } from "../data/Categories";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const LibraryScreen = ({ navigation, route }) => {  
   const slot = route?.params?.slot;
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [settingsVisible, setSettingsVisible] = useState(false);
+  const [categorySettings, setCategorySettings] = useState(allCategories);
 
-  const categories = [
-    'All', 
-    'Personal Care', 
-    'Food', 
-    'Holiday & Travel', 
-    'Activities', 
-    'Places', 
-    'Medical', 
-    'Early Years',
-    'School'
-  ];
+  useEffect(() => {
+    if (!visibleCategories.some(cat => cat.label === selectedCategory)) {
+      setSelectedCategory('All');
+    }
+  }, [categorySettings]);
 
   // setting cog in header
   useEffect(() => { 
@@ -36,11 +33,27 @@ const LibraryScreen = ({ navigation, route }) => {
     });
   }, [navigation]);
 
+  useEffect(() => {
+    const loadSettings = async () => {
+      try {
+        const saved = await AsyncStorage.getItem('categorySettings');
+        if (saved) {
+          setCategorySettings(JSON.parse(saved));
+        }
+      } catch (e) {
+        console.error('Failed to load category settings', e);
+      }
+    };
+    loadSettings();
+  }, []);
+
   const filteredActivities = activityLibrary.filter((activity) => {
     const matchesCategory = selectedCategory === 'All' || activity.category === selectedCategory;
     const matchesSearch = activity.name.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCategory && matchesSearch;
   });
+
+  const visibleCategories = categorySettings.filter(cat => cat.visible);
 
   useEffect(() => {
     if (!slot) {
@@ -93,22 +106,25 @@ const LibraryScreen = ({ navigation, route }) => {
           style={{ marginBottom: 10, paddingHorizontal: 10 }}
           contentContainerStyle={{ alignItems: 'center' }}
         >
-          {categories.map((cat) => (
+          {visibleCategories.map((cat) => (
             <TouchableOpacity
-              key={cat}
-              onPress={() => setSelectedCategory(cat)}
+              key={cat.key}
+              onPress={() => setSelectedCategory(cat.label)}
               style={{
                 paddingVertical: 8,
                 paddingHorizontal: 14,
                 marginRight: 8,
-                backgroundColor: selectedCategory === cat ? '#444' : '#ccc',
+                backgroundColor: selectedCategory === cat.label ? '#444' : '#ccc',
                 borderRadius: 18,
                 minHeight: 35,
               }}
             >
-              <Text style={{ textAlign: 'center', color: selectedCategory === cat ? 'white' : 'black' }}>{cat}</Text>
-            </TouchableOpacity>
-          ))}
+            <Text style={{ textAlign: 'center', color: selectedCategory === cat.label ? 'white' : 'black' }}>
+              {cat.label}
+            </Text>
+          </TouchableOpacity>
+        ))}
+
         </ScrollView>
         {/* list of image cards */}
         <FlatList
@@ -141,6 +157,25 @@ const LibraryScreen = ({ navigation, route }) => {
         supportedOrientations={['portrait']}
         >
         <View style={styles.modalView}>
+          <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Show/Hide Categories</Text>
+          {categorySettings.map((cat, index) => (
+            <View key={cat.key} style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 10 }}>
+              <Text style={{ flex: 1 }}>{cat.label}</Text>
+              <Switch
+                value={cat.visible}
+                onValueChange={async (newValue) => {
+                  const updated = [...categorySettings];
+                  updated[index].visible = newValue;
+                  setCategorySettings(updated);
+                  try {
+                    await AsyncStorage.setItem('categorySettings', JSON.stringify(updated));
+                  } catch (e) {
+                    console.error('Failed to save category settings', e);
+                  }
+                }}
+              />
+            </View>
+          ))} 
           <TouchableOpacity style={styles.closeButton} onPress={() => setSettingsVisible(false)}>
             <Text style={styles.closeX}>x</Text>
           </TouchableOpacity>
