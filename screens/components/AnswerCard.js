@@ -2,7 +2,7 @@
 
 import { View, Text, SafeAreaView, useWindowDimensions } from "react-native";
 import styles from "../styles/AnswerStyles";
-import Yes from "../../assets/icons/hollowCircleTick";
+import Yes from "../../assets/icons/yesTick";
 import No from "../../assets/icons/no";
 import IDontKnow from "../../assets/icons/question-mark";
 
@@ -14,19 +14,19 @@ const AnswerCard = () => {
     <SafeAreaView style={styles.container}>
       <View style={[styles.wrapper, isLandscape ? styles.landscape : styles.portrait]}>
         <View style={styles.column}>
-          <View style={styles.cardOne}>
+          <View style={styles.card}>
             <Yes style={styles.yes}/>
             <Text style={styles.header}>Yes</Text>
           </View>
         </View>
         <View style={styles.column}>
-          <View style={styles.cardTwo}>
+          <View style={styles.card}>
             <No style={styles.yes}/>
             <Text style={styles.header}>No</Text>
           </View>
         </View>
         <View style={styles.column}>
-          <View style={styles.cardThree}>
+          <View style={styles.card}>
             <IDontKnow style={styles.yes}/>
             <Text style={styles.header}>I Don't Know</Text>
           </View>

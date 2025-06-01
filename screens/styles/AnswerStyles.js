@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 export default StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
+    padding: 5,
     paddingBottom: 32,
   },
   wrapper: {
@@ -23,6 +23,10 @@ export default StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 20,
   },
+  card: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   column: {
     alignItems: 'center',
     marginHorizontal: 8,
@@ -31,42 +35,12 @@ export default StyleSheet.create({
   header: {
     fontSize: 22,
     fontWeight: 'bold',
-    marginBottom: 15,
-  },
-  cardOne: {
-    borderWidth: 3,
-    borderColor: '#000',
-    borderRadius: 15,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#fff',
-    padding: 5,
-    backgroundColor: 'green',
-  },
-  cardTwo: {
-    borderWidth: 3,
-    borderColor: '#000',
-    borderRadius: 15,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#fff',
-    padding: 5,
-    backgroundColor: 'red',
-  },
-  cardThree: {
-    borderWidth: 3,
-    borderColor: '#000',
-    borderRadius: 15,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#fff',
-    padding: 5,
-    backgroundColor: 'blue',
+    marginTop: 8,
+    marginBottom: 5,
   },
   yes: {
-    width: 120,
-    height: 180,
-    paddingHorizontal: 75,
-    marginHorizontal: 40,
+    width: 200,
+    height: 200,
+    marginHorizontal: 10,
   },
 })
