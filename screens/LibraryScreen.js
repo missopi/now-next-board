@@ -6,7 +6,7 @@ import styles from './styles/styles';
 import { activityLibrary } from "../data/ActivityLibrary";
 import { setActivityCallback, triggerActivityCallback } from "./components/CallbackStore";
 import CogIcon from "../assets/icons/cog.svg";
-import { allCategories } from "../data/Categories";
+import { defaultCategories } from '../data/Categories';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const LibraryScreen = ({ navigation, route }) => {  
@@ -14,7 +14,7 @@ const LibraryScreen = ({ navigation, route }) => {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [settingsVisible, setSettingsVisible] = useState(false);
-  const [categorySettings, setCategorySettings] = useState(allCategories);
+  const [categorySettings, setCategorySettings] = useState(defaultCategories);
 
   useEffect(() => {
     if (!visibleCategories.some(cat => cat.label === selectedCategory)) {
@@ -106,6 +106,22 @@ const LibraryScreen = ({ navigation, route }) => {
           style={{ marginBottom: 10, paddingHorizontal: 10 }}
           contentContainerStyle={{ alignItems: 'center' }}
         >
+          <TouchableOpacity // 'ALL' tab always visible on far left of screen
+            key="All"
+            onPress={() => setSelectedCategory('All')}
+            style={{
+              paddingVertical: 8,
+              paddingHorizontal: 14,
+              marginRight: 8,
+              backgroundColor: selectedCategory === 'All' ? '#444' : '#ccc',
+              borderRadius: 18,
+              minHeight: 35,
+            }}
+          >
+            <Text style={{ textAlign: 'center', color: selectedCategory === 'All' ? 'white' : 'black' }}>
+              All
+            </Text>
+          </TouchableOpacity>
           {visibleCategories.map((cat) => (
             <TouchableOpacity
               key={cat.key}
@@ -157,9 +173,9 @@ const LibraryScreen = ({ navigation, route }) => {
         supportedOrientations={['portrait']}
         >
         <View style={styles.modalView}>
-          <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Show/Hide Categories</Text>
+          <Text style={{ marginVertical: 20, fontSize: 18, fontWeight: 'bold' }}>Show/Hide Categories</Text>
           {categorySettings.map((cat, index) => (
-            <View key={cat.key} style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 10 }}>
+            <View key={cat.key} style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 7 }}>
               <Text style={{ flex: 1 }}>{cat.label}</Text>
               <Switch
                 value={cat.visible}
@@ -175,7 +191,21 @@ const LibraryScreen = ({ navigation, route }) => {
                 }}
               />
             </View>
-          ))} 
+          ))}
+          <View style={{ height: 1, backgroundColor: '#ccc', marginVertical: 12 }} />
+          <TouchableOpacity
+            onPress={async () => {
+              setCategorySettings(defaultCategories); // reset
+              try {
+                await AsyncStorage.setItem('categorySettings', JSON.stringify(defaultCategories));
+              } catch (e) {
+                console.error('Failed to reset category settings', e);
+              }
+            }}
+            style={{ marginTop: 10, backgroundColor: '#eee', padding: 10, borderRadius: 8, alignItems: 'center' }}
+          >
+            <Text style={{ color: '#333' }}>Reset to Default</Text>
+          </TouchableOpacity>
           <TouchableOpacity style={styles.closeButton} onPress={() => setSettingsVisible(false)}>
             <Text style={styles.closeX}>x</Text>
           </TouchableOpacity>
