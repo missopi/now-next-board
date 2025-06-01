@@ -5,6 +5,7 @@ import { Text, View, FlatList, TouchableOpacity, Image, SafeAreaView, ScrollView
 import styles from './styles/styles';
 import { activityLibrary } from "../data/ActivityLibrary";
 import { setActivityCallback, triggerActivityCallback } from "./components/CallbackStore";
+import CogIcon from "../assets/icons/cog.svg";
 
 const LibraryScreen = ({ navigation, route }) => {  
   const slot = route?.params?.slot;
@@ -22,6 +23,17 @@ const LibraryScreen = ({ navigation, route }) => {
     'Early Years',
     'School'
   ];
+
+  // setting cog in header
+  useEffect(() => { 
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity onPress={() => setSettingsVisible(true)}>
+          <CogIcon width={24} height={24} style={{ marginRight: 10 }} />
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation]);
 
   const filteredActivities = activityLibrary.filter((activity) => {
     const matchesCategory = selectedCategory === 'All' || activity.category === selectedCategory;
