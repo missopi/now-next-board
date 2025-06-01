@@ -9,3 +9,15 @@ export const allCategories = [
   { label: 'Early Years', key: 'Early Years', visible: true },
   { label: 'School', key: 'School', visible: true },
 ];
+
+export const defaultCategories = [
+  { key: 'Personal Care', label: 'Personal Care', visible: true },
+  { key: 'Food', label: 'Food', visible: true },
+  { key: 'Holiday & Travel', label: 'Holiday & Travel', visible: false },
+  { key: 'Activities', label: 'Activities', visible: true },
+  { key: 'Places', label: 'Places', visible: false },
+  { key: 'Medical', label: 'Medical', visible: false },   
+  { key: 'Early Years', label: 'Early Years', visible: false },
+  { key: 'School', label: 'School', visible: false },
+];
+
