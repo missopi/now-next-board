@@ -20,6 +20,7 @@ import FeelingsBoard from "./screens/choice_boards/FeelingsBoard";
 import CreatedFeelingsBoard from "./screens/choice_boards/CreatedFeelingsBoard";
 import WantBoard from "./screens/choice_boards/WantBoard";
 import NeedsBoard from "./screens/choice_boards/NeedsBoard";
+import AnswerCard from "./screens/components/AnswerCard";
 
 import SavedScreen from "./screens/savedScreen";
 import NowNextBoardChooser from "./screens/components/NowNextBoardChooser";
@@ -104,6 +105,15 @@ export default function App() {
         <Stack.Screen 
           name="WantBoard"  // for multi choice boards eg. snacks
           component={WantBoard} 
+          options={({ navigation }) => ({
+            headerLeft: (props) => (
+              <HeaderBackButton {...props} labelVisible={false} onPress={() => navigation.goBack()} />
+            ),
+          })}
+        />
+        <Stack.Screen 
+          name="AnswerCard"  // for yes/no/i don't know
+          component={AnswerCard} 
           options={({ navigation }) => ({
             headerLeft: (props) => (
               <HeaderBackButton {...props} labelVisible={false} onPress={() => navigation.goBack()} />

@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import { useCallback } from "react";
 import { View } from 'react-native';
 import styles from './styles/styles';
 import CustomButton from './styles/CustomButton';
@@ -18,6 +18,10 @@ export default function ChoiceScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
+      <CustomButton
+        title="Answer Card"
+        onPress={() => navigation.navigate('AnswerCard')}
+      />
       <CustomButton
         title="I Feel..."
         onPress={() => navigation.navigate('FeelingsBoard')}
