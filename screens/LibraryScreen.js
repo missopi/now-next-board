@@ -1,7 +1,7 @@
 // Flatlist of all available activity cards for users to choose from
 
 import { useEffect, useState } from "react";
-import { Text, View, FlatList, TouchableOpacity, Image, SafeAreaView, ScrollView, TextInput } from "react-native";
+import { Text, View, FlatList, TouchableOpacity, Image, SafeAreaView, ScrollView, TextInput, Modal } from "react-native";
 import styles from './styles/styles';
 import { activityLibrary } from "../data/ActivityLibrary";
 import { setActivityCallback, triggerActivityCallback } from "./components/CallbackStore";
@@ -11,6 +11,7 @@ const LibraryScreen = ({ navigation, route }) => {
   const slot = route?.params?.slot;
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
+  const [settingsVisible, setSettingsVisible] = useState(false);
 
   const categories = [
     'All', 
@@ -133,6 +134,18 @@ const LibraryScreen = ({ navigation, route }) => {
           )}
         />
       </View>
+      <Modal  // setting for toggling on 'then' activity at bottom of screen
+        visible={settingsVisible}
+        transparent={true}
+        animationType="slide"
+        supportedOrientations={['portrait']}
+        >
+        <View style={styles.modalView}>
+          <TouchableOpacity style={styles.closeButton} onPress={() => setSettingsVisible(false)}>
+            <Text style={styles.closeX}>x</Text>
+          </TouchableOpacity>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 };
