@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Alert, View, Text, FlatList, TextInput, TouchableOpacity, StyleSheet, Dimensions, SafeAreaView } from 'react-native';
+import { Alert, View, Text, FlatList, Image, ScrollView, TextInput, TouchableOpacity, StyleSheet, Dimensions, SafeAreaView } from 'react-native';
 import { getBoards, deleteBoard } from '../utilities/BoardStore';
 
 const screenWidth = Dimensions.get('window').width;
@@ -52,17 +52,20 @@ export default function AllBoardsScreen({ onBoardSelected }) {
           <Text style={styles.deleteIcon}>x</Text>
         </TouchableOpacity>
       </View>
-      <FlatList
-        data={item.cards.filter(Boolean)}
-        horizontal
-        keyExtractor={(_, index) => `${item.id}-${index}`}
-        renderItem={({ item: cardItem }) => (
-          <View style={styles.card}>
-            <Text style={styles.cardLabel}>{cardItem.name}</Text>
-          </View>
-        )}
-        showsHorizontalScrollIndicator={false}
-      />
+      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        {item.cards.map((card, idx) => (
+          <TouchableOpacity
+            key={idx}
+            style={styles.cardPreview}
+            onPress={() => onBoardSelected(item)}
+          >
+            <Image 
+              source={typeof card.image === 'string' ? { uri: card.image } : card.image} 
+              style={styles.cardImage} />
+            <Text style={styles.cardLabel}>{card.name}</Text>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
     </TouchableOpacity>
   );
 
@@ -128,6 +131,26 @@ const styles = StyleSheet.create({
   },
   tabText: {
     color: '#000',
+  },
+  cardPreview: {
+    width: 80,
+    marginRight: 10,
+    alignItems: 'center',
+  },
+  cardImage: {
+    width: 75,
+    height: 75,
+    borderRadius: 12,
+    borderColor: '#111',
+    borderWidth: 1,
+    marginBottom: 2,
+    backgroundColor: '#eee',
+  },
+  cardLabel: {
+    fontSize: 12,
+    textAlign: 'center',
+    marginTop: 4,
+    color: '#444',
   },
   boardCard: {
     backgroundColor: '#fff',
