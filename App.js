@@ -23,7 +23,6 @@ import WantBoard from "./screens/choice_boards/WantBoard";
 import NeedsBoard from "./screens/choice_boards/NeedsBoard";
 import AnswerCard from "./screens/components/AnswerCard";
 
-import SavedScreen from "./screens/savedScreen";
 import NowNextBoardChooser from "./screens/components/NowNextBoardChooser";
 import RoutineChooser from "./screens/components/RoutineChooser";
 
@@ -47,15 +46,6 @@ export default function App() {
           options={{
             headerTitle: '',
           }} 
-        />
-        <Stack.Screen
-          name="SavedScreen" // for saved now/next & choice boards 
-          component={SavedScreen}
-          options={({ navigation }) => ({
-            headerLeft: (props) => (
-              <HeaderBackButton {...props} labelVisible={false} onPress={() => navigation.goBack()} />
-            ),
-          })}  
         />
         <Stack.Screen 
           name="Routines" // daily timetable screen, will include a now/next board i think

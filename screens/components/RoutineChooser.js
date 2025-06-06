@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { Text, View, TouchableOpacity, TextInput, SafeAreaView } from "react-native";
-import SavedScreen from "../savedScreen";
 import styles from "../styles/NowNextBoardStyles";
 
 export default function RoutineChooser({ navigation }) {
@@ -34,16 +33,6 @@ export default function RoutineChooser({ navigation }) {
           <Text style={styles.chooserCreateText}>Create New Routine</Text>
         </TouchableOpacity>
       </View>
-
-      <SavedScreen
-        boardType="routine"
-        onBoardSelected={(board) => {
-          navigation.navigate('Routines', {
-            mode: 'load',
-            board,
-          });
-        }}
-      />
     </SafeAreaView>
   );
 }

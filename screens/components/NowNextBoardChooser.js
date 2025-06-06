@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { Text, View, TouchableOpacity, TextInput, SafeAreaView } from "react-native";
-import SavedScreen from "../savedScreen";
 import styles from "../styles/NowNextBoardStyles";
 
 export default function NowNextBoardChooser({ navigation }) {
@@ -34,16 +33,6 @@ export default function NowNextBoardChooser({ navigation }) {
           <Text style={styles.chooserCreateText}>Create New Board</Text>
         </TouchableOpacity>
       </View>
-
-      <SavedScreen
-        boardType="nowNextThen"
-        onBoardSelected={(board) => {
-          navigation.navigate('Now/Next', {
-            mode: 'load',
-            board,
-          });
-        }}
-      />
     </SafeAreaView>
   );
 }
