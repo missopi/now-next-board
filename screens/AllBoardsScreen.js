@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { View, Text, FlatList, TextInput, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
+import { Alert, View, Text, FlatList, TextInput, TouchableOpacity, StyleSheet, Dimensions, SafeAreaView } from 'react-native';
 import { getBoards, deleteBoard } from '../utilities/BoardStore';
 
 const screenWidth = Dimensions.get('window').width;
@@ -26,17 +26,30 @@ export default function AllBoardsScreen({ onBoardSelected }) {
     return matchesType && matchesSearch;
   });
 
-  const handleDelete = async (boardId) => {
-    await deleteBoard(boardId);
-    setBoards((prev) => prev.filter((b) => b.id !== boardId));
+  const handleDelete = (boardId) => {
+    Alert.alert(
+      'Delete Board',
+      'Are you sure you want to delete this board?',
+      [
+        {text: 'Cancel', style: 'cancel'},
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: async () => {
+          const updated = await deleteBoard(boardId);
+          setBoards(updated.filter((b) => b.type === boardType));
+          },
+        },
+      ]
+    );
   };
 
   const renderBoard = ({ item }) => (
     <TouchableOpacity style={styles.boardCard} onPress={() => onBoardSelected(item)}>
       <View style={styles.boardHeader}>
         <Text style={styles.boardTitle}>{item.title}</Text>
-        <TouchableOpacity onPress={() => handleDelete(item.id)}>
-          <Text style={styles.deleteIcon}>🗑️</Text>
+        <TouchableOpacity style={styles.deleteButton} onPress={() => handleDelete(item.id)}>
+          <Text style={styles.deleteIcon}>x</Text>
         </TouchableOpacity>
       </View>
       <FlatList
@@ -54,7 +67,7 @@ export default function AllBoardsScreen({ onBoardSelected }) {
   );
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <TextInput
         placeholder="Search boards..."
         value={searchQuery}
@@ -80,7 +93,7 @@ export default function AllBoardsScreen({ onBoardSelected }) {
         renderItem={renderBoard}
         contentContainerStyle={{ paddingBottom: 20 }}
       />
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -95,18 +108,20 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 10,
     marginBottom: 16,
+    marginHorizontal: 15,
     fontSize: 16,
   },
   tabs: {
     flexDirection: 'row',
     marginBottom: 16,
     justifyContent: 'space-around',
+    marginHorizontal: 15,
   },
   tab: {
     paddingVertical: 8,
-    paddingHorizontal: 12,
+    paddingHorizontal: 22,
     backgroundColor: '#e0e0e0',
-    borderRadius: 20,
+    borderRadius: 10,
   },
   activeTab: {
     backgroundColor: '#007bff',
@@ -124,6 +139,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 2,
+    marginHorizontal: 15,
   },
   boardHeader: {
     flexDirection: 'row',
@@ -136,8 +152,22 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   deleteIcon: {
+    color: '#ccc',
     fontSize: 18,
-    color: '#d00',
+    fontWeight: 'bold',
+    lineHeight: 18,
+  },
+  deleteButton: {
+    position: 'absolute',
+    top: 2,
+    right: 2,
+    width: 24,
+    height: 24,
+    borderRadius: 15,
+    borderColor: '#ccc',
+    borderWidth: 2,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   card: {
     backgroundColor: '#fafafa',
