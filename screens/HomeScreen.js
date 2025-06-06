@@ -51,6 +51,10 @@ export default function HomeScreen({ navigation }) {
         title="Image Library"
         onPress={() => navigation.navigate('LibraryScreen')}
       />
+      <CustomButton
+        title="Saved Boards"
+        onPress={() => navigation.navigate('AllBoardsScreen')}
+      />
       <Modal  // setting for toggling on 'then' activity at bottom of screen
         visible={settingsVisible}
         transparent={true}

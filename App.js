@@ -15,6 +15,7 @@ import LibraryScreen from "./screens/LibraryScreen";
 import Countdown from "./screens/tools/Countdown";
 import TrafficLights from "./screens/tools/TrafficLights";
 import Timers from "./screens/tools/Timers";
+import AllBoardsScreen from "./screens/AllBoardsScreen";
 
 import FeelingsBoard from "./screens/choice_boards/FeelingsBoard";
 import CreatedFeelingsBoard from "./screens/choice_boards/CreatedFeelingsBoard";
@@ -162,6 +163,16 @@ export default function App() {
         <Stack.Screen 
           name="LibraryScreen" // attached to atcivity library for list of activity cards
           component={LibraryScreen} 
+          options={({ navigation }) => ({
+            headerTransparent: true, 
+            headerLeft: (props) => (
+              <HeaderBackButton {...props} labelVisible={false} onPress={() => navigation.goBack()} />
+            ),
+          })}
+        />
+        <Stack.Screen 
+          name="AllBoardsScreen" // attached to library of saved boards
+          component={AllBoardsScreen} 
           options={({ navigation }) => ({
             headerTransparent: true, 
             headerLeft: (props) => (
