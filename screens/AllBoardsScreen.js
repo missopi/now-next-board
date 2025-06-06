@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react';
 import { Alert, View, Text, FlatList, Image, ScrollView, TextInput, TouchableOpacity, StyleSheet, Dimensions, SafeAreaView } from 'react-native';
 import { getBoards, deleteBoard } from '../utilities/BoardStore';
+import { useNavigation } from '@react-navigation/native';
 
 const screenWidth = Dimensions.get('window').width;
 const cardSize = screenWidth * 0.25;
 
 const TABS = ['All', 'Now/Next', 'Routine', 'Choice'];
 
-export default function AllBoardsScreen({ onBoardSelected }) {
+export default function AllBoardsScreen() {
+  const navigation = useNavigation();
   const [boards, setBoards] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTab, setActiveTab] = useState('All');
@@ -44,8 +46,24 @@ export default function AllBoardsScreen({ onBoardSelected }) {
     );
   };
 
+  const navigateToBoard = (board) => {
+    switch (board.type) {
+      case 'routine':
+        navigation.navigate('Routines', { mode: 'load', board });
+        break;
+      case 'nowNextThen':
+        navigation.navigate('Now/Next', { mode: 'load', board });
+        break;
+      case 'choice':
+        navigation.navigate('ChoiceScreen', { mode: 'load', board });
+        break;
+      default:
+        console.warn('Unknown board type:', board.type);
+    }
+  };
+
   const renderBoard = ({ item }) => (
-    <TouchableOpacity style={styles.boardCard} onPress={() => onBoardSelected(item)}>
+    <TouchableOpacity style={styles.boardCard} onPress={() => navigateToBoard(item)}>
       <View style={styles.boardHeader}>
         <Text style={styles.boardTitle}>{item.title}</Text>
         <TouchableOpacity style={styles.deleteButton} onPress={() => handleDelete(item.id)}>
@@ -57,7 +75,6 @@ export default function AllBoardsScreen({ onBoardSelected }) {
           <TouchableOpacity
             key={idx}
             style={styles.cardPreview}
-            onPress={() => onBoardSelected(item)}
           >
             <Image 
               source={typeof card.image === 'string' ? { uri: card.image } : card.image} 
