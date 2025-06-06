@@ -6,7 +6,13 @@ import { useNavigation } from '@react-navigation/native';
 const screenWidth = Dimensions.get('window').width;
 const cardSize = screenWidth * 0.25;
 
-const TABS = ['All', 'Now/Next', 'Routine', 'Choice'];
+const TAB_TYPE_MAP = {
+  'Now/Next': 'nowNextThen',
+  'Routine': 'routine',
+  'Choice': 'choice',
+};
+
+const TABS = ['All'].concat(Object.keys(TAB_TYPE_MAP));
 
 export default function AllBoardsScreen() {
   const navigation = useNavigation();
@@ -23,7 +29,7 @@ export default function AllBoardsScreen() {
   }, []);
 
   const filteredBoards = boards.filter((board) => {
-    const matchesType = activeTab === 'All' || board.type === activeTab.toLowerCase();
+    const matchesType = activeTab === 'All' || board.type === TAB_TYPE_MAP[activeTab];
     const matchesSearch = board.title?.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesType && matchesSearch;
   });
