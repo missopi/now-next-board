@@ -52,6 +52,7 @@ export default StyleSheet.create({
     borderRadius: 15,
     margin: 5,
     backgroundColor: '#fff',
+    alignItems: 'center',
   },
 
   activityName: {

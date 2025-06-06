@@ -2,6 +2,8 @@
 // Each activity includes id, name, and image
 // Used by Library screen flatlist to render selectable cards
 
+import WashHands from "../assets/images/wash-hands.svg";
+
 export const activityLibrary = [
   {
     id: '1',
@@ -18,7 +20,7 @@ export const activityLibrary = [
   {
     id: '3',
     name: 'wash hands',
-    image: require('../assets/images/washhands.png'),
+    image: WashHands,
     category: 'Personal Care',
   },
   {

@@ -9,6 +9,7 @@ import CogIcon from "../assets/icons/cog.svg";
 import { defaultCategories } from '../data/Categories';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+
 const LibraryScreen = ({ navigation, route }) => {  
   const slot = route?.params?.slot;
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -160,7 +161,13 @@ const LibraryScreen = ({ navigation, route }) => {
               onPress={() => handlePress(item)} 
               style={{ alignItems: 'center', margin: 5 }}
             >
-              <Image source={item.image} style={styles.activityImage} />
+              {typeof item.image === 'function' ? (
+                <View style={styles.activityImage}>
+                  <item.image width={180} height={180} />
+                </View>
+              ) : (
+                <Image source={item.image} style={styles.activityImage} />
+              )}
               <Text style={styles.activityName}>{item.name}</Text>
             </TouchableOpacity>
           )}
