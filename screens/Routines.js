@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { View, Text, TouchableOpacity, Modal, SafeAreaView } from "react-native";
+import { View, Text, TouchableOpacity, Modal, SafeAreaView, ScrollView } from "react-native";
 import CogIcon from "../assets/icons/cog.svg";
 import RoutineCard from "./components/RoutineCard";
 import RoutineSettingsModal from "./settings/RoutineSettings";
@@ -7,34 +7,18 @@ import styles from "./styles/RoutineStyles";
 import { setActivityCallback } from "./components/CallbackStore";
 import { pickImage } from "../utilities/imagePickerHelper";
 import ImageCardCreatorModal from "./components/ImageCardCreatorModal";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import uuid from "react-native-uuid";
 import { saveBoard, updateBoard } from "../utilities/BoardStore";
 
 const RoutineScreen = ({ navigation, route }) => {
   const { mode, board } = route.params || {};
 
-  // track the 5 activities
-  const [firstActivity, setFirstActivity] = useState(null);
-  const [secondActivity, setSecondActivity] = useState(null);
-  const [thirdActivity, setThirdActivity] = useState(null);
-  const [fourthActivity, setFourthActivity] = useState(null);
-  const [fifthActivity, setFifthActivity] = useState(null);
+  // track the activities added
+  const [activities, setActivities] = useState([null, null, null]);
+  const slotIndexRef = useRef(null);
 
   // title
   const [customTitle, setCustomTitle] = useState('');
-
-  // modal for settings
-  const [showFourth, setShowFourth] = useState(false);
-  const [showFifth, setShowFifth] = useState(false);
-
-  const slotMap = {
-    'First Activity' : setFirstActivity,
-    'Second Activity' : setSecondActivity,
-    'Third Activity' : setThirdActivity,
-    'Fourth Activity' : setFourthActivity,
-    'Fifth Activity' : setFifthActivity,
-  };
 
   // modal for settings
   const [settingsVisible, setSettingsVisible] = useState(false);
@@ -77,21 +61,9 @@ const RoutineScreen = ({ navigation, route }) => {
       ),
     });
   }, [navigation, customTitle]);
-
-  useEffect(() => {
-    const loadSettings = async () => {
-      const fourth = await AsyncStorage.getItem('showFourth');
-      const fifth = await AsyncStorage.getItem('showFifth');
-      setShowFourth(fourth === 'true');
-      setShowFifth(fifth === 'true');
-    };
-    loadSettings();
-  }, []);
-
-  const slotRef = useRef(null);
   
-  function onSelectSlot(slot) {
-    slotRef.current = slot;
+  const onSelectSlot = (index) => {
+    slotIndexRef.current = index;
     setNewCardTitle('');
     setNewCardImage(null);
     setIsPickingImage(false);
@@ -107,45 +79,33 @@ const RoutineScreen = ({ navigation, route }) => {
     setModalStep('choose');
   };  
 
-  function handleSetActivity(activity) {
-    const currentSlot = typeof slotRef.current === 'string'
-      ? slotRef.current
-      : slotRef.current?.slot;
-
-    const setSlot = slotMap[currentSlot];
-    if (setSlot) setSlot(activity);
-    else console.warn('Invalid slot. Could not assign activity.');
+  const handleSetActivity = (activity) => {
+    const index = slotIndexRef.current;
+    if (typeof index === 'number') {
+      const updated = [...activities];
+      updated[index] = activity;
+      setActivities(updated);
+    }
   };
 
-  async function handleImagePick(type) {
+  const handleImagePick = async (type) => {
     const imageUri = await pickImage(type);
     if (imageUri) {
       setNewCardImage(imageUri);
-    } else {
-      console.warn('[handleImagePick] no image returned');
     }
   };
   
-  function saveNewActivityCard() {
-    if (!newCardImage || !newCardTitle.trim()){
-      alert("Please provide both an image and title.");
+  const saveNewActivityCard = () => {
+    if (!newCardImage || !newCardTitle.trim()) {
+      alert('Please provide both an image and title.');
       return;
     }
-
     const newCard = { name: newCardTitle.trim(), image: { uri: newCardImage } };
-    const currentSlot = typeof slotRef.current === 'string'
-      ? slotRef.current
-      : slotRef.current?.slot;
-
-    const setSlot = slotMap[currentSlot];
-    if (setSlot) setSlot(newCard);
-    else console.warn('Invalid slot. Could not assign activity.');
-    
-    // reset and close
+    handleSetActivity(newCard);
     setIsNewCardVisible(false);
     setNewCardImage(null);
     setNewCardTitle('');
-    slotRef.current = null;
+    slotIndexRef.current = null;
   };
 
   const saveCurrentRoutineBoard = async () => {
@@ -153,71 +113,59 @@ const RoutineScreen = ({ navigation, route }) => {
       id: currentBoardId || uuid.v4(),
       type: 'routine',
       title: customTitle,
-      cards: 
-        [firstActivity, 
-          secondActivity, 
-          thirdActivity, 
-          showFourth ? fourthActivity : null, 
-          showFifth ? fourthActivity && fifthActivity : null
-        ].filter(Boolean),
-      Settings: { showFourth, showFifth },
+      cards: activities.filter(Boolean),
     };
-
     if (currentBoardId) {
-      await updateBoard(board); // replace existing
+      await updateBoard(board);
     } else {
-      await saveBoard(board) // new board
-    };
+      await saveBoard(board);
+    }
     setCurrentBoardId(board.id);
     alert('Routine saved!');
   };
 
   const loadRoutineBoard = (board) => {
     setCustomTitle(board.title);
-    setFirstActivity(board.cards[0] || null);
-    setSecondActivity(board.cards[1] || null);
-    setThirdActivity(board.cards[2] || null);
-    setFourthActivity(board.cards[3] || null);
-    setFifthActivity(board.cards[4] || null);
-    setShowFourth(board.settings?.showFourth ?? false);
-    setShowFifth(board.settings?.showFifth ?? false);
+    setActivities(board.cards || []);
     setCurrentBoardId(board.id);
   };
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <RoutineCard 
-        firstActivity={firstActivity}
-        secondActivity={secondActivity} 
-        thirdActivity={thirdActivity} 
-        fourthActivity={fourthActivity}
-        fifthActivity={fifthActivity}
-        onSelectSlot={onSelectSlot}
-        showFourth={showFourth}
-        showFifth={showFifth}
-      />
+      <ScrollView contentContainerStyle={{ padding: 16 }}>
+        {activities.map((activity, index) => (
+          <RoutineCard
+            key={index}
+            activity={activity}
+            onPress={() => onSelectSlot(index)}
+          />
+        ))}
+
+        <TouchableOpacity onPress={() => setActivities([...activities, null])} style={{ marginTop: 20 }}>
+          <Text style={{ color: 'blue', textAlign: 'center' }}>+ Add Another Activity</Text>
+        </TouchableOpacity>
+      </ScrollView>
 
       <ImageCardCreatorModal
-         visible={isNewCardVisible}
-         modalStep={modalStep}
-         setModalStep={setModalStep}
-         slotRef={slotRef}
-         handleSetActivity={handleSetActivity}
-         newCardTitle={newCardTitle}
-         setNewCardTitle={setNewCardTitle}
-         isPickingImage={isPickingImage}
-         setIsPickingImage={setIsPickingImage}
-         pickImage={handleImagePick}
-         newCardImage={newCardImage}
-         setNewCardImage={setNewCardImage}
-         setIsNewCardVisible={setIsNewCardVisible}
-         saveNewCard={saveNewActivityCard}
-         setActivityCallback={setActivityCallback}
-         navigation={navigation}
-         closeModal={closeModal}
-       />     
+        visible={isNewCardVisible}
+        modalStep={modalStep}
+        setModalStep={setModalStep}
+        slotRef={slotIndexRef}
+        handleSetActivity={handleSetActivity}
+        newCardTitle={newCardTitle}
+        setNewCardTitle={setNewCardTitle}
+        isPickingImage={isPickingImage}
+        setIsPickingImage={setIsPickingImage}
+        pickImage={handleImagePick}
+        newCardImage={newCardImage}
+        setNewCardImage={setNewCardImage}
+        setIsNewCardVisible={setIsNewCardVisible}
+        saveNewCard={saveNewActivityCard}
+        setActivityCallback={setActivityCallback}
+        navigation={navigation}
+      />
 
-      <Modal  // setting for toggling on 'then' activity at bottom of screen
+      <Modal
         visible={settingsVisible}
         transparent={true}
         animationType="slide"
@@ -227,12 +175,7 @@ const RoutineScreen = ({ navigation, route }) => {
           <TouchableOpacity style={styles.closeButton} onPress={() => setSettingsVisible(false)}>
             <Text style={styles.closeX}>x</Text>
           </TouchableOpacity>
-          <RoutineSettingsModal 
-            showFourth={showFourth} 
-            setShowFourth={setShowFourth}
-            showFifth={showFifth}
-            setShowFifth={setShowFifth}
-          />
+          <RoutineSettingsModal />
           <TouchableOpacity onPress={saveCurrentRoutineBoard}>
             <Text style={{ paddingTop: 30, color: 'black', textDecorationLine: 'underline', fontWeight: 'bold', textAlign: 'center' }}>
               Save This Routine
@@ -242,7 +185,7 @@ const RoutineScreen = ({ navigation, route }) => {
       </Modal>
     </SafeAreaView>
   );
-}
+};
 
 export default RoutineScreen;
 
