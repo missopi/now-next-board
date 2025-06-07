@@ -73,7 +73,7 @@ export default function AllBoardsScreen() {
       <View style={styles.boardHeader}>
         <Text style={styles.boardTitle}>{item.title}</Text>
         <TouchableOpacity style={styles.deleteButton} onPress={() => handleDelete(item.id)}>
-          <Text style={styles.deleteIcon}>x</Text>
+          <Text style={styles.deleteIcon}>✕</Text>
         </TouchableOpacity>
       </View>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
