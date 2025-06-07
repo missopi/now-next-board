@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { View, Text, TouchableOpacity, Modal, SafeAreaView, ScrollView } from "react-native";
+import { View, Text, TouchableOpacity, Modal, SafeAreaView } from "react-native";
+import DraggableFlatList from 'react-native-draggable-flatlist';
 import CogIcon from "../assets/icons/cog.svg";
 import RoutineCard from "./components/RoutineCard";
 import RoutineSettingsModal from "./settings/RoutineSettings";
@@ -15,6 +16,7 @@ const RoutineScreen = ({ navigation, route }) => {
 
   // track the activities added
   const [activities, setActivities] = useState([null, null, null]);
+
   const slotIndexRef = useRef(null);
 
   // title
@@ -22,6 +24,7 @@ const RoutineScreen = ({ navigation, route }) => {
 
   // modal for settings
   const [settingsVisible, setSettingsVisible] = useState(false);
+  const [strokeColor, setStrokeColor] = useState('#bbb');
 
   // modal for adding custom card
   const [newCardImage, setNewCardImage] = useState(null);
@@ -63,6 +66,7 @@ const RoutineScreen = ({ navigation, route }) => {
   }, [navigation, customTitle]);
   
   const onSelectSlot = (index) => {
+    console.log('onSelect slot index', index);
     slotIndexRef.current = index;
     setNewCardTitle('');
     setNewCardImage(null);
@@ -77,16 +81,29 @@ const RoutineScreen = ({ navigation, route }) => {
     setNewCardTitle('');
     setIsPickingImage(false);
     setModalStep('choose');
-  };  
+  }; 
 
-  const handleSetActivity = (activity) => {
+  const deleteActivity = (index) => {
+    const updated = [...activities];
+    updated.splice(index, 1);
+    setActivities(updated);
+  };
+
+  function handleSetActivity(activity) {
+    console.log('current slotIndexRef', slotIndexRef.current);
     const index = slotIndexRef.current;
+    console.log('index', index);
     if (typeof index === 'number') {
       const updated = [...activities];
       updated[index] = activity;
-      setActivities(updated);
+    setActivities(updated);
     }
-  };
+
+    setIsNewCardVisible(false);
+    setNewCardImage(null);
+    setNewCardTitle('');
+    slotIndexRef.current = null;
+  }
 
   const handleImagePick = async (type) => {
     const imageUri = await pickImage(type);
@@ -114,6 +131,7 @@ const RoutineScreen = ({ navigation, route }) => {
       type: 'routine',
       title: customTitle,
       cards: activities.filter(Boolean),
+      strokeColor,
     };
     if (currentBoardId) {
       await updateBoard(board);
@@ -127,24 +145,30 @@ const RoutineScreen = ({ navigation, route }) => {
   const loadRoutineBoard = (board) => {
     setCustomTitle(board.title);
     setActivities(board.cards || []);
+    setStrokeColor(board.strokeColor || '#bbb');
     setCurrentBoardId(board.id);
   };
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <ScrollView contentContainerStyle={{ padding: 16 }}>
-        {activities.map((activity, index) => (
+      <DraggableFlatList
+        data={activities}
+        onDragEnd={({ data }) => setActivities(data)}
+        keyExtractor={(item, index) => `activity-${index}`}
+        renderItem={({ item, index, drag }) => (
           <RoutineCard
-            key={index}
-            activity={activity}
+            activity={item}
             onPress={() => onSelectSlot(index)}
+            onDelete={() => deleteActivity(index)}
+            strokeColor={strokeColor}
+            drag={drag}
           />
-        ))}
+        )}
+      />
 
-        <TouchableOpacity onPress={() => setActivities([...activities, null])} style={{ marginTop: 20 }}>
-          <Text style={{ color: 'blue', textAlign: 'center' }}>+ Add Another Activity</Text>
-        </TouchableOpacity>
-      </ScrollView>
+      <TouchableOpacity onPress={() => setActivities([...activities, null])} style={styles.addButton}>
+        <Text style={styles.addText}>+ Add Another Activity</Text>
+      </TouchableOpacity>
 
       <ImageCardCreatorModal
         visible={isNewCardVisible}
@@ -163,23 +187,17 @@ const RoutineScreen = ({ navigation, route }) => {
         saveNewCard={saveNewActivityCard}
         setActivityCallback={setActivityCallback}
         navigation={navigation}
+        closeModal={closeModal}
       />
 
-      <Modal
-        visible={settingsVisible}
-        transparent={true}
-        animationType="slide"
-        supportedOrientations={['portrait', 'landscape']}
-      >
+      <Modal visible={settingsVisible} transparent animationType="slide">
         <View style={styles.modalView}>
           <TouchableOpacity style={styles.closeButton} onPress={() => setSettingsVisible(false)}>
             <Text style={styles.closeX}>x</Text>
           </TouchableOpacity>
-          <RoutineSettingsModal />
+          <RoutineSettingsModal strokeColor={strokeColor} setStrokeColor={setStrokeColor} />
           <TouchableOpacity onPress={saveCurrentRoutineBoard}>
-            <Text style={{ paddingTop: 30, color: 'black', textDecorationLine: 'underline', fontWeight: 'bold', textAlign: 'center' }}>
-              Save This Routine
-            </Text>
+            <Text style={styles.saveText}>Save This Routine</Text>
           </TouchableOpacity>
         </View>
       </Modal>

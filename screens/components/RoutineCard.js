@@ -1,15 +1,24 @@
 // Visual layout for activity cards on Today screen
 
-import { View, Text, TouchableOpacity, Image } from "react-native";
+import { View, Text, Pressable, TouchableOpacity, Image } from "react-native";
 import styles from "../styles/RoutineStyles";
 
-const RoutineCard = ({ activity, onPress, onDelete, strokeColor }) => {
+const RoutineCard = ({ activity, onPress, onDelete, strokeColor, drag }) => {
   return (
-    <View style={[styles.card, { borderColor: strokeColor || '#bbb' }]}>
-      <TouchableOpacity style={styles.deleteButton} onPress={onDelete}>
+    <View style={[styles.card, { borderColor: strokeColor || '#bbb' }]}>      
+      <TouchableOpacity
+        style={styles.deleteButton}
+        onPress={onDelete}
+      >
         <Text style={styles.deleteText}>✕</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={onPress} style={styles.cardContent}>
+
+      {/* Drag handle */}
+      <TouchableOpacity onLongPress={drag} style={styles.dragHandle}>
+        <Text style={styles.dragText}>≡</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={onPress} style={styles.cardContent} activeOpacity={0.7}>
         {activity?.image?.uri ? (
           <Image source={{ uri: activity.image.uri }} style={styles.image} />
         ) : (

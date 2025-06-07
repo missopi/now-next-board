@@ -48,6 +48,7 @@ card: {
     borderWidth: 2,
     justifyContent: 'center',
     alignItems: 'center',
+    zIndex: 2,
   },
   deleteText: {
     color: '#ccc',
@@ -82,6 +83,20 @@ card: {
     fontSize: 16,
     fontWeight: 'bold',
     textAlign: 'center',
+  },
+  dragHandle: {
+    position: 'absolute',
+    top: 6,
+    left: 6,
+    zIndex: 2,
+    backgroundColor: 'rgba(0,0,0,0.05)',
+    borderRadius: 12,
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+  },
+  dragText: {
+    fontSize: 16,
+    color: '#888',
   },
 
   // Settings Modal
