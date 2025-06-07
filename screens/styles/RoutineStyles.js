@@ -13,12 +13,6 @@ export default StyleSheet.create({
   wrapperPortrait: {
     flex: 1,
   },
-  landscape: {
-    flexDirection: 'row',  // switch to horizontal layout
-    justifyContent: 'center',
-    paddingHorizontal: 10,
-    paddingVertical: 20,
-  },
   portrait: {
     flexDirection: 'column',
     justifyContent: 'center',
@@ -35,17 +29,35 @@ export default StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 15,
   },
-  card: {
-    alignItems: 'center',
+card: {
+    borderWidth: 5,
+    borderRadius: 10,
     marginBottom: 16,
     backgroundColor: '#fff',
-    borderRadius: 10,
-    padding: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    overflow: 'hidden',
+    position: 'relative',
+  },
+  deleteButton: {
+    position: 'absolute',
+    top: 8,
+    right: 8,
+    width: 24,
+    height: 24,
+    borderRadius: 15,
+    borderColor: '#ccc',
+    borderWidth: 2,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  deleteText: {
+    color: '#ccc',
+    fontSize: 18,
+    fontWeight: 'bold',
+    lineHeight: 18,
+  },
+  cardContent: {
+    alignItems: 'center',
+    padding: 12,
   },
   image: {
     width: 100,
@@ -68,7 +80,7 @@ export default StyleSheet.create({
   },
   title: {
     fontSize: 16,
-    fontWeight: '500',
+    fontWeight: 'bold',
     textAlign: 'center',
   },
 
