@@ -1,11 +1,11 @@
 // Visual layout for activity cards on Today screen
 
-import { View, Text, Pressable, TouchableOpacity, Image } from "react-native";
+import { View, Text, TouchableOpacity, Image } from "react-native";
 import styles from "../styles/RoutineStyles";
 
-const RoutineCard = ({ activity, onPress, onDelete, strokeColor, drag }) => {
+const RoutineCard = ({ activity, index, onPress, onDelete, strokeColor, drag }) => {
   return (
-    <View style={[styles.card, { borderColor: strokeColor || '#bbb' }]}>      
+    <View style={[styles.card, { borderColor: strokeColor || '#bbb' }]}>
       <TouchableOpacity
         style={styles.deleteButton}
         onPress={onDelete}
@@ -18,7 +18,11 @@ const RoutineCard = ({ activity, onPress, onDelete, strokeColor, drag }) => {
         <Text style={styles.dragText}>≡</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={onPress} style={styles.cardContent} activeOpacity={0.7}>
+      <TouchableOpacity
+        onPress={() => onPress(index)}
+        style={styles.cardContent}
+        activeOpacity={0.7}
+      >
         {activity?.image?.uri ? (
           <Image source={{ uri: activity.image.uri }} style={styles.image} />
         ) : (
@@ -31,5 +35,6 @@ const RoutineCard = ({ activity, onPress, onDelete, strokeColor, drag }) => {
     </View>
   );
 };
+
 
 export default RoutineCard;
