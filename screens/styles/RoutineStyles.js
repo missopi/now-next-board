@@ -29,7 +29,7 @@ export default StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 15,
   },
-card: {
+  card: {
     borderWidth: 5,
     borderRadius: 10,
     marginBottom: 16,
@@ -97,6 +97,48 @@ card: {
   dragText: {
     fontSize: 16,
     color: '#888',
+  },
+
+  // title chooser
+
+  chooserContainer: {
+    flex: 1,
+    padding: 20,
+  },
+  chooserTop: {
+    padding: 16,
+    paddingTop: 24,
+  },
+  chooserCreateButton: {
+    backgroundColor: '#007bff',
+    paddingVertical: 12,
+    borderRadius: 10,
+    marginBottom: 10,
+    alignItems: 'center',
+    borderColor: '#aaa',
+    borderWidth: 1,
+  },
+  chooserCreateText: {
+    color: '#fff',
+    textAlign: 'center',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  chooserLoadText: {
+    textAlign: 'center',
+    color: '#007bff',
+    marginTop: 12,
+    fontSize: 15,
+  },
+  chooserTextInput: {
+    fontSize: 16,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 14,
+    marginBottom: 12,
+    backgroundColor: 'f9f9f9',
   },
 
   // Settings Modal

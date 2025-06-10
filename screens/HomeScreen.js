@@ -33,7 +33,7 @@ export default function HomeScreen({ navigation }) {
     <View style={styles.container}>
       <CustomButton
         title="Routines"
-        onPress={() => navigation.navigate('RoutineChooser')}
+        onPress={() => navigation.navigate('Routines')}
       />
       <CustomButton
         title="Now/Next/Then"

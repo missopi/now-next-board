@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { View, Text, TouchableOpacity, Modal, SafeAreaView } from "react-native";
+import { View, Text, TouchableOpacity, TextInput, Modal, SafeAreaView } from "react-native";
 import DraggableFlatList from 'react-native-draggable-flatlist';
 import CogIcon from "../assets/icons/cog.svg";
 import RoutineCard from "./components/RoutineCard";
@@ -19,6 +19,7 @@ const RoutineScreen = ({ navigation, route }) => {
 
   // title
   const [customTitle, setCustomTitle] = useState('');
+  const [newBoardTitle, setNewBoardTitle] = useState('');
 
   // modal for settings
   const [settingsVisible, setSettingsVisible] = useState(false);
@@ -151,6 +152,16 @@ const RoutineScreen = ({ navigation, route }) => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
+      <View style={styles.chooserTop}>
+        <TextInput
+          placeholder="Enter new routine title..."
+          value={newBoardTitle}
+          onChangeText={setNewBoardTitle}
+          style={styles.chooserTextInput}
+          placeholderTextColor={"#aaa"}
+        />
+      </View>
+
       <DraggableFlatList
         data={activities}
         extraData={activities}
@@ -175,7 +186,7 @@ const RoutineScreen = ({ navigation, route }) => {
 
       <TouchableOpacity
         onPress={addEmptySlot}
-        style={{ padding: 16, backgroundColor: '#4a90e2', alignItems: 'center' }}
+        style={{ margin: 16, padding: 16, backgroundColor: '#4a90e2', alignItems: 'center', borderRadius: 10 }}
       >
         <Text style={{ color: 'white', fontWeight: 'bold' }}>+ Add Card</Text>
       </TouchableOpacity>
@@ -199,6 +210,22 @@ const RoutineScreen = ({ navigation, route }) => {
         navigation={navigation}
         closeModal={closeModal}
       />
+
+      {/*<TouchableOpacity
+        onPress={() => {
+          if (!newBoardTitle.trim()) {
+            alert('Please enter a title for your new routine.');
+            return;
+          }
+          navigation.navigate('FinishedRoutine', { 
+            mode: 'new',
+            initialTitle: newBoardTitle.trim(), 
+          });
+        }}
+        style={styles.chooserCreateButton}
+      >
+        <Text style={styles.chooserCreateText}>Create New Routine</Text>
+      </TouchableOpacity>*/}
 
       <Modal visible={settingsVisible} transparent animationType="slide">
         <View style={styles.modalView}>
