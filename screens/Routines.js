@@ -15,7 +15,7 @@ const RoutineScreen = ({ navigation, route }) => {
   const { mode, board } = route.params || {};
 
   // track the activities added
-  const [activities, setActivities] = useState([null, null, null]);
+  const [activities, setActivities] = useState([]);
 
   // title
   const [customTitle, setCustomTitle] = useState('');
@@ -92,7 +92,7 @@ const RoutineScreen = ({ navigation, route }) => {
     const index = slotIndexRef.current;
     if (typeof index === 'number') {
       const updated = [...activities];
-      updated[index] = activity;
+      updated[index] = { ...activity, id: updated[index]?.id || uuid.v4() };
       setActivities(updated);
     }
     closeModal();
@@ -111,12 +111,12 @@ const RoutineScreen = ({ navigation, route }) => {
       alert('Please provide both an image and title.');
       return;
     }
-    const newCard = { name: newCardTitle.trim(), image: { uri: newCardImage } };
+    const newCard = {
+      id: uuid.v4(),
+      name: newCardTitle.trim(),
+      image: { uri: newCardImage }
+    };
     handleSetActivity(newCard);
-    setIsNewCardVisible(false);
-    setNewCardImage(null);
-    setNewCardTitle('');
-    slotIndexRef.current = null;
   };
 
   const saveCurrentRoutineBoard = async () => {
@@ -137,28 +137,34 @@ const RoutineScreen = ({ navigation, route }) => {
   };
 
   const loadRoutineBoard = (board) => {
+    const loaded = (board.cards || []).map(card => ({ ...card, id: card.id || uuid.v4() }));
     setCustomTitle(board.title);
-    setActivities(board.cards || []);
+    setActivities(loaded);
     setStrokeColor(board.strokeColor || '#bbb');
     setCurrentBoardId(board.id);
+  };
+
+  const addEmptySlot = () => {
+    const newSlot = { id: uuid.v4(), name: null, image: null };
+    setActivities([...activities, newSlot]);
   };
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <DraggableFlatList
         data={activities}
+        extraData={activities}
         onDragEnd={({ data }) => setActivities(data)}
-        keyExtractor={(_, index) => `activity-${index}`}
+        keyExtractor={(item) => item.id}
         renderItem={(params) => {
           const { item, drag } = params;
           const index = params.getIndex();
+          if (!item) return null;
           return (
             <RoutineCard
               activity={item}
               index={index}
-              onPress={(i) => {
-                onSelectSlot(i);
-              }}
+              onPress={() => onSelectSlot(index)}
               onDelete={() => deleteActivity(index)}
               strokeColor={strokeColor}
               drag={drag}
@@ -168,7 +174,7 @@ const RoutineScreen = ({ navigation, route }) => {
       />
 
       <TouchableOpacity
-        onPress={() => setActivities([...activities, null])}
+        onPress={addEmptySlot}
         style={{ padding: 16, backgroundColor: '#4a90e2', alignItems: 'center' }}
       >
         <Text style={{ color: 'white', fontWeight: 'bold' }}>+ Add Card</Text>
