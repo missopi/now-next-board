@@ -6,13 +6,18 @@ export default StyleSheet.create({
     padding: 16,
   },
   card: {
-    borderWidth: 5,
+    borderWidth: 7,
     borderRadius: 15,
     marginBottom: 15,
     backgroundColor: '#fff',
-    overflow: 'hidden',
+    //overflow: 'hidden',
     position: 'relative',
-    marginHorizontal: 60,
+    marginHorizontal: 40,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.5,
+    shadowRadius: 5,
+    elevation: 4,
   },
   deleteButton: {
     position: 'absolute',
@@ -40,13 +45,13 @@ export default StyleSheet.create({
     paddingBottom: 8,
   },
   image: {
-    width: 150,
+    width: 180,
     height: 150,
     borderRadius: 10,
     marginBottom: 8,
   },
   placeholder: {
-    width: 150,
+    width: 180,
     height: 150,
     borderRadius: 10,
     backgroundColor: '#e0e0e0',
@@ -92,7 +97,7 @@ export default StyleSheet.create({
   // title chooser
 
   chooserTop: {
-    paddingHorizontal: 25,
+    paddingHorizontal: 40,
     paddingVertical: 10,
   },
   chooserCreateButton: {

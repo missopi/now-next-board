@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import { Slider } from 'react-native-elements';
 import styles from "../styles/NowNextBoardStyles";
 import tinycolor from 'tinycolor2';
@@ -101,6 +101,18 @@ const RoutineSettingsModal = ({ strokeColor, setStrokeColor }) => {
           }}
         />
       </View>
+      
+      {/* DEFAULT */}
+      <TouchableOpacity
+        onPress={() => { 
+          setHue(192); 
+          setSaturation(64); 
+          setLightness(50);
+        }}
+        style={{ marginTop: 20, padding: 12, backgroundColor: '#eee', borderRadius: 6, alignItems: 'center' }}
+      >
+        <Text style={{ color: '#333' }}>Back to Default</Text>
+      </TouchableOpacity>
     </View>
   );
 };
