@@ -234,7 +234,7 @@ const RoutineScreen = ({ navigation, route }) => {
       <Modal visible={settingsVisible} transparent animationType="slide">
         <View style={styles.modalView}>
           <TouchableOpacity style={styles.closeButton} onPress={() => setSettingsVisible(false)}>
-            <Text style={styles.closeX}>x</Text>
+            <Text style={styles.closeX}>✕</Text>
           </TouchableOpacity>
           <RoutineSettingsModal strokeColor={strokeColor} setStrokeColor={setStrokeColor} />
           <TouchableOpacity onPress={saveCurrentRoutineBoard}>

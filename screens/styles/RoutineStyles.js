@@ -124,7 +124,7 @@ export default StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 14,
     marginBottom: 10,
-    backgroundColor: 'f9f9f9',
+    backgroundColor: 'white',
   },
 
   // Settings Modal
@@ -189,13 +189,13 @@ export default StyleSheet.create({
   },
   closeButton: {
     position: 'absolute',
-    top: 15,
-    right: 30,
+    top: 20,
+    right: 20,
     zIndex: 1,
   },
   closeX: {
-    fontSize: 28,
-    fontWeight: 400,
+    fontSize: 22,
+    fontWeight: 900,
     color: '#000',
   },
   
