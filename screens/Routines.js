@@ -151,7 +151,7 @@ const RoutineScreen = ({ navigation, route }) => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.chooserTop}>
         <TextInput
           placeholder="Enter new routine title..."
@@ -161,32 +161,36 @@ const RoutineScreen = ({ navigation, route }) => {
           placeholderTextColor={"#aaa"}
         />
       </View>
+      <View style={{ flex: 1 }}>
+        <DraggableFlatList
+          data={activities}
+          extraData={activities}
+          onDragEnd={({ data }) => setActivities(data)}
+          keyExtractor={(item) => item.id}
+          renderItem={(params) => {
+            const { item, drag } = params;
+            const index = params.getIndex();
+            if (!item) return null;
 
-      <DraggableFlatList
-        data={activities}
-        extraData={activities}
-        onDragEnd={({ data }) => setActivities(data)}
-        keyExtractor={(item) => item.id}
-        renderItem={(params) => {
-          const { item, drag } = params;
-          const index = params.getIndex();
-          if (!item) return null;
-          return (
-            <RoutineCard
-              activity={item}
-              index={index}
-              onPress={() => onSelectSlot(index)}
-              onDelete={() => deleteActivity(index)}
-              strokeColor={strokeColor}
-              drag={drag}
-            />
-          );
-        }}
-      />
+            return (
+              <RoutineCard
+                activity={item}
+                index={index}
+                onPress={() => onSelectSlot(index)}
+                onDelete={() => deleteActivity(index)}
+                strokeColor={strokeColor}
+                drag={drag}
+              />
+            );
+          }}
+          contentContainerStyle={{ paddingBottom: 80 }}  // leave room at bottom for button
+        />
+      </View>
+
 
       <TouchableOpacity
         onPress={addEmptySlot}
-        style={{ margin: 16, padding: 16, backgroundColor: '#4a90e2', alignItems: 'center', borderRadius: 10 }}
+        style={styles.addEmptySlotButton}
       >
         <Text style={{ color: 'white', fontWeight: 'bold' }}>+ Add Card</Text>
       </TouchableOpacity>
