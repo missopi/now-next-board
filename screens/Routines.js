@@ -186,14 +186,22 @@ const RoutineScreen = ({ navigation, route }) => {
           contentContainerStyle={{ paddingBottom: 80 }}  // leave room at bottom for button
         />
       </View>
+      
+      <View style={{ flexDirection: 'row', marginHorizontal: 40 }}>
+        <TouchableOpacity
+          onPress={addEmptySlot}
+          style={styles.addEmptySlotButton}
+        >
+          <Text style={{ color: 'white', fontWeight: 'bold' }}>+ Add Card</Text>
+        </TouchableOpacity>
 
-
-      <TouchableOpacity
-        onPress={addEmptySlot}
-        style={styles.addEmptySlotButton}
-      >
-        <Text style={{ color: 'white', fontWeight: 'bold' }}>+ Add Card</Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          onPress={saveCurrentRoutineBoard}
+          style={styles.saveButton}
+        >
+          <Text style={{ color: 'white', fontWeight: 'bold' }}>Save Routine</Text>
+        </TouchableOpacity>
+      </View>
 
       <ImageCardCreatorModal
         visible={isNewCardVisible}
@@ -237,9 +245,6 @@ const RoutineScreen = ({ navigation, route }) => {
             <Text style={styles.closeX}>✕</Text>
           </TouchableOpacity>
           <RoutineSettingsModal strokeColor={strokeColor} setStrokeColor={setStrokeColor} />
-          <TouchableOpacity onPress={saveCurrentRoutineBoard}>
-            <Text style={styles.saveText}>Save This Routine</Text>
-          </TouchableOpacity>
         </View>
       </Modal>
     </SafeAreaView>

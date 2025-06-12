@@ -10,7 +10,6 @@ export default StyleSheet.create({
     borderRadius: 15,
     marginBottom: 15,
     backgroundColor: '#fff',
-    //overflow: 'hidden',
     position: 'relative',
     marginHorizontal: 40,
     shadowColor: '#000',
@@ -85,13 +84,21 @@ export default StyleSheet.create({
     color: '#ccc',
   },
   addEmptySlotButton: {
-    position: 'absolute',
-    bottom: 30,
+    flex: 1,
+    marginRight: 8,
     alignSelf: 'center',
     backgroundColor: '#4a90e2',
-    padding: 16,
+    padding: 14,
     alignItems: 'center', 
     borderRadius: 8,
+  },
+  saveButton: {
+    flex: 1,
+    marginLeft: 8,
+    padding: 14,
+    backgroundColor: '#4a90e2',
+    borderRadius: 8,
+    alignItems: 'center',
   },
 
   // title chooser
