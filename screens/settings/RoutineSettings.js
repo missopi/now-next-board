@@ -105,9 +105,9 @@ const RoutineSettingsModal = ({ strokeColor, setStrokeColor }) => {
       {/* DEFAULT */}
       <TouchableOpacity
         onPress={() => { 
-          setHue(192); 
-          setSaturation(64); 
-          setLightness(50);
+          setHue(51); 
+          setSaturation(100); 
+          setLightness(85);
         }}
         style={{ marginTop: 20, padding: 12, backgroundColor: '#eee', borderRadius: 6, alignItems: 'center' }}
       >

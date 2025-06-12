@@ -23,7 +23,7 @@ const RoutineScreen = ({ navigation, route }) => {
 
   // modal for settings
   const [settingsVisible, setSettingsVisible] = useState(false);
-  const [strokeColor, setStrokeColor] = useState('#2BAFD8');
+  const [strokeColor, setStrokeColor] = useState('#FFF5B5');
 
   // modal for adding custom card
   const [newCardImage, setNewCardImage] = useState(null);
