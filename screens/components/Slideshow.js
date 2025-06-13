@@ -25,7 +25,6 @@ const Slideshow = ({ route }) => {
         showsHorizontalScrollIndicator={false}
         renderItem={({ item }) => (
           <View style={styles.slide}>
-            <Text style={styles.cardTitle}>{item?.name || 'Untitled'}</Text>
             {item?.image?.uri ? (
               <Image
                 source={{ uri: item.image.uri }}
@@ -35,6 +34,7 @@ const Slideshow = ({ route }) => {
             ) : (
               <Text style={{ color: '#999' }}>No image</Text>
             )}
+            <Text style={styles.cardTitle}>{item?.name || 'Untitled'}</Text>
           </View>
         )}
       />
