@@ -23,6 +23,7 @@ import CreatedFeelingsBoard from "./screens/choice_boards/CreatedFeelingsBoard";
 import WantBoard from "./screens/choice_boards/WantBoard";
 import NeedsBoard from "./screens/choice_boards/NeedsBoard";
 import AnswerCard from "./screens/components/AnswerCard";
+import Slideshow from "./screens/components/Slideshow";
 
 import NowNextBoardChooser from "./screens/components/NowNextBoardChooser";
 
@@ -56,6 +57,15 @@ export default function App() {
               headerLeft: (props) => ( // back button to only inlcude a '<' and no word 'back'
                 <HeaderBackButton {...props} labelVisible={false} onPress={() => navigation.goBack()} />
               ),
+            })}  
+          />
+          <Stack.Screen 
+            name="Slideshow" // presentation display for routines etc
+            component={Slideshow} 
+            options={({ navigation }) => ({
+              headerTransparent: true,
+              headerShadowVisible: false,
+              headerBackTitleVisible: false,
             })}  
           />
           <Stack.Screen 

@@ -201,6 +201,24 @@ const RoutineScreen = ({ navigation, route }) => {
         >
           <Text style={{ color: 'white', fontWeight: 'bold' }}>Save Routine</Text>
         </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Slideshow', {
+            initialTitle: newBoardTitle.trim(), 
+            title: customTitle,
+            activities: activities.filter(Boolean),
+          })}
+          style={{
+            flex: 1,
+            marginLeft: 8,
+            padding: 12,
+            backgroundColor: '#000',
+            borderRadius: 8,
+            alignItems: 'center',
+          }}
+        >
+          <Text style={{ color: 'white', fontWeight: 'bold' }}>View as Slideshow</Text>
+        </TouchableOpacity>
       </View>
 
       <ImageCardCreatorModal
@@ -222,22 +240,6 @@ const RoutineScreen = ({ navigation, route }) => {
         navigation={navigation}
         closeModal={closeModal}
       />
-
-      {/*<TouchableOpacity
-        onPress={() => {
-          if (!newBoardTitle.trim()) {
-            alert('Please enter a title for your new routine.');
-            return;
-          }
-          navigation.navigate('FinishedRoutine', { 
-            mode: 'new',
-            initialTitle: newBoardTitle.trim(), 
-          });
-        }}
-        style={styles.chooserCreateButton}
-      >
-        <Text style={styles.chooserCreateText}>Create New Routine</Text>
-      </TouchableOpacity>*/}
 
       <Modal visible={settingsVisible} transparent animationType="slide">
         <View style={styles.modalView}>
