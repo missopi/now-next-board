@@ -51,7 +51,6 @@ const RoutineSettingsModal = ({ strokeColor, setStrokeColor }) => {
 
       {/* HUE */}
       <Text style={{ marginTop: 24, fontSize: 14, fontWeight: '500' }}>Hue</Text>
-      {console.log("Slider HUE value:", hue)}
       <Slider
         minimumValue={0}
         maximumValue={360}
@@ -64,7 +63,6 @@ const RoutineSettingsModal = ({ strokeColor, setStrokeColor }) => {
 
       {/* SATURATION */}
       <Text style={{ marginTop: 24, fontSize: 14, fontWeight: '500' }}>Saturation</Text>
-      {console.log("Slider SATURATION value:", saturation)}
       <Slider
         value={saturation}
         onValueChange={setSaturation}
@@ -77,7 +75,6 @@ const RoutineSettingsModal = ({ strokeColor, setStrokeColor }) => {
 
       {/* LIGHTNESS */}
       <Text style={{ marginTop: 24, fontSize: 14, fontWeight: '500'  }}>Lightness</Text>
-      {console.log("Slider LIGHTNESS value:", lightness)}
       <Slider
         value={lightness}
         onValueChange={setLightness}
