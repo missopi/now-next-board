@@ -7,12 +7,18 @@ export default StyleSheet.create({
     flex: 1,
   },
   header: {
-    paddingTop: 2,
-    paddingBottom: 2,
+    marginTop: 12,
+    paddingTop: 12,
+    paddingBottom: 12,
     alignItems: 'center',
+    backgroundColor: 'white',
+    borderColor: 'black',
+    borderWidth: 1,
+    borderRadius: 16,
+    marginHorizontal: 14,
   },
   routineTitle: {
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: 'bold',
     color: '#000',
   },
@@ -24,8 +30,8 @@ export default StyleSheet.create({
   },
   cardWrapper: {
     backgroundColor: 'black',
-    borderRadius: 18,
-    padding: 3,
+    borderRadius: 16,
+    padding: 1.5,
   },
   cardInner: {
     backgroundColor: 'white',
@@ -41,7 +47,7 @@ export default StyleSheet.create({
   cardTitle: {
     marginTop: 20,
     fontSize: 20,
-    fontWeight: '600',
+    fontWeight: 'bold',
     color: '#000',
     textAlign: 'center',
   },

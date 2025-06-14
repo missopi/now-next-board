@@ -204,7 +204,7 @@ const RoutineScreen = ({ navigation, route }) => {
 
         <TouchableOpacity
           onPress={() => navigation.navigate('Slideshow', {
-            title: customTitle,
+            title: newBoardTitle,
             activities: activities.filter(Boolean),
             strokeColor,
           })}
