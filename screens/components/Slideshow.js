@@ -1,23 +1,27 @@
-import { View, Text, FlatList, Image, SafeAreaView } from 'react-native';
+import { useState, useRef } from 'react';
+import { View, Text, FlatList, Image, SafeAreaView, Pressable } from 'react-native';
 import styles from '../styles/SlideshowStyles';
 
-const Slideshow = ({ route }) => {
+const Slideshow = ({ route, navigation }) => {
   const { title, activities, strokeColor = '#FFF5B5' } = route.params || {};
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [controlsVisible, setControlsVisible] = useState(true);
 
-  if (!activities || activities.length === 0) {
-    return (
-      <SafeAreaView style={[styles.container, { backgroundColor: strokeColor }]}>
-        <Text style={styles.emptyText}>No cards to show.</Text>
-      </SafeAreaView>
-    );
-  }
+  const toggleControls = () => setControlsVisible(!controlsVisible);
+
+  const onViewableItemsChanged = useRef(({ viewableItems }) => {
+    if (viewableItems.length > 0) {
+      setCurrentIndex(viewableItems[0].index);
+    }
+  }).current;
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: strokeColor }]}>
-      {/* Routine title */}
-      <View style={styles.header}>
-        <Text style={styles.routineTitle}>{title}</Text>
-      </View>
+      {controlsVisible && (
+        <View style={styles.header}>
+          <Text style={styles.title}>{title}</Text>
+        </View>
+      )}
 
       <FlatList
         data={activities}
@@ -25,8 +29,10 @@ const Slideshow = ({ route }) => {
         horizontal
         pagingEnabled
         showsHorizontalScrollIndicator={false}
+        onViewableItemsChanged={onViewableItemsChanged}
+        viewabilityConfig={{ itemVisiblePercentThreshold: 50 }}
         renderItem={({ item }) => (
-          <View style={styles.slide}>
+          <Pressable style={styles.slide} onPress={toggleControls}>
             <View style={styles.cardWrapper}>
               <View style={styles.cardInner}>
                 {item?.image?.uri ? (
@@ -38,12 +44,26 @@ const Slideshow = ({ route }) => {
                 ) : (
                   <Text style={{ color: '#999' }}>No image</Text>
                 )}
-                <Text style={styles.cardTitle}>{item?.name || 'Untitled'}</Text>
               </View>
             </View>
-          </View>
+            <Text style={styles.cardTitle}>{item?.name || 'Untitled'}</Text>
+          </Pressable>
         )}
       />
+
+      {controlsVisible && (
+        <View style={styles.dotsContainer}>
+          {activities.map((_, i) => (
+            <View
+              key={i}
+              style={[
+                styles.dot,
+                currentIndex === i && styles.activeDot,
+              ]}
+            />
+          ))}
+        </View>
+      )}
     </SafeAreaView>
   );
 };
