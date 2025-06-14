@@ -65,7 +65,9 @@ export default function App() {
             options={({ navigation }) => ({
               headerTransparent: true,
               headerShadowVisible: false,
-              headerBackTitleVisible: false,
+              headerLeft: (props) => ( // back button to only inlcude a '<' and no word 'back'
+                <HeaderBackButton {...props} labelVisible={false} onPress={() => navigation.goBack()} />
+              ),
             })}  
           />
           <Stack.Screen 
