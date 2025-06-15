@@ -1,7 +1,7 @@
 // Main board screen containing the Now/Next/Then board
 
 import { useEffect, useRef, useState } from "react";  
-import { View, Text, TouchableOpacity, Modal, SafeAreaView } from "react-native";
+import { View, Text, TouchableOpacity, Modal, SafeAreaView, TextInput } from "react-native";
 import NowNextBoard from "./components/NowNextBoard";
 import CogIcon from "../assets/icons/cog.svg";
 import NowNextSettingsModal from "./settings/NowNextBoardSettings";
@@ -36,6 +36,7 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
   // saving boards
   const [customTitle, setCustomTitle] = useState('');
   const [currentBoardId, setCurrentBoardId] = useState(null);
+  const [newBoardTitle, setNewBoardTitle] = useState('');
 
   // loading saved boards
   useEffect(() => {
@@ -156,6 +157,15 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
+      <View style={styles.chooserTop}>
+        <TextInput
+          placeholder="Enter new board title..."
+          value={newBoardTitle}
+          onChangeText={setNewBoardTitle}
+          style={styles.chooserTextInput}
+          placeholderTextColor={"#aaa"}
+        />
+      </View>
       <NowNextBoard 
         nowActivity={nowActivity}
         nextActivity={nextActivity} 

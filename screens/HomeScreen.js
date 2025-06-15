@@ -37,7 +37,7 @@ export default function HomeScreen({ navigation }) {
       />
       <CustomButton
         title="Now/Next/Then"
-        onPress={() => navigation.navigate('NowNextBoardChooser')}
+        onPress={() => navigation.navigate('Now/Next')}
       />
       <CustomButton
         title="Choice Boards"
