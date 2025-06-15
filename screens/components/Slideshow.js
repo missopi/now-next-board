@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useLayoutEffect } from 'react';
 import { View, Text, FlatList, Image, SafeAreaView, Pressable } from 'react-native';
 import styles from '../styles/SlideshowStyles';
 
@@ -8,6 +8,10 @@ const Slideshow = ({ route, navigation }) => {
   const [controlsVisible, setControlsVisible] = useState(true);
 
   const toggleControls = () => setControlsVisible(!controlsVisible);
+
+  useLayoutEffect(() => {
+    navigation.setOptions({ headerShown: false });
+  }, [navigation]);
 
   const onViewableItemsChanged = useRef(({ viewableItems }) => {
     if (viewableItems.length > 0) {
