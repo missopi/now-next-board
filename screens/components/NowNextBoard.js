@@ -25,8 +25,8 @@ const NowNextBoard = ({ nowActivity, nextActivity, thenActivity, onSelectSlot, s
         style={[
           styles.card, 
           { 
-            width: isLandscape ? width * 0.29 : width * 0.68,  // orientation aware layout using useWindowDimentions
-            height: isLandscape ? height * 0.65 : height * 0.24, 
+            width: isLandscape ? width * 0.29 : width * 0.63,  // orientation aware layout using useWindowDimentions
+            height: isLandscape ? height * 0.65 : height * 0.21, 
           },
         ]} 
         onPress={() => onSelectSlot({ slot: label })}
@@ -51,37 +51,28 @@ const NowNextBoard = ({ nowActivity, nextActivity, thenActivity, onSelectSlot, s
     <View style={styles.container}>
       <View style={[styles.wrapper, isLandscape ? styles.landscape : styles.portrait]}>
         <View style={styles.column}>
-          <View style={styles.textRow}>
-            <Text style={styles.header}>Now  </Text>
-            <View style={styles.iconRow}>
-              <CircleTick style={styles.tick} />
-              <Circle style={styles.circle} />
-              <Circle />
-            </View>
+          <View style={styles.iconRow}>
+            <CircleTick style={styles.tick} />
+            <Circle style={styles.circle} />
+            <Circle />
           </View>
           {renderCard(nowActivity, 'Now')}
         </View>
         <View style={styles.column}>
-          <View style={styles.textRow}>
-            <Text style={styles.header}>Next  </Text>
-            <View style={styles.iconRow}>
-              <Circle />
-              <CircleTick style={styles.tick} />
-              <Circle />
-            </View>
+          <View style={styles.iconRow}>
+            <Circle />
+            <CircleTick style={styles.tick} />
+            <Circle />
           </View>
           {renderCard(nextActivity, 'Next')}
         </View>
         {showThen && ( // showthen determines if 'then' card is displayed on screen
           <View style={styles.column}>
-            <View style={styles.textRow}>
-            <Text style={styles.header}>Then  </Text>
             <View style={styles.iconRow}>
               <Circle />
               <Circle />
               <CircleTick style={styles.tick} />
             </View>
-          </View>
             {renderCard(thenActivity, 'Then')}
           </View>
         )}

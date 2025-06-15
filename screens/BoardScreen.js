@@ -173,6 +173,26 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
         onSelectSlot={onSelectSlot}
         showThen={showThen} 
       />
+      <View style={{ flexDirection: 'row', marginHorizontal: 40 }}>
+        <TouchableOpacity
+          onPress={saveCurrentNowNextBoard}
+          style={styles.saveButton}
+        >
+          <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 14 }}>Save Board</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('NowNextSlideshow', {
+            title: newBoardTitle,
+            strokeColor,
+            nowCard: activities[0],
+            nextCard: activities[1],
+            thenCard: activities[2],
+          })}
+          style={styles.slideshowButton}
+        >
+          <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 14 }}>View as Slideshow</Text>
+        </TouchableOpacity>
+      </View>
 
       <ImageCardCreatorModal
         visible={isNewCardVisible}
