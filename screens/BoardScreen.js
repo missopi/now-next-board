@@ -190,7 +190,7 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
           })}
           style={styles.slideshowButton}
         >
-          <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 14 }}>View as Slideshow</Text>
+          <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 14 }}>View Slideshow</Text>
         </TouchableOpacity>
       </View>
 
