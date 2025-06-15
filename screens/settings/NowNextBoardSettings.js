@@ -8,7 +8,7 @@ const NowNextSettingsModal = ({ showThen, setShowThen }) => {
   return (
     <View style={styles.modal}>
       <Text style={styles.modalTitle}>Settings</Text>
-      <TouchableOpacity
+      {/*<TouchableOpacity
         style={styles.modalRow}
         onPress={async () => {
           setShowThen(false);
@@ -33,7 +33,7 @@ const NowNextSettingsModal = ({ showThen, setShowThen }) => {
           {showThen && <View style={styles.radioDot} />}
         </View>
       </TouchableOpacity>
-      <Text style={styles.modalText}>Adds a third step, the eventual next step, to provide a broader sequence of events.</Text>
+      <Text style={styles.modalText}>Adds a third step, the eventual next step, to provide a broader sequence of events.</Text>*/}
     </View>
   );
 };

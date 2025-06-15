@@ -22,7 +22,7 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
 
   // modal for settings
   const [settingsVisible, setSettingsVisible] = useState(false);
-  const [showThen, setShowThen] = useState(false);
+  const [showThen, setShowThen] = useState(true);
   
   // modal for adding custom card
   const [newCardImage, setNewCardImage] = useState(null);
@@ -222,14 +222,9 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
         >
         <View style={styles.modalView}>
           <TouchableOpacity style={styles.closeButton} onPress={() => setSettingsVisible(false)}>
-            <Text style={styles.closeX}>x</Text>
+            <Text style={styles.closeX}>✕</Text>
           </TouchableOpacity>
-          <NowNextSettingsModal showThen={showThen} setShowThen={setShowThen} />
-          <TouchableOpacity onPress={saveCurrentNowNextBoard}>
-            <Text style={{ paddingTop: 30, color: 'black', textDecorationLine: 'underline', fontWeight: 'bold', textAlign: 'center' }}>
-              Save This Board
-            </Text>
-          </TouchableOpacity>
+          <NowNextSettingsModal />
         </View>
       </Modal>
     </SafeAreaView>

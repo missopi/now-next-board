@@ -218,8 +218,8 @@ export default StyleSheet.create({
     zIndex: 1,
   },
   closeX: {
-    fontSize: 28,
-    fontWeight: 400,
+    fontSize: 22,
+    fontWeight: 900,
     color: '#000',
-  }
+  },
 });
