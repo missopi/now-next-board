@@ -1,5 +1,5 @@
 import { useState, useRef, useLayoutEffect } from 'react';
-import { View, Text, FlatList, Image, SafeAreaView, Pressable } from 'react-native';
+import { View, Text, FlatList, Image, SafeAreaView, Pressable, TouchableOpacity } from 'react-native';
 import styles from '../styles/SlideshowStyles';
 
 const Slideshow = ({ route, navigation }) => {
@@ -37,19 +37,21 @@ const Slideshow = ({ route, navigation }) => {
         viewabilityConfig={{ itemVisiblePercentThreshold: 50 }}
         renderItem={({ item }) => (
           <Pressable style={styles.slide} onPress={toggleControls}>
-            <View style={styles.cardWrapper}>
-              <View style={styles.cardInner}>
-                {item?.image?.uri ? (
-                  <Image
-                    source={{ uri: item.image.uri }}
-                    style={styles.image}
-                    resizeMode="cover"
-                  />
-                ) : (
-                  <Text style={{ color: '#999' }}>No image</Text>
-                )}
-                <Text style={styles.cardTitle}>{item?.name}</Text>
-              </View>
+            <View>
+              {item?.image?.uri ? (
+                <View style={styles.cardWrapper}>
+                  <View style={styles.cardInner}>
+                    <Image
+                      source={{ uri: item.image.uri }}
+                      style={styles.image}
+                      resizeMode="cover"
+                    />
+                    <Text style={styles.cardTitle}>{item?.name}</Text>
+                  </View>
+                </View>
+              ) : (
+                <Text style={styles.noImageText}>No image</Text>
+              )}
             </View>
           </Pressable>
         )}

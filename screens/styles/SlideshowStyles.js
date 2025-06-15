@@ -47,6 +47,15 @@ export default StyleSheet.create({
     borderColor: 'black',
     borderWidth: 1,
   },
+  noImageText: {
+    color: '#999',
+    backgroundColor: 'transparent',
+    fontSize: 16,
+    textAlign: 'center',
+    padding: 0,
+    borderRadius: 0,
+    shadowOpacity: 0,
+  },
   cardTitle: {
     fontSize: 20,
     fontWeight: '600',
@@ -72,5 +81,3 @@ export default StyleSheet.create({
     height: 12,
   },
 });
-
-
