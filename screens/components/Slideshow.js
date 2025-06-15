@@ -44,9 +44,9 @@ const Slideshow = ({ route, navigation }) => {
                 ) : (
                   <Text style={{ color: '#999' }}>No image</Text>
                 )}
+                <Text style={styles.cardTitle}>{item?.name}</Text>
               </View>
             </View>
-            <Text style={styles.cardTitle}>{item?.name || 'Untitled'}</Text>
           </Pressable>
         )}
       />

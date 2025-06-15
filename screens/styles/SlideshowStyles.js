@@ -7,17 +7,14 @@ export default StyleSheet.create({
     flex: 1,
   },
   header: {
-    paddingTop: 16,
-    paddingBottom: 12,
-    paddingHorizontal: 20,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'transparent',
   },
   title: {
-    fontSize: 18,
-    fontWeight: '600',
+    fontSize: 20,
+    fontWeight: 'bold',
     color: '#000',
   },
   slide: {
@@ -27,7 +24,7 @@ export default StyleSheet.create({
     paddingVertical: 48,
   },
   cardWrapper: {
-    backgroundColor: 'black',
+    backgroundColor: '#444',
     borderRadius: 18,
     padding: 2,
     shadowColor: '#000',
@@ -39,11 +36,15 @@ export default StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 16,
     overflow: 'hidden',
+    padding: 14,
+    paddingBottom: 30,
   },
   image: {
     width: screenWidth * 0.85,
     height: screenHeight * 0.55,
     borderRadius: 14,
+    borderColor: 'black',
+    borderWidth: 1,
   },
   cardTitle: {
     fontSize: 20,
@@ -55,7 +56,7 @@ export default StyleSheet.create({
   dotsContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginBottom: 24,
+    marginBottom: 34,
   },
   dot: {
     width: 10,
