@@ -183,9 +183,9 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
                 <TouchableOpacity
           onPress={() => navigation.navigate('NowNextBoardFinished', {
             title: newBoardTitle,
-            nowCard: activities[0],
-            nextCard: activities[1],
-            thenCard: activities[2],
+            nowCard: nowActivity,
+            nextCard: nextActivity,
+            thenCard: thenActivity,
           })}
           style={styles.slideshowButton}
         >
@@ -194,9 +194,9 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
         <TouchableOpacity
           onPress={() => navigation.navigate('NowNextSlideshow', {
             title: newBoardTitle,
-            nowCard: activities[0],
-            nextCard: activities[1],
-            thenCard: activities[2],
+            nowCard: nowActivity,
+            nextCard: nextActivity,
+            thenCard: thenActivity,
           })}
           style={styles.slideshowButton}
         >

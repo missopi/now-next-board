@@ -1,5 +1,5 @@
 import { useState, useRef, useLayoutEffect } from 'react';
-import { View, Text, FlatList, Image, SafeAreaView, Pressable, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, Image, SafeAreaView, Pressable } from 'react-native';
 import styles from '../styles/SlideshowStyles';
 
 const Slideshow = ({ route, navigation }) => {
