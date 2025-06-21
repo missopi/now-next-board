@@ -122,7 +122,7 @@ export default StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 14,
     marginHorizontal: 40,
-    marginBottom: 2,
+    marginBottom: 1,
     backgroundColor: '#fff',
   },
   showThenButton: {
@@ -141,6 +141,7 @@ export default StyleSheet.create({
     backgroundColor: '#4a90e2',
     borderRadius: 8,
     alignItems: 'center',
+    justifyContent: 'center',
   },
   slideshowButton: {
     flex: 1,
@@ -149,6 +150,7 @@ export default StyleSheet.create({
     backgroundColor: '#4a90e2',
     borderRadius: 8,
     alignItems: 'center',
+    justifyContent: 'center',
   },
 
   // Settings Modal

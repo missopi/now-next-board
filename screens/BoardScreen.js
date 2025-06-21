@@ -178,19 +178,29 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
           onPress={saveCurrentNowNextBoard}
           style={styles.saveButton}
         >
-          <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 14 }}>Save Board</Text>
+          <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 12, textAlign: 'center' }}>Save Board</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('NowNextSlideshow', {
+                <TouchableOpacity
+          onPress={() => navigation.navigate('NowNextBoardFinished', {
             title: newBoardTitle,
-            strokeColor,
             nowCard: activities[0],
             nextCard: activities[1],
             thenCard: activities[2],
           })}
           style={styles.slideshowButton}
         >
-          <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 14 }}>View Slideshow</Text>
+          <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 12, textAlign: 'center' }}>View Now/Next Board</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('NowNextSlideshow', {
+            title: newBoardTitle,
+            nowCard: activities[0],
+            nextCard: activities[1],
+            thenCard: activities[2],
+          })}
+          style={styles.slideshowButton}
+        >
+          <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 12, textAlign: 'center' }}>View as Slideshow</Text>
         </TouchableOpacity>
       </View>
 

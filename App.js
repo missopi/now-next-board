@@ -24,6 +24,7 @@ import WantBoard from "./screens/choice_boards/WantBoard";
 import NeedsBoard from "./screens/choice_boards/NeedsBoard";
 import AnswerCard from "./screens/components/AnswerCard";
 import Slideshow from "./screens/components/Slideshow";
+import NowNextBoardFinished from "./screens/NowNextBoardFinished";
 
 const Stack = createNativeStackNavigator();
 
@@ -60,6 +61,17 @@ export default function App() {
           <Stack.Screen 
             name="Slideshow" // presentation display for routines etc
             component={Slideshow} 
+            options={({ navigation }) => ({
+              headerTransparent: true,
+              headerShadowVisible: false,
+              headerLeft: (props) => ( // back button to only inlcude a '<' and no word 'back'
+                <HeaderBackButton {...props} labelVisible={false} onPress={() => navigation.goBack()} />
+              ),
+            })}  
+          />
+          <Stack.Screen 
+            name="NowNextBoardFinished" // finished Now/Next board display page
+            component={NowNextBoardFinished} 
             options={({ navigation }) => ({
               headerTransparent: true,
               headerShadowVisible: false,
