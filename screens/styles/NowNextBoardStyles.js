@@ -34,10 +34,10 @@ export default StyleSheet.create({
     gap: 5,
   },
   iconRow: {
-    flexDirection: 'column',
+    flexDirection: 'row',
     alignItems: 'center',
     gap: 3,
-    padding: 16,
+    paddingBottom: 12,
   },
   column: {
     flexDirection: 'row',
@@ -258,7 +258,6 @@ export default StyleSheet.create({
   finishedCard: {
     borderWidth: 1,
     borderRadius: 15,
-    marginBottom: 15,
     backgroundColor: '#fff',
     position: 'relative',
     shadowColor: '#000',
@@ -280,6 +279,7 @@ export default StyleSheet.create({
   finishedCardTitle: {
     marginTop: 8,
     fontSize: 18,
+    paddingBottom: 12,
     fontWeight: '500',
     color: '#222',
     textAlign: 'center',
