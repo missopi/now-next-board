@@ -11,6 +11,7 @@ import { pickImage } from "../utilities/imagePickerHelper";
 import ImageCardCreatorModal from "./components/ImageCardCreatorModal";
 import uuid from "react-native-uuid";
 import { saveBoard, updateBoard } from "../utilities/BoardStore";
+import * as ScreenOrientation from 'expo-screen-orientation';
 
 export default function NowNextBoardScreen({ navigation, route }) {  // useState used to track selected activities
   const { mode, board } = route.params || {};
@@ -51,6 +52,18 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
       setCustomTitle(route.params.initialTitle);
     }
   }, [route.params]);
+
+
+  // lock screen orientation
+  useEffect(() => {
+    console.log('Locking to portrait...');
+    ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
+    
+    return () => {
+    // Unlock when leaving
+    ScreenOrientation.unlockAsync();
+  };
+  }, []);
 
   // setting cog in header
   useEffect(() => { 

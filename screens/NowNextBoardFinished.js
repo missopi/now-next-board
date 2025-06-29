@@ -1,8 +1,16 @@
-import React from "react";
+import { useEffect } from "react";
 import { SafeAreaView, View, Text } from "react-native";
-import styles from "../styles/NowNextBoardStyles";
 
 const NowNextBoardFinished = () => {
+  useEffect(() => {
+  // Lock this screen to LANDSCAPE only
+  ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE_LEFT);
+
+  return () => {
+    // Unlock when leaving
+    ScreenOrientation.unlockAsync();
+  };
+}, []);
 
 };
 
