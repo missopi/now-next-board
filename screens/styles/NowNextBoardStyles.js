@@ -235,7 +235,7 @@ export default StyleSheet.create({
     fontSize: 22,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginBottom: 24,
+    marginTop: 18,
     color: '#000',
   },
   finishedCardRow: {
@@ -243,6 +243,7 @@ export default StyleSheet.create({
     justifyContent: 'space-evenly',
     alignItems: 'center',
     width: '100%',
+    gap: 5,
     flex: 1,
   },
   finishedCardContainer: {
@@ -255,9 +256,16 @@ export default StyleSheet.create({
     color: '#444',
   },
   finishedCard: {
-    backgroundColor: 'black',
-    padding: 4,
-    borderRadius: 20,
+    borderWidth: 1,
+    borderRadius: 15,
+    marginBottom: 15,
+    backgroundColor: '#fff',
+    position: 'relative',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.5,
+    shadowRadius: 5,
+    elevation: 4,
   },
   finishedCardInner: {
     backgroundColor: 'white',
@@ -265,8 +273,8 @@ export default StyleSheet.create({
     overflow: 'hidden',
   },
   finishedImage: {
-    width: 250,
-    height: 180,
+    width: 230,
+    height: 190,
     borderRadius: 14,
   },
   finishedCardTitle: {
