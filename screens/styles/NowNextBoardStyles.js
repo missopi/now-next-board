@@ -224,4 +224,56 @@ export default StyleSheet.create({
     fontWeight: 900,
     color: '#000',
   },
+
+  // finished view
+
+  finishedContainer: {
+    flex: 1,
+    padding: 16,
+  },
+  finishedTitle: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 24,
+    color: '#000',
+  },
+  finishedCardRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    width: '100%',
+    flex: 1,
+  },
+  finishedCardContainer: {
+    alignItems: 'center',
+  },
+  finishedCardLabel: {
+    fontSize: 18,
+    fontWeight: '600',
+    marginBottom: 8,
+    color: '#444',
+  },
+  finishedCard: {
+    backgroundColor: 'black',
+    padding: 4,
+    borderRadius: 20,
+  },
+  finishedCardInner: {
+    backgroundColor: 'white',
+    borderRadius: 16,
+    overflow: 'hidden',
+  },
+  finishedImage: {
+    width: 250,
+    height: 180,
+    borderRadius: 14,
+  },
+  finishedCardTitle: {
+    marginTop: 8,
+    fontSize: 18,
+    fontWeight: '500',
+    color: '#222',
+    textAlign: 'center',
+  },
 });

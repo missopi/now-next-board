@@ -51,28 +51,28 @@ const NowNextBoard = ({ nowActivity, nextActivity, thenActivity, onSelectSlot, s
     <View style={styles.container}>
       <View style={[styles.wrapper, isLandscape ? styles.landscape : styles.portrait]}>
         <View style={styles.column}>
-          <View style={styles.iconRow}>
+          {/*<View style={styles.iconRow}>
             <CircleTick style={styles.tick} />
             <Circle style={styles.circle} />
             <Circle />
-          </View>
+          </View>*/}
           {renderCard(nowActivity, 'Now')}
         </View>
         <View style={styles.column}>
-          <View style={styles.iconRow}>
+          {/*<View style={styles.iconRow}>
             <Circle />
             <CircleTick style={styles.tick} />
             <Circle />
-          </View>
+          </View>*/}
           {renderCard(nextActivity, 'Next')}
         </View>
         {showThen && ( // showthen determines if 'then' card is displayed on screen
           <View style={styles.column}>
-            <View style={styles.iconRow}>
+            {/*<View style={styles.iconRow}>
               <Circle />
               <Circle />
               <CircleTick style={styles.tick} />
-            </View>
+            </View>*/}
             {renderCard(thenActivity, 'Then')}
           </View>
         )}
