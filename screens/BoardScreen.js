@@ -206,10 +206,10 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => navigation.navigate('NowNextSlideshow', {
-            title: newBoardTitle,
-            nowCard: nowActivity,
-            nextCard: nextActivity,
-            thenCard: thenActivity,
+            board: {
+              title: newBoardTitle,
+              cards: [nowActivity, nextActivity, thenActivity].filter(Boolean),
+            },
           })}
           style={styles.slideshowButton}
         >
