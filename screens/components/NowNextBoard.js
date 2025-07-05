@@ -25,8 +25,8 @@ const NowNextBoard = ({ nowActivity, nextActivity, thenActivity, onSelectSlot, s
         style={[
           styles.card, 
           { 
-            width: isLandscape ? width * 0.29 : width * 0.63,  // orientation aware layout using useWindowDimentions
-            height: isLandscape ? height * 0.65 : height * 0.21, 
+            width: isLandscape ? width * 0.29 : width * 0.80,  // orientation aware layout using useWindowDimentions
+            height: isLandscape ? height * 0.65 : height * 0.15, 
           },
         ]} 
         onPress={() => onSelectSlot({ slot: label })}
