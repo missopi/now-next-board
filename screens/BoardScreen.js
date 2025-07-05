@@ -186,14 +186,16 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
         onSelectSlot={onSelectSlot}
         showThen={showThen} 
       />
-      <View style={{ flexDirection: 'row', marginHorizontal: 40 }}>
+      <View style={{ marginHorizontal: 40, height: 60, paddingBottom: 10, }}>
         <TouchableOpacity
           onPress={saveCurrentNowNextBoard}
           style={styles.saveButton}
         >
           <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 12, textAlign: 'center' }}>Save Board</Text>
         </TouchableOpacity>
-                <TouchableOpacity
+      </View>
+      <View style={{ flexDirection: 'row', marginHorizontal: 40 }}>
+        <TouchableOpacity
           onPress={() => navigation.navigate('NowNextBoardFinished', {
             board: {
               title: newBoardTitle,
