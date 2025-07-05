@@ -33,6 +33,10 @@ export default StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 5,
   },
+  tick: {
+    width: 30,
+    height: 30,
+  },
   cardInner: {
     backgroundColor: 'white',
     borderRadius: 16,
@@ -79,5 +83,18 @@ export default StyleSheet.create({
     backgroundColor: '#000',
     width: 12,
     height: 12,
+  },
+  slideLabel: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    paddingBottom: 15,
+  },
+  dotsRow: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 12,
+    paddingBottom: 20,
+    gap: 4, // optional: or use margin on each dot
   },
 });

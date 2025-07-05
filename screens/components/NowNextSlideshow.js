@@ -1,6 +1,8 @@
 import { useState, useRef, useLayoutEffect } from 'react';
 import { View, Text, FlatList, Image, SafeAreaView } from 'react-native';
 import styles from '../styles/SlideshowStyles';
+import Circle from "../../assets/icons/circle.svg"
+import CircleTick from "../../assets/icons/hollowCircleTick.svg";
 
 const NowNextSlideshow = ({ navigation, route }) => {
   const { board } = route.params || {};
@@ -52,16 +54,14 @@ const NowNextSlideshow = ({ navigation, route }) => {
         keyExtractor={(_, index) => `card-${index}`}
       />
 
-      <View style={styles.dotsContainer}>
-        {cards.map((_, i) => (
-          <View
-            key={i}
-            style={[
-              styles.dot,
-              currentIndex === i && styles.activeDot,
-            ]}
-          />
-        ))}
+      <View style={styles.dotsRow}>
+        {cards.map((_, index) =>
+          index === currentIndex ? (
+            <CircleTick key={index} style={styles.tick} />
+          ) : (
+            <Circle key={index} style={styles.tick}/>
+          )
+        )}
       </View>
     </SafeAreaView>
   );
