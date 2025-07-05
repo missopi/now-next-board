@@ -71,7 +71,7 @@ export default function AllBoardsScreen() {
   const renderBoard = ({ item }) => (
     <TouchableOpacity style={styles.boardCard} onPress={() => navigateToBoard(item)}>
       <View style={styles.boardHeader}>
-        <Text style={styles.boardTitle}>{item.title}</Text>
+        <Text style={styles.boardTitle}>{item.title || 'Now / Next Board'}</Text>
         <TouchableOpacity style={styles.deleteButton} onPress={() => handleDelete(item.id)}>
           <Text style={styles.deleteIcon}>✕</Text>
         </TouchableOpacity>
