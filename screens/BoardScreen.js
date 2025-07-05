@@ -170,15 +170,6 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <View style={styles.chooserTop}>
-        <TextInput
-          placeholder="Enter new board title..."
-          value={newBoardTitle}
-          onChangeText={setNewBoardTitle}
-          style={styles.chooserTextInput}
-          placeholderTextColor={"#aaa"}
-        />
-      </View>
       <NowNextBoard 
         nowActivity={nowActivity}
         nextActivity={nextActivity} 
