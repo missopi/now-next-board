@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Alert, View, Text, FlatList, Image, ScrollView, TextInput, TouchableOpacity, StyleSheet, Dimensions, SafeAreaView } from 'react-native';
+import { Alert, View, Text, FlatList, Image, ScrollView, TextInput, Modal, TouchableOpacity, StyleSheet, Dimensions, SafeAreaView } from 'react-native';
 import { getBoards, deleteBoard } from '../utilities/BoardStore';
 import { useNavigation } from '@react-navigation/native';
 
@@ -19,6 +19,10 @@ export default function AllBoardsScreen() {
   const [boards, setBoards] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTab, setActiveTab] = useState('All');
+
+  const [selectedBoard, setSelectedBoard] = useState(null);
+  const [modalVisible, setModalVisible] = useState(false);
+
 
   useEffect(() => {
     const loadBoards = async () => {
@@ -52,24 +56,49 @@ export default function AllBoardsScreen() {
     );
   };
 
-  const navigateToBoard = (board) => {
+  const navigateToBoard = (board, action = 'edit') => {
     switch (board.type) {
       case 'routine':
-        navigation.navigate('Routines', { mode: 'load', board });
+        if (action === 'edit') {
+          navigation.navigate('Routines', { mode: 'load', board });
+        } else if (action === 'view') {
+          navigation.navigate('FinishedRoutine', { board });
+        } else if (action === 'slideshow') {
+          navigation.navigate('Slideshow', { board });
+        }
         break;
+
       case 'nowNextThen':
-        navigation.navigate('Now/Next', { mode: 'load', board });
+        if (action === 'edit') {
+          navigation.navigate('Now/Next', { mode: 'load', board });
+        } else if (action === 'view') {
+          navigation.navigate('NowNextBoardFinished', { board });
+        } else if (action === 'slideshow') {
+          navigation.navigate('NowNextSlideshow', { board });
+        }
         break;
+
       case 'choice':
-        navigation.navigate('ChoiceScreen', { mode: 'load', board });
+        if (action === 'edit') {
+          navigation.navigate('ChoiceScreen', { mode: 'load', board });
+        } else {
+          alert('View and slideshow not yet supported for choice boards.');
+        }
         break;
+
       default:
         console.warn('Unknown board type:', board.type);
     }
   };
 
+
   const renderBoard = ({ item }) => (
-    <TouchableOpacity style={styles.boardCard} onPress={() => navigateToBoard(item)}>
+    <TouchableOpacity style={styles.boardCard} 
+      onPress={() => {
+        setSelectedBoard(item); 
+        setModalVisible(true);
+      }}
+    >
       <View style={styles.boardHeader}>
         <Text style={styles.boardTitle}>{item.title || 'Now / Next Board'}</Text>
         <TouchableOpacity style={styles.deleteButton} onPress={() => handleDelete(item.id)}>
@@ -93,33 +122,95 @@ export default function AllBoardsScreen() {
   );
 
   return (
-    <SafeAreaView style={styles.container}>
-      <TextInput
-        placeholder="Search boards..."
-        value={searchQuery}
-        onChangeText={setSearchQuery}
-        style={styles.searchInput}
-      />
+    <>
+      <SafeAreaView style={styles.container}>
+        <TextInput
+          placeholder="Search boards..."
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+          style={styles.searchInput}
+        />
 
-      <View style={styles.tabs}>
-        {TABS.map((tab) => (
-          <TouchableOpacity
-            key={tab}
-            onPress={() => setActiveTab(tab)}
-            style={[styles.tab, activeTab === tab && styles.activeTab]}
-          >
-            <Text style={styles.tabText}>{tab}</Text>
-          </TouchableOpacity>
-        ))}
-      </View>
+        <View style={styles.tabs}>
+          {TABS.map((tab) => (
+            <TouchableOpacity
+              key={tab}
+              onPress={() => setActiveTab(tab)}
+              style={[styles.tab, activeTab === tab && styles.activeTab]}
+            >
+              <Text style={styles.tabText}>{tab}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
 
-      <FlatList
-        data={filteredBoards}
-        keyExtractor={(item) => item.id}
-        renderItem={renderBoard}
-        contentContainerStyle={{ paddingBottom: 20 }}
-      />
-    </SafeAreaView>
+        <FlatList
+          data={filteredBoards}
+          keyExtractor={(item) => item.id}
+          renderItem={renderBoard}
+          contentContainerStyle={{ paddingBottom: 20 }}
+        />
+      </SafeAreaView>
+
+      {selectedBoard && (
+        <Modal
+          visible={modalVisible}
+          transparent
+          animationType="slide"
+          onRequestClose={() => setModalVisible(false)}
+        >
+          <View style={styles.modalOverlay}>
+            <View style={styles.modalContainer}>
+              <Text style={styles.modalTitle}>What would you like to do?</Text>
+
+              <TouchableOpacity
+                style={styles.modalButton}
+                onPress={() => {
+                  setModalVisible(false);
+                  navigateToBoard(selectedBoard, 'edit');
+                }}
+              >
+                <Text>Edit Board</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.modalButton}
+                onPress={() => {
+                  setModalVisible(false);
+                  navigateToBoard(selectedBoard, 'view');
+                }}
+              >
+                <Text>View Board</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.modalButton}
+                onPress={() => {
+                  setModalVisible(false);
+                  navigateToBoard(selectedBoard, 'slideshow');
+                }}
+              >
+                <Text>View Slideshow</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.modalButton}
+                onPress={() => {
+                  setModalVisible(false);
+                  // TODO: Replace with print logic when ready
+                  alert('Coming soon: Export to PDF');
+                }}
+              >
+                <Text>Print PDF</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => setModalVisible(false)}>
+                <Text style={{ marginTop: 16, color: 'red' }}>Cancel</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
+      )}
+    </>
   );
 }
 
@@ -227,5 +318,31 @@ const styles = StyleSheet.create({
   cardLabel: {
     fontSize: 14,
     color: '#333',
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.4)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContainer: {
+    backgroundColor: 'white',
+    borderRadius: 16,
+    padding: 24,
+    width: '80%',
+    alignItems: 'center',
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  modalButton: {
+    padding: 12,
+    marginVertical: 6,
+    backgroundColor: '#eee',
+    borderRadius: 8,
+    width: '100%',
+    alignItems: 'center',
   },
 });
