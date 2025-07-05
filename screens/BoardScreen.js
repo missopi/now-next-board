@@ -35,9 +35,7 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
   const [modalStep, setModalStep] = useState('choose');
 
   // saving boards
-  const [customTitle, setCustomTitle] = useState('');
   const [currentBoardId, setCurrentBoardId] = useState(null);
-  const [newBoardTitle, setNewBoardTitle] = useState('');
 
   // loading saved boards
   useEffect(() => {
@@ -145,7 +143,6 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
     const board = {
       id: currentBoardId || uuid.v4(),
       type: 'nowNextThen',
-      title: customTitle,
       cards: [nowActivity, nextActivity, showThen ? thenActivity : null].filter(Boolean),
       Settings: { showThen },
     };
@@ -160,7 +157,6 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
   };
 
   const loadNowNextBoard = (board) => {
-    setCustomTitle(board.title);
     setNowActivity(board.cards[0] || null);
     setNextActivity(board.cards[1] || null);
     setThenActivity(board.cards[2] || null);
@@ -189,7 +185,6 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
         <TouchableOpacity
           onPress={() => navigation.navigate('NowNextBoardFinished', {
             board: {
-              title: newBoardTitle,
               cards: [nowActivity, nextActivity, thenActivity].filter(Boolean),
             },
           })}
@@ -200,7 +195,6 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
         <TouchableOpacity
           onPress={() => navigation.navigate('NowNextSlideshow', {
             board: {
-              title: newBoardTitle,
               cards: [nowActivity, nextActivity, thenActivity].filter(Boolean),
             },
           })}
