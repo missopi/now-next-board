@@ -10,6 +10,7 @@ import useThemedStyles from '../screens/styles/theme/useThemedStyles';
 
 export default function AllBoardsScreen() {
   const styles = useThemedStyles(getStyles); 
+  const theme = useThemedStyles(getStyles);
   const navigation = useNavigation();
   const [boards, setBoards] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -123,7 +124,7 @@ export default function AllBoardsScreen() {
           }}
           style={styles.iconButton}
         >
-          <Feather name="share" size={20} color="#333" />
+          <Feather name="share" size={20} color={theme.iconSecondary} />
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -133,7 +134,7 @@ export default function AllBoardsScreen() {
           }}
           style={styles.iconButton}
         >
-          <Entypo name="dots-three-horizontal" size={20} color="#333" />
+          <Entypo name="dots-three-horizontal" size={20} color={theme.iconSecondary} />
         </TouchableOpacity>
       </View>
     </TouchableOpacity>
@@ -144,6 +145,7 @@ export default function AllBoardsScreen() {
       <SafeAreaView style={styles.container}>
         <TextInput
           placeholder="Search boards..."
+          placeholderTextColor={theme.placeholder}
           value={searchQuery}
           onChangeText={setSearchQuery}
           style={styles.searchInput}
@@ -189,7 +191,7 @@ export default function AllBoardsScreen() {
               }}
             >
               <Text style={styles.text}>Edit Board</Text>
-              <Feather name="edit" size={20} color="#999" />
+              <Feather name="edit" size={20} color="#999"  />
             </TouchableOpacity>
           </View>
           
@@ -203,7 +205,7 @@ export default function AllBoardsScreen() {
               }}
             >
               <Text style={styles.text}>View Board</Text>
-              <Feather name="eye" size={20} color="#999" />
+              <Feather name="eye" size={20} color="#999"  />
             </TouchableOpacity>
 
             <TouchableOpacity

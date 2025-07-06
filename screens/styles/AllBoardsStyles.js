@@ -11,12 +11,12 @@ export default (theme) => StyleSheet.create({
   },
   searchInput: {
     padding: 10,
-    backgroundColor: theme.modalBackground,
+    backgroundColor: theme.inputBackground,
     borderRadius: 10,
     marginBottom: 16,
     marginHorizontal: 15,
     fontSize: 16,
-    color: theme.text,
+    color: theme.inputText,
   },
   tabs: {
     flexDirection: 'row',
@@ -61,7 +61,7 @@ export default (theme) => StyleSheet.create({
     padding: 12,
     borderRadius: 12,
     marginBottom: 16,
-    shadowColor: '#000',
+    shadowColor: theme.shadowColor,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
