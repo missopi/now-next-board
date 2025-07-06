@@ -50,7 +50,7 @@ export default function AllBoardsScreen() {
           style: 'destructive',
           onPress: async () => {
           const updated = await deleteBoard(boardId);
-          setBoards(updated.filter((b) => b.type === boardType));
+          setBoards(updated); 
           },
         },
       ]
