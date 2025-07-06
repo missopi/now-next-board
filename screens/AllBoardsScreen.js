@@ -1,10 +1,11 @@
 import { useEffect, useState, useRef } from 'react';
-import { Alert, View, Text, FlatList, Image, ScrollView, TextInput, Modal, TouchableOpacity, SafeAreaView } from 'react-native';
+import { Alert, View, Text, FlatList, Image, ScrollView, TextInput, TouchableOpacity, SafeAreaView, useColorScheme } from 'react-native';
 import { getBoards, deleteBoard } from '../utilities/BoardStore';
 import styles from '../screens/styles/AllBoardsStyles';
 import { useNavigation } from '@react-navigation/native';
 import { Entypo, Feather } from '@expo/vector-icons';
 import { Modalize } from 'react-native-modalize';
+import { getThemedStyles } from '../screens/styles/AllBoardsStyles';
 
 const TAB_TYPE_MAP = {
   'Now/Next': 'nowNextThen',
@@ -14,6 +15,10 @@ const TAB_TYPE_MAP = {
 
 const TABS = ['All'].concat(Object.keys(TAB_TYPE_MAP));
 
+const colorScheme = useColorScheme(); // returns 'light' or 'dark'
+const isDarkMode = colorScheme === 'dark';
+const styles = getThemedStyles(isDarkMode);
+
 export default function AllBoardsScreen() {
   const navigation = useNavigation();
   const [boards, setBoards] = useState([]);
@@ -21,7 +26,6 @@ export default function AllBoardsScreen() {
   const [activeTab, setActiveTab] = useState('All');
 
   const [selectedBoard, setSelectedBoard] = useState(null);
-  const [modalVisible, setModalVisible] = useState(false);
 
   const modalRef = useRef(null);
 
@@ -177,7 +181,7 @@ export default function AllBoardsScreen() {
           handleStyle={styles.handle}
           modalStyle={styles.modal}
         >
-          <View style={{ height: 15 }} /> {/* Spacer above handle */}
+          <View style={{ height: 15 }} />
 
           {/* Single option group */}
           <View style={styles.group}>

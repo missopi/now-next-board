@@ -3,19 +3,20 @@ import { StyleSheet, Dimensions } from 'react-native';
 const screenWidth = Dimensions.get('window').width;
 const cardSize = screenWidth * 0.25;
 
-export default StyleSheet.create({
+export const getThemedStyles = (isDarkMode) => StyleSheet.create({
   container: {
     padding: 16,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: isDarkMode ? '#000' : '#f0f0f0',
     flex: 1,
   },
   searchInput: {
     padding: 10,
-    backgroundColor: '#fff',
+    backgroundColor: isDarkMode ? '#1a1a1a' : '#fff',
     borderRadius: 10,
     marginBottom: 16,
     marginHorizontal: 15,
     fontSize: 16,
+    color: isDarkMode ? '#fff' : '#000',
   },
   tabs: {
     flexDirection: 'row',
@@ -26,14 +27,14 @@ export default StyleSheet.create({
   tab: {
     paddingVertical: 8,
     paddingHorizontal: 22,
-    backgroundColor: '#e0e0e0',
+    backgroundColor: isDarkMode ? '#2c2c2e' : '#e0e0e0',
     borderRadius: 10,
   },
   activeTab: {
-    backgroundColor: '#007bff',
+    backgroundColor: isDarkMode ? '#007aff' : '#007bff',
   },
   tabText: {
-    color: '#000',
+    color: isDarkMode ? '#fff' : '#000',
   },
   cardPreview: {
     width: 80,
@@ -47,16 +48,16 @@ export default StyleSheet.create({
     borderColor: '#111',
     borderWidth: 1,
     marginBottom: 2,
-    backgroundColor: '#eee',
+    backgroundColor: isDarkMode ? '#333' : '#eee',
   },
   cardLabel: {
     fontSize: 12,
     textAlign: 'center',
     marginTop: 4,
-    color: '#444',
+    color: isDarkMode ? '#bbb' : '#444',
   },
   boardCard: {
-    backgroundColor: '#fff',
+    backgroundColor: isDarkMode ? '#1c1c1e' : '#fff',
     padding: 12,
     borderRadius: 12,
     marginBottom: 16,
@@ -76,6 +77,7 @@ export default StyleSheet.create({
   boardTitle: {
     fontSize: 18,
     fontWeight: 'bold',
+    color: isDarkMode ? '#fff' : '#000',
   },
   deleteIcon: {
     color: '#ccc',
@@ -96,7 +98,7 @@ export default StyleSheet.create({
     alignItems: 'center',
   },
   card: {
-    backgroundColor: '#fafafa',
+    backgroundColor: isDarkMode ? '#1a1a1a' : '#fafafa',
     padding: 10,
     marginRight: 10,
     borderRadius: 8,
@@ -144,7 +146,7 @@ export default StyleSheet.create({
     padding: 6,
   },
   handle: {
-    backgroundColor: '#666',
+    backgroundColor: isDarkMode ? '#666' : '#ccc',
     width: 40,
     height: 5,
     borderRadius: 2.5,
@@ -152,14 +154,14 @@ export default StyleSheet.create({
     marginBottom: 10, // adds space between handle and first item
   },
   modal: {
-    backgroundColor: '#1c1c1e',
+    backgroundColor: isDarkMode ? '#1c1c1e' : '#fff',
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     paddingBottom: 20,
     paddingTop: 10,
   },
   group: {
-    backgroundColor: '#2c2c2e',
+    backgroundColor: isDarkMode ? '#2c2c2e' : '#f0f0f0',
     marginHorizontal: 12,
     marginBottom: 10,
     borderRadius: 14,
@@ -171,16 +173,12 @@ export default StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 14,
     paddingHorizontal: 18,
-    borderBottomColor: '#3a3a3c',
+    borderBottomColor: isDarkMode ? '#3a3a3c' : '#ddd',
     borderBottomWidth: 1,
   },
   text: {
     fontSize: 16,
-    color: '#fff',
+    color: isDarkMode ? '#fff' : '#000',
     fontWeight: '600',
-  },
-  icon: {
-    fontSize: 18,
-    color: '#aaa',
   },
 });
