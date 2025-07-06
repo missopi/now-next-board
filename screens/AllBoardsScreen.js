@@ -1,33 +1,29 @@
 import { useEffect, useState, useRef } from 'react';
 import { Alert, View, Text, FlatList, Image, ScrollView, TextInput, TouchableOpacity, SafeAreaView, useColorScheme } from 'react-native';
 import { getBoards, deleteBoard } from '../utilities/BoardStore';
-import styles from '../screens/styles/AllBoardsStyles';
 import { useNavigation } from '@react-navigation/native';
+
 import { Entypo, Feather } from '@expo/vector-icons';
 import { Modalize } from 'react-native-modalize';
-import { getThemedStyles } from '../screens/styles/AllBoardsStyles';
-
-const TAB_TYPE_MAP = {
-  'Now/Next': 'nowNextThen',
-  'Routine': 'routine',
-  'Choice': 'choice',
-};
-
-const TABS = ['All'].concat(Object.keys(TAB_TYPE_MAP));
-
-const colorScheme = useColorScheme(); // returns 'light' or 'dark'
-const isDarkMode = colorScheme === 'dark';
-const styles = getThemedStyles(isDarkMode);
+import getStyles from './styles/AllBoardsStyles';
+import useThemedStyles from '../screens/styles/theme/useThemedStyles';
 
 export default function AllBoardsScreen() {
+  const styles = useThemedStyles(getStyles); 
   const navigation = useNavigation();
   const [boards, setBoards] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTab, setActiveTab] = useState('All');
-
   const [selectedBoard, setSelectedBoard] = useState(null);
-
   const modalRef = useRef(null);
+
+  const TAB_TYPE_MAP = {
+    'Now/Next': 'nowNextThen',
+    'Routine': 'routine',
+    'Choice': 'choice',
+  };
+
+  const TABS = ['All'].concat(Object.keys(TAB_TYPE_MAP));
 
   useEffect(() => {
     const loadBoards = async () => {

@@ -3,20 +3,20 @@ import { StyleSheet, Dimensions } from 'react-native';
 const screenWidth = Dimensions.get('window').width;
 const cardSize = screenWidth * 0.25;
 
-export const getThemedStyles = (isDarkMode) => StyleSheet.create({
+export default (theme) => StyleSheet.create({
   container: {
     padding: 16,
-    backgroundColor: isDarkMode ? '#000' : '#f0f0f0',
+    backgroundColor: theme.background,
     flex: 1,
   },
   searchInput: {
     padding: 10,
-    backgroundColor: isDarkMode ? '#1a1a1a' : '#fff',
+    backgroundColor: theme.modalBackground,
     borderRadius: 10,
     marginBottom: 16,
     marginHorizontal: 15,
     fontSize: 16,
-    color: isDarkMode ? '#fff' : '#000',
+    color: theme.text,
   },
   tabs: {
     flexDirection: 'row',
@@ -27,14 +27,14 @@ export const getThemedStyles = (isDarkMode) => StyleSheet.create({
   tab: {
     paddingVertical: 8,
     paddingHorizontal: 22,
-    backgroundColor: isDarkMode ? '#2c2c2e' : '#e0e0e0',
+    backgroundColor: theme.tabBackground,
     borderRadius: 10,
   },
   activeTab: {
-    backgroundColor: isDarkMode ? '#007aff' : '#007bff',
+    backgroundColor: theme.activeTab,
   },
   tabText: {
-    color: isDarkMode ? '#fff' : '#000',
+    color: theme.text,
   },
   cardPreview: {
     width: 80,
@@ -45,19 +45,19 @@ export const getThemedStyles = (isDarkMode) => StyleSheet.create({
     width: 75,
     height: 75,
     borderRadius: 12,
-    borderColor: '#111',
+    borderColor: theme.cardBorder,
     borderWidth: 1,
     marginBottom: 2,
-    backgroundColor: isDarkMode ? '#333' : '#eee',
+    backgroundColor: '#eee',
   },
   cardLabel: {
     fontSize: 12,
     textAlign: 'center',
     marginTop: 4,
-    color: isDarkMode ? '#bbb' : '#444',
+    color: theme.cardLabel,
   },
   boardCard: {
-    backgroundColor: isDarkMode ? '#1c1c1e' : '#fff',
+    backgroundColor: theme.card,
     padding: 12,
     borderRadius: 12,
     marginBottom: 16,
@@ -77,7 +77,7 @@ export const getThemedStyles = (isDarkMode) => StyleSheet.create({
   boardTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: isDarkMode ? '#fff' : '#000',
+    color: theme.text,
   },
   deleteIcon: {
     color: '#ccc',
@@ -98,7 +98,7 @@ export const getThemedStyles = (isDarkMode) => StyleSheet.create({
     alignItems: 'center',
   },
   card: {
-    backgroundColor: isDarkMode ? '#1a1a1a' : '#fafafa',
+    backgroundColor: '#fafafa',
     padding: 10,
     marginRight: 10,
     borderRadius: 8,
@@ -116,26 +116,6 @@ export const getThemedStyles = (isDarkMode) => StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  modalContainer: {
-    backgroundColor: 'white',
-    borderRadius: 16,
-    padding: 24,
-    width: '80%',
-    alignItems: 'center',
-  },
-  modalTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 20,
-  },
-  modalButton: {
-    padding: 12,
-    marginVertical: 6,
-    backgroundColor: '#eee',
-    borderRadius: 8,
-    width: '100%',
-    alignItems: 'center',
-  },
   cardFooter: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
@@ -146,7 +126,7 @@ export const getThemedStyles = (isDarkMode) => StyleSheet.create({
     padding: 6,
   },
   handle: {
-    backgroundColor: isDarkMode ? '#666' : '#ccc',
+    backgroundColor: theme.handle,
     width: 40,
     height: 5,
     borderRadius: 2.5,
@@ -154,14 +134,14 @@ export const getThemedStyles = (isDarkMode) => StyleSheet.create({
     marginBottom: 10, // adds space between handle and first item
   },
   modal: {
-    backgroundColor: isDarkMode ? '#1c1c1e' : '#fff',
+    backgroundColor: theme.modalBackground,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     paddingBottom: 20,
     paddingTop: 10,
   },
   group: {
-    backgroundColor: isDarkMode ? '#2c2c2e' : '#f0f0f0',
+    backgroundColor: theme.groupBackground,
     marginHorizontal: 12,
     marginBottom: 10,
     borderRadius: 14,
@@ -173,12 +153,12 @@ export const getThemedStyles = (isDarkMode) => StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 14,
     paddingHorizontal: 18,
-    borderBottomColor: isDarkMode ? '#3a3a3c' : '#ddd',
+    borderBottomColor: theme.rowBorder,
     borderBottomWidth: 1,
   },
   text: {
     fontSize: 16,
-    color: isDarkMode ? '#fff' : '#000',
+    color: theme.text,
     fontWeight: '600',
   },
 });
