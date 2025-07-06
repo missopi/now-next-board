@@ -1,13 +1,15 @@
 import React, { useState, useCallback } from 'react';
-import { View, Text, TouchableOpacity, Modal } from 'react-native';
+import { View, Text, TouchableOpacity, Modal, Switch } from 'react-native';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import { useFocusEffect } from '@react-navigation/native';
 import styles from './styles/styles';
 import CustomButton from './styles/CustomButton';
 import CogIcon from '../assets/icons/cog.svg';
+import { useThemeContext } from './styles/theme/ThemeContext';
 
 export default function HomeScreen({ navigation }) {
   const [settingsVisible, setSettingsVisible] = useState(false);
+  const { isDarkMode, toggleTheme } = useThemeContext();
 
   useFocusEffect(
     useCallback(() => {
@@ -62,6 +64,11 @@ export default function HomeScreen({ navigation }) {
         >
         <View style={styles.modalView}>
           <TouchableOpacity style={styles.closeButton} onPress={() => setSettingsVisible(false)}>
+            <Text style={{ fontSize: 18, marginBottom: 10 }}>Dark Mode</Text>
+            <Switch
+              value={isDarkMode}
+              onValueChange={toggleTheme}
+            />
             <Text style={styles.closeX}>x</Text>
           </TouchableOpacity>
         </View>
