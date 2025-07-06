@@ -143,4 +143,13 @@ export default StyleSheet.create({
   iconButton: {
     padding: 6,
   },
+  modalItem: {
+    paddingVertical: 14,
+    borderBottomColor: '#333',
+    borderBottomWidth: 1,
+  },
+  modalText: {
+    fontSize: 16,
+    color: '#fff',
+  },
 });
