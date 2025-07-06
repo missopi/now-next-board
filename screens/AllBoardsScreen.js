@@ -172,55 +172,51 @@ export default function AllBoardsScreen() {
       {selectedBoard && (
         <Modalize
           ref={modalRef}
-          modalHeight={300}
-          handleStyle={{ backgroundColor: '#ccc', width: 40 }}
+          modalHeight={250}
           handlePosition="inside"
-          modalStyle={{
-            backgroundColor: '#1c1c1e',
-            borderTopLeftRadius: 20,
-            borderTopRightRadius: 20,
-            padding: 16,
-          }}
+          handleStyle={styles.handle}
+          modalStyle={styles.modal}
         >
-          <TouchableOpacity
-            style={styles.modalItem}
-            onPress={() => {
-              modalRef.current?.close();
-              navigateToBoard(selectedBoard, 'edit');
-            }}
-          >
-            <Text style={styles.modalText}>✏️  Edit Board</Text>
-          </TouchableOpacity>
+          <View style={{ height: 15 }} /> {/* Spacer above handle */}
 
-          <TouchableOpacity
-            style={styles.modalItem}
-            onPress={() => {
-              modalRef.current?.close();
-              navigateToBoard(selectedBoard, 'view');
-            }}
-          >
-            <Text style={styles.modalText}>👁️  View Board</Text>
-          </TouchableOpacity>
+          {/* Single option group */}
+          <View style={styles.group}>
+            <TouchableOpacity
+              style={[styles.row, { borderBottomWidth: 0 }]}
+              onPress={() => {
+                modalRef.current?.close();
+                navigateToBoard(selectedBoard, 'edit');
+              }}
+            >
+              <Text style={styles.text}>Edit Board</Text>
+              <Feather name="edit" size={20} color="#999" />
+            </TouchableOpacity>
+          </View>
+          
+          {/* Grouped options */}
+          <View style={styles.group}>
+            <TouchableOpacity
+              style={styles.row}
+              onPress={() => {
+                modalRef.current?.close();
+                navigateToBoard(selectedBoard, 'view');
+              }}
+            >
+              <Text style={styles.text}>View Board</Text>
+              <Feather name="eye" size={20} color="#999" />
+            </TouchableOpacity>
 
-          <TouchableOpacity
-            style={styles.modalItem}
-            onPress={() => {
-              modalRef.current?.close();
-              navigateToBoard(selectedBoard, 'slideshow');
-            }}
-          >
-            <Text style={styles.modalText}>🎞️  View Slideshow</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.modalItem}
-            onPress={() => {
-              modalRef.current?.close();
-              alert('Coming soon: Export to PDF');
-            }}
-          >
-            <Text style={styles.modalText}>🖨️  Print PDF</Text>
-          </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.row, { borderBottomWidth: 0 }]}
+              onPress={() => {
+                modalRef.current?.close();
+                navigateToBoard(selectedBoard, 'slideshow');
+              }}
+            >
+              <Text style={styles.text}>View Slideshow</Text>
+              <Feather name="film" size={20} color="#999" />
+            </TouchableOpacity>
+          </View> 
         </Modalize>
       )}
     </>

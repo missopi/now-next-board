@@ -143,13 +143,44 @@ export default StyleSheet.create({
   iconButton: {
     padding: 6,
   },
-  modalItem: {
+  handle: {
+    backgroundColor: '#666',
+    width: 40,
+    height: 5,
+    borderRadius: 2.5,
+    alignSelf: 'center',
+    marginBottom: 10, // adds space between handle and first item
+  },
+  modal: {
+    backgroundColor: '#1c1c1e',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    paddingBottom: 20,
+    paddingTop: 10,
+  },
+  group: {
+    backgroundColor: '#2c2c2e',
+    marginHorizontal: 12,
+    marginBottom: 10,
+    borderRadius: 14,
+    overflow: 'hidden',
+  },
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     paddingVertical: 14,
-    borderBottomColor: '#333',
+    paddingHorizontal: 18,
+    borderBottomColor: '#3a3a3c',
     borderBottomWidth: 1,
   },
-  modalText: {
+  text: {
     fontSize: 16,
     color: '#fff',
+    fontWeight: '600',
+  },
+  icon: {
+    fontSize: 18,
+    color: '#aaa',
   },
 });
