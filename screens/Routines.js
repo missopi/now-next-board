@@ -11,9 +11,11 @@ import ImageCardCreatorModal from "./components/ImageCardCreatorModal";
 import uuid from "react-native-uuid";
 import { saveBoard, updateBoard } from "../utilities/BoardStore";
 import * as ScreenOrientation from 'expo-screen-orientation';
+import { Modalize } from "react-native-modalize";
 
 const RoutineScreen = ({ navigation, route }) => {
   const { mode, board } = route.params || {};
+  const modalRef = useRef(null);
 
   // track the activities added
   const [activities, setActivities] = useState([]);
@@ -23,7 +25,6 @@ const RoutineScreen = ({ navigation, route }) => {
   const [newBoardTitle, setNewBoardTitle] = useState('');
 
   // modal for settings
-  const [settingsVisible, setSettingsVisible] = useState(false);
   const [strokeColor, setStrokeColor] = useState('#FFF5B5');
 
   // modal for adding custom card
@@ -68,7 +69,7 @@ const RoutineScreen = ({ navigation, route }) => {
       headerTitle: customTitle,
       headerTitleAlign: 'center',
       headerRight: () => (
-        <TouchableOpacity onPress={() => setSettingsVisible(true)}>
+        <TouchableOpacity onPress={() => modalRef.current?.open()}>
           <CogIcon width={24} height={24} style={{ marginRight: 10 }} />
         </TouchableOpacity>
       ),
@@ -252,14 +253,19 @@ const RoutineScreen = ({ navigation, route }) => {
         closeModal={closeModal}
       />
 
-      <Modal visible={settingsVisible} transparent animationType="slide">
+      <Modalize
+        ref={modalRef}
+        modalHeight={550}
+        handlePosition="inside"
+        handleStyle={styles.handle}
+        modalStyle={styles.modal}
+      >
+        <View style={{ height: 15 }} />
+
         <View style={styles.modalView}>
-          <TouchableOpacity style={styles.closeButton} onPress={() => setSettingsVisible(false)}>
-            <Text style={styles.closeX}>✕</Text>
-          </TouchableOpacity>
           <RoutineSettingsModal strokeColor={strokeColor} setStrokeColor={setStrokeColor} />
         </View>
-      </Modal>
+      </Modalize>
     </SafeAreaView>
   );
 };
