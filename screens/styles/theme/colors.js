@@ -19,7 +19,7 @@ export const darkTheme = {
   card: '#1c1c1e',
   cardBorder: '#888',
   text: '#fff',
-  cardLabel: '#fff',          // Lightened
+  cardLabel: '#ccc',          // Lightened
   placeholder: '#888',        // Lightened for better contrast
   iconSecondary: '#ccc',      // Lightened icons
   tabBackground: '#2a2a2c',
