@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 import { View, Text, TouchableOpacity, Modal, Switch } from 'react-native';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import { useFocusEffect } from '@react-navigation/native';
@@ -6,10 +6,11 @@ import styles from './styles/styles';
 import CustomButton from './styles/CustomButton';
 import CogIcon from '../assets/icons/cog.svg';
 import { useThemeContext } from './styles/theme/ThemeContext';
+import { Modalize } from 'react-native-modalize';
 
 export default function HomeScreen({ navigation }) {
-  const [settingsVisible, setSettingsVisible] = useState(false);
   const { isDarkMode, toggleTheme } = useThemeContext();
+  const modalRef = useRef(null);
 
   useFocusEffect(
     useCallback(() => {
@@ -24,7 +25,7 @@ export default function HomeScreen({ navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <TouchableOpacity onPress={() => setSettingsVisible(true)}>
+        <TouchableOpacity onPress={() => modalRef.current?.open()}>
           <CogIcon width={24} height={24} style={{ marginRight: 10 }} />
         </TouchableOpacity>
       ),
@@ -57,22 +58,24 @@ export default function HomeScreen({ navigation }) {
         title="Saved Boards"
         onPress={() => navigation.navigate('AllBoardsScreen')}
       />
-      <Modal  // setting for toggling on 'then' activity at bottom of screen
-        visible={settingsVisible}
-        transparent={true}
-        animationType="slide"
-        >
+
+      <Modalize
+        ref={modalRef}
+        modalHeight={250}
+        handlePosition="inside"
+        handleStyle={styles.handle}
+        modalStyle={styles.modal}
+      >
+        <View style={{ height: 15 }} />
+
         <View style={styles.modalView}>
-          <TouchableOpacity style={styles.closeButton} onPress={() => setSettingsVisible(false)}>
-            <Text style={{ fontSize: 18, marginBottom: 10 }}>Dark Mode</Text>
-            <Switch
-              value={isDarkMode}
-              onValueChange={toggleTheme}
-            />
-            <Text style={styles.closeX}>x</Text>
-          </TouchableOpacity>
+          <Text style={{ fontSize: 18, marginBottom: 10 }}>Dark Mode</Text>
+          <Switch
+            value={isDarkMode}
+            onValueChange={toggleTheme}
+          />
         </View>
-      </Modal>
+      </Modalize>
     </View>
   );
 }
