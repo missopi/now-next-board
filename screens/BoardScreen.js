@@ -12,9 +12,11 @@ import ImageCardCreatorModal from "./components/ImageCardCreatorModal";
 import uuid from "react-native-uuid";
 import { saveBoard, updateBoard } from "../utilities/BoardStore";
 import * as ScreenOrientation from 'expo-screen-orientation';
+import { Modalize } from "react-native-modalize";
 
 export default function NowNextBoardScreen({ navigation, route }) {  // useState used to track selected activities
   const { mode, board } = route.params || {};
+  const modalRef = useRef(null);
 
   // track the 3 activities
   const [nowActivity, setNowActivity] = useState(null);
@@ -69,7 +71,7 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
   useEffect(() => { 
     navigation.setOptions({
       headerRight: () => (
-        <TouchableOpacity onPress={() => setSettingsVisible(true)}>
+        <TouchableOpacity onPress={() => modalRef.current?.open()}>
           <CogIcon width={24} height={24} style={{ marginRight: 10 }} />
         </TouchableOpacity>
       ),
@@ -239,19 +241,19 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
         closeModal={closeModal}
       />
 
-      <Modal  // setting for toggling on 'then' activity at bottom of screen
-        visible={settingsVisible}
-        transparent={true}
-        animationType="slide"
-        supportedOrientations={['portrait', 'landscape']}
-        >
+      <Modalize // setting for toggling on 'then' activity
+        ref={modalRef}
+        modalHeight={250}
+        handlePosition="inside"
+        handleStyle={styles.handle}
+        modalStyle={styles.modal}
+      >
+        <View style={{ height: 15 }} />
+
         <View style={styles.modalView}>
-          <TouchableOpacity style={styles.closeButton} onPress={() => setSettingsVisible(false)}>
-            <Text style={styles.closeX}>✕</Text>
-          </TouchableOpacity>
           <NowNextSettingsModal />
         </View>
-      </Modal>
+      </Modalize>
     </SafeAreaView>
   );
 };

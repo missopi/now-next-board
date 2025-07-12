@@ -156,29 +156,21 @@ export default StyleSheet.create({
 
   // Settings Modal
 
-  modalView: {
-    margin: 0,
-    backgroundColor: 'white',
-    borderRadius: 20,
-    padding: 30,
-    paddingBottom: 60,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-    position: 'absolute',
-    bottom: 0,
-    width: '100%',
+  handle: {
+    backgroundColor: '#ccc',
+    width: 40,
+    height: 5,
+    borderRadius: 2.5,
+    alignSelf: 'center',
+    marginBottom: 10, // adds space between handle and first item
   },
   modal: {
-    justifyContent: 'flex-end',
-    margin: 0,
-    flex: 1,
+    backgroundColor: '#fff',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    paddingBottom: 40,
+    padding: 30,
+    alignItems: 'center',
   },
   modalTitle: {
     fontWeight: 'bold',
@@ -213,17 +205,6 @@ export default StyleSheet.create({
   },
   modalText: {
     fontSize: 14,
-  },
-  closeButton: {
-    position: 'absolute',
-    top: 15,
-    right: 30,
-    zIndex: 1,
-  },
-  closeX: {
-    fontSize: 22,
-    fontWeight: 900,
-    color: '#000',
   },
 
   // finished view
