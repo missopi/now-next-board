@@ -1,6 +1,6 @@
 // Flatlist of all available activity cards for users to choose from
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Text, View, FlatList, TouchableOpacity, Image, SafeAreaView, ScrollView, Switch, TextInput, Modal } from "react-native";
 import styles from './styles/styles';
 import { activityLibrary } from "../data/ActivityLibrary";
@@ -8,14 +8,15 @@ import { setActivityCallback, triggerActivityCallback } from "./components/Callb
 import CogIcon from "../assets/icons/cog.svg";
 import { defaultCategories } from '../data/Categories';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Modalize } from "react-native-modalize";
 
 
 const LibraryScreen = ({ navigation, route }) => {  
   const slot = route?.params?.slot;
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
-  const [settingsVisible, setSettingsVisible] = useState(false);
   const [categorySettings, setCategorySettings] = useState(defaultCategories);
+  const modalRef = useRef(null);
 
   useEffect(() => {
     if (!visibleCategories.some(cat => cat.label === selectedCategory)) {
@@ -27,7 +28,7 @@ const LibraryScreen = ({ navigation, route }) => {
   useEffect(() => { 
     navigation.setOptions({
       headerRight: () => (
-        <TouchableOpacity onPress={() => setSettingsVisible(true)}>
+        <TouchableOpacity onPress={() => modalRef.current?.open()}>
           <CogIcon width={24} height={24} style={{ marginRight: 10 }} />
         </TouchableOpacity>
       ),
@@ -173,12 +174,15 @@ const LibraryScreen = ({ navigation, route }) => {
           )}
         />
       </View>
-      <Modal  // setting for toggling on 'then' activity at bottom of screen
-        visible={settingsVisible}
-        transparent={true}
-        animationType="slide"
-        supportedOrientations={['portrait']}
-        >
+      <Modalize  // setting for toggling on 'then' activity at bottom of screen
+        ref={modalRef}
+        modalHeight={600}
+        handlePosition="inside"
+        handleStyle={styles.handle}
+        modalStyle={styles.modal}
+      >
+        <View style={{ height: 15 }} />
+
         <View style={styles.modalView}>
           <Text style={{ marginVertical: 20, fontSize: 18, fontWeight: 'bold' }}>Show/Hide Categories</Text>
           {categorySettings.map((cat, index) => (
@@ -213,11 +217,8 @@ const LibraryScreen = ({ navigation, route }) => {
           >
             <Text style={{ color: '#333' }}>Reset to Default</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.closeButton} onPress={() => setSettingsVisible(false)}>
-            <Text style={styles.closeX}>x</Text>
-          </TouchableOpacity>
         </View>
-      </Modal>
+      </Modalize>
     </SafeAreaView>
   );
 };

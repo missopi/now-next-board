@@ -158,15 +158,4 @@ export default StyleSheet.create({
   modalText: {
     fontSize: 14,
   },
-  closeButton: {
-    position: 'absolute',
-    top: 15,
-    right: 30,
-    zIndex: 1,
-  },
-  closeX: {
-    fontSize: 28,
-    fontWeight: 400,
-    color: '#000',
-  }
 });
