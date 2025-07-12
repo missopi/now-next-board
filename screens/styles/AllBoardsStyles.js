@@ -50,12 +50,6 @@ export default (theme) => StyleSheet.create({
     marginBottom: 2,
     backgroundColor: '#eee',
   },
-  cardLabel: {
-    fontSize: 12,
-    textAlign: 'center',
-    marginTop: 4,
-    color: theme.cardLabel,
-  },
   boardCard: {
     backgroundColor: theme.card,
     padding: 12,
@@ -109,6 +103,8 @@ export default (theme) => StyleSheet.create({
   cardLabel: {
     fontSize: 14,
     color: '#333',
+    marginTop: 4,
+    color: theme.cardLabel,
   },
   modalOverlay: {
     flex: 1,
