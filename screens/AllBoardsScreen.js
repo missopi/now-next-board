@@ -5,12 +5,11 @@ import { useNavigation } from '@react-navigation/native';
 
 import { Entypo, Feather } from '@expo/vector-icons';
 import { Modalize } from 'react-native-modalize';
-import getStyles from './styles/AllBoardsStyles';
-import useThemedStyles from '../screens/styles/theme/useThemedStyles';
+import stylesFactory from './styles/AllBoardsStyles';
+import { useThemedStyles } from '../screens/styles/theme/useThemedStyles';
 
 export default function AllBoardsScreen() {
-  const styles = useThemedStyles(getStyles); 
-  const theme = useThemedStyles(getStyles);
+  const { styles, theme } = useThemedStyles(stylesFactory);
   const navigation = useNavigation();
   const [boards, setBoards] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -98,44 +97,48 @@ export default function AllBoardsScreen() {
     <TouchableOpacity style={styles.boardCard}>
       <View style={styles.boardHeader}>
         <Text style={styles.boardTitle}>{item.title || 'Now / Next Board'}</Text>
-        <TouchableOpacity style={styles.deleteButton} onPress={() => handleDelete(item.id)}>
+        <TouchableOpacity onPress={() => handleDelete(item.id)}>
           <Text style={styles.deleteIcon}>✕</Text>
         </TouchableOpacity>
       </View>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-        {item.cards.map((card, idx) => (
-          <TouchableOpacity
-            key={idx}
-            style={styles.cardPreview}
-          >
-            <Image 
-              source={typeof card.image === 'string' ? { uri: card.image } : card.image} 
-              style={styles.cardImage} />
-            <Text style={styles.cardLabel}>{card.name}</Text>
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
-        
-      <View style={styles.cardFooter}>
-        <TouchableOpacity
-          onPress={() => {
-            setSelectedBoard(item);
-            modalRef.current?.open();
-          }}
-          style={styles.iconButton}
-        >
-          <Feather name="share" size={20} color={theme.iconSecondary} />
-        </TouchableOpacity>
 
-        <TouchableOpacity
-          onPress={() => {
-            setSelectedBoard(item);
-            modalRef.current?.open();
-          }}
-          style={styles.iconButton}
-        >
-          <Entypo name="dots-three-horizontal" size={20} color={theme.iconSecondary} />
-        </TouchableOpacity>
+      <View style={styles.boardContent}>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          {item.cards.map((card, idx) => (
+            <TouchableOpacity
+              key={idx}
+              style={styles.cardPreview}
+            >
+              <Image 
+                source={typeof card.image === 'string' ? { uri: card.image } : card.image}
+                style={styles.cardImage} />
+              <Text style={styles.cardLabel}>{card.name}</Text>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+
+        <View style={styles.iconColumn}>
+
+          <TouchableOpacity
+            onPress={() => {
+              setSelectedBoard(item);
+              modalRef.current?.open();
+            }}
+            style={styles.iconButton}
+          >
+            <Feather name="share" size={20} color={theme.iconSecondary} />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => {
+              setSelectedBoard(item);
+              modalRef.current?.open();
+            }}
+            style={styles.iconButton}
+          >
+            <Entypo name="dots-three-horizontal" size={20} color={theme.iconSecondary}/>
+          </TouchableOpacity>
+        </View>
       </View>
     </TouchableOpacity>
   );

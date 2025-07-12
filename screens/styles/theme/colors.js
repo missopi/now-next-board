@@ -1,4 +1,5 @@
 export const lightTheme = {
+  isDarkMode: false,
   background: '#f0f0f0',
   text: '#000',
   card: '#fff',
@@ -9,14 +10,16 @@ export const lightTheme = {
   modalBackground: '#fff',
   inputBackground: '#fff',
   groupBackground: '#f5f5f5',
+  iconSecondary: '#aaa',
   rowBorder: '#ddd',
   handle: '#ccc',
   shadowColor: '#000',
 };
 
 export const darkTheme = {
+  isDarkMode: true,
   background: '#000',
-  card: '#1c1c1e',
+  card: '#2C2C2E',
   cardBorder: '#888',
   text: '#fff',
   cardLabel: '#ccc',          // Lightened
@@ -30,6 +33,6 @@ export const darkTheme = {
   rowBorder: '#3a3a3c',
   handle: '#666',
   inputText: '#fff',
-  shadowColor: '#888',        // Lightened drop shadow
   placeholder: '#888',
+  shadowColor: '#ffffff22', // translucent white highlight
 };

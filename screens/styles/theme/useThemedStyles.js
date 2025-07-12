@@ -1,9 +1,10 @@
 import { useThemeContext } from './ThemeContext';
 import { useMemo } from 'react';
 
-const useThemedStyles = (stylesFunc) => {
+export const useThemedStyles = (stylesFactory) => {
   const { theme } = useThemeContext();
-  return useMemo(() => stylesFunc(theme), [stylesFunc, theme]);
-};
 
-export default useThemedStyles;
+  const styles = useMemo(() => stylesFactory(theme), [theme]);
+
+  return { styles, theme };
+};

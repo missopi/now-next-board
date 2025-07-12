@@ -40,6 +40,7 @@ export default (theme) => StyleSheet.create({
     width: 80,
     marginRight: 10,
     alignItems: 'center',
+    justifyContent: 'center',
   },
   cardImage: {
     width: 75,
@@ -50,6 +51,10 @@ export default (theme) => StyleSheet.create({
     marginBottom: 2,
     backgroundColor: '#eee',
   },
+  boardContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   boardCard: {
     backgroundColor: theme.card,
     padding: 12,
@@ -57,10 +62,11 @@ export default (theme) => StyleSheet.create({
     marginBottom: 16,
     shadowColor: theme.shadowColor,
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
+    shadowOpacity: theme.isDarkMode ? 0.5 : 0.1,
     shadowRadius: 4,
     elevation: 2,
     marginHorizontal: 15,
+    elevation: theme.isDarkMode ? 0 : 2,
   },
   boardHeader: {
     flexDirection: 'row',
@@ -74,23 +80,15 @@ export default (theme) => StyleSheet.create({
     color: theme.text,
   },
   deleteIcon: {
-    color: '#ccc',
-    fontSize: 18,
+    color: '#bbb',
+    fontSize: 22,
     fontWeight: 'bold',
     lineHeight: 18,
-  },
-  deleteButton: {
     position: 'absolute',
-    top: 2,
-    right: 2,
-    width: 24,
-    height: 24,
-    borderRadius: 15,
-    borderColor: '#ccc',
-    borderWidth: 2,
-    justifyContent: 'center',
-    alignItems: 'center',
+    top: 5,
+    right: 7,
   },
+  
   card: {
     backgroundColor: '#fafafa',
     padding: 10,
@@ -120,6 +118,11 @@ export default (theme) => StyleSheet.create({
   },
   iconButton: {
     padding: 6,
+  },
+  iconColumn: {
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    gap: 6,
   },
   handle: {
     backgroundColor: theme.handle,
