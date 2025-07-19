@@ -1,5 +1,5 @@
-import React, { useState, useCallback, useRef } from 'react';
-import { View, Text, TouchableOpacity, Modal, Switch } from 'react-native';
+import React, { useCallback, useRef } from 'react';
+import { View, Text, TouchableOpacity, Switch } from 'react-native';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import { useFocusEffect } from '@react-navigation/native';
 import styles from './styles/styles';
@@ -23,52 +23,51 @@ export default function HomeScreen({ navigation }) {
     }, [])
   );
 
-  React.useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <TouchableOpacity onPress={() => modalRef.current?.open()}>
-          <CogIcon width={24} height={24} style={{ marginRight: 10 }} />
-        </TouchableOpacity>
-      ),
-    });
-  }, [navigation]);
-
   return (
     <View style={styles.container}>
-      <CustomButton
-        title="Routines"
-        onPress={() => navigation.navigate('Routines')}
-      />
-      <CustomButton
-        title="Now & Next"
-        onPress={() => navigation.navigate('Now/Next')}
-      />
+      
       <View style={styles.buttonRow}>
-        <TouchableOpacity style={styles.countdownButton} onPress={() => navigation.navigate('Countdown')}>
-          <Text style={styles.ten}>10</Text>
+        <TouchableOpacity style={styles.routinesButton} onPress={() => navigation.navigate('Routines')}>
+          <Text style={styles.routineText}>Routines</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.timerButton} onPress={() => navigation.navigate('Timers')}>
-          <Timer width={70} height={70} />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.trafficButton} onPress={() => navigation.navigate('TrafficLights')}>
-            <View style={{ flex: 1, backgroundColor: "#7dbf7d" }} />
-            <View style={{ flex: 1, backgroundColor: "#e0a958" }} />
-            <View style={{ flex: 1, backgroundColor: "#d96c6c" }} />
-        </TouchableOpacity>
+        <View style={styles.buttonColumn}>
+          <TouchableOpacity style={styles.nowButton} onPress={() => navigation.navigate('Now/Next')}>
+            <Text style={styles.savedText}>Now & Next</Text>
+          </TouchableOpacity>
+          <View style={styles.buttonRow}>
+            <TouchableOpacity style={styles.timerButton} onPress={() => navigation.navigate('Timers')}>
+              <Timer width={70} height={70} />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.trafficButton} onPress={() => navigation.navigate('TrafficLights')}>
+              <View style={{ flex: 1, backgroundColor: "#7dbf7d" }} />
+              <View style={{ flex: 1, backgroundColor: "#e0a958" }} />
+              <View style={{ flex: 1, backgroundColor: "#d96c6c" }} />
+            </TouchableOpacity>
+          </View>
+        </View>
       </View>
       
-      <CustomButton
-        title="Choice Boards"
-        onPress={() => navigation.navigate('Choices')}
-      />
-      <CustomButton
-        title="Image Library"
-        onPress={() => navigation.navigate('LibraryScreen')}
-      />
-      <CustomButton
-        title="Saved Boards"
-        onPress={() => navigation.navigate('AllBoardsScreen')}
-      />
+      <View style={styles.buttonRow}>
+        <View style={styles.buttonColumn}>
+          <TouchableOpacity style={styles.countdownButton} onPress={() => navigation.navigate('Countdown')}>
+            <Text style={styles.ten}>10</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.timerButton} onPress={() => navigation.navigate('LibraryScreen')}>
+            <Text style={styles.savedText}>Library</Text>
+          </TouchableOpacity>
+        </View>
+        <TouchableOpacity style={styles.choiceButton} onPress={() => navigation.navigate('Choices')}>
+          <Text style={styles.savedText}>Choice Boards</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.buttonRow}>
+        <TouchableOpacity style={styles.savedButton} onPress={() => navigation.navigate('AllBoardsScreen')}>
+          <Text style={styles.savedText}>Saved Boards</Text>  
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.settingButton} onPress={() => modalRef.current?.open()}>
+          <CogIcon width={70} height={70} style={{ color: '#fff' }} />
+        </TouchableOpacity>
+      </View>
       
 
       <Modalize
