@@ -12,7 +12,6 @@ import HomeScreen from "./screens/HomeScreen";
 import Routines from "./screens/Routines";
 import ChoiceScreen from "./screens/ChoiceScreen";
 import BoardScreen from "./screens/BoardScreen";
-import ToolsScreen from "./screens/ToolsScreen";
 import LibraryScreen from "./screens/LibraryScreen";
 import Countdown from "./screens/tools/Countdown";
 import TrafficLights from "./screens/tools/TrafficLights";
@@ -157,15 +156,6 @@ export default function App() {
                   <HeaderBackButton {...props} labelVisible={false} onPress={() => navigation.goBack()} />
                 ),
               })}
-            />
-            <Stack.Screen 
-              name="Tools" // menu screen for countdown etc
-              component={ToolsScreen} 
-              options={({ navigation }) => ({
-                headerLeft: (props) => (
-                  <HeaderBackButton {...props} labelVisible={false} onPress={() => navigation.goBack()} />
-                ),
-              })} 
             />
             <Stack.Screen 
               name="LibraryScreen" // attached to atcivity library for list of activity cards
