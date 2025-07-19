@@ -71,40 +71,6 @@ export default StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
   },
-
-  // footer
-
-  footer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    paddingVertical: 20,
-    borderTopWidth: 1,
-    borderTopColor: '#ddd',
-    backgroundColor: '#f9f9f9',
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    width: '100%',
-    paddingBottom: 30,
-  },
-  footerButton: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    flex: 1,
-  },
-  footerLabel: {
-    fontSize: 12,
-    color: '#999',
-    marginTop: 2,
-    marginLeft: 6,
-  },
-  activeFooterLabel: {
-    color: '#000',
-  },
   
 // Settings Modal
 
@@ -157,5 +123,52 @@ export default StyleSheet.create({
   },
   modalText: {
     fontSize: 14,
+  },
+  countdownButton: {
+    backgroundColor: '#ada0f0',
+    width: 100,
+    height: 100,
+    borderRadius:12,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    elevation: 5, // for android
+  },
+  timerButton: {
+    backgroundColor: '#add8cc',
+    width: 100,
+    height: 100,
+    borderRadius:12,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    elevation: 5, // for android
+  },
+  trafficButton: {
+    width: 100,
+    height: 100,
+    borderRadius:12,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    elevation: 5, // for android
+    flexDirection: 'column',
+    overflow: 'hidden',
+  },
+  ten: {
+    fontSize: 70,
+    fontWeight: '500',
+    color: '#fff',
+  },
+  buttonRow: {
+    flexDirection: 'row',
+    gap: 12,
   },
 });

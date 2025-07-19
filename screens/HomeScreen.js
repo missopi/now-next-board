@@ -5,6 +5,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import styles from './styles/styles';
 import CustomButton from './styles/CustomButton';
 import CogIcon from '../assets/icons/cog.svg';
+import Timer from '../assets/icons/timer.svg';
 import { useThemeContext } from './styles/theme/ThemeContext';
 import { Modalize } from 'react-native-modalize';
 
@@ -39,16 +40,26 @@ export default function HomeScreen({ navigation }) {
         onPress={() => navigation.navigate('Routines')}
       />
       <CustomButton
-        title="Now/Next/Then"
+        title="Now & Next"
         onPress={() => navigation.navigate('Now/Next')}
       />
+      <View style={styles.buttonRow}>
+        <TouchableOpacity style={styles.countdownButton} onPress={() => navigation.navigate('Countdown')}>
+          <Text style={styles.ten}>10</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.timerButton} onPress={() => navigation.navigate('Timers')}>
+          <Timer width={70} height={70} />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.trafficButton} onPress={() => navigation.navigate('TrafficLights')}>
+            <View style={{ flex: 1, backgroundColor: "#7dbf7d" }} />
+            <View style={{ flex: 1, backgroundColor: "#e0a958" }} />
+            <View style={{ flex: 1, backgroundColor: "#d96c6c" }} />
+        </TouchableOpacity>
+      </View>
+      
       <CustomButton
         title="Choice Boards"
         onPress={() => navigation.navigate('Choices')}
-      />
-      <CustomButton
-        title="Timers"
-        onPress={() => navigation.navigate('Tools')}
       />
       <CustomButton
         title="Image Library"
@@ -58,6 +69,7 @@ export default function HomeScreen({ navigation }) {
         title="Saved Boards"
         onPress={() => navigation.navigate('AllBoardsScreen')}
       />
+      
 
       <Modalize
         ref={modalRef}
