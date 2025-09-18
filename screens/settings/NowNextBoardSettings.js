@@ -7,7 +7,7 @@ const NowNextSettingsModal = ({ showThen, setShowThen }) => {
 
   return (
     <View style={styles.modal}>
-      <Text style={styles.modalTitle}>Settings</Text>
+      <Text style={styles.modalTitle}></Text>
       {/*<TouchableOpacity
         style={styles.modalRow}
         onPress={async () => {
