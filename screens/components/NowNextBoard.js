@@ -7,7 +7,6 @@ import CircleTick from "../../assets/icons/hollowCircleTick.svg";
 
 const NowNextBoard = ({ nowActivity, nextActivity, thenActivity, onSelectSlot, showThen }) => {
   const { width, height } = useWindowDimensions();
-  const isLandscape = width > height;
 
   const renderCard = (activity, label) => {
     console.log(`Rendering activity for ${label}:`, activity);

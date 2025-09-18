@@ -10,7 +10,6 @@ import { pickImage } from "../utilities/imagePickerHelper";
 import ImageCardCreatorModal from "./components/ImageCardCreatorModal";
 import uuid from "react-native-uuid";
 import { saveBoard, updateBoard } from "../utilities/BoardStore";
-import * as ScreenOrientation from 'expo-screen-orientation';
 import { Modalize } from "react-native-modalize";
 
 const RoutineScreen = ({ navigation, route }) => {
@@ -52,16 +51,6 @@ const RoutineScreen = ({ navigation, route }) => {
       setCustomTitle(route.params.initialTitle);
     }
   }, [route.params]);
-
-  // lock screen orientation
-  useEffect(() => {
-    ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
-
-    return () => {
-    // Unlock when leaving
-    ScreenOrientation.unlockAsync();
-  };
-  }, []);
 
   // setting cog in header
   useEffect(() => { 
