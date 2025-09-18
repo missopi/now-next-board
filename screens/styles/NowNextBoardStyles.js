@@ -5,17 +5,12 @@ export default StyleSheet.create({
     flex: 1,
     padding: 16,
     paddingBottom: 32,
+    paddingTop: 50,
   },
   wrapper: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  landscape: {
-    flexDirection: 'row',  // switch to horizontal layout
-    justifyContent: 'center',
-    paddingHorizontal: 10,
-    paddingVertical: 20,
   },
   portrait: {
     flexDirection: 'column',
@@ -33,18 +28,22 @@ export default StyleSheet.create({
     justifyContent: 'center',
     gap: 5,
   },
+  textTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
   iconRow: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 3,
-    paddingBottom: 12,
+    paddingBottom: 5,
   },
   column: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     alignItems: 'center',
-    marginVertical: 3,
+    marginVertical: 8,
     paddingVertical: 6,
-    gap: 11,
+    gap: 5,
   },
   header: {
     fontSize: 18,
@@ -54,77 +53,36 @@ export default StyleSheet.create({
   card: {
     borderWidth: 1,
     borderColor: '#ccc',
-    borderRadius: 15,
+    borderRadius: 20,
     alignItems: 'center',
     backgroundColor: '#fff',
-    flexDirection: 'row',
-    gap: 20,
-    paddingHorizontal: 20,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    gap: 5,
+    paddingTop: 5,
     shadowColor: '#444',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.5,
     shadowRadius: 5,
   },
   image: {
-    width: '40%',
-    height: '75%',
+    width: '85%',
+    height: '80%',
     borderRadius: 8,
     resizeMode: 'contain',
     borderWidth: 1,
     borderColor: '#333',
   },
   label: {
-    fontSize: 18,
+    fontSize: 20,
     marginTop: 4,
     paddingBottom: 2,
     fontWeight: 'bold',
     color: '#333',
   },
   placeholder: {
-    fontSize: 15,
+    fontSize: 18,
     color: '#aaa',
-  },
-
-  // chooser screen
-
-  chooserContainer: {
-    flex: 1,
-    padding: 20,
-  },
-  chooserTop: {
-    paddingTop: 4,
-  },
-  chooserCreateButton: {
-    backgroundColor: '#007bff',
-    paddingVertical: 12,
-    borderRadius: 10,
-    marginBottom: 10,
-    alignItems: 'center',
-    borderColor: '#aaa',
-    borderWidth: 1,
-  },
-  chooserCreateText: {
-    color: '#fff',
-    textAlign: 'center',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  chooserLoadText: {
-    textAlign: 'center',
-    color: '#007bff',
-    marginTop: 12,
-    fontSize: 15,
-  },
-  chooserTextInput: {
-    fontSize: 16,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 10,
-    paddingVertical: 10,
-    paddingHorizontal: 14,
-    marginHorizontal: 40,
-    marginBottom: 1,
-    backgroundColor: '#fff',
   },
   showThenButton: {
     flex: 1,
@@ -138,15 +96,6 @@ export default StyleSheet.create({
   saveButton: {
     flex: 1,
     padding: 15,
-    backgroundColor: '#4a90e2',
-    borderRadius: 8,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  slideshowButton: {
-    flex: 1,
-    marginLeft: 8,
-    padding: 12,
     backgroundColor: '#4a90e2',
     borderRadius: 8,
     alignItems: 'center',
@@ -204,66 +153,5 @@ export default StyleSheet.create({
   },
   modalText: {
     fontSize: 14,
-  },
-
-  // finished view
-
-  finishedContainer: {
-    flex: 1,
-    padding: 16,
-  },
-  finishedTitle: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginTop: 18,
-    color: '#000',
-  },
-  finishedCardRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    alignItems: 'center',
-    width: '100%',
-    gap: 5,
-    flex: 1,
-  },
-  finishedCardContainer: {
-    alignItems: 'center',
-  },
-  finishedCardLabel: {
-    fontSize: 18,
-    fontWeight: '600',
-    marginBottom: 8,
-    color: '#444',
-  },
-  finishedCard: {
-    borderWidth: 1,
-    borderRadius: 15,
-    backgroundColor: '#fff',
-    position: 'relative',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.5,
-    shadowRadius: 5,
-    elevation: 4,
-  },
-  finishedCardInner: {
-    backgroundColor: 'white',
-    borderTopLeftRadius: 15,
-    borderTopRightRadius: 15,
-    overflow: 'hidden',
-  },
-  finishedImage: {
-    width: 230,
-    height: 190,
-    borderBottomWidth: 1,
-  },
-  finishedCardTitle: {
-    marginTop: 8,
-    fontSize: 18,
-    paddingBottom: 12,
-    fontWeight: '500',
-    color: '#222',
-    textAlign: 'center',
   },
 });

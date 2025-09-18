@@ -1,7 +1,7 @@
 // Main board screen containing the Now/Next/Then board
 
 import { useEffect, useRef, useState } from "react";  
-import { View, Text, TouchableOpacity, Modal, SafeAreaView, TextInput } from "react-native";
+import { View, Text, TouchableOpacity, TextInput } from "react-native";
 import NowNextBoard from "./components/NowNextBoard";
 import CogIcon from "../assets/icons/cog.svg";
 import NowNextSettingsModal from "./settings/NowNextBoardSettings";
@@ -171,15 +171,15 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <View style={{ flex: 1 }}>
       <View style={styles.chooserTop}>
-        <TextInput
+        {/*<TextInput
           placeholder="Enter new board title..."
           value={newBoardTitle}
           onChangeText={setNewBoardTitle}
           style={styles.chooserTextInput}
           placeholderTextColor={"#aaa"}
-        />
+        />*/}
       </View>
       <NowNextBoard 
         nowActivity={nowActivity}
@@ -188,15 +188,8 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
         onSelectSlot={onSelectSlot}
         showThen={showThen} 
       />
-      <View style={{ marginHorizontal: 40, height: 60, paddingBottom: 10, }}>
-        <TouchableOpacity
-          onPress={saveCurrentNowNextBoard}
-          style={styles.saveButton}
-        >
-          <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 12, textAlign: 'center' }}>Save Board</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={{ flexDirection: 'row', marginHorizontal: 40 }}>
+      <View style={{ marginHorizontal: 40, paddingBottom: 10, }}>
+        
       </View>
 
       <ImageCardCreatorModal
@@ -226,12 +219,16 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
         handleStyle={styles.handle}
         modalStyle={styles.modal}
       >
-        <View style={{ height: 15 }} />
-
         <View style={styles.modalView}>
           <NowNextSettingsModal />
+          <TouchableOpacity
+            onPress={saveCurrentNowNextBoard}
+            style={styles.saveButton}
+          >
+            <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 12, textAlign: 'center' }}>Save Board</Text>
+          </TouchableOpacity>
         </View>
       </Modalize>
-    </SafeAreaView>
+    </View>
   );
 };

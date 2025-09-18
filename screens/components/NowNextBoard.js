@@ -25,8 +25,8 @@ const NowNextBoard = ({ nowActivity, nextActivity, thenActivity, onSelectSlot, s
         style={[
           styles.card, 
           { 
-            width: isLandscape ? width * 0.29 : width * 0.80,  // orientation aware layout using useWindowDimentions
-            height: isLandscape ? height * 0.65 : height * 0.15, 
+            width: width * 0.80,
+            height: height * 0.33, 
           },
         ]} 
         onPress={() => onSelectSlot({ slot: label })}
@@ -49,33 +49,36 @@ const NowNextBoard = ({ nowActivity, nextActivity, thenActivity, onSelectSlot, s
 
   return (
     <View style={styles.container}>
-      <View style={[styles.wrapper, isLandscape ? styles.landscape : styles.portrait]}>
+      <View style={styles.wrapper}>
         <View style={styles.column}>
-          {/*<View style={styles.iconRow}>
+          {<View style={styles.iconRow}>
+            <Text style={styles.textTitle}>Now </Text>
             <CircleTick style={styles.tick} />
             <Circle style={styles.circle} />
             <Circle />
-          </View>*/}
+          </View>}
           {renderCard(nowActivity, 'Now')}
         </View>
         <View style={styles.column}>
-          {/*<View style={styles.iconRow}>
+          {<View style={styles.iconRow}>
+            <Text style={styles.textTitle}>Next </Text>
             <Circle />
             <CircleTick style={styles.tick} />
             <Circle />
-          </View>*/}
+          </View>}
           {renderCard(nextActivity, 'Next')}
         </View>
-        {showThen && ( // showthen determines if 'then' card is displayed on screen
+        {/*{showThen && ( // showthen determines if 'then' card is displayed on screen
           <View style={styles.column}>
-            {/*<View style={styles.iconRow}>
+            {<View style={styles.iconRow}>
+              <Text style={styles.textTitle}>Then </Text>
               <Circle />
               <Circle />
               <CircleTick style={styles.tick} />
-            </View>*/}
+            </View>}
             {renderCard(thenActivity, 'Then')}
           </View>
-        )}
+        )}*/}
       </View>
     </View>
   );
