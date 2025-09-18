@@ -30,43 +30,31 @@ export default function HomeScreen({ navigation }) {
         <TouchableOpacity style={styles.routinesButton} onPress={() => navigation.navigate('Routines')}>
           <Text style={styles.routineText}>Routines</Text>
         </TouchableOpacity>
-        <View style={styles.buttonColumn}>
-          <TouchableOpacity style={styles.nowButton} onPress={() => navigation.navigate('Now/Next')}>
-            <Text style={styles.savedText}>Now & Next</Text>
-          </TouchableOpacity>
-          <View style={styles.buttonRow}>
-            <TouchableOpacity style={styles.timerButton} onPress={() => navigation.navigate('Timers')}>
-              <Timer width={70} height={70} />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.trafficButton} onPress={() => navigation.navigate('TrafficLights')}>
-              <View style={{ flex: 1, backgroundColor: "#7dbf7d" }} />
-              <View style={{ flex: 1, backgroundColor: "#e0a958" }} />
-              <View style={{ flex: 1, backgroundColor: "#d96c6c" }} />
-            </TouchableOpacity>
-          </View>
-        </View>
+        <TouchableOpacity style={styles.nowButton} onPress={() => navigation.navigate('Now/Next')}>
+          <Text style={styles.savedText}>Now & Next</Text>
+        </TouchableOpacity>
       </View>
-      
+        
       <View style={styles.buttonRow}>
-        <View style={styles.buttonColumn}>
-          <TouchableOpacity style={styles.countdownButton} onPress={() => navigation.navigate('Countdown')}>
-            <Text style={styles.ten}>10</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.timerButton} onPress={() => navigation.navigate('LibraryScreen')}>
-            <Text style={styles.savedText}>Library</Text>
-          </TouchableOpacity>
-        </View>
-        <TouchableOpacity style={styles.choiceButton} onPress={() => navigation.navigate('Choices')}>
-          <Text style={styles.savedText}>Choice Boards</Text>
+        <TouchableOpacity style={styles.timerButton} onPress={() => navigation.navigate('Timers')}>
+          <Timer width={70} height={70} />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.trafficButton} onPress={() => navigation.navigate('TrafficLights')}>
+          <View style={{ flex: 1, backgroundColor: "#7dbf7d" }} />
+          <View style={{ flex: 1, backgroundColor: "#e0a958" }} />
+          <View style={{ flex: 1, backgroundColor: "#d96c6c" }} />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.countdownButton} onPress={() => navigation.navigate('Countdown')}>
+          <Text style={styles.ten}>10</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.buttonRow}>
         <TouchableOpacity style={styles.savedButton} onPress={() => navigation.navigate('AllBoardsScreen')}>
           <Text style={styles.savedText}>Saved Boards</Text>  
         </TouchableOpacity>
-        <TouchableOpacity style={styles.settingButton} onPress={() => modalRef.current?.open()}>
+        {/*<TouchableOpacity style={styles.settingButton} onPress={() => modalRef.current?.open()}>
           <CogIcon width={70} height={70} style={{ color: '#fff' }} />
-        </TouchableOpacity>
+        </TouchableOpacity>*/}
       </View>
       
 

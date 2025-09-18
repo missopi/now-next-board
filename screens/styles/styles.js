@@ -125,7 +125,7 @@ export default StyleSheet.create({
     fontSize: 14,
   },
   countdownButton: {
-    backgroundColor: '#ada0f0',
+    backgroundColor: '#f59090ff',
     width: 100,
     height: 100,
     borderRadius:12,
@@ -163,20 +163,7 @@ export default StyleSheet.create({
     overflow: 'hidden',
   },
   savedButton: {
-    width: 220,
-    height: 100,
-    borderRadius:12,
-    backgroundColor: '#dfaefe',
-    alignItems: 'center',
-    justifyContent: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
-    elevation: 5, // for android
-  },
-  nowButton: {
-    width: 220,
+    width: 325,
     height: 100,
     borderRadius:12,
     backgroundColor: '#22aefe',
@@ -188,9 +175,22 @@ export default StyleSheet.create({
     shadowRadius: 3,
     elevation: 5, // for android
   },
+  nowButton: {
+    width: 155,
+    height: 150,
+    borderRadius:12,
+    backgroundColor: '#22aefe',
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    elevation: 5, // for android
+  },
   routinesButton: {
-    width: 100,
-    height: 220,
+    width: 155,
+    height: 150,
     borderRadius:12,
     backgroundColor: '#22aefe',
     alignItems: 'center',
@@ -236,9 +236,10 @@ export default StyleSheet.create({
     fontSize: 30,
     fontWeight: '500',
     color: '#fff',
+    textAlign: 'center',
   },
   routineText: {
-    fontSize: 20,
+    fontSize: 30,
     fontWeight: '500',
     color: '#fff',
   },
