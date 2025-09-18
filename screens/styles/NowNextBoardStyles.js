@@ -137,8 +137,7 @@ export default StyleSheet.create({
   },
   saveButton: {
     flex: 1,
-    marginLeft: 8,
-    padding: 12,
+    padding: 15,
     backgroundColor: '#4a90e2',
     borderRadius: 8,
     alignItems: 'center',
