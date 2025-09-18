@@ -197,28 +197,6 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
         </TouchableOpacity>
       </View>
       <View style={{ flexDirection: 'row', marginHorizontal: 40 }}>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('NowNextBoardFinished', {
-            board: {
-              title: newBoardTitle,
-              cards: [nowActivity, nextActivity, thenActivity].filter(Boolean),
-            },
-          })}
-          style={styles.slideshowButton}
-        >
-          <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 12, textAlign: 'center' }}>View Now/Next Board</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('NowNextSlideshow', {
-            board: {
-              title: newBoardTitle,
-              cards: [nowActivity, nextActivity, thenActivity].filter(Boolean),
-            },
-          })}
-          style={styles.slideshowButton}
-        >
-          <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 12, textAlign: 'center' }}>View as Slideshow</Text>
-        </TouchableOpacity>
       </View>
 
       <ImageCardCreatorModal
