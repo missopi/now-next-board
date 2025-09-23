@@ -4,12 +4,12 @@
 import React from "react";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { HeaderBackButton } from '@react-navigation/elements'
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { ThemeProvider } from './screens/styles/theme/ThemeContext';
 
 import HomeScreen from "./screens/HomeScreen";
 import Routines from "./screens/Routines";
+import Slideshow from "./screens/components/Slideshow";
 import ChoiceScreen from "./screens/ChoiceScreen";
 import BoardScreen from "./screens/BoardScreen";
 import LibraryScreen from "./screens/LibraryScreen";
@@ -17,15 +17,12 @@ import Countdown from "./screens/tools/Countdown";
 import TrafficLights from "./screens/tools/TrafficLights";
 import Timers from "./screens/tools/Timers";
 import AllBoardsScreen from "./screens/AllBoardsScreen";
-
 import FeelingsBoard from "./screens/choice_boards/FeelingsBoard";
 import CreatedFeelingsBoard from "./screens/choice_boards/CreatedFeelingsBoard";
 import WantBoard from "./screens/choice_boards/WantBoard";
 import NeedsBoard from "./screens/choice_boards/NeedsBoard";
 import AnswerCard from "./screens/components/AnswerCard";
-import Slideshow from "./screens/components/Slideshow";
-import NowNextBoardFinished from "./screens/NowNextBoardFinished";
-import NowNextSlideshow from "./screens/components/NowNextSlideshow";
+
 
 const Stack = createNativeStackNavigator();
 
@@ -46,145 +43,60 @@ export default function App() {
             <Stack.Screen 
               name="Home" // main menu screen that app starts at
               component={HomeScreen}
-              options={{
-                headerTitle: '',
-              }} 
             />
             <Stack.Screen 
               name="Routines" // daily timetable screen, will include a now/next board i think
               component={Routines} 
-              options={({ navigation }) => ({
-                headerTransparent: true,
-                headerLeft: (props) => ( // back button to only inlcude a '<' and no word 'back'
-                  <HeaderBackButton {...props} labelVisible={false} onPress={() => navigation.goBack()} />
-                ),
-              })}  
             />
             <Stack.Screen 
               name="Slideshow" // presentation display for routines
               component={Slideshow} 
-              options={({ navigation }) => ({
+              options={() => ({
                 headerTransparent: true,
                 headerShadowVisible: false,
-                headerLeft: (props) => ( // back button to only inlcude a '<' and no word 'back'
-                  <HeaderBackButton {...props} labelVisible={false} onPress={() => navigation.goBack()} />
-                ),
               })}  
             />
             <Stack.Screen 
-              name="NowNextSlideshow" // presentation display for now/next
-              component={NowNextSlideshow} 
-              options={({ navigation }) => ({
-                headerTransparent: true,
-                headerShadowVisible: false,
-                headerLeft: (props) => ( // back button to only inlcude a '<' and no word 'back'
-                  <HeaderBackButton {...props} labelVisible={false} onPress={() => navigation.goBack()} />
-                ),
-              })}  
-            />
-            <Stack.Screen 
-              name="NowNextBoardFinished" // finished Now/Next board display page
-              component={NowNextBoardFinished} 
-              options={({ navigation }) => ({
-                headerTransparent: true,
-                headerShadowVisible: false,
-                headerLeft: (props) => ( // back button to only inlcude a '<' and no word 'back'
-                  <HeaderBackButton {...props} labelVisible={false} onPress={() => navigation.goBack()} />
-                ),
-              })}  
-            />
-            <Stack.Screen 
-              name="Choices"  // for multi choice boards eg. snacks
+              name="Choices"  // for multi choice boards menu
               component={ChoiceScreen} 
-              options={({ navigation }) => ({
-                headerLeft: (props) => (
-                  <HeaderBackButton {...props} labelVisible={false} onPress={() => navigation.goBack()} />
-                ),
-              })}
             />
             <Stack.Screen 
-              name="FeelingsBoard"  // for multi choice boards eg. snacks
+              name="FeelingsBoard" 
               component={FeelingsBoard} 
-              options={({ navigation }) => ({
-                headerLeft: (props) => (
-                  <HeaderBackButton {...props} labelVisible={false} onPress={() => navigation.goBack()} />
-                ),
-              })}
             />
             <Stack.Screen 
-              name="CreatedFeelingsBoard"  // for multi choice boards eg. snacks
+              name="CreatedFeelingsBoard" 
               component={CreatedFeelingsBoard} 
-              options={({ navigation }) => ({
-                headerLeft: (props) => (
-                  <HeaderBackButton {...props} labelVisible={false} onPress={() => navigation.goBack()} />
-                ),
-              })}
             />
             <Stack.Screen 
-              name="NeedsBoard"  // for multi choice boards eg. snacks
+              name="NeedsBoard" 
               component={NeedsBoard} 
-              options={({ navigation }) => ({
-                headerLeft: (props) => (
-                  <HeaderBackButton {...props} labelVisible={false} onPress={() => navigation.goBack()} />
-                ),
-              })}
             />
             <Stack.Screen 
-              name="WantBoard"  // for multi choice boards eg. snacks
+              name="WantBoard"  
               component={WantBoard} 
-              options={({ navigation }) => ({
-                headerLeft: (props) => (
-                  <HeaderBackButton {...props} labelVisible={false} onPress={() => navigation.goBack()} />
-                ),
-              })}
             />
             <Stack.Screen 
               name="AnswerCard"  // for yes/no/i don't know
               component={AnswerCard} 
-              options={({ navigation }) => ({
-                headerLeft: (props) => (
-                  <HeaderBackButton {...props} labelVisible={false} onPress={() => navigation.goBack()} />
-                ),
-              })}
             />
             <Stack.Screen 
               name="Now/Next"  // will be able to toggle between now/next and now/next & then
               component={BoardScreen} 
-              options={({ navigation }) => ({
-                headerTransparent: true, 
-                headerLeft: (props) => (
-                  <HeaderBackButton {...props} labelVisible={false} onPress={() => navigation.goBack()} />
-                ),
-              })}
             />
             <Stack.Screen 
               name="LibraryScreen" // attached to atcivity library for list of activity cards
               component={LibraryScreen} 
-              options={({ navigation }) => ({
-                headerTransparent: true, 
-                headerLeft: (props) => (
-                  <HeaderBackButton {...props} labelVisible={false} onPress={() => navigation.goBack()} />
-                ),
-              })}
             />
             <Stack.Screen 
               name="AllBoardsScreen" // attached to library of saved boards
               component={AllBoardsScreen} 
-              options={({ navigation }) => ({
-                headerTransparent: true, 
-                headerLeft: (props) => (
-                  <HeaderBackButton {...props} labelVisible={false} onPress={() => navigation.goBack()} />
-                ),
-              })}
             />
             <Stack.Screen 
               name="Countdown" 
               component={Countdown}  // default is 10, tap on screen to reduce
-              options={({ navigation }) => ({
+              options={() => ({
                 headerTransparent: true, 
-                headerLeft: (props) => (
-                  <HeaderBackButton {...props} labelVisible={false} onPress={() => navigation.goBack()} />
-                ), 
                 headerShadowVisible: false, 
                 headerTintColor: '#fff'
               })} 
@@ -192,22 +104,16 @@ export default function App() {
             <Stack.Screen 
               name="TrafficLights" // green - amber - red, tap to progress
               component={TrafficLights} 
-              options={({ navigation }) => ({
+              options={() => ({
                 headerTransparent: true, 
-                headerLeft: (props) => (
-                  <HeaderBackButton {...props} labelVisible={false} onPress={() => navigation.goBack()} tintColor="rgba(0,0,0,0.25)" />
-                ), 
                 headerShadowVisible: false
               })} 
             />
             <Stack.Screen 
               name="Timers" // default is 1, 5 & 10 mins
               component={Timers} 
-              options={({ navigation }) => ({
+              options={() => ({
                 headerTransparent: true, 
-                headerLeft: (props) => (
-                  <HeaderBackButton {...props} labelVisible={false} onPress={() => navigation.goBack()} />
-                ), 
                 headerShadowVisible: false, 
                 headerTintColor: '#fff'
               })} 
