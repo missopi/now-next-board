@@ -1,15 +1,13 @@
 import { useEffect, useState, useRef } from 'react';
-import { Alert, View, Text, FlatList, Image, ScrollView, TextInput, TouchableOpacity, SafeAreaView, useColorScheme } from 'react-native';
+import { Alert, View, Text, FlatList, Image, ScrollView, TextInput, TouchableOpacity } from 'react-native';
 import { getBoards, deleteBoard } from '../utilities/BoardStore';
 import { useNavigation } from '@react-navigation/native';
 
 import { Entypo, Feather } from '@expo/vector-icons';
 import { Modalize } from 'react-native-modalize';
-import stylesFactory from './styles/AllBoardsStyles';
-import { useThemedStyles } from '../screens/styles/theme/useThemedStyles';
+import styles from './styles/AllBoardsStyles';
 
 export default function AllBoardsScreen() {
-  const { styles, theme } = useThemedStyles(stylesFactory);
   const navigation = useNavigation();
   const [boards, setBoards] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -126,7 +124,7 @@ export default function AllBoardsScreen() {
             }}
             style={styles.iconButton}
           >
-            <Feather name="share" size={20} color={theme.iconSecondary} />
+            <Feather name="share" size={20} color={'#aaa'} />
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -136,7 +134,7 @@ export default function AllBoardsScreen() {
             }}
             style={styles.iconButton}
           >
-            <Entypo name="dots-three-horizontal" size={20} color={theme.iconSecondary}/>
+            <Entypo name="dots-three-horizontal" size={20} color={'#aaa'}/>
           </TouchableOpacity>
         </View>
       </View>
@@ -145,10 +143,10 @@ export default function AllBoardsScreen() {
 
   return (
     <>
-      <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
         <TextInput
           placeholder="Search boards..."
-          placeholderTextColor={theme.placeholder}
+          placeholderTextColor={'#888'}
           value={searchQuery}
           onChangeText={setSearchQuery}
           style={styles.searchInput}
@@ -172,7 +170,7 @@ export default function AllBoardsScreen() {
           renderItem={renderBoard}
           contentContainerStyle={{ paddingBottom: 20 }}
         />
-      </SafeAreaView>
+      </View>
 
       {selectedBoard && (
         <Modalize
