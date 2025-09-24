@@ -1,10 +1,8 @@
 import { useCallback, useRef } from 'react';
-import { View, Text, TouchableOpacity, Switch } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import { useFocusEffect } from '@react-navigation/native';
 import styles from './styles/styles';
-import CustomButton from './styles/CustomButton';
-import CogIcon from '../assets/icons/cog.svg';
 import Timer from '../assets/icons/timer.svg';
 import { Modalize } from 'react-native-modalize';
 
@@ -50,9 +48,6 @@ export default function HomeScreen({ navigation }) {
         <TouchableOpacity style={styles.savedButton} onPress={() => navigation.navigate('AllBoardsScreen')}>
           <Text style={styles.savedText}>Saved Boards</Text>  
         </TouchableOpacity>
-        {/*<TouchableOpacity style={styles.settingButton} onPress={() => modalRef.current?.open()}>
-          <CogIcon width={70} height={70} style={{ color: '#fff' }} />
-        </TouchableOpacity>*/}
       </View>
       
 

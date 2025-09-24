@@ -9,7 +9,6 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import HomeScreen from "./screens/HomeScreen";
 import Routines from "./screens/Routines";
 import Slideshow from "./screens/components/Slideshow";
-import ChoiceScreen from "./screens/ChoiceScreen";
 import BoardScreen from "./screens/BoardScreen";
 import LibraryScreen from "./screens/LibraryScreen";
 import Countdown from "./screens/tools/Countdown";
@@ -51,10 +50,6 @@ export default function App() {
               headerTransparent: true,
               headerShadowVisible: false,
             })}  
-          />
-          <Stack.Screen 
-            name="Choices"  // for multi choice boards menu
-            component={ChoiceScreen} 
           />
           <Stack.Screen 
             name="FeelingsBoard" 
