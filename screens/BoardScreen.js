@@ -1,17 +1,14 @@
 // Main board screen containing the Now/Next/Then board
 
 import { useEffect, useRef, useState } from "react";  
-import { View, Text, TouchableOpacity, TextInput } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import NowNextBoard from "./components/NowNextBoard";
-import CogIcon from "../assets/icons/cog.svg";
-import NowNextSettingsModal from "./settings/NowNextBoardSettings";
 import styles from "./styles/NowNextBoardStyles";
 import { setActivityCallback } from "./components/CallbackStore";
 import { pickImage } from "../utilities/imagePickerHelper";
 import ImageCardCreatorModal from "./components/ImageCardCreatorModal";
 import uuid from "react-native-uuid";
 import { saveBoard, updateBoard } from "../utilities/BoardStore";
-import { Modalize } from "react-native-modalize";
 
 export default function NowNextBoardScreen({ navigation, route }) {  // useState used to track selected activities
   const { mode, board } = route.params || {};
@@ -53,17 +50,6 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
       setCustomTitle(route.params.initialTitle);
     }
   }, [route.params]);
-
-  // setting cog in header
-  useEffect(() => { 
-    navigation.setOptions({
-      headerRight: () => (
-        <TouchableOpacity onPress={() => modalRef.current?.open()}>
-          <CogIcon width={24} height={24} style={{ marginRight: 10 }} />
-        </TouchableOpacity>
-      ),
-    });
-  }, [navigation]);
 
   const slotRef = useRef(null);
 
@@ -175,8 +161,13 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
         onSelectSlot={onSelectSlot}
         showThen={showThen} 
       />
-      <View style={{ marginHorizontal: 40, paddingBottom: 10, }}>
-        
+      <View>
+        <TouchableOpacity
+          onPress={saveCurrentNowNextBoard}
+          style={{ marginBottom: 30 }}
+        >
+          <Text style={{ color: '#666', fontSize: 18, textAlign: 'center' }}>Save Board</Text>
+        </TouchableOpacity>
       </View>
 
       <ImageCardCreatorModal
@@ -198,24 +189,6 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
         navigation={navigation}
         closeModal={closeModal}
       />
-
-      <Modalize // setting for toggling on 'then' activity
-        ref={modalRef}
-        modalHeight={250}
-        handlePosition="inside"
-        handleStyle={styles.handle}
-        modalStyle={styles.modal}
-      >
-        <View style={styles.modalView}>
-          <NowNextSettingsModal />
-          <TouchableOpacity
-            onPress={saveCurrentNowNextBoard}
-            style={styles.saveButton}
-          >
-            <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 12, textAlign: 'center' }}>Save Board</Text>
-          </TouchableOpacity>
-        </View>
-      </Modalize>
     </View>
   );
 };
