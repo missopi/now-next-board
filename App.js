@@ -20,8 +20,6 @@ import FeelingsBoard from "./screens/choice_boards/FeelingsBoard";
 import CreatedFeelingsBoard from "./screens/choice_boards/CreatedFeelingsBoard";
 import WantBoard from "./screens/choice_boards/WantBoard";
 import NeedsBoard from "./screens/choice_boards/NeedsBoard";
-import AnswerCard from "./screens/components/AnswerCard";
-
 
 const Stack = createNativeStackNavigator();
 
@@ -73,10 +71,6 @@ export default function App() {
           <Stack.Screen 
             name="WantBoard"  
             component={WantBoard} 
-          />
-          <Stack.Screen 
-            name="AnswerCard"  // for yes/no/i don't know
-            component={AnswerCard} 
           />
           <Stack.Screen 
             name="Now/Next"  // will be able to toggle between now/next and now/next & then
