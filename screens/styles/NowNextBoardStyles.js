@@ -131,22 +131,6 @@ export default StyleSheet.create({
     alignItems: 'center',
     marginVertical: 10,
   },
-  radioCircle: {
-    height: 20,
-    width: 20,
-    borderRadius: 10,
-    borderWidth: 2,
-    borderColor: '#000',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: 12,
-  },
-  radioDot: {
-    height: 10,
-    width: 10,
-    borderRadius: 5,
-    backgroundColor: '#000',
-  },
   modalLabel: {
     fontSize: 18,
     fontWeight: 'bold',
