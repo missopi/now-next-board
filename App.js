@@ -17,8 +17,6 @@ import Timers from "./screens/tools/Timers";
 import AllBoardsScreen from "./screens/AllBoardsScreen";
 import FeelingsBoard from "./screens/choice_boards/FeelingsBoard";
 import CreatedFeelingsBoard from "./screens/choice_boards/CreatedFeelingsBoard";
-import WantBoard from "./screens/choice_boards/WantBoard";
-import NeedsBoard from "./screens/choice_boards/NeedsBoard";
 
 const Stack = createNativeStackNavigator();
 
@@ -58,14 +56,6 @@ export default function App() {
           <Stack.Screen 
             name="CreatedFeelingsBoard" 
             component={CreatedFeelingsBoard} 
-          />
-          <Stack.Screen 
-            name="NeedsBoard" 
-            component={NeedsBoard} 
-          />
-          <Stack.Screen 
-            name="WantBoard"  
-            component={WantBoard} 
           />
           <Stack.Screen 
             name="Now/Next"  // will be able to toggle between now/next and now/next & then
