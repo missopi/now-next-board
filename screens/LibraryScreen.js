@@ -1,7 +1,7 @@
 // Flatlist of all available activity cards for users to choose from
 
 import { useEffect, useState, useRef } from "react";
-import { Text, View, FlatList, TouchableOpacity, Image, SafeAreaView, ScrollView, Switch, TextInput, Modal } from "react-native";
+import { Text, View, FlatList, TouchableOpacity, Image, SafeAreaView, ScrollView, Switch, TextInput } from "react-native";
 import styles from './styles/styles';
 import { activityLibrary } from "../data/ActivityLibrary";
 import { setActivityCallback, triggerActivityCallback } from "./components/CallbackStore";

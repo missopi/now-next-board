@@ -7,32 +7,8 @@ import WashHands from "../assets/images/wash-hands.svg";
 export const activityLibrary = [
   {
     id: '1',
-    name: 'hair cut',
-    image: require('../assets/images/haircut.png'),
-    category: 'Personal Care',
-  },
-  {
-    id: '2',
-    name: 'cut nails',
-    image: require('../assets/images/cutnails.png'),
-    category: 'Personal Care',
-  },
-  {
-    id: '3',
     name: 'wash hands',
     image: WashHands,
     category: 'Personal Care',
-  },
-  {
-    id: '5',
-    name: 'water play',
-    image: require('../assets/images/waterplay.png'),
-    category: 'Activities',
-  },
-  {
-    id: '6',
-    name: 'snack',
-    image: require('../assets/images/snack.png'),
-    category: 'Food',
   },
 ]
