@@ -6,6 +6,7 @@ const cardSize = screenWidth * 0.25;
 export default StyleSheet.create({
   container: {
     padding: 16,
+    marginTop: 90,
     backgroundColor: '#f0f0f0',
     flex: 1,
   },
@@ -21,12 +22,12 @@ export default StyleSheet.create({
   tabs: {
     flexDirection: 'row',
     marginBottom: 16,
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     marginHorizontal: 15,
   },
   tab: {
-    paddingVertical: 8,
-    paddingHorizontal: 22,
+    paddingVertical: 10,
+    paddingHorizontal: 24,
     backgroundColor: '#e0e0e0',
     borderRadius: 10,
   },
@@ -35,6 +36,8 @@ export default StyleSheet.create({
   },
   tabText: {
     color: '#000',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
   cardPreview: {
     width: 80,

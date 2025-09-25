@@ -16,9 +16,8 @@ export default function AllBoardsScreen() {
   const modalRef = useRef(null);
 
   const TAB_TYPE_MAP = {
-    'Now/Next': 'nowNextThen',
+    'Now & Next': 'nowNextThen',
     'Routine': 'routine',
-    'Choice': 'choice',
   };
 
   const TABS = ['All'].concat(Object.keys(TAB_TYPE_MAP));
@@ -70,18 +69,6 @@ export default function AllBoardsScreen() {
       case 'nowNextThen':
         if (action === 'edit') {
           navigation.navigate('Now/Next', { mode: 'load', board });
-        } else if (action === 'view') {
-          navigation.navigate('NowNextBoardFinished', { board });
-        } else if (action === 'slideshow') {
-          navigation.navigate('NowNextSlideshow', { board });
-        }
-        break;
-
-      case 'choice':
-        if (action === 'edit') {
-          navigation.navigate('ChoiceScreen', { mode: 'load', board });
-        } else {
-          alert('View and slideshow not yet supported for choice boards.');
         }
         break;
 
