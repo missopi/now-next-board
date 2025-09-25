@@ -12,16 +12,10 @@ import { saveBoard, updateBoard } from "../utilities/BoardStore";
 
 export default function NowNextBoardScreen({ navigation, route }) {  // useState used to track selected activities
   const { mode, board } = route.params || {};
-  const modalRef = useRef(null);
 
   // track the 3 activities
   const [nowActivity, setNowActivity] = useState(null);
   const [nextActivity, setNextActivity] = useState(null);
-  const [thenActivity, setThenActivity] = useState(null);
-
-  // modal for settings
-  const [settingsVisible, setSettingsVisible] = useState(false);
-  const [showThen, setShowThen] = useState(true);
   
   // modal for adding custom card
   const [newCardImage, setNewCardImage] = useState(null);
@@ -33,9 +27,7 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
   const [modalStep, setModalStep] = useState('choose');
 
   // saving boards
-  const [customTitle, setCustomTitle] = useState('');
   const [currentBoardId, setCurrentBoardId] = useState(null);
-  const [newBoardTitle, setNewBoardTitle] = useState('');
 
   // loading saved boards
   useEffect(() => {
@@ -43,13 +35,6 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
       loadNowNextBoard(board);
     }
   }, [mode, board]);
-
-  // grab title
-  useEffect(() => {
-    if (route.params?.mode === 'new' && route.params.initialTitle) {
-      setCustomTitle(route.params.initialTitle);
-    }
-  }, [route.params]);
 
   const slotRef = useRef(null);
 
@@ -80,7 +65,6 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
       
     if (currentSlot === 'Now') setNowActivity(activity);
     else if (currentSlot === 'Next') setNextActivity(activity);
-    else if (currentSlot === 'Then') setThenActivity(activity);
     else console.warn('Invalid slot. Could not assign activity.');
   };
 
@@ -106,7 +90,6 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
 
     if (currentSlot === 'Now') setNowActivity(newCard);
     else if (currentSlot === 'Next') setNextActivity(newCard);
-    else if (currentSlot === 'Then') setThenActivity(newCard);
     else console.warn("Invalid slot. Could not assign activity.");
     
     // reset and close
@@ -120,9 +103,8 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
     const board = {
       id: currentBoardId || uuid.v4(),
       type: 'nowNextThen',
-      title: customTitle,
-      cards: [nowActivity, nextActivity, showThen ? thenActivity : null].filter(Boolean),
-      Settings: { showThen },
+      title: 'Now & Next',
+      cards: [nowActivity, nextActivity].filter(Boolean),
     };
 
     if (currentBoardId) {
@@ -135,38 +117,24 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
   };
 
   const loadNowNextBoard = (board) => {
-    setCustomTitle(board.title);
     setNowActivity(board.cards[0] || null);
     setNextActivity(board.cards[1] || null);
-    setThenActivity(board.cards[2] || null);
-    setShowThen(board.settings?.showThen ?? false);
     setCurrentBoardId(board.id);
   };
 
   return (
     <View style={{ flex: 1 }}>
-      <View style={styles.chooserTop}>
-        {/*<TextInput
-          placeholder="Enter new board title..."
-          value={newBoardTitle}
-          onChangeText={setNewBoardTitle}
-          style={styles.chooserTextInput}
-          placeholderTextColor={"#aaa"}
-        />*/}
-      </View>
       <NowNextBoard 
         nowActivity={nowActivity}
         nextActivity={nextActivity} 
-        thenActivity={thenActivity}
         onSelectSlot={onSelectSlot}
-        showThen={showThen} 
       />
       <View>
         <TouchableOpacity
           onPress={saveCurrentNowNextBoard}
           style={{ marginBottom: 30 }}
         >
-          <Text style={{ color: '#666', fontSize: 18, textAlign: 'center' }}>Save Board</Text>
+          <Text style={styles.saveButton}>Save Board</Text>
         </TouchableOpacity>
       </View>
 

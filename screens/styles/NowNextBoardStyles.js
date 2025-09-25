@@ -82,4 +82,9 @@ export default StyleSheet.create({
     fontSize: 18,
     color: '#aaa',
   },
+  saveButton: {
+    color: '#666', 
+    fontSize: 18, 
+    textAlign: 'center',
+  },
 });
