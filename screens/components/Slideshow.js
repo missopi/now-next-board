@@ -1,5 +1,5 @@
 import { useState, useRef, useLayoutEffect } from 'react';
-import { View, Text, FlatList, Image, SafeAreaView, Pressable } from 'react-native';
+import { View, Text, FlatList, Image, Pressable } from 'react-native';
 import styles from '../styles/SlideshowStyles';
 
 const Slideshow = ({ route, navigation }) => {
@@ -20,7 +20,7 @@ const Slideshow = ({ route, navigation }) => {
   }).current;
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: '#E0F2FE'}]}>
+    <View style={[styles.container, { backgroundColor: '#E0F2FE'}]}>
       {controlsVisible && (
         <View style={styles.header}>
           <Text style={styles.title}>{title}</Text>
@@ -70,7 +70,7 @@ const Slideshow = ({ route, navigation }) => {
           ))}
         </View>
       )}
-    </SafeAreaView>
+    </View>
   );
 };
 
