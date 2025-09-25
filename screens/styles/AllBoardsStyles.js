@@ -6,8 +6,8 @@ const cardSize = screenWidth * 0.25;
 export default StyleSheet.create({
   container: {
     padding: 16,
-    marginTop: 90,
-    backgroundColor: '#f0f0f0',
+    paddingTop: 100,
+    backgroundColor: '#E0F2FE',
     flex: 1,
   },
   searchInput: {

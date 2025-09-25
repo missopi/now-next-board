@@ -3,10 +3,10 @@
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import styles from "../styles/RoutineStyles";
 
-const RoutineCard = ({ activity, index, onPress, onDelete, strokeColor, drag }) => {
+const RoutineCard = ({ activity, index, onPress, onDelete, drag }) => {
   return (
-    <View style={[styles.card, { borderColor: strokeColor }]}>
-      <View style={{ borderWidth: 1, borderColor: 'black', borderRadius: 8, padding: 12, backgroundColor: 'white' }}>
+    <View style={styles.card}>
+      <View style={{ borderRadius: 12, backgroundColor: 'white' }}>
         <TouchableOpacity
           style={styles.deleteButton}
           onPress={onDelete}

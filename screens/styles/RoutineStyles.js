@@ -4,18 +4,21 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
+    backgroundColor: '#E0F2FE',
   },
   card: {
-    borderWidth: 7,
-    borderRadius: 15,
-    marginBottom: 15,
+    borderWidth: 2,
+    borderColor: '#555',
+    borderRadius: 12,
+    marginTop: 10,
+    marginBottom: 10,
     backgroundColor: '#fff',
     position: 'relative',
-    marginHorizontal: 40,
+    marginHorizontal: 25,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.5,
-    shadowRadius: 5,
+    shadowOpacity: 0.7,
+    shadowRadius: 7,
     elevation: 4,
   },
   deleteButton: {
@@ -44,14 +47,14 @@ export default StyleSheet.create({
     paddingBottom: 8,
   },
   image: {
-    width: 180,
-    height: 150,
+    width: 200,
+    height: 180,
     borderRadius: 10,
     marginBottom: 8,
   },
   placeholder: {
-    width: 180,
-    height: 150,
+    width: 200,
+    height: 180,
     borderRadius: 10,
     backgroundColor: '#e0e0e0',
     justifyContent: 'center',
@@ -60,7 +63,7 @@ export default StyleSheet.create({
   },
   placeholderText: {
     color: '#666',
-    fontSize: 12,
+    fontSize: 15,
   },
   title: {
     fontSize: 16,
@@ -85,48 +88,41 @@ export default StyleSheet.create({
   },
   addEmptySlotButton: {
     flex: 1,
-    marginLeft: 8,
     alignSelf: 'center',
     backgroundColor: '#4a90e2',
-    padding: 12,
+    padding: 8,
+    paddingVertical: 16,
     alignItems: 'center', 
     borderRadius: 8,
   },
   saveButton: {
     flex: 1,
     marginLeft: 8,
-    padding: 12,
+    padding: 8,
     backgroundColor: '#4a90e2',
     borderRadius: 8,
     alignItems: 'center',
+  },
+  slideshowButton: {
+    flex: 1,
+    marginLeft: 8,
+    padding: 8,
+    backgroundColor: '#000',
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: 'white', 
+    fontSize: 15, 
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
 
   // title chooser
 
   chooserTop: {
-    paddingHorizontal: 40,
-    paddingVertical: 10,
-  },
-  chooserCreateButton: {
-    backgroundColor: '#007bff',
-    paddingVertical: 12,
-    borderRadius: 10,
-    marginBottom: 10,
-    alignItems: 'center',
-    borderColor: '#aaa',
-    borderWidth: 1,
-  },
-  chooserCreateText: {
-    color: '#fff',
-    textAlign: 'center',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  chooserLoadText: {
-    textAlign: 'center',
-    color: '#007bff',
-    marginTop: 12,
-    fontSize: 15,
+    paddingHorizontal: 25,
+    paddingTop: 80,
   },
   chooserTextInput: {
     fontSize: 16,
@@ -137,52 +133,5 @@ export default StyleSheet.create({
     paddingHorizontal: 14,
     marginBottom: 10,
     backgroundColor: 'white',
-  },
-
-  // Settings Modal
-
-  handle: {
-    backgroundColor: '#ccc',
-    width: 40,
-    height: 5,
-    borderRadius: 2.5,
-    alignSelf: 'center',
-    marginBottom: 10, // adds space between handle and first item
-  },
-  modal: {
-    backgroundColor: '#fff',
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    paddingBottom: 40,
-    padding: 30,
-    alignItems: 'center',
-  },
-  modalTitle: {
-    fontWeight: 'bold',
-    fontSize: 24,
-    marginBottom: 16,
-  },
-  radioCircle: {
-    height: 20,
-    width: 20,
-    borderRadius: 10,
-    borderWidth: 2,
-    borderColor: '#000',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: 12,
-  },
-  radioDot: {
-    height: 10,
-    width: 10,
-    borderRadius: 5,
-    backgroundColor: '#000',
-  },
-  modalLabel: {
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  modalText: {
-    fontSize: 14,
   },
 });

@@ -3,7 +3,7 @@ import { View, Text, FlatList, Image, SafeAreaView, Pressable } from 'react-nati
 import styles from '../styles/SlideshowStyles';
 
 const Slideshow = ({ route, navigation }) => {
-  const { title, activities, strokeColor = '#FFF5B5' } = route.params || {};
+  const { title, activities } = route.params || {};
   const [currentIndex, setCurrentIndex] = useState(0);
   const [controlsVisible, setControlsVisible] = useState(true);
 
@@ -20,7 +20,7 @@ const Slideshow = ({ route, navigation }) => {
   }).current;
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: strokeColor }]}>
+    <SafeAreaView style={[styles.container, { backgroundColor: '#E0F2FE'}]}>
       {controlsVisible && (
         <View style={styles.header}>
           <Text style={styles.title}>{title}</Text>

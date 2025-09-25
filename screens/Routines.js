@@ -1,16 +1,13 @@
 import { useEffect, useRef, useState } from "react";
-import { View, Text, TouchableOpacity, TextInput, Modal, SafeAreaView } from "react-native";
+import { View, Text, TouchableOpacity, TextInput } from "react-native";
 import DraggableFlatList from 'react-native-draggable-flatlist';
-import CogIcon from "../assets/icons/cog.svg";
 import RoutineCard from "./components/RoutineCard";
-import RoutineSettingsModal from "./settings/RoutineSettings";
 import styles from "./styles/RoutineStyles";
 import { setActivityCallback } from "./components/CallbackStore";
 import { pickImage } from "../utilities/imagePickerHelper";
 import ImageCardCreatorModal from "./components/ImageCardCreatorModal";
 import uuid from "react-native-uuid";
 import { saveBoard, updateBoard } from "../utilities/BoardStore";
-import { Modalize } from "react-native-modalize";
 
 const RoutineScreen = ({ navigation, route }) => {
   const { mode, board } = route.params || {};
@@ -51,19 +48,6 @@ const RoutineScreen = ({ navigation, route }) => {
       setCustomTitle(route.params.initialTitle);
     }
   }, [route.params]);
-
-  // setting cog in header
-  useEffect(() => { 
-    navigation.setOptions({
-      headerTitle: customTitle,
-      headerTitleAlign: 'center',
-      headerRight: () => (
-        <TouchableOpacity onPress={() => modalRef.current?.open()}>
-          <CogIcon width={24} height={24} style={{ marginRight: 10 }} />
-        </TouchableOpacity>
-      ),
-    });
-  }, [navigation, customTitle]);
 
   const slotIndexRef = useRef(null);
 
@@ -152,7 +136,7 @@ const RoutineScreen = ({ navigation, route }) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <View style={styles.chooserTop}>
         <TextInput
           placeholder="Enter new routine title..."
@@ -179,7 +163,6 @@ const RoutineScreen = ({ navigation, route }) => {
                 index={index}
                 onPress={() => onSelectSlot(index)}
                 onDelete={() => deleteActivity(index)}
-                strokeColor={strokeColor}
                 drag={drag}
               />
             );
@@ -188,37 +171,29 @@ const RoutineScreen = ({ navigation, route }) => {
         />
       </View>
       
-      <View style={{ flexDirection: 'row', marginHorizontal: 40 }}>
+      <View style={{ flexDirection: 'row', marginHorizontal: 25, marginTop: 10 }}>
         <TouchableOpacity
           onPress={addEmptySlot}
           style={styles.addEmptySlotButton}
         >
-          <Text style={{ color: 'white', fontWeight: 'bold' }}>+ Add Card</Text>
+          <Text style={styles.buttonText}>Add Card</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           onPress={saveCurrentRoutineBoard}
           style={styles.saveButton}
         >
-          <Text style={{ color: 'white', fontWeight: 'bold' }}>Save Routine</Text>
+          <Text style={styles.buttonText}>Save Routine</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           onPress={() => navigation.navigate('Slideshow', {
             title: newBoardTitle,
             activities: activities.filter(Boolean),
-            strokeColor,
           })}
-          style={{
-            flex: 1,
-            marginLeft: 8,
-            padding: 12,
-            backgroundColor: '#000',
-            borderRadius: 8,
-            alignItems: 'center',
-          }}
+          style={styles.slideshowButton}
         >
-          <Text style={{ color: 'white', fontWeight: 'bold' }}>View as Slideshow</Text>
+          <Text style={styles.buttonText}>View Slideshow</Text>
         </TouchableOpacity>
       </View>
 
@@ -241,21 +216,7 @@ const RoutineScreen = ({ navigation, route }) => {
         navigation={navigation}
         closeModal={closeModal}
       />
-
-      <Modalize
-        ref={modalRef}
-        modalHeight={550}
-        handlePosition="inside"
-        handleStyle={styles.handle}
-        modalStyle={styles.modal}
-      >
-        <View style={{ height: 15 }} />
-
-        <View style={styles.modalView}>
-          <RoutineSettingsModal strokeColor={strokeColor} setStrokeColor={setStrokeColor} />
-        </View>
-      </Modalize>
-    </SafeAreaView>
+    </View>
   );
 };
 
