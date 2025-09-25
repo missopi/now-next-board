@@ -132,9 +132,9 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
       <View>
         <TouchableOpacity
           onPress={saveCurrentNowNextBoard}
-          style={{ marginBottom: 30 }}
+          style={styles.saveButton}
         >
-          <Text style={styles.saveButton}>Save Board</Text>
+          <Text style={styles.saveText}>Save Board</Text>
         </TouchableOpacity>
       </View>
 
