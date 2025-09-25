@@ -5,7 +5,7 @@ import styles from "../styles/NowNextBoardStyles";
 import Circle from "../../assets/icons/circle.svg";
 import CircleTick from "../../assets/icons/hollowCircleTick.svg";
 
-const NowNextBoard = ({ nowActivity, nextActivity, thenActivity, onSelectSlot, showThen }) => {
+const NowNextBoard = ({ nowActivity, nextActivity, onSelectSlot }) => {
   const { width, height } = useWindowDimensions();
 
   const renderCard = (activity, label) => {
@@ -67,17 +67,6 @@ const NowNextBoard = ({ nowActivity, nextActivity, thenActivity, onSelectSlot, s
           </View>}
           {renderCard(nextActivity, 'Next')}
         </View>
-        {/*{showThen && ( // showthen determines if 'then' card is displayed on screen
-          <View style={styles.column}>
-            {<View style={styles.iconRow}>
-              <Text style={styles.textTitle}>Then </Text>
-              <Circle />
-              <Circle />
-              <CircleTick style={styles.tick} />
-            </View>}
-            {renderCard(thenActivity, 'Then')}
-          </View>
-        )}*/}
       </View>
     </View>
   );
