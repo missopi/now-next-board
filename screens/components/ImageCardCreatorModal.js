@@ -19,6 +19,9 @@ export default function ImageCardCreatorModal({
   setActivityCallback,
   closeModal
 }) {
+
+  const isFeatureReady = false;
+
   return (
     <Modal visible={visible} transparent={true} animationType="fade">
       <View style={styles.modalCard}>
@@ -28,20 +31,24 @@ export default function ImageCardCreatorModal({
             <Text style={styles.modalDialog}>Please pick an option to add to your card.</Text>
             <View style={styles.buttonColumn}>
               <Pressable
+                disabled={!isFeatureReady}
+                style={[
+                  styles.smallButton,
+                  !isFeatureReady && { backgroundColor: '#ccc', opacity: 0.6 }
+                ]}
                 onPress={() => {
+                  if (!isFeatureReady) return; // safeguard
                   const slotKey = typeof slotRef.current === 'string'
                     ? slotRef.current
                     : slotRef.current?.slot;
                   
                   setActivityCallback(slotKey, handleSetActivity);
-                  {console.log('[Pressable setActivityCallback] slotKey', slotKey, ' and handleSetActivity', handleSetActivity)}
                   navigation.navigate('LibraryScreen', { slot: slotKey });
-                  {console.log('libary current slot:', slotKey )}
                   closeModal();
                 }}
-                style={styles.smallButton}
               >
-                <Text style={styles.smallButtonText}>Image Library</Text>
+                <Text style={[styles.smallButtonText, !isFeatureReady && { color: '#666' }]}>Image Library</Text>
+                <Text style={[styles.smallButtonText, !isFeatureReady && { fontSize: 12, color: '#666' }]}>(In development)</Text>
               </Pressable>
     
               <Pressable
