@@ -4,7 +4,7 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 50,
-    backgroundColor: '#E0F2FE',
+    backgroundColor: '#fff',
   },
   wrapper: {
     flex: 1,
@@ -85,7 +85,7 @@ export default StyleSheet.create({
   },
   saveButton: {
     paddingBottom: 30,
-    backgroundColor: '#E0F2FE',
+    backgroundColor: '#fff',
   },
   saveText: {
     color: '#666', 

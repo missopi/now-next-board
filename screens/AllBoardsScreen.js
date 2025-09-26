@@ -131,9 +131,12 @@ export default function AllBoardsScreen() {
   return (
     <>
       <View style={styles.container}>
+        <View style={styles.title}>
+          <Text style={styles.titleText}>Saved Boards</Text>
+        </View>
         <TextInput
-          placeholder="Search boards..."
-          placeholderTextColor={'#888'}
+          placeholder="Search"
+          placeholderTextColor={'#777'}
           value={searchQuery}
           onChangeText={setSearchQuery}
           style={styles.searchInput}
@@ -146,7 +149,7 @@ export default function AllBoardsScreen() {
               onPress={() => setActiveTab(tab)}
               style={[styles.tab, activeTab === tab && styles.activeTab]}
             >
-              <Text style={styles.tabText}>{tab}</Text>
+              <Text style={[styles.tabText,  activeTab === tab && styles.activeTabText]}>{tab}</Text>
             </TouchableOpacity>
           ))}
         </View>

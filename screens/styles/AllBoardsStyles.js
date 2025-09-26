@@ -6,17 +6,25 @@ const cardSize = screenWidth * 0.25;
 export default StyleSheet.create({
   container: {
     padding: 16,
-    paddingTop: 100,
-    backgroundColor: '#E0F2FE',
+    paddingTop: 60,
+    backgroundColor: '#fff',
     flex: 1,
   },
+  title: {
+    marginLeft: 15,
+    paddingVertical: 10,
+  },
+  titleText:{
+    fontSize: 28,
+    fontWeight: '700',
+  },
   searchInput: {
-    padding: 10,
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    marginBottom: 16,
+    padding: 9,
+    backgroundColor: '#eee',
+    borderRadius: 18,
+    marginBottom: 12,
     marginHorizontal: 15,
-    fontSize: 16,
+    fontSize: 17,
     color: '#111',
   },
   tabs: {
@@ -26,17 +34,25 @@ export default StyleSheet.create({
     marginHorizontal: 15,
   },
   tab: {
-    paddingVertical: 10,
-    paddingHorizontal: 24,
-    backgroundColor: '#e0e0e0',
-    borderRadius: 10,
+    paddingVertical: 8,
+    paddingHorizontal: 23,
+    backgroundColor: '#fff',
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderRadius: 28,
   },
   activeTab: {
-    backgroundColor: '#007bff',
+    backgroundColor: '#cde6ffff',
+    borderColor: '#2e6fb1ff',
   },
   tabText: {
-    color: '#000',
-    fontSize: 16,
+    color: '#777',
+    fontSize: 15,
+    fontWeight: 'bold',
+  },
+  activeTabText: {
+    color: '#2e6fb1ff',
+    fontSize: 15,
     fontWeight: 'bold',
   },
   cardPreview: {
@@ -64,8 +80,10 @@ export default StyleSheet.create({
     borderRadius: 12,
     marginBottom: 16,
     shadowColor: '#000',
+    borderColor: '#ccc',
+    borderWidth: 1,
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.3,
     shadowRadius: 4,
     elevation: 2,
     marginHorizontal: 15,
@@ -91,7 +109,6 @@ export default StyleSheet.create({
     top: 5,
     right: 7,
   },
-  
   card: {
     backgroundColor: '#fafafa',
     padding: 10,

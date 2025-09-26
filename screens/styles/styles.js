@@ -8,6 +8,7 @@ export default StyleSheet.create({
     alignSelf: 'center',
     width: '100%',
     position: 'relative',
+    backgroundColor: '#fff',
   },
   button: {
     paddingVertical: 25,
