@@ -127,7 +127,7 @@ export default StyleSheet.create({
   chooserTextInput: {
     fontSize: 16,
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: '#888',
     borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 14,
