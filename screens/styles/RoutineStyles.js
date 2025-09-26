@@ -7,8 +7,8 @@ export default StyleSheet.create({
     backgroundColor: '#E0F2FE',
   },
   card: {
-    borderWidth: 2,
-    borderColor: '#555',
+    borderWidth: 1,
+    borderColor: '#888',
     borderRadius: 12,
     marginTop: 10,
     marginBottom: 10,
