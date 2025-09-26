@@ -168,6 +168,7 @@ const RoutineScreen = ({ navigation, route }) => {
             );
           }}
           contentContainerStyle={{ paddingBottom: 80 }}  // leave room at bottom for button
+          showsVerticalScrollIndicator={false} 
         />
       </View>
       
