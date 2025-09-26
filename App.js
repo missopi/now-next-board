@@ -27,10 +27,7 @@ export default function App() {
         <Stack.Navigator 
           initialRouteName="Home"
           screenOptions={{
-            headerTransparent: true,
-            headerBackTitleVisible: false,
-            headerTitle: '',
-            headerTintColor: '#000',
+            headerShown: false,
           }}
         >
           <Stack.Screen 
@@ -44,10 +41,6 @@ export default function App() {
           <Stack.Screen 
             name="Slideshow" // presentation display for routines
             component={Slideshow} 
-            options={() => ({
-              headerTransparent: true,
-              headerShadowVisible: false,
-            })}  
           />
           <Stack.Screen 
             name="FeelingsBoard" 
@@ -72,28 +65,14 @@ export default function App() {
           <Stack.Screen 
             name="Countdown" 
             component={Countdown}  // default is 10, tap on screen to reduce
-            options={() => ({
-              headerTransparent: true, 
-              headerShadowVisible: false, 
-              headerTintColor: '#fff'
-            })} 
           />
           <Stack.Screen 
             name="TrafficLights" // green - amber - red, tap to progress
             component={TrafficLights} 
-            options={() => ({
-              headerTransparent: true, 
-              headerShadowVisible: false
-            })} 
           />
           <Stack.Screen 
             name="Timers" // default is 1, 5 & 10 mins
             component={Timers} 
-            options={() => ({
-              headerTransparent: true, 
-              headerShadowVisible: false, 
-              headerTintColor: '#fff'
-            })} 
           />
         </Stack.Navigator>
       </NavigationContainer>
