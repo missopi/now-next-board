@@ -17,11 +17,7 @@ const RoutineScreen = ({ navigation, route }) => {
   const [activities, setActivities] = useState([]);
 
   // title
-  const [customTitle, setCustomTitle] = useState('');
   const [newBoardTitle, setNewBoardTitle] = useState('');
-
-  // modal for settings
-  const [strokeColor, setStrokeColor] = useState('#FFF5B5');
 
   // modal for adding custom card
   const [newCardImage, setNewCardImage] = useState(null);
@@ -45,7 +41,7 @@ const RoutineScreen = ({ navigation, route }) => {
   // grab title
   useEffect(() => {
     if (route.params?.mode === 'new' && route.params.initialTitle) {
-      setCustomTitle(route.params.initialTitle);
+      setNewBoardTitle(route.params.initialTitle);
     }
   }, [route.params]);
 
@@ -109,7 +105,7 @@ const RoutineScreen = ({ navigation, route }) => {
     const board = {
       id: currentBoardId || uuid.v4(),
       type: 'routine',
-      title: customTitle,
+      title: newBoardTitle,
       cards: activities.filter(Boolean),
       strokeColor,
     };
@@ -124,7 +120,7 @@ const RoutineScreen = ({ navigation, route }) => {
 
   const loadRoutineBoard = (board) => {
     const loaded = (board.cards || []).map(card => ({ ...card, id: card.id || uuid.v4() }));
-    setCustomTitle(board.title);
+    setNewBoardTitle(board.title);
     setActivities(loaded);
     setStrokeColor(board.strokeColor || '#bbb');
     setCurrentBoardId(board.id);
