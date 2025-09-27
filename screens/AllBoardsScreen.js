@@ -15,6 +15,8 @@ export default function AllBoardsScreen() {
   const [selectedBoard, setSelectedBoard] = useState(null);
   const modalRef = useRef(null);
 
+  const isFeatureReady = false;
+
   const TAB_TYPE_MAP = {
     'Now & Next': 'nowNextThen',
     'Routine': 'routine',
@@ -105,7 +107,9 @@ export default function AllBoardsScreen() {
         <View style={styles.iconColumn}>
 
           <TouchableOpacity
+            disabled={!isFeatureReady}
             onPress={() => {
+              if (!isFeatureReady) return; // safeguard
               setSelectedBoard(item);
               modalRef.current?.open();
             }}
