@@ -122,7 +122,6 @@ const RoutineScreen = ({ navigation, route }) => {
     const loaded = (board.cards || []).map(card => ({ ...card, id: card.id || uuid.v4() }));
     setNewBoardTitle(board.title);
     setActivities(loaded);
-    setStrokeColor(board.strokeColor || '#bbb');
     setCurrentBoardId(board.id);
   };
 
