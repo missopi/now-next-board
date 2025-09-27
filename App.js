@@ -11,9 +11,6 @@ import Routines from "./screens/Routines";
 import Slideshow from "./screens/components/Slideshow";
 import BoardScreen from "./screens/BoardScreen";
 import LibraryScreen from "./screens/LibraryScreen";
-import Countdown from "./screens/tools/Countdown";
-import TrafficLights from "./screens/tools/TrafficLights";
-import Timers from "./screens/tools/Timers";
 import AllBoardsScreen from "./screens/AllBoardsScreen";
 import FeelingsBoard from "./screens/choice_boards/FeelingsBoard";
 import CreatedFeelingsBoard from "./screens/choice_boards/CreatedFeelingsBoard";
@@ -61,18 +58,6 @@ export default function App() {
           <Stack.Screen 
             name="AllBoardsScreen" // attached to library of saved boards
             component={AllBoardsScreen} 
-          />
-          <Stack.Screen 
-            name="Countdown" 
-            component={Countdown}  // default is 10, tap on screen to reduce
-          />
-          <Stack.Screen 
-            name="TrafficLights" // green - amber - red, tap to progress
-            component={TrafficLights} 
-          />
-          <Stack.Screen 
-            name="Timers" // default is 1, 5 & 10 mins
-            component={Timers} 
           />
         </Stack.Navigator>
       </NavigationContainer>

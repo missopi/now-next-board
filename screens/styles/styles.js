@@ -61,17 +61,6 @@ export default StyleSheet.create({
     fontWeight: '600',
     color: '#333',
   },
-
-  // traffic lights
-
-  trafficContainer: {
-    flex: 1,
-  },
-  trafficText: {
-    fontSize: 80,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
   
 // Settings Modal
 
@@ -124,44 +113,6 @@ export default StyleSheet.create({
   },
   modalText: {
     fontSize: 14,
-  },
-  countdownButton: {
-    backgroundColor: '#f59090ff',
-    width: 100,
-    height: 100,
-    borderRadius:12,
-    alignItems: 'center',
-    justifyContent: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
-    elevation: 5, // for android
-  },
-  timerButton: {
-    backgroundColor: '#add8cc',
-    width: 100,
-    height: 100,
-    borderRadius:12,
-    alignItems: 'center',
-    justifyContent: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
-    elevation: 5, // for android
-  },
-  trafficButton: {
-    width: 100,
-    height: 100,
-    borderRadius:12,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
-    elevation: 5, // for android
-    flexDirection: 'column',
-    overflow: 'hidden',
   },
   savedButton: {
     width: 325,
@@ -227,11 +178,6 @@ export default StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 3,
     elevation: 5, // for android
-  },
-  ten: {
-    fontSize: 70,
-    fontWeight: '500',
-    color: '#fff',
   },
   savedText: {
     fontSize: 30,
