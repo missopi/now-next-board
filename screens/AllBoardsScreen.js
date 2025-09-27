@@ -111,7 +111,7 @@ export default function AllBoardsScreen() {
             }}
             style={styles.iconButton}
           >
-            <Feather name="share" size={20} color={'#aaa'} />
+            <Feather name="share" size={20} color={'#eee'} />
           </TouchableOpacity>
 
           <TouchableOpacity
