@@ -9,6 +9,7 @@ import { pickImage } from "../utilities/imagePickerHelper";
 import ImageCardCreatorModal from "./components/ImageCardCreatorModal";
 import uuid from "react-native-uuid";
 import { saveBoard, updateBoard } from "../utilities/BoardStore";
+import Footer from "../screens/components/Footer";
 
 export default function NowNextBoardScreen({ navigation, route }) {  // useState used to track selected activities
   const { mode, board } = route.params || {};
@@ -163,6 +164,7 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
         navigation={navigation}
         closeModal={closeModal}
       />
+      <Footer />
     </View>
   );
 };

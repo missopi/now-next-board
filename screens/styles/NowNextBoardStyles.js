@@ -3,19 +3,13 @@ import { StyleSheet } from "react-native";
 export default StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 50,
     backgroundColor: '#fff',
+    paddingTop: 50,
   },
   wrapper: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  portrait: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-    paddingHorizontal: 10,
-    paddingVertical: 20,
   },
   tick: {
     width: 30,
@@ -41,13 +35,7 @@ export default StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     marginVertical: 8,
-    paddingVertical: 6,
-    gap: 5,
-  },
-  header: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 15,
+    gap: 2,
   },
   card: {
     borderWidth: 1,
@@ -58,7 +46,7 @@ export default StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     gap: 5,
-    paddingTop: 5,
+    paddingTop: 3,
     shadowColor: '#444',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.5,
@@ -74,8 +62,6 @@ export default StyleSheet.create({
   },
   label: {
     fontSize: 20,
-    marginTop: 4,
-    paddingBottom: 2,
     fontWeight: 'bold',
     color: '#333',
   },
@@ -84,7 +70,7 @@ export default StyleSheet.create({
     color: '#aaa',
   },
   saveButton: {
-    paddingBottom: 30,
+    paddingBottom: 90,
     backgroundColor: '#fff',
   },
   saveText: {
