@@ -102,15 +102,19 @@ const RoutineScreen = ({ navigation, route }) => {
   };
 
   const saveCurrentRoutineBoard = async () => {
-    // check if title is missing
+    // check if routine title is missing
     if (!newBoardTitle || newBoardTitle.trim() === "") {
       alert("Please give your routine a title before saving.");
       return;
     }
 
-    // check if there are no activities/images
-    if (!activities || activities.filter(Boolean).length === 0) {
-      alert("Please add at least one activity/image before saving.");
+    // check if there are no valid activities with an image
+    const validActivities = activities.filter(
+      (a) => a && a.image && a.image.uri
+    );
+
+    if (validActivities.length === 0) {
+      alert("Please add at least one activity with an image before saving.");
       return;
     }
     
