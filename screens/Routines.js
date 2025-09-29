@@ -107,7 +107,6 @@ const RoutineScreen = ({ navigation, route }) => {
       type: 'routine',
       title: newBoardTitle,
       cards: activities.filter(Boolean),
-      strokeColor,
     };
     if (currentBoardId) {
       await updateBoard(board);

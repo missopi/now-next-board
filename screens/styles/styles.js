@@ -107,7 +107,7 @@ export default StyleSheet.create({
     left: 0,
     right: 0,
     width: '100%',
-    paddingBottom: 20,
+    paddingBottom: 12,
   },
   footerButton: {
     alignItems: 'center',

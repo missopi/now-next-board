@@ -6,13 +6,13 @@ const cardSize = screenWidth * 0.25;
 export default StyleSheet.create({
   container: {
     padding: 16,
-    paddingTop: 60,
+    paddingTop: 50,
     backgroundColor: '#fff',
     flex: 1,
   },
   title: {
-    marginLeft: 15,
-    paddingVertical: 10,
+    marginLeft: 10,
+    paddingVertical: 8,
   },
   titleText:{
     fontSize: 28,
@@ -21,9 +21,9 @@ export default StyleSheet.create({
   searchInput: {
     padding: 9,
     backgroundColor: '#eee',
-    borderRadius: 18,
+    borderRadius: 12,
     marginBottom: 12,
-    marginHorizontal: 15,
+    marginHorizontal: 10,
     fontSize: 17,
     color: '#111',
   },
@@ -31,15 +31,15 @@ export default StyleSheet.create({
     flexDirection: 'row',
     marginBottom: 16,
     justifyContent: 'space-between',
-    marginHorizontal: 15,
+    marginHorizontal: 10,
   },
   tab: {
-    paddingVertical: 8,
-    paddingHorizontal: 23,
+    paddingVertical: 7,
+    paddingHorizontal: 26,
     backgroundColor: '#fff',
     borderColor: '#ccc',
     borderWidth: 1,
-    borderRadius: 28,
+    borderRadius: 15,
   },
   activeTab: {
     backgroundColor: '#cde6ffff',
@@ -56,13 +56,13 @@ export default StyleSheet.create({
     fontWeight: 'bold',
   },
   cardPreview: {
-    width: 80,
+    width: 85,
     marginRight: 10,
     alignItems: 'center',
     justifyContent: 'center',
   },
   cardImage: {
-    width: 75,
+    width: 80,
     height: 75,
     borderRadius: 12,
     borderColor: '#111',
@@ -85,8 +85,7 @@ export default StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
     shadowRadius: 4,
-    elevation: 2,
-    marginHorizontal: 15,
+    marginHorizontal: 10,
     elevation: 2,
   },
   boardHeader: {
