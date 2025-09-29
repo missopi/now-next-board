@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 import { Alert, View, Text, FlatList, Image, ScrollView, TextInput, TouchableOpacity } from 'react-native';
 import { getBoards, deleteBoard } from '../utilities/BoardStore';
 import { useNavigation } from '@react-navigation/native';
-
+import { Modalize } from 'react-native-modalize';
 import { Entypo, Feather } from '@expo/vector-icons';
 import Footer from './components/Footer';
 import styles from './styles/AllBoardsStyles';
@@ -165,6 +165,57 @@ export default function AllBoardsScreen() {
           contentContainerStyle={{ paddingBottom: 20 }}
         />
       </View>
+            {selectedBoard && (
+        <Modalize
+          ref={modalRef}
+          modalHeight={250}
+          handlePosition="inside"
+          handleStyle={styles.handle}
+          modalStyle={styles.modal}
+        >
+          <View style={{ height: 15 }} />
+
+          {/* Single option group */}
+          <View style={styles.group}>
+            <TouchableOpacity
+              style={[styles.row, { borderBottomWidth: 0 }]}
+              onPress={() => {
+                modalRef.current?.close();
+                navigateToBoard(selectedBoard, 'edit');
+              }}
+            >
+              <Text style={styles.text}>Edit Board</Text>
+              <Feather name="edit" size={20} color="#999"  />
+            </TouchableOpacity>
+          </View>
+
+          {/* Grouped options */}
+          <View style={styles.group}>
+            <TouchableOpacity
+              style={styles.row}
+              onPress={() => {
+                modalRef.current?.close();
+                navigateToBoard(selectedBoard, 'view');
+              }}
+            >
+              <Text style={styles.text}>View Board</Text>
+              <Feather name="eye" size={20} color="#999"  />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[styles.row, { borderBottomWidth: 0 }]}
+              onPress={() => {
+                modalRef.current?.close();
+                navigateToBoard(selectedBoard, 'slideshow');
+              }}
+            >
+              <Text style={styles.text}>View Slideshow</Text>
+              <Feather name="film" size={20} color="#999" />
+            </TouchableOpacity>
+          </View> 
+        </Modalize>
+      )}
+      
       <Footer />
     </>
   );
