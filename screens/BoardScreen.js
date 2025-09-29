@@ -100,6 +100,12 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
   };
 
   const saveCurrentNowNextBoard = async () => {
+    // check if no images/cards are set
+    if (![nowActivity, nextActivity].filter(Boolean).length) {
+      alert("Please add at least one image (Now or Next) before saving.");
+      return;
+    }
+
     const board = {
       id: currentBoardId || uuid.v4(),
       type: 'nowNextThen',
