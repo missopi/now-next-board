@@ -163,6 +163,7 @@ export default function AllBoardsScreen() {
           keyExtractor={(item) => item.id}
           renderItem={renderBoard}
           contentContainerStyle={{ paddingBottom: 20 }}
+          showsVerticalScrollIndicator={false} 
         />
       </View>
             {selectedBoard && (
@@ -215,7 +216,7 @@ export default function AllBoardsScreen() {
           </View> 
         </Modalize>
       )}
-      
+
       <Footer />
     </>
   );
