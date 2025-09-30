@@ -12,8 +12,6 @@ import Slideshow from "./screens/components/Slideshow";
 import BoardScreen from "./screens/BoardScreen";
 import LibraryScreen from "./screens/LibraryScreen";
 import AllBoardsScreen from "./screens/AllBoardsScreen";
-import FeelingsBoard from "./screens/choice_boards/FeelingsBoard";
-import CreatedFeelingsBoard from "./screens/choice_boards/CreatedFeelingsBoard";
 
 const Stack = createNativeStackNavigator();
 
@@ -38,14 +36,6 @@ export default function App() {
           <Stack.Screen 
             name="Slideshow" // presentation display for routines
             component={Slideshow} 
-          />
-          <Stack.Screen 
-            name="FeelingsBoard" 
-            component={FeelingsBoard} 
-          />
-          <Stack.Screen 
-            name="CreatedFeelingsBoard" 
-            component={CreatedFeelingsBoard} 
           />
           <Stack.Screen 
             name="Now/Next"  // will be able to toggle between now/next and now/next & then
