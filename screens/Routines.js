@@ -8,6 +8,7 @@ import { pickImage } from "../utilities/imagePickerHelper";
 import ImageCardCreatorModal from "./components/ImageCardCreatorModal";
 import uuid from "react-native-uuid";
 import { saveBoard, updateBoard } from "../utilities/BoardStore";
+import Footer from "../screens/components/Footer";
 
 const RoutineScreen = ({ navigation, route }) => {
   const { mode, board } = route.params || {};
@@ -149,13 +150,14 @@ const RoutineScreen = ({ navigation, route }) => {
     <View style={styles.container}>
       <View style={styles.chooserTop}>
         <TextInput
-          placeholder="Enter new routine title..."
+          placeholder="Enter new rountine title..."
           value={newBoardTitle}
           onChangeText={setNewBoardTitle}
           style={styles.chooserTextInput}
-          placeholderTextColor={"#aaa"}
+          placeholderTextColor={"#777"}
         />
       </View>
+
       <View style={{ flex: 1 }}>
         <DraggableFlatList
           data={activities}
@@ -227,6 +229,8 @@ const RoutineScreen = ({ navigation, route }) => {
         navigation={navigation}
         closeModal={closeModal}
       />
+
+      < Footer />
     </View>
   );
 };

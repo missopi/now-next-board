@@ -4,7 +4,7 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    paddingTop: 50,
+    paddingTop: 25,
   },
   wrapper: {
     flex: 1,
@@ -34,7 +34,7 @@ export default StyleSheet.create({
   column: {
     flexDirection: 'column',
     alignItems: 'center',
-    marginVertical: 8,
+    marginVertical: 10,
     gap: 2,
   },
   card: {

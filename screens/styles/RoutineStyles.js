@@ -3,10 +3,10 @@ import { StyleSheet } from "react-native";
 export default StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
     backgroundColor: '#fff',
   },
   card: {
+    paddingHorizontal: 16,
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 12,
@@ -94,6 +94,7 @@ export default StyleSheet.create({
     paddingVertical: 16,
     alignItems: 'center', 
     borderRadius: 8,
+    marginBottom: 80,
   },
   saveButton: {
     flex: 1,
@@ -102,6 +103,7 @@ export default StyleSheet.create({
     backgroundColor: '#4a90e2',
     borderRadius: 8,
     alignItems: 'center',
+    marginBottom: 80,
   },
   slideshowButton: {
     flex: 1,
@@ -110,6 +112,7 @@ export default StyleSheet.create({
     backgroundColor: '#000',
     borderRadius: 8,
     alignItems: 'center',
+    marginBottom: 80,
   },
   buttonText: {
     color: 'white', 
@@ -121,17 +124,16 @@ export default StyleSheet.create({
   // title chooser
 
   chooserTop: {
-    paddingHorizontal: 25,
-    paddingTop: 45,
+    paddingHorizontal: 16,
+    paddingTop: 65,
   },
   chooserTextInput: {
-    fontSize: 16,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 10,
-    paddingVertical: 10,
-    paddingHorizontal: 14,
-    marginBottom: 10,
-    backgroundColor: 'white',
+    padding: 9,
+    backgroundColor: '#eee',
+    borderRadius: 12,
+    marginBottom: 12,
+    marginHorizontal: 10,
+    fontSize: 17,
+    color: '#111',
   },
 });
