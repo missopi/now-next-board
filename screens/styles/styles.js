@@ -101,7 +101,7 @@ export default StyleSheet.create({
     paddingVertical: 10,
     borderTopWidth: 1,
     borderTopColor: '#ddd',
-    backgroundColor: '#eee',
+    backgroundColor: '#38b6ff',
     position: 'absolute',
     bottom: 0,
     left: 0,
@@ -119,7 +119,7 @@ export default StyleSheet.create({
   },
   footerLabel: {
     fontSize: 12,
-    color: '#999',
+    color: '#fff',
     marginTop: 2,
     marginLeft: 6,
   },
