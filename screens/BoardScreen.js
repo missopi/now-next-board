@@ -131,20 +131,33 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
 
   return (
     <View style={{ flex: 1 }}>
-      <NowNextBoard 
-        nowActivity={nowActivity}
-        nextActivity={nextActivity} 
-        onSelectSlot={onSelectSlot}
-      />
-      <View>
-        <TouchableOpacity
-          onPress={saveCurrentNowNextBoard}
-          style={styles.saveButton}
-        >
-          <Text style={styles.saveText}>Save Board</Text>
-        </TouchableOpacity>
+      <View style={{ flex: 1 }}>
+        <NowNextBoard 
+          nowActivity={nowActivity}
+          nextActivity={nextActivity} 
+          onSelectSlot={onSelectSlot}
+        />
       </View>
-
+      <View style={{ backgroundColor: '#fff' }}>
+        <View style={{ flexDirection: 'row', marginHorizontal: 25, marginVertical: 10, justifyContent: 'space-between' }}>
+          <TouchableOpacity
+            onPress={saveCurrentNowNextBoard}
+            style={styles.saveButton}
+          >
+            <Text style={styles.saveText}>Save Board</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('Slideshow', {
+              title: newBoardTitle,
+              activities: activities.filter(Boolean),
+            })}
+            style={styles.slideshowButton}
+          >
+            <Text style={styles.slideshowText}>View Slideshow</Text>
+          </TouchableOpacity>
+        </View>
+        <Footer />
+      </View>
       <ImageCardCreatorModal
         visible={isNewCardVisible}
         modalStep={modalStep}
@@ -164,7 +177,6 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
         navigation={navigation}
         closeModal={closeModal}
       />
-      <Footer />
     </View>
   );
 };

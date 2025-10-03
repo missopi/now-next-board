@@ -4,7 +4,7 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    paddingTop: 25,
+    paddingTop: 40,
   },
   wrapper: {
     flex: 1,
@@ -34,12 +34,12 @@ export default StyleSheet.create({
   column: {
     flexDirection: 'column',
     alignItems: 'center',
-    marginVertical: 10,
+    marginVertical: 8,
     gap: 2,
   },
   card: {
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: '#aaa',
     borderRadius: 20,
     alignItems: 'center',
     backgroundColor: '#fff',
@@ -47,9 +47,9 @@ export default StyleSheet.create({
     justifyContent: 'center',
     gap: 5,
     paddingTop: 3,
-    shadowColor: '#444',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.5,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.4,
     shadowRadius: 5,
   },
   image: {
@@ -69,13 +69,36 @@ export default StyleSheet.create({
     fontSize: 18,
     color: '#aaa',
   },
-  saveButton: {
-    paddingBottom: 90,
-    backgroundColor: '#fff',
+    saveButton: {
+    flex: 1,
+    marginLeft: 8,
+    padding: 6,
+    backgroundColor: '#cdedffff',
+    borderRadius: 12,
+    alignItems: 'center',
+    borderWidth: 2,
+    borderColor: '#38b6ff',
+  },
+  slideshowButton: {
+    flex: 1,
+    marginLeft: 8,
+    padding: 8,
+    backgroundColor: '#e0e1e2ff',
+    borderRadius: 12,
+    alignItems: 'center',
+    borderWidth: 2,
+    borderColor: '#727272ff',
   },
   saveText: {
-    color: '#666', 
-    fontSize: 18, 
+    color: '#38b6ff', 
+    fontSize: 15, 
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  slideshowText: {
+    color: '#727272ff', 
+    fontSize: 15, 
+    fontWeight: 'bold',
     textAlign: 'center',
   },
 });
