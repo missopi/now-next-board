@@ -32,7 +32,7 @@ export default StyleSheet.create({
   },
 
   // home screen
-  savedButton: {
+ button: {
     width: 325,
     height: 100,
     borderRadius:12,
@@ -44,48 +44,18 @@ export default StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 3,
     elevation: 5, // for android
+    marginBottom: 10,
   },
-  nowButton: {
-    width: 155,
-    height: 150,
-    borderRadius:12,
-    backgroundColor: '#22aefe',
-    alignItems: 'center',
-    justifyContent: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
-    elevation: 5, // for android
-  },
-  routinesButton: {
-    width: 155,
-    height: 150,
-    borderRadius:12,
-    backgroundColor: '#22aefe',
-    alignItems: 'center',
-    justifyContent: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
-    elevation: 5, // for android
-  },
-  savedText: {
+  buttonText: {
     fontSize: 30,
     fontWeight: '500',
     color: '#fff',
     textAlign: 'center',
   },
-  routineText: {
-    fontSize: 30,
-    fontWeight: '500',
-    color: '#fff',
-  },
   buttonRow: {
     flexDirection: 'row',
     gap: 12,
-    marginBottom: 10,
+    marginBottom: 5,
   },
   buttonColumn: {
     flexDirection: 'column',
@@ -99,9 +69,9 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     paddingVertical: 10,
-    borderTopWidth: 1,
+    borderTopWidth: 0.5,
     borderTopColor: '#ddd',
-    backgroundColor: '#38b6ff',
+    backgroundColor: '#fff',
     bottom: 0,
     left: 0,
     right: 0,
@@ -118,11 +88,11 @@ export default StyleSheet.create({
   },
   footerLabel: {
     fontSize: 12,
-    color: '#fff',
+    color: '#555',
     marginTop: 2,
     marginLeft: 6,
   },
   activeFooterLabel: {
-    color: '#000',
+    color: '#01a2ffff',
   },
 });

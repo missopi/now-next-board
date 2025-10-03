@@ -5,8 +5,8 @@ const cardSize = screenWidth * 0.25;
 
 export default StyleSheet.create({
   container: {
-    padding: 16,
-    paddingTop: 50,
+    paddingHorizontal: 16,
+    paddingTop: 60,
     backgroundColor: '#fff',
     flex: 1,
   },
@@ -20,12 +20,14 @@ export default StyleSheet.create({
   },
   searchInput: {
     padding: 9,
-    backgroundColor: '#eee',
+    backgroundColor: '#fff',
     borderRadius: 12,
     marginBottom: 12,
     marginHorizontal: 10,
     fontSize: 17,
     color: '#111',
+    borderColor: '#ccc',
+    borderWidth: 1,
   },
   tabs: {
     flexDirection: 'row',
@@ -44,7 +46,7 @@ export default StyleSheet.create({
   activeTab: {
     backgroundColor: '#cdedffff',
     borderWidth: 2,
-    borderColor: '#38b6ff',
+    borderColor: '#01a2ffff',
   },
   tabText: {
     color: '#ccc',
@@ -52,7 +54,7 @@ export default StyleSheet.create({
     fontWeight: 'bold',
   },
   activeTabText: {
-    color: '#38b6ff',
+    color: '#01a2ffff',
     fontSize: 15,
     fontWeight: 'bold',
   },
