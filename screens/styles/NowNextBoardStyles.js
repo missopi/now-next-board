@@ -71,9 +71,9 @@ export default StyleSheet.create({
   },
     saveButton: {
     flex: 1,
-    marginLeft: 8,
+    marginHorizontal: 90,
     padding: 6,
-    backgroundColor: '#cdedffff',
+    backgroundColor: '#fff',
     borderRadius: 12,
     alignItems: 'center',
     borderWidth: 2,
@@ -90,7 +90,7 @@ export default StyleSheet.create({
     borderColor: '#727272ff',
   },
   saveText: {
-    color: '#aaa', 
+    color: '#38b6ff', 
     fontSize: 15, 
     fontWeight: 'bold',
     textAlign: 'center',

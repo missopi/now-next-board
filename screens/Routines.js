@@ -198,16 +198,6 @@ const RoutineScreen = ({ navigation, route }) => {
         >
           <Text style={styles.blueText}>Save Routine</Text>
         </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={() => navigation.navigate('Slideshow', {
-            title: newBoardTitle,
-            activities: activities.filter(Boolean),
-          })}
-          style={styles.slideshowButton}
-        >
-          <Text style={styles.slideshowText}>View Slideshow</Text>
-        </TouchableOpacity>
       </View>
 
       <ImageCardCreatorModal
