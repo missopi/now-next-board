@@ -81,7 +81,13 @@ export default function AllBoardsScreen() {
 
 
   const renderBoard = ({ item }) => (
-    <TouchableOpacity style={styles.boardCard}>
+    <TouchableOpacity
+      onPress={() => {
+              setSelectedBoard(item);
+              modalRef.current?.open();
+            }}
+      style={styles.boardCard}
+    >
       <View style={styles.boardHeader}>
         <Text style={styles.boardTitle}>{item.title || 'No Title'}</Text>
         <TouchableOpacity onPress={() => handleDelete(item.id)}>
@@ -91,43 +97,31 @@ export default function AllBoardsScreen() {
 
       <View style={styles.boardContent}>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          {item.cards.map((card, idx) => (
-            <TouchableOpacity
-              key={idx}
-              style={styles.cardPreview}
-            >
-              <Image 
-                source={typeof card.image === 'string' ? { uri: card.image } : card.image}
-                style={styles.cardImage} />
-              <Text style={styles.cardLabel}>{card.name}</Text>
-            </TouchableOpacity>
-          ))}
+          {item.cards.slice(0, 3).map((card, idx) => {
+            const extraCount = item.cards.length - 3;
+            const isLastVisible = idx === 2 && extraCount > 0;
+
+            return (
+              <View key={idx} style={styles.cardPreview}>
+                <View style={styles.imageWrapper}>
+                  <Image
+                    source={typeof card.image === 'string' ? { uri: card.image } : card.image}
+                    style={[styles.cardImage, isLastVisible && { opacity: 0.7 }]}
+                  />
+
+                  {/* Overlay text for +N */}
+                  {isLastVisible && (
+                    <View style={styles.overlayContainer}>
+                      <Text style={styles.overlayText}>+{extraCount}</Text>
+                    </View>
+                  )}
+                </View>
+
+                <Text style={styles.cardLabel}>{card.name}</Text>
+              </View>
+            );
+          })}
         </ScrollView>
-
-        <View style={styles.iconColumn}>
-
-          <TouchableOpacity
-            disabled={!isFeatureReady}
-            onPress={() => {
-              if (!isFeatureReady) return; // safeguard
-              setSelectedBoard(item);
-              modalRef.current?.open();
-            }}
-            style={styles.iconButton}
-          >
-            <Feather name="share" size={20} color={'#eee'} />
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => {
-              setSelectedBoard(item);
-              modalRef.current?.open();
-            }}
-            style={styles.iconButton}
-          >
-            <Entypo name="dots-three-horizontal" size={20} color={'#aaa'}/>
-          </TouchableOpacity>
-        </View>
       </View>
     </TouchableOpacity>
   );

@@ -108,8 +108,8 @@ export default StyleSheet.create({
     fontWeight: 'bold',
     lineHeight: 18,
     position: 'absolute',
-    top: 5,
-    right: 7,
+    top: 1,
+    right: 4,
   },
   cardLabel: {
     fontSize: 14,
@@ -172,5 +172,22 @@ export default StyleSheet.create({
     fontSize: 16,
     color: '#000',
     fontWeight: '600',
+  },
+  overlayContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+    alignItems: 'center',
+
+    borderRadius: 10, // match your image radius if needed
+  },
+  overlayText: {
+    color: 'rgba(255, 255, 255, 0.7)',
+    fontSize: 45,
+    fontWeight: 'bold',
   },
 });
