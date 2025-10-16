@@ -31,7 +31,7 @@ const RoutineCard = ({ activity, index, onPress, onDelete, drag }) => {
               <Text style={styles.placeholderText}>Tap to add</Text>
             </View>
           )}
-          <Text style={styles.title}>{activity?.name || 'Untitled'}</Text>
+          <Text style={styles.title}>{activity?.name || ''}</Text>
         </TouchableOpacity>
       </View>
     </View>
