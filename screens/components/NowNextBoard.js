@@ -51,14 +51,14 @@ const NowNextBoard = ({ nowActivity, nextActivity, onSelectSlot }) => {
       <View style={styles.wrapper}>
         <View style={styles.column}>
           {<View style={styles.iconRow}>
-            <Now width={60} height={50} />
+            <Now width={50} height={40} />
             <Text style={styles.textTitle}>Now </Text>
           </View>}
           {renderCard(nowActivity, 'Now')}
         </View>
         <View style={styles.column}>
           {<View style={styles.iconRow}>
-            <Next width={60} height={50} />
+            <Next width={50} height={40} />
             <Text style={styles.textTitle}>Next </Text>
           </View>}
           {renderCard(nextActivity, 'Next')}

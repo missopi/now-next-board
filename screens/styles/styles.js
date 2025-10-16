@@ -88,11 +88,11 @@ export default StyleSheet.create({
   },
   footerLabel: {
     fontSize: 12,
-    color: '#555',
+    color: '#999',
     marginTop: 2,
     marginLeft: 6,
   },
   activeFooterLabel: {
-    color: '#01a2ffff',
+    color: '#000',
   },
 });

@@ -32,7 +32,7 @@ const Footer = () => {
             onPress={() => navigation.navigate(option.route)}
             style={styles.footerButton}
           >
-            <Icon width={24} height={24} fill={isActive ? '#01a2ffff' : '#555'} />
+            <Icon width={25} height={25} fill={isActive ? '#000' : '#999'} />
             <Text style={[styles.footerLabel, isActive && styles.activeFooterLabel]}>
               {option.name}
             </Text>
