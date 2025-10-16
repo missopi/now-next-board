@@ -150,7 +150,7 @@ const RoutineScreen = ({ navigation, route }) => {
     <View style={styles.container}>
       <View style={styles.chooserTop}>
         <TextInput
-          placeholder="Enter new rountine title..."
+          placeholder="Enter new routine title..."
           value={newBoardTitle}
           onChangeText={setNewBoardTitle}
           style={styles.chooserTextInput}
