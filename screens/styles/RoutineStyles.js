@@ -60,8 +60,8 @@ export default StyleSheet.create({
     marginBottom: 8,
   },
   placeholderText: {
-    color: '#666',
-    fontSize: 15,
+    color: '#aaa',
+    fontSize: 18,
   },
   title: {
     fontSize: 16,
