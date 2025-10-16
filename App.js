@@ -23,6 +23,7 @@ export default function App() {
           initialRouteName="Home"
           screenOptions={{
             headerShown: false,
+            gestureEnabled: false,
             cardStyleInterpolator: ({ current }) => ({
               cardStyle: {
                 opacity: current.progress,
