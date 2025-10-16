@@ -40,7 +40,7 @@ const NowNextBoard = ({ nowActivity, nextActivity, onSelectSlot }) => {
             <Text style={styles.label}>{activity.name}</Text>
           </>
         ) : (
-          <Text style={styles.placeholder}>Set {label}</Text>
+          <Text style={styles.placeholder}>Add {label}</Text>
         )}
       </TouchableOpacity>
     );
