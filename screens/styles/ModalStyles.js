@@ -43,13 +43,13 @@ export default StyleSheet.create({
     padding: 15,
   },
   imageButton: {
-    backgroundColor: "#6395e0",
+    backgroundColor: "#22aefe",
     borderRadius: 10,
     paddingHorizontal: 25,
     paddingVertical: 15,
   },
   addButton: {
-    backgroundColor: "#6395e0",
+    backgroundColor: "#22aefe",
     borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 12,
@@ -110,7 +110,7 @@ export default StyleSheet.create({
     color: '#aaa',
   },
   smallButton: {
-    backgroundColor: "#6395e0",
+    backgroundColor: "#22aefe",
     borderRadius: 10,
     paddingVertical: 15,
     paddingHorizontal: 15,
