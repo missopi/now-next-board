@@ -142,18 +142,9 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
         <View style={{ flexDirection: 'row', marginHorizontal: 25, marginVertical: 10, justifyContent: 'space-between' }}>
           <TouchableOpacity
             onPress={saveCurrentNowNextBoard}
-            style={styles.saveButton}
+            style={{ flex: 1, alignItems: 'center' }}
           >
             <Text style={styles.saveText}>Save Board</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('Slideshow', {
-              title: newBoardTitle,
-              activities: activities.filter(Boolean),
-            })}
-            style={styles.slideshowButton}
-          >
-            <Text style={styles.slideshowText}>View Slideshow</Text>
           </TouchableOpacity>
         </View>
         <Footer />

@@ -90,7 +90,7 @@ export default StyleSheet.create({
     borderColor: '#727272ff',
   },
   saveText: {
-    color: '#38b6ff', 
+    color: '#000', 
     fontSize: 15, 
     fontWeight: 'bold',
     textAlign: 'center',

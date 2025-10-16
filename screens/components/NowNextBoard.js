@@ -2,8 +2,8 @@
 
 import { View, Text, TouchableOpacity, Image, useWindowDimensions } from "react-native";
 import styles from "../styles/NowNextBoardStyles";
-import Circle from "../../assets/icons/circle.svg";
-import CircleTick from "../../assets/icons/hollowCircleTick.svg";
+import Now from "../../assets/cards/now.svg";
+import Next from "../../assets/cards/next.svg";
 
 const NowNextBoard = ({ nowActivity, nextActivity, onSelectSlot }) => {
   const { width, height } = useWindowDimensions();
@@ -51,19 +51,15 @@ const NowNextBoard = ({ nowActivity, nextActivity, onSelectSlot }) => {
       <View style={styles.wrapper}>
         <View style={styles.column}>
           {<View style={styles.iconRow}>
+            <Now width={60} height={50} />
             <Text style={styles.textTitle}>Now </Text>
-            <CircleTick style={styles.tick} />
-            <Circle style={styles.circle} />
-            <Circle />
           </View>}
           {renderCard(nowActivity, 'Now')}
         </View>
         <View style={styles.column}>
           {<View style={styles.iconRow}>
+            <Next width={60} height={50} />
             <Text style={styles.textTitle}>Next </Text>
-            <Circle />
-            <CircleTick style={styles.tick} />
-            <Circle />
           </View>}
           {renderCard(nextActivity, 'Next')}
         </View>
