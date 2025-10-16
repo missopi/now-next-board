@@ -3,7 +3,7 @@
 
 import React from "react";
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { createStackNavigator } from '@react-navigation/stack';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import HomeScreen from "./screens/HomeScreen";
@@ -13,7 +13,7 @@ import BoardScreen from "./screens/BoardScreen";
 import LibraryScreen from "./screens/LibraryScreen";
 import AllBoardsScreen from "./screens/AllBoardsScreen";
 
-const Stack = createNativeStackNavigator();
+const Stack = createStackNavigator();
 
 export default function App() {
   return (
@@ -23,32 +23,19 @@ export default function App() {
           initialRouteName="Home"
           screenOptions={{
             headerShown: false,
+            cardStyleInterpolator: ({ current }) => ({
+              cardStyle: {
+                opacity: current.progress,
+              },
+            }),
           }}
         >
-          <Stack.Screen 
-            name="Home" // main menu screen that app starts at
-            component={HomeScreen}
-          />
-          <Stack.Screen 
-            name="Routines" // daily timetable screen, will include a now/next board i think
-            component={Routines} 
-          />
-          <Stack.Screen 
-            name="Slideshow" // presentation display for routines
-            component={Slideshow} 
-          />
-          <Stack.Screen 
-            name="Now/Next"  // will be able to toggle between now/next and now/next & then
-            component={BoardScreen} 
-          />
-          <Stack.Screen 
-            name="LibraryScreen" // attached to atcivity library for list of activity cards
-            component={LibraryScreen} 
-          />
-          <Stack.Screen 
-            name="AllBoardsScreen" // attached to library of saved boards
-            component={AllBoardsScreen} 
-          />
+          <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="Routines" component={Routines} />
+          <Stack.Screen name="Slideshow" component={Slideshow} />
+          <Stack.Screen name="Now/Next" component={BoardScreen} />
+          <Stack.Screen name="LibraryScreen" component={LibraryScreen} />
+          <Stack.Screen name="AllBoardsScreen" component={AllBoardsScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </GestureHandlerRootView> 
