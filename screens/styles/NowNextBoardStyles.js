@@ -4,7 +4,7 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    paddingTop: 50,
+    paddingTop: 55,
   },
   wrapper: {
     flex: 1,
@@ -31,7 +31,7 @@ export default StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     marginVertical: 8,
-    gap: 5,
+    gap: 10,
   },
   card: {
     borderWidth: 1,
@@ -69,7 +69,8 @@ export default StyleSheet.create({
     width: '50%',
     paddingVertical: 7,
     borderRadius: 12,
-    marginVertical: 25,
+    marginTop: 15,
+    marginBottom: 28,
     alignItems: 'center',
     backgroundColor: '#38b6ff',
     borderWidth: 2,

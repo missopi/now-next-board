@@ -78,7 +78,7 @@ export default StyleSheet.create({
   },
   boardCard: {
     backgroundColor: '#fff',
-    padding: 12,
+    padding: 10,
     borderRadius: 12,
     marginBottom: 16,
     shadowColor: '#000',
@@ -100,6 +100,9 @@ export default StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     color: '#000',
+    top: 5,
+    left: 5,
+    paddingBottom: 3,
   },
   deleteIcon: {
     color: '#bbb',
@@ -108,7 +111,7 @@ export default StyleSheet.create({
     lineHeight: 18,
     position: 'absolute',
     top: 1,
-    right: 4,
+    right: 5,
   },
   cardLabel: {
     fontSize: 14,
