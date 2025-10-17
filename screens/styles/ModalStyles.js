@@ -4,6 +4,13 @@ export default StyleSheet.create({
   
   // NowNext & Routines cards
 
+  overlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)', // translucent tint
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
   modalCard: {
     backgroundColor: 'white',
     borderRadius: 20,
