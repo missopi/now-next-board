@@ -47,8 +47,8 @@ export default function ImageCardCreatorModal({
                     closeModal();
                   }}
                 >
-                  <Text style={[styles.smallButtonText, !isFeatureReady && { color: '#666' }]}>Image Library</Text>
-                  <Text style={[styles.smallButtonText, !isFeatureReady && { fontSize: 12, color: '#666' }]}>(In development)</Text>
+                  <Text style={[styles.smallText, !isFeatureReady && { color: '#666' }]}>Image Library</Text>
+                  <Text style={[styles.smallButtonText, !isFeatureReady && { fontSize: 8, color: '#666' }]}>(In development)</Text>
                 </Pressable>
     
                 <Pressable
@@ -104,7 +104,7 @@ export default function ImageCardCreatorModal({
               <Text style={styles.modalHeader}>Add Image</Text>
               <Text style={styles.modalDialog}>Please choose an image source.</Text>
     
-              {!newCardImage && (
+              {!newCardImage ? (
                 <View style={styles.buttonColumn}>
                   <Pressable onPress={() => pickImage('camera')} style={styles.imageButton}>
                     <Text style={styles.addText}>Camera</Text>
@@ -113,22 +113,22 @@ export default function ImageCardCreatorModal({
                     <Text style={styles.addText}>Photo Gallery</Text>
                   </Pressable>
                 </View>
-              )}
+              ) : (
+                <>
+                  <View style={styles.previewView}>
+                    <Image source={{ uri: newCardImage }} style={styles.previewImage} resizeMode="cover" />
+                  </View>
     
-              {newCardImage && (
-                <View style={styles.previewView}>
-                  <Image source={{ uri: newCardImage }} style={styles.previewImage} resizeMode="cover" />
-                </View>
+                  <View style={styles.buttonRow}>
+                    <Pressable onPress={saveNewCard} style={styles.addButton}>
+                      <Text style={styles.addText}>Add</Text>
+                    </Pressable>
+                    <Pressable onPressIn={closeModal} style={styles.cancelButton}>
+                      <Text style={styles.cancelText}>Cancel</Text>
+                    </Pressable> 
+                  </View>
+                </>
               )}
-    
-              <View style={styles.buttonRow}>
-                <Pressable onPress={saveNewCard} style={styles.addButton}>
-                  <Text style={styles.addText}>Add</Text>
-                </Pressable>
-                <Pressable onPressIn={closeModal} style={styles.cancelButton}>
-                  <Text style={styles.cancelText}>Cancel</Text>
-                </Pressable> 
-              </View>
             </>
           )}
         </View>
