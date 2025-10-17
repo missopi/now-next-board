@@ -143,7 +143,7 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
             onPress={saveCurrentNowNextBoard}
             style={styles.saveButton}
           >
-            <Text style={styles.saveText}>Save Board</Text>
+            <Text style={styles.saveText}>Save</Text>
           </TouchableOpacity>
         </View>
       </View>
