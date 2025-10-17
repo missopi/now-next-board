@@ -183,19 +183,19 @@ const RoutineScreen = ({ navigation, route }) => {
         />
       </View>
       
-      <View style={{ flexDirection: 'row', marginHorizontal: 25, marginVertical: 5 }}>
+      <View style={{ flexDirection: 'row', justifyContent: 'center', gap: 10 }}>
         <TouchableOpacity
           onPress={addEmptySlot}
-          style={styles.addEmptySlotButton}
+          style={styles.saveButton}
         >
-          <Text style={styles.blueText}>Add Card</Text>
+          <Text style={styles.saveText}>Add Card</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           onPress={saveCurrentRoutineBoard}
           style={styles.saveButton}
         >
-          <Text style={styles.blueText}>Save Routine</Text>
+          <Text style={styles.saveText}>Save Routine</Text>
         </TouchableOpacity>
       </View>
 
