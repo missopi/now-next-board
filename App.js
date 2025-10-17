@@ -50,7 +50,7 @@ export default function App() {
             component={Routines}
             options={() => ({
             headerTransparent: true,
-            headerTitle: '',
+            headerShown: false,
             })}
           />
           <Stack.Screen name="Slideshow" component={Slideshow} />
@@ -59,7 +59,7 @@ export default function App() {
             component={BoardScreen}
             options={() => ({
             headerTransparent: true,
-            headerTitle: '',
+            headerShown: false,
             })}
           />
           <Stack.Screen name="LibraryScreen" component={LibraryScreen} />
