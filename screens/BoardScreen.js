@@ -138,7 +138,7 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
         />
       </View>
       <View style={{ backgroundColor: '#fff' }}>
-        <View style={{ flexDirection: 'row', marginVertical: 5 }}>
+        <View style={{ flexDirection: 'row', justifyContent: 'center'}}>
           <TouchableOpacity
             onPress={saveCurrentNowNextBoard}
             style={styles.saveButton}

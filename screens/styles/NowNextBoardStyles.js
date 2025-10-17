@@ -4,6 +4,7 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+    paddingTop: 50,
   },
   wrapper: {
     flex: 1,
@@ -30,7 +31,7 @@ export default StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     marginVertical: 8,
-    gap: 2,
+    gap: 5,
   },
   card: {
     borderWidth: 1,
@@ -64,19 +65,24 @@ export default StyleSheet.create({
     fontSize: 18,
     color: '#aaa',
   },
-    saveButton: {
-    flex: 1,
-    marginHorizontal: 90,
-    padding: 6,
-    backgroundColor: '#fff',
+  saveButton: {
+    width: '50%',
+    paddingVertical: 7,
     borderRadius: 12,
+    marginVertical: 25,
     alignItems: 'center',
+    backgroundColor: '#38b6ff',
     borderWidth: 2,
     borderColor: '#38b6ff',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.15,
+    shadowRadius: 3,
+    elevation: 3,
   },
   saveText: {
-    color: '#38b6ff', 
-    fontSize: 15, 
+    color: '#fff', 
+    fontSize: 16, 
     fontWeight: 'bold',
     textAlign: 'center',
   },
