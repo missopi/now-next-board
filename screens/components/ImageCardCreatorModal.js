@@ -29,7 +29,7 @@ export default function ImageCardCreatorModal({
           {modalStep === 'choose' && (
             <>
               <Text style={styles.modalHeader}>Choose Source</Text>
-              <Text style={styles.modalDialog}>Please pick an option to add to your card.</Text>
+              <Text style={styles.modalDialog}>Please pick an option.</Text>
               <View style={styles.buttonColumn}>
                 <Pressable
                   disabled={!isFeatureReady}
@@ -60,7 +60,7 @@ export default function ImageCardCreatorModal({
                   }}
                   style={styles.smallButton}
                 >
-                  <Text style={styles.smallButtonText}>Create New Card</Text>
+                  <Text style={styles.smallButtonText}>Create New</Text>
                 </Pressable>
     
                 <Pressable onPress={closeModal} style={styles.cancelButton}>
