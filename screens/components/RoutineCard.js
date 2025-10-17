@@ -28,7 +28,7 @@ const RoutineCard = ({ activity, index, onPress, onDelete, drag }) => {
             <Image source={{ uri: activity.image.uri }} style={styles.image} />
           ) : (
             <View style={styles.placeholder}>
-              <Text style={styles.placeholderText}>Tap to add</Text>
+              <Text style={styles.placeholderText}>Add Activity</Text>
             </View>
           )}
           <Text style={styles.title}>{activity?.name || ''}</Text>
