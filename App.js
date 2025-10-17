@@ -28,23 +28,22 @@ export default function App() {
           <Stack.Screen 
             name="Home" 
             component={AllBoardsScreen}
-            options={{
-            headerTitle: '',
-            headerLeft: () => (
-              <Word width={180} height={180} style={{ marginLeft: 8 }} />
-
-            ),
-            headerRight: () => (  // for settings cog icon on top right of screen
-              <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end', marginRight: 20 }}>
-                <TouchableOpacity onPress={() => navigation.navigate('Settings')}>
-                  <Add width={28} height={28} style={{ marginRight: 10 }} />
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigation.navigate('Settings')}>
-                  <Search width={28} height={28} style={{ }} />
-                </TouchableOpacity>
-              </View>
-            ),
-          }}  
+            options={({ navigation }) => ({ 
+              headerTitle: '',
+              headerLeft: () => (
+                <Word width={180} height={180} style={{ marginLeft: 8 }} />
+              ),
+              headerRight: () => (
+                <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginRight: 20 }}>
+                  <TouchableOpacity onPress={() => navigation.setParams({ showAddModal: true })}>
+                    <Add width={28} height={28} style={{ marginRight: 10 }} />
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => navigation.navigate('LibraryScreen')}>
+                    <Search width={28} height={28} />
+                  </TouchableOpacity>
+                </View>
+              ),
+            })}
           />
           <Stack.Screen 
             name="Routines" 

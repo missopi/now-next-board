@@ -1,14 +1,14 @@
 import { useEffect, useState, useRef } from 'react';
-import { Alert, View, Text, FlatList, Image, ScrollView, TextInput, TouchableOpacity } from 'react-native';
+import { Alert, View, Text, FlatList, Image, ScrollView, TextInput, Modal, TouchableOpacity } from 'react-native';
 import { getBoards, deleteBoard } from '../utilities/BoardStore';
 import { useNavigation } from '@react-navigation/native';
 import { Modalize } from 'react-native-modalize';
 import { Feather } from '@expo/vector-icons';
 import styles from './styles/AllBoardsStyles';
 
-export default function HomeScreen() {
-  const navigation = useNavigation();
+export default function HomeScreen({ navigation, route }) {
   const [boards, setBoards] = useState([]);
+  const [showAddModal, setShowAddModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTab, setActiveTab] = useState('All');
   const [selectedBoard, setSelectedBoard] = useState(null);
@@ -28,6 +28,14 @@ export default function HomeScreen() {
     };
     loadBoards();
   }, []);
+
+  useEffect(() => {
+    console.log('showAddModal param changed:', route.params?.showAddModal);
+    if (route.params?.showAddModal) {
+      setShowAddModal(true);
+      navigation.setParams({ showAddModal: false }); // reset
+    }
+  }, [route.params?.showAddModal]);
 
   const filteredBoards = boards.filter((board) => {
     const matchesType = activeTab === 'All' || board.type === TAB_TYPE_MAP[activeTab];
@@ -154,7 +162,46 @@ export default function HomeScreen() {
           showsVerticalScrollIndicator={false} 
         />
       </View>
-            {selectedBoard && (
+      <Modal
+        transparent
+        animationType="fade"
+        visible={showAddModal}
+        onRequestClose={() => setShowAddModal(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalBox}>
+            <Text style={styles.modalTitle}>Create a new...</Text>
+
+            <TouchableOpacity
+              style={styles.optionButton}
+              onPress={() => {
+                setShowAddModal(false);
+                navigation.navigate('Now/Next');
+              }}
+            >
+              <Text style={styles.optionText}>Now & Next</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.optionButton}
+              onPress={() => {
+                setShowAddModal(false);
+                navigation.navigate('Routines');
+              }}
+            >
+              <Text style={styles.optionText}>Routine</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.cancelButton}
+              onPress={() => setShowAddModal(false)}
+            >
+              <Text style={styles.optionText}>Cancel</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+      {selectedBoard && (
         <Modalize
           ref={modalRef}
           modalHeight={250}
