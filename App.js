@@ -31,10 +31,10 @@ export default function App() {
             options={({ navigation }) => ({ 
               headerTitle: '',
               headerLeft: () => (
-                <Word width={180} height={180} style={{ marginLeft: 8 }} />
+                <Word width={180} height={180} style={{ marginLeft: 8, marginBottom: 9 }} />
               ),
               headerRight: () => (
-                <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginRight: 20 }}>
+                <View style={{ flexDirection: 'row', justifyContent: 'flex-end', paddingBottom: 9, marginRight: 20 }}>
                   <TouchableOpacity onPress={() => navigation.setParams({ showAddModal: true })}>
                     <Add width={28} height={28} style={{ marginRight: 10 }} />
                   </TouchableOpacity>
