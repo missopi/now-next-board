@@ -6,8 +6,7 @@ const cardSize = screenWidth * 0.25;
 export default StyleSheet.create({
   container: {
     paddingHorizontal: 16,
-    paddingTop: 60,
-    backgroundColor: '#fff',
+    paddingTop: 10,
     flex: 1,
   },
   title: {

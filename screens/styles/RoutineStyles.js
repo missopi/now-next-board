@@ -49,6 +49,8 @@ export default StyleSheet.create({
     height: 180,
     borderRadius: 10,
     marginBottom: 8,
+    borderWidth: 1,
+    borderColor: '#333',
   },
   placeholder: {
     width: 200,

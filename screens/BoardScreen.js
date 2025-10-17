@@ -9,7 +9,6 @@ import { pickImage } from "../utilities/imagePickerHelper";
 import ImageCardCreatorModal from "./components/ImageCardCreatorModal";
 import uuid from "react-native-uuid";
 import { saveBoard, updateBoard } from "../utilities/BoardStore";
-import Footer from "../screens/components/Footer";
 
 export default function NowNextBoardScreen({ navigation, route }) {  // useState used to track selected activities
   const { mode, board } = route.params || {};
@@ -139,7 +138,7 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
         />
       </View>
       <View style={{ backgroundColor: '#fff' }}>
-        <View style={{ flexDirection: 'row', marginHorizontal: 25, marginVertical: 5, justifyContent: 'space-between' }}>
+        <View style={{ flexDirection: 'row', marginVertical: 5 }}>
           <TouchableOpacity
             onPress={saveCurrentNowNextBoard}
             style={styles.saveButton}
@@ -147,7 +146,6 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
             <Text style={styles.saveText}>Save Board</Text>
           </TouchableOpacity>
         </View>
-        <Footer />
       </View>
       <ImageCardCreatorModal
         visible={isNewCardVisible}
