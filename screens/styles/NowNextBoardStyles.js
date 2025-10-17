@@ -10,10 +10,6 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  tick: {
-    width: 30,
-    height: 30,
-  },
   textRow: {
     flexDirection: 'row',
     alignItems: 'center',

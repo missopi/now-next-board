@@ -6,7 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { TouchableOpacity, View } from "react-native";
 
-import HomeScreen from "./screens/HomeScreen";
+import AllBoardsScreen from "./screens/AllBoardsScreen";
 import Routines from "./screens/Routines";
 import Slideshow from "./screens/components/Slideshow";
 import BoardScreen from "./screens/BoardScreen";
@@ -27,7 +27,7 @@ export default function App() {
         >
           <Stack.Screen 
             name="Home" 
-            component={HomeScreen}
+            component={AllBoardsScreen}
             options={{
             headerTitle: '',
             headerLeft: () => (
