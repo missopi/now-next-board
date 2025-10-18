@@ -43,22 +43,9 @@ export default function HomeScreen({ navigation, route }) {
     return matchesType && matchesSearch;
   });
 
-  const handleDelete = (boardId) => {
-    Alert.alert(
-      'Delete Board',
-      'Are you sure you want to delete this board?',
-      [
-        {text: 'Cancel', style: 'cancel'},
-        {
-          text: 'Delete',
-          style: 'destructive',
-          onPress: async () => {
-          const updated = await deleteBoard(boardId);
-          setBoards(updated); 
-          },
-        },
-      ]
-    );
+  const handleDelete = async (boardId) => {
+    const updated = await deleteBoard(boardId);
+    setBoards(updated);
   };
 
   const navigateToBoard = (board, action = 'edit') => {
