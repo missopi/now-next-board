@@ -1,7 +1,7 @@
-import { useEffect, useState, useRef } from 'react';
-import { Alert, View, Text, FlatList, Image, ScrollView, TextInput, Modal, TouchableOpacity } from 'react-native';
+import { useEffect, useState, useRef, useCallback } from 'react';
+import { View, Text, FlatList, Image, ScrollView, Modal, TouchableOpacity } from 'react-native';
 import { getBoards, deleteBoard } from '../utilities/BoardStore';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect } from '@react-navigation/native';
 import { Modalize } from 'react-native-modalize';
 import { Feather } from '@expo/vector-icons';
 import styles from './styles/AllBoardsStyles';
@@ -21,13 +21,15 @@ export default function HomeScreen({ navigation, route }) {
 
   const TABS = ['All'].concat(Object.keys(TAB_TYPE_MAP));
 
-  useEffect(() => {
-    const loadBoards = async () => {
-      const all = await getBoards();
-      setBoards(all);
-    };
-    loadBoards();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      const loadBoards = async () => {
+        const all = await getBoards();
+        setBoards(all);
+      };
+      loadBoards();
+    }, [])
+  );
 
   useEffect(() => {
     console.log('showAddModal param changed:', route.params?.showAddModal);
