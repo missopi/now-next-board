@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { View, Text, TouchableOpacity, TextInput } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import DraggableFlatList from 'react-native-draggable-flatlist';
 import RoutineCard from "./components/RoutineCard";
 import styles from "./styles/RoutineStyles";
@@ -8,10 +8,11 @@ import { pickImage } from "../utilities/imagePickerHelper";
 import ImageCardCreatorModal from "./components/ImageCardCreatorModal";
 import uuid from "react-native-uuid";
 import { saveBoard, updateBoard } from "../utilities/BoardStore";
+import SaveModal from "./components/SaveModal";
 
 const RoutineScreen = ({ navigation, route }) => {
   const { mode, board } = route.params || {};
-  const modalRef = useRef(null);
+  const [isSaveModalVisible, setIsSaveModalVisible] = useState(false);
 
   // track the activities added
   const [activities, setActivities] = useState([]);
@@ -101,36 +102,44 @@ const RoutineScreen = ({ navigation, route }) => {
     handleSetActivity(newCard);
   };
 
-  const saveCurrentRoutineBoard = async () => {
-    // check if routine title is missing
-    if (!newBoardTitle || newBoardTitle.trim() === "") {
+  const handleSavePress = () => {
+    if (currentBoardId && newBoardTitle) {
+      saveCurrentRoutineBoard();
+    } else {
+      setIsSaveModalVisible(true);
+    }
+  };
+
+  const saveCurrentRoutineBoard = async (titleFromModal) => {
+    const titleToUse = titleFromModal || newBoardTitle;
+
+    if (!titleToUse || titleToUse.trim() === "") {
       alert("Please give your routine a title before saving.");
       return;
     }
 
-    // check if there are no valid activities with an image
-    const validActivities = activities.filter(
-      (a) => a && a.image && a.image.uri
-    );
-
+    const validActivities = activities.filter(a => a && a.image && a.image.uri);
     if (validActivities.length === 0) {
       alert("Please add at least one activity with an image before saving.");
       return;
     }
-    
+
     const board = {
       id: currentBoardId || uuid.v4(),
-      type: 'routine',
-      title: newBoardTitle,
-      cards: activities.filter(Boolean),
+      type: "routine",
+      title: titleToUse,
+      cards: validActivities,
     };
+
     if (currentBoardId) {
       await updateBoard(board);
     } else {
       await saveBoard(board);
     }
+
     setCurrentBoardId(board.id);
-    alert('Routine saved!');
+    setNewBoardTitle(titleToUse);
+    setIsSaveModalVisible(false);
   };
 
   const loadRoutineBoard = (board) => {
@@ -147,16 +156,6 @@ const RoutineScreen = ({ navigation, route }) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.chooserTop}>
-        <TextInput
-          placeholder="Enter new routine title..."
-          value={newBoardTitle}
-          onChangeText={setNewBoardTitle}
-          style={styles.chooserTextInput}
-          placeholderTextColor={"#777"}
-        />
-      </View>
-
       <View style={{ flex: 1 }}>
         <DraggableFlatList
           data={activities}
@@ -192,10 +191,10 @@ const RoutineScreen = ({ navigation, route }) => {
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={saveCurrentRoutineBoard}
+          onPress={handleSavePress}
           style={styles.saveButton}
-        >
-          <Text style={styles.saveText}>Save Routine</Text>
+>
+          <Text style={styles.saveText}>Save</Text>
         </TouchableOpacity>
       </View>
 
@@ -217,6 +216,12 @@ const RoutineScreen = ({ navigation, route }) => {
         setActivityCallback={setActivityCallback}
         navigation={navigation}
         closeModal={closeModal}
+      />
+
+      <SaveModal
+        visible={isSaveModalVisible}
+        onClose={() => setIsSaveModalVisible(false)}
+        onSave={(title) => saveCurrentRoutineBoard(title)}
       />
     </View>
   );
