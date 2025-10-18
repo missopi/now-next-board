@@ -103,11 +103,7 @@ const RoutineScreen = ({ navigation, route }) => {
   };
 
   const handleSavePress = () => {
-    if (currentBoardId && newBoardTitle) {
-      saveCurrentRoutineBoard();
-    } else {
-      setIsSaveModalVisible(true);
-    }
+    setIsSaveModalVisible(true);
   };
 
   const saveCurrentRoutineBoard = async (titleFromModal) => {
@@ -220,6 +216,7 @@ const RoutineScreen = ({ navigation, route }) => {
 
       <SaveModal
         visible={isSaveModalVisible}
+        initialTitle={newBoardTitle}
         onClose={() => setIsSaveModalVisible(false)}
         onSave={(title) => saveCurrentRoutineBoard(title)}
       />

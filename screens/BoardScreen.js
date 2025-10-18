@@ -103,11 +103,7 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
   };
 
   const handleSavePress = () => {
-    if (boardTitle) {
-      saveCurrentNowNextBoard();
-    } else {
-      setIsSaveModalVisible(true);
-    }
+    setIsSaveModalVisible(true);
   };
 
   const saveCurrentNowNextBoard = async (titleFromModal) => {
@@ -184,6 +180,7 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
       />
       <SaveModal
         visible={isSaveModalVisible}
+        initialTitle={boardTitle}
         onClose={() => setIsSaveModalVisible(false)}
         onSave={(title) => saveCurrentNowNextBoard(title)}
       />
