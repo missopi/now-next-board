@@ -9,9 +9,12 @@ import { pickImage } from "../utilities/imagePickerHelper";
 import ImageCardCreatorModal from "./components/ImageCardCreatorModal";
 import uuid from "react-native-uuid";
 import { saveBoard, updateBoard } from "../utilities/BoardStore";
+import SaveModal from "./components/SaveModal";
 
 export default function NowNextBoardScreen({ navigation, route }) {  // useState used to track selected activities
   const { mode, board } = route.params || {};
+  const [isSaveModalVisible, setIsSaveModalVisible] = useState(false);
+  const [boardTitle, setBoardTitle] = useState('');
 
   // track the 3 activities
   const [nowActivity, setNowActivity] = useState(null);
@@ -99,33 +102,46 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
     slotRef.current = null;
   };
 
-  const saveCurrentNowNextBoard = async () => {
-    // check if no images/cards are set
+  const handleSavePress = () => {
+    if (boardTitle) {
+      saveCurrentNowNextBoard();
+    } else {
+      setIsSaveModalVisible(true);
+    }
+  };
+
+  const saveCurrentNowNextBoard = async (titleFromModal) => {
+    const titleToUse = titleFromModal || boardTitle;
+
     if (![nowActivity, nextActivity].filter(Boolean).length) {
-      alert("Please add at least one image (Now or Next) before saving.");
+      alert("Please add Now and Next images before saving.");
       return;
     }
 
     const board = {
       id: currentBoardId || uuid.v4(),
       type: 'nowNextThen',
-      title: 'Now & Next',
+      title: titleToUse || "Now & Next",
       cards: [nowActivity, nextActivity].filter(Boolean),
     };
 
     if (currentBoardId) {
-      await updateBoard(board); // replace existing
+      await updateBoard(board);
     } else {
-      await saveBoard(board) // new board
-    };
+      await saveBoard(board);
+    }
+
+    setBoardTitle(titleToUse);
     setCurrentBoardId(board.id);
-    alert('Board saved!');
+    setIsSaveModalVisible(false);
   };
+
 
   const loadNowNextBoard = (board) => {
     setNowActivity(board.cards[0] || null);
     setNextActivity(board.cards[1] || null);
     setCurrentBoardId(board.id);
+    setBoardTitle(board.title || '');
   };
 
   return (
@@ -140,7 +156,7 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
       <View style={{ backgroundColor: '#fff' }}>
         <View style={{ flexDirection: 'row', justifyContent: 'center'}}>
           <TouchableOpacity
-            onPress={saveCurrentNowNextBoard}
+            onPress={handleSavePress}
             style={styles.saveButton}
           >
             <Text style={styles.saveText}>Save</Text>
@@ -165,6 +181,11 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
         setActivityCallback={setActivityCallback}
         navigation={navigation}
         closeModal={closeModal}
+      />
+      <SaveModal
+        visible={isSaveModalVisible}
+        onClose={() => setIsSaveModalVisible(false)}
+        onSave={(title) => saveCurrentNowNextBoard(title)}
       />
     </View>
   );
