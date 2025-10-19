@@ -141,14 +141,14 @@ const LibraryScreen = ({ navigation, route }) => {
           renderItem={({ item }) => (
             <TouchableOpacity 
               onPress={() => handlePress(item)} 
-              style={{ alignItems: 'center', margin: 5 }}
+              style={{ alignItems: 'center' }}
             >
               {typeof item.image === 'function' ? (
-                <View style={styles.activityImage}>
+                <View>
                   <item.image width={250} height={250} />
                 </View>
               ) : (
-                <Image source={item.image} style={styles.activityImage} />
+                <Image source={item.image} />
               )}
             </TouchableOpacity>
           )}
