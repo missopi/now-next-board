@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Modal, View, Text, Pressable, TextInput, Image } from "react-native";
 import styles from '../styles/ModalStyles';
 
@@ -22,11 +23,17 @@ export default function ImageCardCreatorModal({
 
   const isFeatureReady = false;
 
+  useEffect(() => {
+    if (!isFeatureReady && modalStep === 'choose') {
+      setModalStep('create');
+    }
+  }, [modalStep]);
+
   return (
     <Modal visible={visible} transparent={true} animationType="fade">
       <View style={styles.overlay}>
         <View style={styles.modalCard}>
-          {modalStep === 'choose' && (
+          {modalStep === 'choose' && isFeatureReady && (
             <>
               <Text style={styles.modalHeader}>Choose Source</Text>
               <Text style={styles.modalDialog}>Please pick an option.</Text>
