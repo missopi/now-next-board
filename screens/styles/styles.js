@@ -11,18 +11,6 @@ export default StyleSheet.create({
     backgroundColor: '#fff',
   },
 
-  // library
-
-  activityImage: {
-    width: 200,
-    height: 200,
-    padding: 10,
-    resizeMode: 'contain',
-    margin: 5,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-  },
-
   // home screen
  button: {
     width: 325,
