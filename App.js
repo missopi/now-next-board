@@ -31,7 +31,9 @@ export default function App() {
             options={({ navigation }) => ({ 
               headerTitle: '',
               headerLeft: () => (
-                <Word width={180} height={180} style={{ marginLeft: 8, marginBottom: 9, pointerEvents: 'none' }} />
+                <View style={{ pointerEvents: 'none' }}>
+                  <Word width={180} height={180} style={{ marginLeft: 8, marginBottom: 9 }} />
+                </View>
               ),
               headerRight: () => (
                 <View style={{ flexDirection: 'row', justifyContent: 'flex-end', paddingBottom: 9, marginRight: 20 }}>
