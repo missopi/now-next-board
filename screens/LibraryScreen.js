@@ -1,21 +1,19 @@
 // Flatlist of all available activity cards for users to choose from
 
 import { useEffect, useState, useRef } from "react";
-import { Text, View, FlatList, TouchableOpacity, Image, SafeAreaView, ScrollView, Switch, TextInput } from "react-native";
-import styles from './styles/styles';
+import { Text, View, FlatList, TouchableOpacity, Image, ScrollView, TextInput } from "react-native";
+import styles from './styles/LibraryStyles';
 import { activityLibrary } from "../data/ActivityLibrary";
 import { setActivityCallback, triggerActivityCallback } from "./components/CallbackStore";
 import CogIcon from "../assets/icons/cog.svg";
-import { defaultCategories } from '../data/Categories';
+import { allCategories } from '../data/Categories';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Modalize } from "react-native-modalize";
-
 
 const LibraryScreen = ({ navigation, route }) => {  
   const slot = route?.params?.slot;
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
-  const [categorySettings, setCategorySettings] = useState(defaultCategories);
+  const [categorySettings, setCategorySettings] = useState(allCategories);
   const modalRef = useRef(null);
 
   useEffect(() => {
@@ -84,43 +82,32 @@ const LibraryScreen = ({ navigation, route }) => {
 
 
   return ( // wrapped in safeview to respect notches/status bar
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#abaf' }}>
+    <View style={{ flex: 1, backgroundColor: '#fff', paddingTop: 60, }}>
       <View style={{ flex: 1, minHeight: '50%' }}>
         {/* search bar */}
         <TextInput
           placeholder="Search"
           value={searchQuery}
           onChangeText={setSearchQuery}
-          style={{
-            height: 40,
-            borderColor: '#ccc',
-            borderWidth: 1,
-            borderRadius: 8,
-            paddingHorizontal: 10,
-            margin: 10,
-            backgroundColor: '#fff',
-          }}
+          style={styles.searchInput}
         />
         {/* category scroll bar */}
         <ScrollView 
           horizontal 
           showsHorizontalScrollIndicator={false} 
-          style={{ marginBottom: 10, paddingHorizontal: 10 }}
-          contentContainerStyle={{ alignItems: 'center' }}
+          style={styles.tabs}
+          contentContainerStyle={{ alignContent: 'center', justifyContent: 'center', gap: 7 }}
         >
           <TouchableOpacity // 'ALL' tab always visible on far left of screen
             key="All"
             onPress={() => setSelectedCategory('All')}
-            style={{
-              paddingVertical: 8,
-              paddingHorizontal: 14,
-              marginRight: 8,
-              backgroundColor: selectedCategory === 'All' ? '#444' : '#ccc',
-              borderRadius: 18,
-              minHeight: 35,
-            }}
+            style={[ styles.tab, {
+              backgroundColor: selectedCategory === 'All' ? '#cdedffff' : '#fff',
+              borderColor: selectedCategory === 'All' ? '#01a2ffff' : '#ccc',
+              borderWidth: selectedCategory === 'All' ? 2 : 1 }
+            ]}
           >
-            <Text style={{ textAlign: 'center', color: selectedCategory === 'All' ? 'white' : 'black' }}>
+            <Text style={[ styles.tabText, { color: selectedCategory === 'All' ? '#01a2ffff' : '#ccc' } ]}>
               All
             </Text>
           </TouchableOpacity>
@@ -128,16 +115,12 @@ const LibraryScreen = ({ navigation, route }) => {
             <TouchableOpacity
               key={cat.key}
               onPress={() => setSelectedCategory(cat.label)}
-              style={{
-                paddingVertical: 8,
-                paddingHorizontal: 14,
-                marginRight: 8,
-                backgroundColor: selectedCategory === cat.label ? '#444' : '#ccc',
-                borderRadius: 18,
-                minHeight: 35,
-              }}
-            >
-            <Text style={{ textAlign: 'center', color: selectedCategory === cat.label ? 'white' : 'black' }}>
+              style={[ styles.tab, { 
+                backgroundColor: selectedCategory === cat.label ? '#cdedffff' : '#fff', 
+                borderColor: selectedCategory === cat.label ? '#01a2ffff' : '#ccc' ,
+                borderWidth: selectedCategory === cat.label ? 2 : 1 }
+              ]}>
+            <Text style={[ styles.tabText, { color: selectedCategory === cat.label ? '#01a2ffff' : '#ccc' }]}>
               {cat.label}
             </Text>
           </TouchableOpacity>
@@ -149,9 +132,7 @@ const LibraryScreen = ({ navigation, route }) => {
           contentContainerStyle={{
             flexGrow: 1, // Fill the screen even with fewer items
             minHeight: 700,
-            justifyContent: 'flex-start',
             alignItems: 'center',
-            paddingVertical: 20,
           }}
           ListEmptyComponent={<Text style={{ color: '#888', marginTop: 40, textAlign: 'center' }}>No activities in this category</Text>}
           showsVerticalScrollIndicator={false} // remove line on right when scrolling
@@ -164,62 +145,16 @@ const LibraryScreen = ({ navigation, route }) => {
             >
               {typeof item.image === 'function' ? (
                 <View style={styles.activityImage}>
-                  <item.image width={180} height={180} />
+                  <item.image width={250} height={250} />
                 </View>
               ) : (
                 <Image source={item.image} style={styles.activityImage} />
               )}
-              <Text style={styles.activityName}>{item.name}</Text>
             </TouchableOpacity>
           )}
         />
       </View>
-      <Modalize  // setting for toggling on 'then' activity at bottom of screen
-        ref={modalRef}
-        modalHeight={600}
-        handlePosition="inside"
-        handleStyle={styles.handle}
-        modalStyle={styles.modal}
-      >
-        <View style={{ height: 15 }} />
-
-        <View style={styles.modalView}>
-          <Text style={{ marginVertical: 20, fontSize: 18, fontWeight: 'bold' }}>Show/Hide Categories</Text>
-          {categorySettings.map((cat, index) => (
-            <View key={cat.key} style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 7 }}>
-              <Text style={{ flex: 1 }}>{cat.label}</Text>
-              <Switch
-                value={cat.visible}
-                onValueChange={async (newValue) => {
-                  const updated = [...categorySettings];
-                  updated[index].visible = newValue;
-                  setCategorySettings(updated);
-                  try {
-                    await AsyncStorage.setItem('categorySettings', JSON.stringify(updated));
-                  } catch (e) {
-                    console.error('Failed to save category settings', e);
-                  }
-                }}
-              />
-            </View>
-          ))}
-          <View style={{ height: 1, backgroundColor: '#ccc', marginVertical: 12 }} />
-          <TouchableOpacity
-            onPress={async () => {
-              setCategorySettings(defaultCategories); // reset
-              try {
-                await AsyncStorage.setItem('categorySettings', JSON.stringify(defaultCategories));
-              } catch (e) {
-                console.error('Failed to reset category settings', e);
-              }
-            }}
-            style={{ marginTop: 10, backgroundColor: '#eee', padding: 10, borderRadius: 8, alignItems: 'center' }}
-          >
-            <Text style={{ color: '#333' }}>Reset to Default</Text>
-          </TouchableOpacity>
-        </View>
-      </Modalize>
-    </SafeAreaView>
+    </View>
   );
 };
 

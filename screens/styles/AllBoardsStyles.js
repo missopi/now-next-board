@@ -1,7 +1,4 @@
-import { StyleSheet, Dimensions } from 'react-native';
-
-const screenWidth = Dimensions.get('window').width;
-const cardSize = screenWidth * 0.25;
+import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   container: {

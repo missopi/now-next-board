@@ -14,21 +14,13 @@ export default StyleSheet.create({
   // library
 
   activityImage: {
-    width: 280,
+    width: 200,
     height: 200,
     padding: 10,
     resizeMode: 'contain',
-    borderColor: '#000',
-    borderWidth: 3,
-    borderRadius: 15,
     margin: 5,
     backgroundColor: '#fff',
     alignItems: 'center',
-  },
-  activityName: {
-    fontSize: 20,
-    fontWeight: '600',
-    color: '#333',
   },
 
   // home screen

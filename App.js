@@ -64,7 +64,14 @@ export default function App() {
             headerShown: false,
             })}
           />
-          <Stack.Screen name="LibraryScreen" component={LibraryScreen} />
+          <Stack.Screen 
+            name="LibraryScreen" 
+            component={LibraryScreen}
+            options={() => ({
+            headerTransparent: true,
+            headerShown: false,
+            })}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </GestureHandlerRootView> 
