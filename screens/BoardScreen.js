@@ -147,6 +147,7 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
           nowActivity={nowActivity}
           nextActivity={nextActivity} 
           onSelectSlot={onSelectSlot}
+          readOnly={false}  
         />
       </View>
       <View style={{ backgroundColor: '#fff' }}>

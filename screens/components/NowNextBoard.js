@@ -5,7 +5,7 @@ import styles from "../styles/NowNextBoardStyles";
 import Now from "../../assets/cards/now.svg";
 import Next from "../../assets/cards/next.svg";
 
-const NowNextBoard = ({ nowActivity, nextActivity, onSelectSlot }) => {
+const NowNextBoard = ({ nowActivity, nextActivity, onSelectSlot, readOnly }) => {
   const { width, height } = useWindowDimensions();
 
   const renderCard = (activity, label) => {
@@ -21,6 +21,7 @@ const NowNextBoard = ({ nowActivity, nextActivity, onSelectSlot }) => {
     
     return (
       <TouchableOpacity // Used for selecting each card
+        disabled={readOnly}
         style={[
           styles.card, 
           { 
@@ -28,7 +29,7 @@ const NowNextBoard = ({ nowActivity, nextActivity, onSelectSlot }) => {
             height: height * 0.33, 
           },
         ]} 
-        onPress={() => onSelectSlot({ slot: label })}
+        onPress={() => !readOnly && onSelectSlot({ slot: label })}
       >
         {activity ? (
           <>

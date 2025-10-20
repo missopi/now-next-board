@@ -68,6 +68,8 @@ export default function HomeScreen({ navigation, route }) {
       case 'nowNextThen':
         if (action === 'edit') {
           navigation.navigate('Now/Next', { mode: 'load', board });
+        } else if (action === 'view') {
+          navigation.navigate('FinishedNowNext', { board });
         }
         break;
 

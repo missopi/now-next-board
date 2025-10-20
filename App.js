@@ -11,6 +11,7 @@ import Routines from "./screens/Routines";
 import Slideshow from "./screens/components/Slideshow";
 import BoardScreen from "./screens/BoardScreen";
 import LibraryScreen from "./screens/LibraryScreen";
+import FinishedNowNext from "./screens/FinishedBoards/FinishedNowNext";
 
 import Search from "./assets/icons/search.svg";
 import Add from "./assets/icons/add.svg";
@@ -59,6 +60,14 @@ export default function App() {
           <Stack.Screen 
             name="Now/Next" 
             component={BoardScreen}
+            options={() => ({
+            headerTransparent: true,
+            headerShown: false,
+            })}
+          />
+          <Stack.Screen 
+            name="FinishedNowNext" 
+            component={FinishedNowNext}
             options={() => ({
             headerTransparent: true,
             headerShown: false,
