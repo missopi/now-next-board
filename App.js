@@ -12,6 +12,7 @@ import Slideshow from "./screens/components/Slideshow";
 import BoardScreen from "./screens/BoardScreen";
 import LibraryScreen from "./screens/LibraryScreen";
 import FinishedNowNext from "./screens/FinishedBoards/FinishedNowNext";
+import FinshedRoutine from "./screens/FinishedBoards/FinishedRoutine";
 
 import Search from "./assets/icons/search.svg";
 import Add from "./assets/icons/add.svg";
@@ -51,6 +52,14 @@ export default function App() {
           <Stack.Screen 
             name="Routines" 
             component={Routines}
+            options={() => ({
+            headerTransparent: true,
+            headerShown: false,
+            })}
+          />
+          <Stack.Screen 
+            name="FinishedRoutine" 
+            component={FinshedRoutine}
             options={() => ({
             headerTransparent: true,
             headerShown: false,
