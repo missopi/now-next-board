@@ -4,7 +4,8 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    paddingTop: 50,
+    paddingTop: 60,
+    paddingHorizontal: 10,
   },
   card: {
     paddingHorizontal: 16,
@@ -46,7 +47,7 @@ export default StyleSheet.create({
     paddingBottom: 8,
   },
   image: {
-    width: 230,
+    width: 210,
     height: 180,
     borderRadius: 10,
     marginBottom: 8,
@@ -54,7 +55,7 @@ export default StyleSheet.create({
     borderColor: '#333',
   },
   placeholder: {
-    width: 200,
+    width: 190,
     height: 180,
     borderRadius: 10,
     backgroundColor: '#fff',
