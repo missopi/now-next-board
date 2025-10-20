@@ -252,4 +252,47 @@ export default StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
   },
+
+  // modal for delete
+
+  buttonRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 10,
+    alignItems: 'center',
+  },
+  deleteButton: {
+    flex: 1,
+    backgroundColor: "#22aefe",
+    borderRadius: 10,
+    backgroundColor: '#e74c3c',
+    paddingVertical: 14,
+    alignItems: 'center',
+    marginRight: 8,
+  },
+  deleteText: {
+    fontSize: 18,
+    color: "#fff",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  modalDialog: {
+    fontSize: 16,
+    color: '#555',
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+  cancelDeleteButton: {
+    flex: 1,
+    backgroundColor: "#ff0000",
+    borderRadius: 10,
+    paddingVertical: 14,
+    alignItems: 'center',
+  },
+  cancelDeleteText: {
+    fontSize: 18,
+    color: "#fff",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
 });

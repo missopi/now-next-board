@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
-import { View, Text, FlatList, Image, ScrollView, Modal, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, Image, ScrollView, Modal, TouchableOpacity, Pressable } from 'react-native';
 import { getBoards, deleteBoard } from '../utilities/BoardStore';
 import { useFocusEffect } from '@react-navigation/native';
 import { Modalize } from 'react-native-modalize';
@@ -12,6 +12,9 @@ export default function HomeScreen({ navigation, route }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTab, setActiveTab] = useState('All');
   const [selectedBoard, setSelectedBoard] = useState(null);
+  const [deleteModalVisible, setDeleteModalVisible] = useState(false);
+  const [boardToDelete, setBoardToDelete] = useState(null);
+
   const modalRef = useRef(null);
 
   const TAB_TYPE_MAP = {
@@ -84,7 +87,12 @@ export default function HomeScreen({ navigation, route }) {
     >
       <View style={styles.boardHeader}>
         <Text style={styles.boardTitle}>{item.title || 'No Title'}</Text>
-        <TouchableOpacity onPress={() => handleDelete(item.id)}>
+        <TouchableOpacity
+          onPress={() => {
+            setBoardToDelete(item);
+            setDeleteModalVisible(true);
+          }}
+        >
           <Text style={styles.deleteIcon}>✕</Text>
         </TouchableOpacity>
       </View>
@@ -187,6 +195,38 @@ export default function HomeScreen({ navigation, route }) {
             >
               <Text style={styles.optionText}>Cancel</Text>
             </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+      <Modal
+        visible={deleteModalVisible}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setDeleteModalVisible(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalBox}>
+            <Text style={styles.modalTitle}>Delete Board</Text>
+            <Text style={styles.modalDialog}>Are you sure you want to delete "{boardToDelete?.title}"?</Text>
+            <View style={styles.buttonRow}>
+              <Pressable
+                style={styles.deleteButton}
+                onPress={async () => {
+                  const updated = await deleteBoard(boardToDelete.id);
+                  setBoards(updated);
+                  setDeleteModalVisible(false);
+                  setBoardToDelete(null);
+                }}
+              >
+                <Text style={styles.deleteText}>Delete</Text>
+              </Pressable>
+              <Pressable
+                style={styles.cancelDeleteButton}
+                onPress={() => setDeleteModalVisible(false)}
+              >
+                <Text style={styles.cancelDeleteText}>Cancel</Text>
+              </Pressable>
+            </View>
           </View>
         </View>
       </Modal>
