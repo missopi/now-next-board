@@ -3,7 +3,6 @@ import { StyleSheet } from "react-native";
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     paddingTop: 60,
     paddingHorizontal: 10,
   },
@@ -68,7 +67,7 @@ export default StyleSheet.create({
     fontSize: 18,
   },
   title: {
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'center',
   },
@@ -81,7 +80,6 @@ export default StyleSheet.create({
     paddingHorizontal: 6,
     paddingTop: 0.5,
     paddingBottom: 2,
-
   },
   dragText: {
     fontSize: 25,
@@ -108,6 +106,17 @@ export default StyleSheet.create({
     fontSize: 16, 
     fontWeight: 'bold',
     textAlign: 'center',
+  },
+
+  buttonRow: {
+    flexDirection: 'row', 
+    justifyContent: 'center', 
+    gap: 10, 
+    backgroundColor: 'transparent', 
+    position: "absolute", 
+    bottom: 10,
+    left: 0,
+    right: 0
   },
 
   // title chooser

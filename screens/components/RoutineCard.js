@@ -6,7 +6,7 @@ import styles from "../styles/RoutineStyles";
 const RoutineCard = ({ activity, index, onPress, onDelete, drag, readOnly = false }) => {
   return (
     <View style={styles.card}>
-      <View style={{ borderRadius: 12, backgroundColor: 'white' }}>
+      <View style={{ borderRadius: 12, backgroundColor: '#fff' }}>
         {!readOnly && (
           <View>
             <TouchableOpacity

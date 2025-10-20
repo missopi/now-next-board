@@ -179,7 +179,7 @@ const RoutineScreen = ({ navigation, route }) => {
         />
       </View>
       
-      <View style={{ flexDirection: 'row', justifyContent: 'center', gap: 10 }}>
+      <View style={styles.buttonRow}>
         <TouchableOpacity
           onPress={addEmptySlot}
           style={styles.saveButton}
