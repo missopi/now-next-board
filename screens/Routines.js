@@ -170,6 +170,7 @@ const RoutineScreen = ({ navigation, route }) => {
                 onPress={() => onSelectSlot(index)}
                 onDelete={() => deleteActivity(index)}
                 drag={drag}
+                readOnly={false}
               />
             );
           }}

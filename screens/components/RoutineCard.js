@@ -3,21 +3,23 @@
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import styles from "../styles/RoutineStyles";
 
-const RoutineCard = ({ activity, index, onPress, onDelete, drag }) => {
+const RoutineCard = ({ activity, index, onPress, onDelete, drag, readOnly = false }) => {
   return (
     <View style={styles.card}>
       <View style={{ borderRadius: 12, backgroundColor: 'white' }}>
-        <TouchableOpacity
-          style={styles.deleteButton}
-          onPress={onDelete}
-        >
-          <Text style={styles.deleteText}>✕</Text>
-        </TouchableOpacity>
-
-        {/* Drag handle */}
-        <TouchableOpacity onLongPress={drag} style={styles.dragHandle}>
-          <Text style={styles.dragText}>≡</Text>
-        </TouchableOpacity>
+        {!readOnly && (
+          <View>
+            <TouchableOpacity
+              style={styles.deleteButton}
+              onPress={onDelete}
+            >
+              <Text style={styles.deleteText}>✕</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onLongPress={drag} style={styles.dragHandle}>
+              <Text style={styles.dragText}>≡</Text>
+            </TouchableOpacity>
+          </View>
+        )}
 
         <TouchableOpacity
           onPress={() => onPress(index)}
