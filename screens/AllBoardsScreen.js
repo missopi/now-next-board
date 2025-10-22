@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { View, Text, FlatList, Image, ScrollView, Modal, TouchableOpacity, Pressable } from 'react-native';
+import * as ScreenOrientation from 'expo-screen-orientation';
 import { getBoards, deleteBoard } from '../utilities/BoardStore';
 import { useFocusEffect } from '@react-navigation/native';
 import { Modalize } from 'react-native-modalize';
@@ -16,6 +17,16 @@ export default function HomeScreen({ navigation, route }) {
   const [boardToDelete, setBoardToDelete] = useState(null);
 
   const modalRef = useRef(null);
+
+  useEffect(() => {
+    // Lock this screen to portrait when mounted
+    ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
+    
+    return () => {
+      // Unlock on leaving, so the next screens can rotate freely
+      ScreenOrientation.unlockAsync();
+    };
+  }, []);
 
   const TAB_TYPE_MAP = {
     'Now & Next': 'nowNextThen',
