@@ -1,17 +1,17 @@
 import { StyleSheet } from "react-native";
 
-export default function getStyles(isPortrait, width, height) {
+export default function getStyles(isPortrait, width, height, mode = "edit") {
   return StyleSheet.create({
     container: {
       flex: 1,
-      paddingBottom: isPortrait ? 25 : 60,
+      paddingBottom: isPortrait ? 25 : mode === "view" ? 20 : 60,
     },
     wrapper: {
       flex: 1,
       alignItems: 'center',
       justifyContent: 'center',
       flexDirection: isPortrait ? 'column' : 'row',
-      gap: isPortrait ? 20 : 40,
+      gap: isPortrait ? 20 : 50,
       paddingHorizontal: isPortrait ? 0 : 20,
     },
     textRow: {
@@ -52,7 +52,11 @@ export default function getStyles(isPortrait, width, height) {
       shadowOpacity: 0.4,
       shadowRadius: 5,
       width: isPortrait ? width * 0.80 : width * 0.35,
-      height: isPortrait ? height * 0.33 : height * 0.58,
+      height: isPortrait 
+        ? height * 0.33 
+        : mode === "view"
+        ? height * 0.70 // height taller in 'view' landscape mode 
+        : height * 0.58,
     },
     image: {
       width: '90%',

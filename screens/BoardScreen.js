@@ -35,7 +35,7 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
   // screen orientation
   const { width, height } = useWindowDimensions();
   const isPortrait = height > width;
-  const styles = getStyles(isPortrait, width, height);
+  const styles = getStyles(isPortrait, width, height, "edit");
 
   // loading saved boards
   useEffect(() => {
