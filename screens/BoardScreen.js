@@ -1,9 +1,9 @@
 // Main board screen containing the Now/Next/Then board
 
 import { useEffect, useRef, useState } from "react";  
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, useWindowDimensions } from "react-native";
 import NowNextBoard from "./components/NowNextBoard";
-import styles from "./styles/NowNextBoardStyles";
+import getStyles from "./styles/NowNextBoardStyles";
 import { setActivityCallback } from "./components/CallbackStore";
 import { pickImage } from "../utilities/imagePickerHelper";
 import ImageCardCreatorModal from "./components/ImageCardCreatorModal";
@@ -31,6 +31,11 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
 
   // saving boards
   const [currentBoardId, setCurrentBoardId] = useState(null);
+
+  // screen orientation
+  const { width, height } = useWindowDimensions();
+  const isPortrait = height > width;
+  const styles = getStyles(isPortrait, width, height);
 
   // loading saved boards
   useEffect(() => {
@@ -147,7 +152,8 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
           nowActivity={nowActivity}
           nextActivity={nextActivity} 
           onSelectSlot={onSelectSlot}
-          readOnly={false}  
+          readOnly={false} 
+          styles={styles}
         />
       </View>
       <View style={{ backgroundColor: '#fff' }}>

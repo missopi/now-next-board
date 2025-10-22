@@ -1,12 +1,10 @@
 // Visual layout for Now/Next boards
 
-import { View, Text, TouchableOpacity, Image, useWindowDimensions } from "react-native";
-import styles from "../styles/NowNextBoardStyles";
+import { View, Text, TouchableOpacity, Image } from "react-native";
 import Now from "../../assets/cards/now.svg";
 import Next from "../../assets/cards/next.svg";
 
-const NowNextBoard = ({ nowActivity, nextActivity, onSelectSlot, readOnly }) => {
-  const { width, height } = useWindowDimensions();
+const NowNextBoard = ({ nowActivity, nextActivity, onSelectSlot, readOnly, styles }) => {
 
   const renderCard = (activity, label) => {
     console.log(`Rendering activity for ${label}:`, activity);
@@ -22,13 +20,7 @@ const NowNextBoard = ({ nowActivity, nextActivity, onSelectSlot, readOnly }) => 
     return (
       <TouchableOpacity // Used for selecting each card
         disabled={readOnly}
-        style={[
-          styles.card, 
-          { 
-            width: width * 0.80,
-            height: height * 0.33, 
-          },
-        ]} 
+        style={styles.card} 
         onPress={() => !readOnly && onSelectSlot({ slot: label })}
       >
         {activity ? (
