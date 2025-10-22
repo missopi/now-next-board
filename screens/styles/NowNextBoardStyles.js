@@ -4,14 +4,14 @@ export default function getStyles(isPortrait, width, height) {
   return StyleSheet.create({
     container: {
       flex: 1,
-      paddingBottom: 25,
+      paddingBottom: isPortrait ? 25 : 60,
     },
     wrapper: {
       flex: 1,
       alignItems: 'center',
       justifyContent: 'center',
       flexDirection: isPortrait ? 'column' : 'row',
-      gap: 20,
+      gap: isPortrait ? 20 : 40,
       paddingHorizontal: isPortrait ? 0 : 20,
     },
     textRow: {
@@ -51,8 +51,8 @@ export default function getStyles(isPortrait, width, height) {
       shadowOffset: { width: 0, height: 3 },
       shadowOpacity: 0.4,
       shadowRadius: 5,
-      width: isPortrait ? width * 0.80 : width * 0.3,
-      height: isPortrait ? height * 0.33 : height * 0.45,
+      width: isPortrait ? width * 0.80 : width * 0.35,
+      height: isPortrait ? height * 0.33 : height * 0.58,
     },
     image: {
       width: '90%',
@@ -72,7 +72,7 @@ export default function getStyles(isPortrait, width, height) {
       color: '#aaa',
     },
     saveButton: {
-      width: '50%',
+      width: isPortrait ? '50%' : '25%',
       paddingVertical: 7,
       borderRadius: 12,
       marginTop: 15,
@@ -98,7 +98,7 @@ export default function getStyles(isPortrait, width, height) {
       justifyContent: 'center', 
       backgroundColor: 'transparent', 
       position: 'absolute', 
-      bottom: 3,
+      bottom: isPortrait ? 3 : 1,
       left: 0,
       right: 0
     },
