@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import { Modal, View, Text, Pressable, TextInput, Image } from "react-native";
-import styles from '../styles/ModalStyles';
+import { Modal, View, Text, Pressable, TextInput, Image, useWindowDimensions } from "react-native";
+import getModalStyles from '../styles/ModalStyles';
 
 export default function ImageCardCreatorModal({
   visible,
@@ -23,6 +23,10 @@ export default function ImageCardCreatorModal({
 
   const isFeatureReady = false;
 
+  const { width, height } = useWindowDimensions();
+  const isPortrait = height > width;
+  const styles = getModalStyles(isPortrait, width, height);
+
   useEffect(() => {
     if (!isFeatureReady && modalStep === 'choose') {
       setModalStep('create');
@@ -30,7 +34,7 @@ export default function ImageCardCreatorModal({
   }, [modalStep]);
 
   return (
-    <Modal visible={visible} transparent={true} animationType="fade">
+    <Modal visible={visible} transparent={true} animationType="fade" supportedOrientations={['portrait', 'landscape']}>
       <View style={styles.overlay}>
         <View style={styles.modalCard}>
           {modalStep === 'choose' && isFeatureReady && (
@@ -109,10 +113,11 @@ export default function ImageCardCreatorModal({
           {modalStep === 'create' && isPickingImage && (
             <>
               <Text style={styles.modalHeader}>Add Image</Text>
-              <Text style={styles.modalDialog}>Please choose an image source.</Text>
+              
     
               {!newCardImage ? (
                 <View style={styles.buttonColumn}>
+                  <Text style={styles.modalDialog}>Please choose an image source.</Text>
                   <Pressable onPress={() => pickImage('camera')} style={styles.imageButton}>
                     <Text style={styles.addText}>Camera</Text>
                   </Pressable>
