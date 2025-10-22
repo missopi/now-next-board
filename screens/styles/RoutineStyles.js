@@ -114,7 +114,7 @@ export default StyleSheet.create({
     gap: 10, 
     backgroundColor: 'transparent', 
     position: "absolute", 
-    bottom: 10,
+    bottom: 3,
     left: 0,
     right: 0
   },

@@ -91,7 +91,7 @@ export default StyleSheet.create({
     justifyContent: 'center', 
     backgroundColor: 'transparent', 
     position: 'absolute', 
-    bottom: 5,
+    bottom: 3,
     left: 0,
     right: 0
   },
