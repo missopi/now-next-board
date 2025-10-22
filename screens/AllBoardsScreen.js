@@ -48,11 +48,6 @@ export default function HomeScreen({ navigation, route }) {
     return matchesType && matchesSearch;
   });
 
-  const handleDelete = async (boardId) => {
-    const updated = await deleteBoard(boardId);
-    setBoards(updated);
-  };
-
   const navigateToBoard = (board, action = 'edit') => {
     switch (board.type) {
       case 'routine':
@@ -185,7 +180,7 @@ export default function HomeScreen({ navigation, route }) {
               style={styles.optionButton}
               onPress={() => {
                 setShowAddModal(false);
-                navigation.navigate('Routines');
+                navigation.navigate('Routines', { mode: "new" });
               }}
             >
               <Text style={styles.optionText}>Routine</Text>

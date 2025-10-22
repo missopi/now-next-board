@@ -15,7 +15,11 @@ const RoutineScreen = ({ navigation, route }) => {
   const [isSaveModalVisible, setIsSaveModalVisible] = useState(false);
 
   // track the activities added
-  const [activities, setActivities] = useState([]);
+  const [activities, setActivities] = useState(() => {
+    return mode === 'new'
+      ? [{ id: uuid.v4(), name: null, image: null }]
+      : [];
+  });
 
   // title
   const [newBoardTitle, setNewBoardTitle] = useState('');
@@ -32,12 +36,23 @@ const RoutineScreen = ({ navigation, route }) => {
   // saving boards
   const [currentBoardId, setCurrentBoardId] = useState(null);
 
+  useEffect(() => {
+    console.log('RoutineScreen mount/params', { mode, activities });
+  }, [mode, activities]);
+
   // loading saved boards
   useEffect(() => {
     if (mode === 'load' && board) {
       loadRoutineBoard(board);
     }
   }, [mode, board]);
+
+  // automatically add one empty slot for new routines
+  useEffect(() => {
+    if (mode === 'new' && activities.length === 0) {
+      setActivities([{ id: uuid.v4(), name: null, image: null }]);
+    }
+  }, [mode, activities]);
 
   // grab title
   useEffect(() => {
