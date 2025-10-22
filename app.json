@@ -3,7 +3,7 @@
     "name": "now-next-board",
     "slug": "now-next-board",
     "version": "1.0.0",
-    "orientation": "PORTRAIT_UP", 
+    "orientation": "default", 
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
