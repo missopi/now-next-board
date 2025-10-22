@@ -3,8 +3,7 @@ import { StyleSheet } from "react-native";
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    paddingTop: 55,
+    paddingBottom: 25,
   },
   wrapper: {
     flex: 1,
@@ -86,5 +85,14 @@ export default StyleSheet.create({
     fontSize: 16, 
     fontWeight: 'bold',
     textAlign: 'center',
+  },
+  buttonRow: {
+    flexDirection: 'row', 
+    justifyContent: 'center', 
+    backgroundColor: 'transparent', 
+    position: 'absolute', 
+    bottom: 5,
+    left: 0,
+    right: 0
   },
 });

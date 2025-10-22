@@ -8,7 +8,7 @@ export default function NowNextBoardViewScreen({ route }) {
   const nextActivity = board?.cards?.[1] || null;
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#fff', paddingBottom: 40 }}>
+    <View style={{ flex: 1 }}>
       <NowNextBoard
         nowActivity={nowActivity}
         nextActivity={nextActivity}
