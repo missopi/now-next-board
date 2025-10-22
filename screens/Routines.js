@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, useWindowDimensions } from "react-native";
 import DraggableFlatList from 'react-native-draggable-flatlist';
 import RoutineCard from "./components/RoutineCard";
-import styles from "./styles/RoutineStyles";
+import getStyles from "./styles/RoutineStyles";
 import { setActivityCallback } from "./components/CallbackStore";
 import { pickImage } from "../utilities/imagePickerHelper";
 import ImageCardCreatorModal from "./components/ImageCardCreatorModal";
@@ -60,6 +60,11 @@ const RoutineScreen = ({ navigation, route }) => {
       setNewBoardTitle(route.params.initialTitle);
     }
   }, [route.params]);
+
+  // screen orientation
+  const { width, height } = useWindowDimensions();
+  const isPortrait = height > width;
+  const styles = getStyles(isPortrait, width, height, "edit");
 
   const slotIndexRef = useRef(null);
 
@@ -171,6 +176,8 @@ const RoutineScreen = ({ navigation, route }) => {
         <DraggableFlatList
           data={activities}
           extraData={activities}
+          key={isPortrait ? 'portrait' : 'landscape'}
+          horizontal={!isPortrait}  
           onDragEnd={({ data }) => setActivities(data)}
           keyExtractor={(item) => item.id}
           renderItem={(params) => {
@@ -186,11 +193,17 @@ const RoutineScreen = ({ navigation, route }) => {
                 onDelete={() => deleteActivity(index)}
                 drag={drag}
                 readOnly={false}
+                styles={styles}
               />
             );
           }}
           contentContainerStyle={{ paddingBottom: 80 }}  // leave room at bottom for button
-          showsVerticalScrollIndicator={false} 
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={[
+            styles.listContainer,
+            !isPortrait && { flexDirection: 'row', alignItems: 'center' }, 
+          ]}
         />
       </View>
       

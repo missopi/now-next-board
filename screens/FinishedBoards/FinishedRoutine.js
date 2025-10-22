@@ -1,7 +1,7 @@
-import { View, Text } from "react-native";
+import { View, Text, useWindowDimensions } from "react-native";
 import DraggableFlatList from "react-native-draggable-flatlist";
 import RoutineCard from "../components/RoutineCard";
-import styles from "../styles/RoutineStyles";
+import getStyles from "../styles/RoutineStyles";
 
 export default function RoutineViewScreen({ route }) {
   const { board } = route.params || {};
@@ -10,23 +10,56 @@ export default function RoutineViewScreen({ route }) {
 
   const activities = board.cards || [];
 
+  const { width, height } = useWindowDimensions();
+  const isPortrait = height > width;
+  const styles = getStyles(isPortrait, width, height, "view");
+
   return (
     <View style={styles.container}>
-      <DraggableFlatList
-        data={activities}
-        keyExtractor={(item) => item.id}
-        scrollEnabled={true}
-        showsVerticalScrollIndicator={false}
-        onDragEnd={() => {}} // no dragging
-        renderItem={({ item }) => (
-          <RoutineCard
-            activity={item}
-            readOnly={true} // hide delete + drag buttons
-          />
-        )}
-
-        // 👇 Add header to scroll with list
-        ListHeaderComponent={() => (
+      {isPortrait ? (
+        // 📱 Portrait: title scrolls with list
+        <DraggableFlatList
+          data={activities}
+          key={isPortrait ? 'portrait' : 'landscape'}
+          horizontal={false}
+          keyExtractor={(item) => item.id}
+          scrollEnabled={true}
+          showsVerticalScrollIndicator={false}
+          onDragEnd={() => {}}
+          renderItem={({ item }) => (
+            <RoutineCard
+              activity={item}
+              readOnly={true}
+              styles={styles}
+            />
+          )}
+          ListHeaderComponent={() => (
+            <View style={{ alignItems: "center", marginVertical: 5 }}>
+              <Text
+                style={{
+                  fontSize: 24,
+                  fontWeight: "600",
+                  color: "#333",
+                  textAlign: "center",
+                }}
+              >
+                {board.title || "Routine"}
+              </Text>
+              <View
+                style={{
+                  height: 2,
+                  width: "60%",
+                  backgroundColor: "#ccc",
+                  marginTop: 8,
+                }}
+              />
+            </View>
+          )}
+          contentContainerStyle={{ paddingBottom: 80 }}
+        />
+      ) : (
+        // 💻 Landscape: title fixed, list below
+        <>
           <View style={{ alignItems: "center", marginVertical: 5 }}>
             <Text
               style={{
@@ -47,12 +80,26 @@ export default function RoutineViewScreen({ route }) {
               }}
             />
           </View>
-        )}
 
-        contentContainerStyle={{ paddingBottom: 80 }}
-      />
+          <DraggableFlatList
+            data={activities}
+            key={isPortrait ? 'portrait' : 'landscape'}
+            horizontal={!isPortrait}  // keep one column
+            keyExtractor={(item) => item.id}
+            scrollEnabled={true}
+            showsVerticalScrollIndicator={false}
+            onDragEnd={() => {}}
+            renderItem={({ item }) => (
+              <RoutineCard
+                activity={item}
+                readOnly={true}
+                styles={styles}
+              />
+            )}
+            contentContainerStyle={{ paddingBottom: 80 }}
+          />
+        </>
+      )}
     </View>
   );
 }
-
-

@@ -3,7 +3,7 @@
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import styles from "../styles/RoutineStyles";
 
-const RoutineCard = ({ activity, index, onPress, onDelete, drag, readOnly = false }) => {
+const RoutineCard = ({ activity, index, onPress, onDelete, drag, readOnly = false, styles }) => {
   return (
     <View style={styles.card}>
       <View style={{ borderRadius: 12, backgroundColor: '#fff' }}>

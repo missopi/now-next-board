@@ -7,8 +7,6 @@ import Next from "../../assets/cards/next.svg";
 const NowNextBoard = ({ nowActivity, nextActivity, onSelectSlot, readOnly, styles }) => {
 
   const renderCard = (activity, label) => {
-    console.log(`Rendering activity for ${label}:`, activity);
-
     const getImageSource = (image) => {
       if (!image) return null;
       if (typeof image === 'number') return image;
