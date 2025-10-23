@@ -190,68 +190,7 @@ export default StyleSheet.create({
     fontWeight: 'bold',
   },
 
-  // modal for + feature
-
-  modalOverlay: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.4)',
-  },
-  modalBox: {
-    backgroundColor: '#fff',
-    borderRadius: 20,
-    paddingVertical: 30,
-    paddingHorizontal: 25,
-    width: '80%',
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 6,
-    elevation: 5,
-  },
-  modalTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 20,
-  },
-  optionButton: {
-    width: '100%',
-    paddingVertical: 12,
-    borderRadius: 12,
-    marginVertical: 6,
-    alignItems: 'center',
-    backgroundColor: '#38b6ff',
-    borderWidth: 2,
-    borderColor: '#38b6ff',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.15,
-    shadowRadius: 3,
-    elevation: 3,
-  },
-  optionText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  cancelButton: {
-    width: '100%',
-    paddingVertical: 12,
-    borderRadius: 12,
-    marginTop: 10,
-    alignItems: 'center',
-    backgroundColor: '#ff0000',
-    borderWidth: 2,
-    borderColor: '#ff0000',
-  },
-  cancelText: {
-    color: '#333',
-    fontSize: 16,
-    fontWeight: '600',
-  },
+  
 
   // modal for delete
 

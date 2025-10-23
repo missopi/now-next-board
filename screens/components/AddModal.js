@@ -1,5 +1,5 @@
 import { Modal, Text, TouchableOpacity, Pressable, useWindowDimensions } from "react-native";
-import getModalStyles from "../styles/AllBoardsStyles";
+import getModalStyles from '../styles/ModalStyles';
 
 export default function AddModal({ visible, navigation, onClose}) {
 
@@ -16,38 +16,38 @@ export default function AddModal({ visible, navigation, onClose}) {
     >
       {/* OUTER PRESSABLE: closes modal when touched outside */}
       <Pressable
-        style={styles.overlay}
+        style={styles.addOverlay}
         onPress={onClose}
       >
         {/* INNER PRESSABLE: stops outside touch from closing modal */}
         <Pressable
-          style={styles.modalBox}
+          style={styles.addBox}
           onPress={(e) => e.stopPropagation()}
         >
-          <Text style={styles.modalTitle}>Create a new...</Text>
+          <Text style={styles.addTitle}>Create a new...</Text>
           <TouchableOpacity
-            style={styles.optionButton}
+            style={styles.addButton}
             onPress={() => {
               onClose();
               navigation.navigate('Now/Next');
             }}
           >
-            <Text style={styles.optionText}>Now & Next</Text>
+            <Text style={styles.addText}>Now & Next</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={styles.optionButton}
+            style={styles.addButton}
             onPress={() => {
               onClose();
               navigation.navigate('Routines', { mode: "new" });
             }}
           >
-            <Text style={styles.optionText}>Routine</Text>
+            <Text style={styles.addText}>Routine</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={styles.cancelButton}
+            style={styles.addCancelButton}
             onPress={onClose}
           >
-            <Text style={styles.optionText}>Cancel</Text>
+            <Text style={styles.addText}>Cancel</Text>
           </TouchableOpacity>
         </Pressable>
     </Pressable>
