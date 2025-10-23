@@ -34,9 +34,25 @@ export default function ImageCardCreatorModal({
   }, [modalStep]);
 
   return (
-    <Modal visible={visible} transparent={true} animationType="fade" supportedOrientations={['portrait', 'landscape']}>
-      <View style={styles.overlay}>
-        <View style={styles.modalCard}>
+    <Modal 
+      visible={visible} 
+      transparent={true} 
+      animationType="fade" 
+      supportedOrientations={['portrait', 'landscape']}
+      onRequestClose={closeModal}  // ✅ Android back button
+    >
+      {/* ✅ FULL-SCREEN PRESSABLE OVERLAY */}
+      <Pressable
+        style={styles.overlay}
+        onPress={closeModal}              // tap outside modal closes it
+      >
+        {/* ✅ INNER PRESSABLE stops touch propagation */}
+        <Pressable
+          style={styles.modalCard}
+          onPress={(e) => e.stopPropagation()} // prevents overlay press
+        >
+
+          {/* Existing modal content unchanged below */}
           {modalStep === 'choose' && isFeatureReady && (
             <>
               <Text style={styles.modalHeader}>Choose Source</Text>
@@ -49,7 +65,7 @@ export default function ImageCardCreatorModal({
                     !isFeatureReady && { backgroundColor: '#ccc', opacity: 0.6 }
                   ]}
                   onPress={() => {
-                    if (!isFeatureReady) return; // safeguard
+                    if (!isFeatureReady) return;
                     const slotKey = typeof slotRef.current === 'string'
                       ? slotRef.current
                       : slotRef.current?.slot;
@@ -80,6 +96,7 @@ export default function ImageCardCreatorModal({
               </View>
             </>
           )}
+
           {modalStep === 'create' && !isPickingImage && (
             <>
               <Text style={styles.modalHeader}>Enter Card Title</Text>
@@ -110,11 +127,11 @@ export default function ImageCardCreatorModal({
               </View>
             </>
           )}
+
           {modalStep === 'create' && isPickingImage && (
             <>
               <Text style={styles.modalHeader}>Add Image</Text>
-              
-    
+
               {!newCardImage ? (
                 <View style={styles.buttonColumn}>
                   <Text style={styles.modalDialog}>Please choose an image source.</Text>
@@ -130,7 +147,7 @@ export default function ImageCardCreatorModal({
                   <View style={styles.previewView}>
                     <Image source={{ uri: newCardImage }} style={styles.previewImage} resizeMode="cover" />
                   </View>
-    
+
                   <View style={styles.buttonRow}>
                     <Pressable onPress={saveNewCard} style={styles.addButton}>
                       <Text style={styles.addText}>Add</Text>
@@ -143,8 +160,9 @@ export default function ImageCardCreatorModal({
               )}
             </>
           )}
-        </View>
-      </View>
+
+        </Pressable>
+      </Pressable>
     </Modal>
-  )
+  );
 }
