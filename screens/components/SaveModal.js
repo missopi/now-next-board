@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { Modal, View, Text, TextInput, TouchableOpacity, useWindowDimensions } from "react-native";
-import getModalStyles from '../styles/ModalStyles';
+import { Modal, View, Text, TextInput, TouchableOpacity, Pressable, useWindowDimensions } from "react-native";
+import getModalStyles from "../styles/ModalStyles";
 
 export default function SaveModal({ visible, initialTitle = "", onClose, onSave }) {
   const [title, setTitle] = useState(initialTitle);
@@ -24,13 +24,27 @@ export default function SaveModal({ visible, initialTitle = "", onClose, onSave 
   const styles = getModalStyles(isPortrait, width, height);
 
   return (
-    <Modal visible={visible} transparent={true} animationType="fade" supportedOrientations={['portrait', 'landscape']}>
-      <View style={styles.overlay}>
-        <View style={styles.modalCard}>
+    <Modal
+      visible={visible}
+      transparent={true}
+      animationType="fade"
+      supportedOrientations={["portrait", "landscape"]}
+      onRequestClose={onClose} // Android back button closes modal
+    >
+      {/* OUTER PRESSABLE: closes modal when touched outside */}
+      <Pressable
+        style={styles.overlay}
+        onPress={onClose}
+      >
+        {/* INNER PRESSABLE: stops outside touch from closing modal */}
+        <Pressable
+          style={styles.modalCard}
+          onPress={(e) => e.stopPropagation()}
+        >
           <Text style={styles.modalHeader}>
             {initialTitle ? "Edit Board Title" : "Name Your Board"}
           </Text>
-          <Text></Text>
+
           <TextInput
             placeholder="e.g., Morning Routine"
             placeholderTextColor="#9999"
@@ -38,6 +52,7 @@ export default function SaveModal({ visible, initialTitle = "", onClose, onSave 
             onChangeText={setTitle}
             style={styles.input}
           />
+
           <View style={styles.buttonRow}>
             <TouchableOpacity onPress={handleSave} style={styles.addButton}>
               <Text style={styles.addText}>Save</Text>
@@ -46,8 +61,8 @@ export default function SaveModal({ visible, initialTitle = "", onClose, onSave 
               <Text style={styles.cancelText}>Cancel</Text>
             </TouchableOpacity>
           </View>
-        </View>
-      </View>
+        </Pressable>
+      </Pressable>
     </Modal>
-  )
+  );
 }
