@@ -4,14 +4,26 @@ export default function getStyles(isPortrait, width, height, mode = "edit") {
   return StyleSheet.create({
     container: {
       flex: 1,
-      paddingBottom: isPortrait ? 25 : mode === "view" ? 20 : 60,
+      paddingBottom: isPortrait
+        ? mode === "edit"
+          ? 25 
+          : 0
+        : mode === "view" 
+          ? 0 
+          : 60,
     },
     wrapper: {
       flex: 1,
       alignItems: 'center',
       justifyContent: 'center',
       flexDirection: isPortrait ? 'column' : 'row',
-      gap: isPortrait ? 20 : 50,
+      gap: isPortrait 
+        ? mode === "edit"
+          ? 2 
+          : 5
+        : mode === "view"
+          ? 50
+          : 50,
       paddingHorizontal: isPortrait ? 0 : 20,
     },
     textRow: {
@@ -34,7 +46,7 @@ export default function getStyles(isPortrait, width, height, mode = "edit") {
       flexDirection: 'column',
       alignItems: 'center',
       marginVertical: 8,
-      gap: 10,
+      gap: mode === "view" ? 5 : 10,
       width: isPortrait ? '100%' : 'auto',
     },
     card: {
@@ -51,12 +63,20 @@ export default function getStyles(isPortrait, width, height, mode = "edit") {
       shadowOffset: { width: 0, height: 3 },
       shadowOpacity: 0.4,
       shadowRadius: 5,
-      width: isPortrait ? width * 0.80 : width * 0.35,
-      height: isPortrait 
-        ? height * 0.33 
+      width: isPortrait
+        ? mode === "edit"
+          ? width * 0.80
+          : width * 0.80
         : mode === "view"
-        ? height * 0.70 // height taller in 'view' landscape mode 
-        : height * 0.58,
+          ? width * 0.35
+          : width * 0.28,
+      height: isPortrait
+        ? mode === "edit"
+          ? height * 0.33
+          : height * 0.36
+        : mode === "view"
+          ? height * 0.75 // height taller in 'view' landscape mode 
+          : height * 0.60,
     },
     image: {
       width: '90%',

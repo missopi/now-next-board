@@ -5,7 +5,7 @@ export default function getStyles(isPortrait, width, height, mode = "edit") {
     container: {
       flex: 1,
       paddingTop: isPortrait? 60 : mode === "view" ? 10 : 25,
-      paddingHorizontal: isPortrait? 10 : 20,
+      paddingHorizontal: mode === "edit" ? 20 : 20,
     },
     card: {
       paddingHorizontal: 16,
@@ -16,18 +16,26 @@ export default function getStyles(isPortrait, width, height, mode = "edit") {
       marginBottom: 10,
       backgroundColor: '#fff',
       position: 'relative',
-      marginHorizontal: 25,
+      marginLeft: isPortrait && mode === "edit" ? 0 : 20,
       shadowColor: '#000',
       shadowOffset: { width: 0, height: 3 },
       shadowOpacity: 0.4,
       shadowRadius: 5,
       elevation: 4,
-      width: isPortrait ? width * 0.80 : width * 0.35,
-      height: isPortrait 
-        ? height * 0.295 
+      width: isPortrait 
+        ? mode === "edit"
+          ? width * 0.80 
+          : width * 0.80
         : mode === "view"
-        ? height * 0.70 // height taller in 'view' landscape mode 
-        : height * 0.68,
+          ? width * 0.35 
+          : width * 0.29,
+      height: isPortrait
+        ? mode === "edit"
+          ? height * 0.28   // portrait + edit
+          : height * 0.34   // portrait + view
+        : mode === "view"
+          ? height * 0.73   // landscape + view
+          : height * 0.68,  // landscape + edit
     },
     deleteButton: {
       position: 'absolute',
@@ -49,14 +57,32 @@ export default function getStyles(isPortrait, width, height, mode = "edit") {
     cardContent: {
       alignItems: 'center',
       paddingHorizontal: 12,
-      paddingTop: isPortrait ? 23 : 35,
+      paddingTop: isPortrait 
+        ? mode === "edit"
+          ? 23 
+          : 16
+        : mode === "view" 
+          ? 16
+          : 35,
       paddingBottom: 8,
     },
     image: {
-      width: 210,
-      height: 180,
+      width: isPortrait
+        ? mode === "edit"
+         ? 187.50  // portrait + edit
+         : 250  // portrait + view
+        : mode === "view" 
+          ? 250   // landscape + view
+          : 187.50,  // landscape + edit
+      height: isPortrait
+        ? mode === "edit"
+         ? 168.75  // portrait + edit
+         : 225  // portrait + view
+        : mode === "view" 
+          ? 225   // landscape + view
+          : 168.75,  // landscape + edit
       borderRadius: 10,
-      marginBottom: 8,
+      marginBottom: 6,
       borderWidth: 1,
       borderColor: '#333',
     },
@@ -125,7 +151,6 @@ export default function getStyles(isPortrait, width, height, mode = "edit") {
       right: 0
     },
     listContainer: {
-      paddingBottom: 80,
       justifyContent: 'center',
       alignItems: 'center',
     },
