@@ -193,5 +193,51 @@ export default function getModalStyles(isPortrait, width, height) {
       borderWidth: 2,
       borderColor: '#ff0000',
     },
+
+    // modal for delete
+
+    deleteRow: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      marginTop: 10,
+      alignItems: 'center',
+    },
+    deleteButton: {
+      flex: 1,
+      borderRadius: 10,
+      backgroundColor: '#fff',
+      borderColor:'#ff0000',
+      borderWidth: 2,
+      paddingVertical: 14,
+      alignItems: 'center',
+      marginRight: 8,
+    },
+    deleteText: {
+      fontSize: 18,
+      color: '#ff0000',
+      fontWeight: "bold",
+      textAlign: "center",
+    },
+    deleteDialog: {
+      fontSize: 16,
+      color: '#555',
+      textAlign: 'center',
+      marginBottom: 20,
+    },
+    cancelDeleteButton: {
+      flex: 1,
+      backgroundColor: "#ff0000",
+      borderColor:'#ff0000',
+      borderWidth: 2,
+      borderRadius: 10,
+      paddingVertical: 14,
+      alignItems: 'center',
+    },
+    cancelDeleteText: {
+      fontSize: 18,
+      color: "#fff",
+      fontWeight: "bold",
+      textAlign: "center",
+    },
   });
 };

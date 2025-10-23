@@ -7,6 +7,7 @@ import { Modalize } from 'react-native-modalize';
 import { Feather } from '@expo/vector-icons';
 import AddModal from '../screens/components/AddModal';
 import styles from './styles/AllBoardsStyles';
+import DeleteModal from './components/DeleteModal';
 
 export default function HomeScreen({ navigation, route }) {
   const [boards, setBoards] = useState([]);
@@ -173,38 +174,13 @@ export default function HomeScreen({ navigation, route }) {
         onClose={() => setShowAddModal(false)}
         navigation={navigation}
       />
-      <Modal
+      <DeleteModal
         visible={deleteModalVisible}
-        transparent
-        animationType="fade"
-        onRequestClose={() => setDeleteModalVisible(false)}
-      >
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalBox}>
-            <Text style={styles.modalTitle}>Delete Board</Text>
-            <Text style={styles.modalDialog}>Are you sure you want to delete "{boardToDelete?.title}"?</Text>
-            <View style={styles.buttonRow}>
-              <Pressable
-                style={styles.deleteButton}
-                onPress={async () => {
-                  const updated = await deleteBoard(boardToDelete.id);
-                  setBoards(updated);
-                  setDeleteModalVisible(false);
-                  setBoardToDelete(null);
-                }}
-              >
-                <Text style={styles.deleteText}>Delete</Text>
-              </Pressable>
-              <Pressable
-                style={styles.cancelDeleteButton}
-                onPress={() => setDeleteModalVisible(false)}
-              >
-                <Text style={styles.cancelDeleteText}>Cancel</Text>
-              </Pressable>
-            </View>
-          </View>
-        </View>
-      </Modal>
+        boardToDelete={boardToDelete}
+        onClose={() => setDeleteModalVisible(false)}
+        onDeleted={() => setBoardToDelete(null)}
+        setBoards={setBoards}
+      />
       {selectedBoard && (
         <Modalize
           ref={modalRef}
