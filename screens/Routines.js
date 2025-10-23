@@ -170,6 +170,11 @@ const RoutineScreen = ({ navigation, route }) => {
     setActivities([...activities, newSlot]);
   };
 
+  const containerStyle = {
+    ...styles.listContainer,
+    ...( !isPortrait && { flexDirection: 'row', alignItems: 'center' } )
+  };
+
   return (
     <View style={styles.container}>
       <View style={{ flex: 1 }}>
@@ -197,13 +202,9 @@ const RoutineScreen = ({ navigation, route }) => {
               />
             );
           }}
-          contentContainerStyle={{ paddingBottom: 80 }}  // leave room at bottom for button
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={[
-            styles.listContainer,
-            !isPortrait && { flexDirection: 'row', alignItems: 'center' }, 
-          ]}
+          contentContainerStyle={containerStyle}
         />
       </View>
       
