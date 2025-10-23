@@ -86,6 +86,8 @@ export default StyleSheet.create({
     shadowRadius: 5,
     marginHorizontal: 10,
     elevation: 2,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   boardHeader: {
     flexDirection: 'row',
@@ -101,14 +103,17 @@ export default StyleSheet.create({
     left: 5,
     paddingBottom: 3,
   },
+  buttonColumn: {
+    gap: 35,
+  },
   deleteIcon: {
-    color: '#bbb',
+    color: '#999',
     fontSize: 22,
     fontWeight: 'bold',
     lineHeight: 18,
     position: 'absolute',
-    top: 1,
-    right: 5,
+    top: 5,
+    right: 2,
   },
   cardLabel: {
     fontSize: 14,

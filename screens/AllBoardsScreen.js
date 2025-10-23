@@ -1,9 +1,8 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
-import { View, Text, FlatList, Image, ScrollView, Modal, TouchableOpacity, Pressable } from 'react-native';
+import { View, Text, FlatList, Image, ScrollView, TouchableOpacity } from 'react-native';
 import * as ScreenOrientation from 'expo-screen-orientation';
-import { getBoards, deleteBoard } from '../utilities/BoardStore';
+import { getBoards } from '../utilities/BoardStore';
 import { useFocusEffect } from '@react-navigation/native';
-import { Modalize } from 'react-native-modalize';
 import { Feather } from '@expo/vector-icons';
 import AddModal from '../screens/components/AddModal';
 import styles from './styles/AllBoardsStyles';
@@ -61,42 +60,55 @@ export default function HomeScreen({ navigation, route }) {
     return matchesType && matchesSearch;
   });
 
-  const navigateToBoard = (board, action = 'edit') => {
-    switch (board.type) {
-      case 'routine':
-        if (action === 'edit') {
-          navigation.navigate('Routines', { mode: 'load', board });
-        } else if (action === 'view') {
-          navigation.navigate('FinishedRoutine', { board });
-        } else if (action === 'slideshow') {
-          navigation.navigate('Slideshow', { board });
-        }
-        break;
-
-      case 'nowNextThen':
-        if (action === 'edit') {
-          navigation.navigate('Now/Next', { mode: 'load', board });
-        } else if (action === 'view') {
-          navigation.navigate('FinishedNowNext', { board });
-        }
-        break;
-
-      default:
-        console.warn('Unknown board type:', board.type);
-    }
-  };
-
-
   const renderBoard = ({ item }) => (
     <TouchableOpacity
       onPress={() => {
-              setSelectedBoard(item);
-              modalRef.current?.open();
-            }}
+        if (item.type === 'routine') {
+          navigation.navigate('FinishedRoutine', { board: item });
+        } else if (item.type === 'nowNextThen') {
+          navigation.navigate('FinishedNowNext', { board: item });
+        } else {
+          console.warn('Unknown board type:', item.type);
+        }
+      }}
       style={styles.boardCard}
     >
-      <View style={styles.boardHeader}>
-        <Text style={styles.boardTitle}>{item.title || 'No Title'}</Text>
+      <View style={{ flexDirection: 'column'}}>
+        <View style={styles.boardHeader}>
+          <Text style={styles.boardTitle}>{item.title || 'No Title'}</Text>
+        </View>
+
+        <View style={styles.boardContent}>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            {item.cards.slice(0, 3).map((card, idx) => {
+              const extraCount = item.cards.length - 3;
+              const isLastVisible = idx === 2 && extraCount > 0;
+
+              return (
+                <View key={idx} style={styles.cardPreview}>
+                  <View style={styles.imageWrapper}>
+                    <Image
+                      source={typeof card.image === 'string' ? { uri: card.image } : card.image}
+                      style={[styles.cardImage, isLastVisible && { opacity: 0.7 }]}
+                    />
+
+                    {/* Overlay text for +N */}
+                    {isLastVisible && (
+                      <View style={styles.overlayContainer}>
+                        <Text style={styles.overlayText}>+{extraCount}</Text>
+                      </View>
+                    )}
+                  </View>
+
+                  <Text style={styles.cardLabel}>{card.name}</Text>
+                </View>
+              );
+            })}
+          </ScrollView>
+        </View>
+      </View>
+      
+      <View style={styles.buttonColumn}>
         <TouchableOpacity
           onPress={() => {
             setBoardToDelete(item);
@@ -105,35 +117,19 @@ export default function HomeScreen({ navigation, route }) {
         >
           <Text style={styles.deleteIcon}>✕</Text>
         </TouchableOpacity>
-      </View>
-
-      <View style={styles.boardContent}>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          {item.cards.slice(0, 3).map((card, idx) => {
-            const extraCount = item.cards.length - 3;
-            const isLastVisible = idx === 2 && extraCount > 0;
-
-            return (
-              <View key={idx} style={styles.cardPreview}>
-                <View style={styles.imageWrapper}>
-                  <Image
-                    source={typeof card.image === 'string' ? { uri: card.image } : card.image}
-                    style={[styles.cardImage, isLastVisible && { opacity: 0.7 }]}
-                  />
-
-                  {/* Overlay text for +N */}
-                  {isLastVisible && (
-                    <View style={styles.overlayContainer}>
-                      <Text style={styles.overlayText}>+{extraCount}</Text>
-                    </View>
-                  )}
-                </View>
-
-                <Text style={styles.cardLabel}>{card.name}</Text>
-              </View>
-            );
-          })}
-        </ScrollView>
+        <TouchableOpacity
+          onPress={() => {
+            if (item.type === 'routine') {
+              navigation.navigate('Routines', { mode: 'load', board: item });
+            } else if (item.type === 'nowNextThen') {
+              navigation.navigate('Now/Next', { mode: 'load', board: item });
+            } else {
+              console.warn('Unknown board type:', item.type);
+            }
+          }}
+        >
+          <Feather name="edit" size={20} color="#999"  />
+        </TouchableOpacity>
       </View>
     </TouchableOpacity>
   );
@@ -181,56 +177,6 @@ export default function HomeScreen({ navigation, route }) {
         onDeleted={() => setBoardToDelete(null)}
         setBoards={setBoards}
       />
-      {selectedBoard && (
-        <Modalize
-          ref={modalRef}
-          modalHeight={250}
-          handlePosition="inside"
-          handleStyle={styles.handle}
-          modalStyle={styles.modal}
-        >
-          <View style={{ height: 15 }} />
-
-          {/* Single option group */}
-          <View style={styles.group}>
-            <TouchableOpacity
-              style={[styles.row, { borderBottomWidth: 0 }]}
-              onPress={() => {
-                modalRef.current?.close();
-                navigateToBoard(selectedBoard, 'edit');
-              }}
-            >
-              <Text style={styles.text}>Edit Board</Text>
-              <Feather name="edit" size={20} color="#999"  />
-            </TouchableOpacity>
-          </View>
-
-          {/* Grouped options */}
-          <View style={styles.group}>
-            <TouchableOpacity
-              style={styles.row}
-              onPress={() => {
-                modalRef.current?.close();
-                navigateToBoard(selectedBoard, 'view');
-              }}
-            >
-              <Text style={styles.text}>View Board</Text>
-              <Feather name="eye" size={20} color="#999"  />
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={[styles.row, { borderBottomWidth: 0 }]}
-              onPress={() => {
-                modalRef.current?.close();
-                navigateToBoard(selectedBoard, 'slideshow');
-              }}
-            >
-              <Text style={styles.text}>View Slideshow</Text>
-              <Feather name="film" size={20} color="#999" />
-            </TouchableOpacity>
-          </View> 
-        </Modalize>
-      )}
     </>
   );
 };
