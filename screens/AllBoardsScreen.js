@@ -5,6 +5,7 @@ import { getBoards, deleteBoard } from '../utilities/BoardStore';
 import { useFocusEffect } from '@react-navigation/native';
 import { Modalize } from 'react-native-modalize';
 import { Feather } from '@expo/vector-icons';
+import AddModal from '../screens/components/AddModal';
 import styles from './styles/AllBoardsStyles';
 
 export default function HomeScreen({ navigation, route }) {
@@ -167,45 +168,11 @@ export default function HomeScreen({ navigation, route }) {
           showsVerticalScrollIndicator={false} 
         />
       </View>
-      <Modal
-        transparent
-        animationType="fade"
+      <AddModal
         visible={showAddModal}
-        onRequestClose={() => setShowAddModal(false)}
-      >
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalBox}>
-            <Text style={styles.modalTitle}>Create a new...</Text>
-
-            <TouchableOpacity
-              style={styles.optionButton}
-              onPress={() => {
-                setShowAddModal(false);
-                navigation.navigate('Now/Next');
-              }}
-            >
-              <Text style={styles.optionText}>Now & Next</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.optionButton}
-              onPress={() => {
-                setShowAddModal(false);
-                navigation.navigate('Routines', { mode: "new" });
-              }}
-            >
-              <Text style={styles.optionText}>Routine</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.cancelButton}
-              onPress={() => setShowAddModal(false)}
-            >
-              <Text style={styles.optionText}>Cancel</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
+        onClose={() => setShowAddModal(false)}
+        navigation={navigation}
+      />
       <Modal
         visible={deleteModalVisible}
         transparent
