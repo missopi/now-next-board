@@ -1,7 +1,7 @@
 import { Modal, Text, TouchableOpacity, Pressable, useWindowDimensions } from "react-native";
 import getModalStyles from "../styles/AllBoardsStyles";
 
-export default function SaveModal({ visible, navigation, onClose}) {
+export default function AddModal({ visible, navigation, onClose}) {
 
   const { width, height } = useWindowDimensions();
   const isPortrait = height > width;
