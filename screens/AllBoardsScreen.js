@@ -13,7 +13,6 @@ export default function HomeScreen({ navigation, route }) {
   const [showAddModal, setShowAddModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTab, setActiveTab] = useState('All');
-  const [selectedBoard, setSelectedBoard] = useState(null);
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const [boardToDelete, setBoardToDelete] = useState(null);
 
