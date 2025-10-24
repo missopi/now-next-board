@@ -4,9 +4,9 @@ import * as ScreenOrientation from 'expo-screen-orientation';
 import { getBoards } from '../utilities/BoardStore';
 import { useFocusEffect } from '@react-navigation/native';
 import { Feather } from '@expo/vector-icons';
-import AddModal from '../screens/components/AddModal';
+import AddModal from './modals/AddModal';
 import styles from './styles/AllBoardsStyles';
-import DeleteModal from './components/DeleteModal';
+import DeleteModal from './modals/DeleteModal';
 
 export default function HomeScreen({ navigation, route }) {
   const [boards, setBoards] = useState([]);

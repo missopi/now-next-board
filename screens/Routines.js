@@ -5,10 +5,10 @@ import RoutineCard from "./components/RoutineCard";
 import getStyles from "./styles/RoutineStyles";
 import { setActivityCallback } from "./components/CallbackStore";
 import { pickImage } from "../utilities/imagePickerHelper";
-import ImageCardCreatorModal from "./components/ImageCardCreatorModal";
+import ImageCardCreatorModal from "./modals/ImageCardCreatorModal";
 import uuid from "react-native-uuid";
 import { saveBoard, updateBoard } from "../utilities/BoardStore";
-import SaveModal from "./components/SaveModal";
+import SaveModal from "./modals/SaveModal";
 
 const RoutineScreen = ({ navigation, route }) => {
   const { mode, board } = route.params || {};
