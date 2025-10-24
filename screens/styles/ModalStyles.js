@@ -21,10 +21,10 @@ export default function getModalStyles(isPortrait, width, height) {
       shadowOpacity: 0.25,
       shadowRadius: 4,
       elevation: 5,
-      justifyContent: 'center',
+      justifyContent: 'flex-start',
       position: 'absolute',
       width: isPortrait ? width * 0.9 : width * 0.45,
-      height: isPortrait ? height * 0.35 : height * 0.7,
+      maxHeight: isPortrait ? height * 0.9 : height * 0.8,
     },
     modalHeader: {
       fontSize: 24,
@@ -57,7 +57,7 @@ export default function getModalStyles(isPortrait, width, height) {
       paddingHorizontal: 25,
       paddingVertical: 15,
     },
-    addButton: {
+    imageAddButton: {
       flex: 1,
       backgroundColor: "#22aefe",
       borderRadius: 10,
@@ -65,7 +65,7 @@ export default function getModalStyles(isPortrait, width, height) {
       alignItems: 'center',
       marginRight: 8,
     },
-    addText: {
+    imageAddText: {
       fontSize: 18,
       color: "#fff",
       fontWeight: "bold",
@@ -182,6 +182,7 @@ export default function getModalStyles(isPortrait, width, height) {
       color: '#fff',
       fontSize: 16,
       fontWeight: 'bold',
+      textAlign: "center",
     },
     addCancelButton: {
       width: '100%',

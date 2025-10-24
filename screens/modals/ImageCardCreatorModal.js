@@ -117,9 +117,9 @@ export default function ImageCardCreatorModal({
                     }
                     setIsPickingImage(true);
                   }}
-                  style={styles.addButton}
+                  style={styles.imageAddButton}
                 >
-                  <Text style={styles.addText}>Next</Text>
+                  <Text style={styles.imageAddText}>Next</Text>
                 </Pressable>
                 <Pressable onPress={closeModal} style={styles.cancelButton}>
                   <Text style={styles.cancelText}>Cancel</Text>
@@ -141,6 +141,9 @@ export default function ImageCardCreatorModal({
                   <Pressable onPress={() => pickImage('gallery')} style={styles.imageButton}>
                     <Text style={styles.addText}>Photo Gallery</Text>
                   </Pressable>
+                  <Pressable onPressIn={closeModal} style={styles.cancelButton}>
+                    <Text style={styles.cancelText}>Cancel</Text>
+                  </Pressable> 
                 </View>
               ) : (
                 <>
@@ -149,8 +152,8 @@ export default function ImageCardCreatorModal({
                   </View>
 
                   <View style={styles.buttonRow}>
-                    <Pressable onPress={saveNewCard} style={styles.addButton}>
-                      <Text style={styles.addText}>Add</Text>
+                    <Pressable onPress={saveNewCard} style={styles.imageAddButton}>
+                      <Text style={styles.imageAddText}>Add</Text>
                     </Pressable>
                     <Pressable onPressIn={closeModal} style={styles.cancelButton}>
                       <Text style={styles.cancelText}>Cancel</Text>
