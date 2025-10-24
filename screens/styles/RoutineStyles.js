@@ -22,20 +22,10 @@ export default function getStyles(isPortrait, width, height, mode = "edit") {
       shadowOpacity: 0.4,
       shadowRadius: 5,
       elevation: 4,
-      width: isPortrait 
-        ? mode === "edit"
-          ? width * 0.80 
-          : width * 0.80
-        : mode === "view"
-          ? width * 0.35 
-          : width * 0.29,
+      width: isPortrait ? width * 0.8 : mode === "view" ? width * 0.35 : width * 0.29,
       height: isPortrait
-        ? mode === "edit"
-          ? height * 0.28   // portrait + edit
-          : height * 0.34   // portrait + view
-        : mode === "view"
-          ? height * 0.73   // landscape + view
-          : height * 0.68,  // landscape + edit
+        ? (mode === "edit" ? height * 0.28 : height * 0.34)
+        : (mode === "view" ? height * 0.73 : height * 0.68),
     },
     deleteButton: {
       position: 'absolute',
@@ -57,30 +47,14 @@ export default function getStyles(isPortrait, width, height, mode = "edit") {
     cardContent: {
       alignItems: 'center',
       paddingHorizontal: 12,
-      paddingTop: isPortrait 
-        ? mode === "edit"
-          ? 23 
-          : 16
-        : mode === "view" 
-          ? 16
-          : 35,
+      paddingTop: isPortrait
+        ? (mode === "edit" ? 23 : 16)
+        : (mode === "view" ? 16 : 35),
       paddingBottom: 8,
     },
     image: {
-      width: isPortrait
-        ? mode === "edit"
-         ? 187.50  // portrait + edit
-         : 250  // portrait + view
-        : mode === "view" 
-          ? 250   // landscape + view
-          : 187.50,  // landscape + edit
-      height: isPortrait
-        ? mode === "edit"
-         ? 168.75  // portrait + edit
-         : 225  // portrait + view
-        : mode === "view" 
-          ? 225   // landscape + view
-          : 168.75,  // landscape + edit
+      width: mode === "edit" ? 187.5 : 250,
+      height: mode === "edit" ? 168.75 : 225,
       borderRadius: 10,
       marginBottom: 6,
       borderWidth: 1,

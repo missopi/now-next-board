@@ -5,12 +5,8 @@ export default function getStyles(isPortrait, width, height, mode = "edit") {
     container: {
       flex: 1,
       paddingBottom: isPortrait
-        ? mode === "edit"
-          ? 25 
-          : 0
-        : mode === "view" 
-          ? 0 
-          : 60,
+        ? (mode === "edit" ? 25 : 0)
+        : (mode === "view" ? 0 : 60),
     },
     wrapper: {
       flex: 1,
@@ -18,12 +14,8 @@ export default function getStyles(isPortrait, width, height, mode = "edit") {
       justifyContent: 'center',
       flexDirection: isPortrait ? 'column' : 'row',
       gap: isPortrait 
-        ? mode === "edit"
-          ? 2 
-          : 5
-        : mode === "view"
-          ? 50
-          : 50,
+        ? (mode === "edit" ? 2 : 5) 
+        : 50,
       paddingHorizontal: isPortrait ? 0 : 20,
     },
     textRow: {
@@ -63,20 +55,10 @@ export default function getStyles(isPortrait, width, height, mode = "edit") {
       shadowOffset: { width: 0, height: 3 },
       shadowOpacity: 0.4,
       shadowRadius: 5,
-      width: isPortrait
-        ? mode === "edit"
-          ? width * 0.80
-          : width * 0.80
-        : mode === "view"
-          ? width * 0.35
-          : width * 0.28,
+      width: isPortrait ? width * 0.8 : mode === "view" ? width * 0.35 : width * 0.28,
       height: isPortrait
-        ? mode === "edit"
-          ? height * 0.33
-          : height * 0.36
-        : mode === "view"
-          ? height * 0.75 // height taller in 'view' landscape mode 
-          : height * 0.60,
+        ? (mode === "edit" ? height * 0.33 : height * 0.36)
+        : (mode === "view" ? height * 0.75 : height * 0.60),
     },
     image: {
       width: '90%',
