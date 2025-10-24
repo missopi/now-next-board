@@ -113,7 +113,7 @@ export default StyleSheet.create({
     paddingBottom: 3,
   },
   buttonColumn: {
-    gap: 35,
+    gap: 40,
   },
   deleteIcon: {
     color: '#999',
@@ -121,7 +121,7 @@ export default StyleSheet.create({
     fontWeight: 'bold',
     lineHeight: 18,
     position: 'absolute',
-    top: 5,
+    top: 9,
     right: 2,
   },
   cardLabel: {
