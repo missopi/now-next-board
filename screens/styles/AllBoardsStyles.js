@@ -14,16 +14,25 @@ export default StyleSheet.create({
     fontSize: 28,
     fontWeight: '700',
   },
-  searchInput: {
-    padding: 9,
-    backgroundColor: '#fff',
+  searchContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#fff",
     borderRadius: 12,
-    marginBottom: 12,
-    marginHorizontal: 10,
-    fontSize: 17,
-    color: '#111',
+    paddingHorizontal: 12,
+    paddingVertical: 9,
     borderColor: '#ccc',
+    marginBottom: 12,
     borderWidth: 1,
+    marginHorizontal: 10,
+  },
+  searchIcon: {
+    marginRight: 8,
+  },
+  searchInput: {
+    flex: 1,
+    fontSize: 16,
+    color: "#333",
   },
   tabs: {
     flexDirection: 'row',

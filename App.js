@@ -14,7 +14,6 @@ import LibraryScreen from "./screens/LibraryScreen";
 import FinishedNowNext from "./screens/FinishedBoards/FinishedNowNext";
 import FinshedRoutine from "./screens/FinishedBoards/FinishedRoutine";
 
-import Search from "./assets/icons/search.svg";
 import Add from "./assets/icons/add.svg";
 import Word from "./assets/andNext-word.svg";
 
@@ -41,9 +40,6 @@ export default function App() {
                 <View style={{ flexDirection: 'row', justifyContent: 'flex-end', paddingBottom: 9, marginRight: 20 }}>
                   <TouchableOpacity onPress={() => navigation.setParams({ showAddModal: true })}>
                     <Add width={28} height={28} style={{ marginRight: 10 }} />
-                  </TouchableOpacity>
-                  <TouchableOpacity onPress={() => navigation.navigate('LibraryScreen')}>
-                    <Search width={28} height={28} />
                   </TouchableOpacity>
                 </View>
               ),

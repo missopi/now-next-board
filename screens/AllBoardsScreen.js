@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
-import { View, Text, FlatList, Image, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, Image, ScrollView, TouchableOpacity, TextInput } from 'react-native';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import { getBoards } from '../utilities/BoardStore';
 import { useFocusEffect } from '@react-navigation/native';
@@ -7,6 +7,7 @@ import { Feather } from '@expo/vector-icons';
 import AddModal from './modals/AddModal';
 import styles from './styles/AllBoardsStyles';
 import DeleteModal from './modals/DeleteModal';
+import Search from "../assets/icons/search.svg";
 
 export default function HomeScreen({ navigation, route }) {
   const [boards, setBoards] = useState([]);
@@ -136,14 +137,16 @@ export default function HomeScreen({ navigation, route }) {
   return (
     <>
       <View style={styles.container}>
-        {/*<TextInput
-          placeholder="Search"
-          placeholderTextColor={'#777'}
-          value={searchQuery}
-          onChangeText={setSearchQuery}
-          style={styles.searchInput}
-        />*/}
-
+        <View style={styles.searchContainer}>
+          <Search width={20} height={20} style={styles.searchIcon} />
+          <TextInput
+            placeholder="Search"
+            placeholderTextColor={'#777'}
+            value={searchQuery}
+            onChangeText={setSearchQuery}
+            style={styles.searchInput}
+          />
+        </View>
         <View style={styles.tabs}>
           {TABS.map((tab) => (
             <TouchableOpacity
