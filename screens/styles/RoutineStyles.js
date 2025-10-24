@@ -62,7 +62,7 @@ export default function getStyles(isPortrait, width, height, mode = "edit") {
     },
     placeholder: {
       width: 190,
-      height: 180,
+      height: 168.75,
       borderRadius: 10,
       backgroundColor: '#fff',
       justifyContent: 'center',
