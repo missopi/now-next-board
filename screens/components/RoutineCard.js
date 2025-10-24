@@ -1,7 +1,6 @@
 // Visual layout for activity cards on Today screen
 
 import { View, Text, TouchableOpacity, Image } from "react-native";
-import styles from "../styles/RoutineStyles";
 
 const RoutineCard = ({ activity, index, onPress, onDelete, drag, readOnly = false, styles }) => {
   return (
