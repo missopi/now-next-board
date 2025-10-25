@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { View, Text, FlatList, Image, ScrollView, TouchableOpacity, TextInput } from 'react-native';
+import { activityLibrary } from "../data/ActivityLibrary";
 import * as ScreenOrientation from 'expo-screen-orientation';
 import { getBoards } from '../utilities/BoardStore';
 import { useFocusEffect } from '@react-navigation/native';
@@ -60,6 +61,15 @@ export default function HomeScreen({ navigation, route }) {
     return matchesType && matchesSearch;
   });
 
+  function resolveActivityImage(card) {
+    if (!card) return null;
+    if (card.fromLibrary && card.imageKey) {
+      const match = activityLibrary.find(a => a.id === card.imageKey);
+      return match ? match.image : null;
+    }
+    return card.image || null;
+  } 
+
   const renderBoard = ({ item }) => (
     <TouchableOpacity
       onPress={() => {
@@ -87,10 +97,35 @@ export default function HomeScreen({ navigation, route }) {
               return (
                 <View key={idx} style={styles.cardPreview}>
                   <View style={styles.imageWrapper}>
-                    <Image
-                      source={typeof card.image === 'string' ? { uri: card.image } : card.image}
-                      style={[styles.cardImage, isLastVisible && { opacity: 0.7 }]}
-                    />
+                    {(() => {
+                      const resolvedImage = resolveActivityImage(card);
+
+                      if (!resolvedImage) {
+                        return (
+                          <View style={[styles.cardImage, { 
+                            backgroundColor: '#f2f2f2', 
+                            alignItems: 'center', 
+                            justifyContent: 'center' 
+                          }]}>
+                            <Text style={{ color: '#aaa', fontSize: 12 }}>No image</Text>
+                          </View>
+                        );
+                      }
+
+                      // Check if it’s an SVG or bitmap
+                      const isSvg = typeof resolvedImage === 'function';
+                      const ImageComponent = isSvg ? resolvedImage : null;
+
+                      return isSvg ? (
+                        <ImageComponent width={90} height={90} />
+                      ) : (
+                        <Image
+                          source={typeof resolvedImage === 'string' ? { uri: resolvedImage } : resolvedImage}
+                          style={[styles.cardImage, isLastVisible && { opacity: 0.7 }]}
+                          resizeMode="cover"
+                        />
+                      );
+                    })()}
 
                     {/* Overlay text for +N */}
                     {isLastVisible && (
@@ -100,7 +135,9 @@ export default function HomeScreen({ navigation, route }) {
                     )}
                   </View>
 
-                  <Text style={styles.cardLabel}>{card.name}</Text>
+                  {!card.fromLibrary && card.name && (
+                    <Text style={styles.cardLabel}>{card.name}</Text>
+                  )}
                 </View>
               );
             })}

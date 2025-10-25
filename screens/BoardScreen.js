@@ -46,6 +46,15 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
 
   const slotRef = useRef(null);
 
+  function resolveActivityImage(activity) {
+    if (!activity) return null;
+    if (activity.fromLibrary && activity.imageKey) {
+      const match = activityLibrary.find(a => a.id === activity.imageKey);
+      return match ? match.image : null;
+    }
+    return activity.image || null;
+  };
+
   function onSelectSlot(slot) {
     slotRef.current = slot;
     setNewCardTitle('');
@@ -65,6 +74,7 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
 
   function handleSetActivity(activity) {
     console.log('[handleSetActivity slot ref:', slotRef.current);
+    console.log("[NowNextBoardScreen] Activity received:", activity);
     const currentSlot = typeof slotRef.current === 'string'
       ? slotRef.current
       : slotRef.current?.slot;
@@ -139,8 +149,18 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
 
 
   const loadNowNextBoard = (board) => {
-    setNowActivity(board.cards[0] || null);
-    setNextActivity(board.cards[1] || null);
+    const now = board.cards[0] ? { 
+      ...board.cards[0], 
+      image: resolveActivityImage(board.cards[0]) 
+    } : null;
+
+    const next = board.cards[1] ? { 
+      ...board.cards[1], 
+      image: resolveActivityImage(board.cards[1]) 
+    } : null;
+
+    setNowActivity(now);
+    setNextActivity(next);
     setCurrentBoardId(board.id);
     setBoardTitle(board.title || '');
   };

@@ -64,9 +64,16 @@ export default function getStyles(isPortrait, width, height, mode = "edit") {
       width: '90%',
       height: '75%',
       borderRadius: 8,
-      resizeMode: 'contain',
+      resizeMode: 'cover',
       borderWidth: 1,
       borderColor: '#333',
+    },
+    libraryImage: {
+      width: '100%',
+      height: '100%',
+      borderRadius: 20,
+      resizeMode: 'cover',
+      borderWidth: 0,
     },
     label: {
       fontSize: 20,

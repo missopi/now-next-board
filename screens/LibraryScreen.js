@@ -71,15 +71,19 @@ const LibraryScreen = ({ navigation, route }) => {
   }, [slot]);
 
   const handlePress = (activity) => {
-   
-    if (!slot) return; // avoid breaking things
+    if (!slot) return;
 
-    console.log('library picked activity:', activity);
-    
-    triggerActivityCallback(slot, activity);
+    const simplifiedActivity = {
+      id: activity.id,
+      name: activity.name,
+      category: activity.category,
+      fromLibrary: true,
+      imageKey: activity.id,
+    };
+
+    triggerActivityCallback(slot, simplifiedActivity);
     navigation.goBack();
   };
-
 
   return ( // wrapped in safeview to respect notches/status bar
     <View style={{ flex: 1, backgroundColor: '#fff', paddingTop: 60, }}>
