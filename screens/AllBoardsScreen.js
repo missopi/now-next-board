@@ -117,7 +117,7 @@ export default function HomeScreen({ navigation, route }) {
                       const ImageComponent = isSvg ? resolvedImage : null;
 
                       return isSvg ? (
-                        <ImageComponent width={90} height={90} />
+                        <ImageComponent width={95} height={95} style={{}} />
                       ) : (
                         <Image
                           source={typeof resolvedImage === 'string' ? { uri: resolvedImage } : resolvedImage}

@@ -75,7 +75,6 @@ export default StyleSheet.create({
     borderRadius: 12,
     borderColor: '#111',
     borderWidth: 1,
-    marginBottom: 2,
     backgroundColor: '#eee',
   },
   boardContent: {
