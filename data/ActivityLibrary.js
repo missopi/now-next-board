@@ -6,6 +6,7 @@ import Monday from "../assets/days-of-the-week/monday.svg";
 import Tuesday from "../assets/days-of-the-week/tuesday.svg";
 import Wednesday from "../assets/days-of-the-week/wednesday.svg";
 import Thursday from "../assets/days-of-the-week/thursday.svg";
+import Saturday from "../assets/days-of-the-week/saturday.svg";
 
 export const activityLibrary = [
   {
@@ -30,6 +31,12 @@ export const activityLibrary = [
     id: '4',
     name: 'Thursday',
     image: Thursday,
+    category: 'Schedules',
+  },
+  {
+    id: '5',
+    name: 'Saturday',
+    image: Saturday,
     category: 'Schedules',
   },
 ]

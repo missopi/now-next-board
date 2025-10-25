@@ -21,7 +21,7 @@ export default function ImageCardCreatorModal({
   closeModal
 }) {
 
-  const isFeatureReady = false;
+  const isFeatureReady = true;
 
   const { width, height } = useWindowDimensions();
   const isPortrait = height > width;
@@ -29,7 +29,7 @@ export default function ImageCardCreatorModal({
 
   useEffect(() => {
     if (!isFeatureReady && modalStep === 'choose') {
-      setModalStep('create');
+      //setModalStep('create');
     }
   }, [modalStep]);
 

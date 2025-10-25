@@ -49,6 +49,7 @@ export default function getStyles(isPortrait, width, height, mode = "edit") {
       backgroundColor: '#fff',
       flexDirection: 'column',
       justifyContent: 'center',
+      //overflow: 'hidden',        
       gap: 5,
       paddingTop: 3,
       shadowColor: '#000',
@@ -60,6 +61,15 @@ export default function getStyles(isPortrait, width, height, mode = "edit") {
         ? (mode === "edit" ? height * 0.33 : height * 0.36)
         : (mode === "view" ? height * 0.75 : height * 0.60),
     },
+    libraryCard: {
+      backgroundColor: 'transparent',
+      borderWidth: 0,
+      shadowOpacity: 0,   // ✅ removes drop shadow
+      elevation: 0,       // Android shadow
+      height: isPortrait
+        ? (mode === "edit" ? height * 0.35 : height * 0.36)
+        : (mode === "view" ? height * 0.75 : height * 0.60),
+    },
     image: {
       width: '90%',
       height: '75%',
@@ -69,11 +79,13 @@ export default function getStyles(isPortrait, width, height, mode = "edit") {
       borderColor: '#333',
     },
     libraryImage: {
+      position: 'absolute',   // ✅ fills the card fully
+      top: 0,
+      left: 0,
       width: '100%',
       height: '100%',
       borderRadius: 20,
       resizeMode: 'cover',
-      borderWidth: 0,
     },
     label: {
       fontSize: 20,

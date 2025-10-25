@@ -1,6 +1,6 @@
 // Visual layout for Now/Next boards
 
-import { View, Text, TouchableOpacity, Image } from "react-native";
+import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
 import { activityLibrary } from "../../data/ActivityLibrary";
 import Now from "../../assets/cards/now.svg";
 import Next from "../../assets/cards/next.svg";
@@ -34,32 +34,47 @@ const NowNextBoard = ({ nowActivity, nextActivity, onSelectSlot, readOnly, style
     return (
       <TouchableOpacity
         disabled={readOnly}
-        style={styles.card}
+        style={[
+          styles.card,
+          isLibraryCard && styles.libraryCard,
+        ]}
         onPress={() => !readOnly && onSelectSlot({ slot: label })}
       >
-        {activity ? (
-        <>
-          {isSvg ? (
-            <ImageComponent
-              width="100%"
-              height="100%"
-              preserveAspectRatio="xMidYMid slice"
-            />
-          ) : (
-            imageSource && (
-              <Image
-                source={imageSource}
-                style={isLibraryCard ? styles.libraryImage : styles.image}
-              />
-            )
-          )}
+        {activity && (
+          <>
+            {isLibraryCard ? (
+              // Full-card library image
+              isSvg ? (
+                <View style={StyleSheet.absoluteFill}>
+                  <ImageComponent
+                    width="100%"
+                    height="100%"
+                    preserveAspectRatio="xMidYMid slice"
+                  />
+                </View>
+              ) : (
+                <Image
+                  source={imageSource}
+                  style={styles.libraryImage}
+                />
+              )
+            ) : (
+              // Regular user-created card
+              imageSource && (
+                <Image
+                  source={imageSource}
+                  style={styles.image}
+                />
+              )
+            )}
 
-          {/* Only show the text label if it’s NOT a library card */}
-          {!isLibraryCard && activity?.name && (
-            <Text style={styles.label}>{activity.name}</Text>
-          )}
-        </>
-        ) : (
+            {/* Only show the text for non-library cards */}
+            {!isLibraryCard && activity?.name && (
+              <Text style={styles.label}>{activity.name}</Text>
+            )}
+          </>
+        )}
+        {!activity && (
           <Text style={styles.placeholder}>Add {label}</Text>
         )}
       </TouchableOpacity>

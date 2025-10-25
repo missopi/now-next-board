@@ -10,6 +10,7 @@ import ImageCardCreatorModal from "./modals/ImageCardCreatorModal";
 import uuid from "react-native-uuid";
 import { saveBoard, updateBoard } from "../utilities/BoardStore";
 import SaveModal from "./modals/SaveModal";
+import { activityLibrary } from "../data/ActivityLibrary";
 
 export default function NowNextBoardScreen({ navigation, route }) {  // useState used to track selected activities
   const { mode, board } = route.params || {};
