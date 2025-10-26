@@ -57,15 +57,6 @@ export default function getStyles(isPortrait, width, height, mode = "edit") {
         ? (mode === "edit" ? height * 0.33 : height * 0.36)
         : (mode === "view" ? height * 0.75 : height * 0.60),
     },
-    libraryCard: {
-      backgroundColor: 'transparent',
-      borderWidth: 0,
-      overflow: 'hidden',
-      width: isPortrait ? width * 0.8 : mode === "view" ? width * 0.35 : width * 0.28,
-      height: isPortrait
-        ? (mode === "edit" ? height * 0.33 : height * 0.36)
-        : (mode === "view" ? height * 0.75 : height * 0.60), 
-    },
     cardShadowWrapper: {
       shadowColor: '#000',
       shadowOffset: { width: 0, height: 3 },

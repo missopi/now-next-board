@@ -56,7 +56,7 @@ const NowNextBoard = ({ nowActivity, nextActivity, onSelectSlot, readOnly, style
                 ) : (
                   <Image
                     source={imageSource}
-                    style={styles.libraryImage}
+                    style={styles.image}
                   />
                 )
               ) : (
