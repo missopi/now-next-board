@@ -1,17 +1,6 @@
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
-  searchInput: {
-    padding: 9,
-    backgroundColor: '#fff',
-    borderRadius: 12,
-    marginBottom: 12,
-    marginHorizontal: 25,
-    fontSize: 17,
-    color: '#111',
-    borderColor: '#ccc',
-    borderWidth: 1,
-  },
   tabs: {
     flexDirection: 'row',
     marginBottom: 16,
@@ -26,5 +15,25 @@ export default StyleSheet.create({
   tabText: {
     fontSize: 15,
     fontWeight: 'bold',
+  },
+  searchContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#fff",
+    borderRadius: 12,
+    paddingHorizontal: 12,
+    paddingVertical: 9,
+    borderColor: '#ccc',
+    marginBottom: 12,
+    borderWidth: 1,
+    marginHorizontal: 25,
+  },
+  searchIcon: {
+    marginRight: 8,
+  },
+  searchInput: {
+    flex: 1,
+    fontSize: 16,
+    color: "#333",
   },
 })

@@ -5,7 +5,7 @@ import { Text, View, FlatList, TouchableOpacity, Image, ScrollView, TextInput } 
 import styles from './styles/LibraryStyles';
 import { activityLibrary } from "../data/ActivityLibrary";
 import { setActivityCallback, triggerActivityCallback } from "./components/CallbackStore";
-import CogIcon from "../assets/icons/cog.svg";
+import Search from "../assets/icons/search.svg";
 import { allCategories } from '../data/Categories';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -78,12 +78,16 @@ const LibraryScreen = ({ navigation, route }) => {
     <View style={{ flex: 1, backgroundColor: '#fff', paddingTop: 60, }}>
       <View style={{ flex: 1, minHeight: '50%' }}>
         {/* search bar */}
-        <TextInput
-          placeholder="Search"
-          value={searchQuery}
-          onChangeText={setSearchQuery}
-          style={styles.searchInput}
-        />
+        <View style={styles.searchContainer}>
+          <Search width={20} height={20} style={styles.searchIcon} />
+          <TextInput
+            placeholder="Search"
+            placeholderTextColor={'#777'}
+            value={searchQuery}
+            onChangeText={setSearchQuery}
+            style={styles.searchInput}
+          />
+        </View>
         {/* category scroll bar */}
         <ScrollView 
           horizontal 

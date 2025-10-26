@@ -74,8 +74,7 @@ export default function ImageCardCreatorModal({
                     closeModal();
                   }}
                 >
-                  <Text style={[styles.smallText, !isFeatureReady && { color: '#666' }]}>Image Library</Text>
-                  <Text style={[styles.smallButtonText, !isFeatureReady && { fontSize: 8, color: '#666' }]}>(In development)</Text>
+                  <Text style={[styles.imageAddText, !isFeatureReady && { color: '#666' }]}>Image Library</Text>
                 </Pressable>
     
                 <Pressable
