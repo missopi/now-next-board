@@ -32,52 +32,54 @@ const NowNextBoard = ({ nowActivity, nextActivity, onSelectSlot, readOnly, style
     const ImageComponent = isSvg ? imageSource : null;
 
     return (
-      <TouchableOpacity
-        disabled={readOnly}
-        style={[
-          styles.card,
-          isLibraryCard && styles.libraryCard,
-        ]}
-        onPress={() => !readOnly && onSelectSlot({ slot: label })}
-      >
-        {activity && (
-          <>
-            {isLibraryCard ? (
-              // Full-card library image
-              isSvg ? (
-                <View style={StyleSheet.absoluteFill}>
-                  <ImageComponent
-                    width="100%"
-                    height="100%"
-                    preserveAspectRatio="xMidYMid slice"
+      <View style={styles.cardShadowWrapper}>
+        <TouchableOpacity
+          disabled={readOnly}
+          style={[
+            styles.card,
+            isLibraryCard && styles.libraryCard,
+          ]}
+          onPress={() => !readOnly && onSelectSlot({ slot: label })}
+        >
+          {activity && (
+            <>
+              {isLibraryCard ? (
+                // Full-card library image
+                isSvg ? (
+                  <View style={StyleSheet.absoluteFill}>
+                    <ImageComponent
+                      width="100%"
+                      height="100%"
+                      preserveAspectRatio="none"
+                    />
+                  </View>
+                ) : (
+                  <Image
+                    source={imageSource}
+                    style={styles.libraryImage}
                   />
-                </View>
+                )
               ) : (
-                <Image
-                  source={imageSource}
-                  style={styles.libraryImage}
-                />
-              )
-            ) : (
-              // Regular user-created card
-              imageSource && (
-                <Image
-                  source={imageSource}
-                  style={styles.image}
-                />
-              )
-            )}
+                // Regular user-created card
+                imageSource && (
+                  <Image
+                    source={imageSource}
+                    style={styles.image}
+                  />
+                )
+              )}
 
-            {/* Only show the text for non-library cards */}
-            {!isLibraryCard && activity?.name && (
-              <Text style={styles.label}>{activity.name}</Text>
-            )}
-          </>
-        )}
-        {!activity && (
-          <Text style={styles.placeholder}>Add {label}</Text>
-        )}
-      </TouchableOpacity>
+              {/* Only show the text for non-library cards */}
+              {!isLibraryCard && activity?.name && (
+                <Text style={styles.label}>{activity.name}</Text>
+              )}
+            </>
+          )}
+          {!activity && (
+            <Text style={styles.placeholder}>Add {label}</Text>
+          )}
+        </TouchableOpacity>
+      </View>
     );
   };
   return (

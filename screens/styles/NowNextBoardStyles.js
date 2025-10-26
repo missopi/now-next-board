@@ -38,7 +38,7 @@ export default function getStyles(isPortrait, width, height, mode = "edit") {
       flexDirection: 'column',
       alignItems: 'center',
       marginVertical: 8,
-      gap: mode === "view" ? 5 : 10,
+      gap: mode === "view" ? 3 : 5,
       width: isPortrait ? '100%' : 'auto',
     },
     card: {
@@ -49,13 +49,9 @@ export default function getStyles(isPortrait, width, height, mode = "edit") {
       backgroundColor: '#fff',
       flexDirection: 'column',
       justifyContent: 'center',
-      //overflow: 'hidden',        
+      overflow: 'hidden',        
       gap: 5,
       paddingTop: 3,
-      shadowColor: '#000',
-      shadowOffset: { width: 0, height: 3 },
-      shadowOpacity: 0.4,
-      shadowRadius: 5,
       width: isPortrait ? width * 0.8 : mode === "view" ? width * 0.35 : width * 0.28,
       height: isPortrait
         ? (mode === "edit" ? height * 0.33 : height * 0.36)
@@ -64,11 +60,15 @@ export default function getStyles(isPortrait, width, height, mode = "edit") {
     libraryCard: {
       backgroundColor: 'transparent',
       borderWidth: 0,
-      shadowOpacity: 0,   // ✅ removes drop shadow
-      elevation: 0,       // Android shadow
-      height: isPortrait
-        ? (mode === "edit" ? height * 0.35 : height * 0.36)
-        : (mode === "view" ? height * 0.75 : height * 0.60),
+      overflow: 'hidden',  
+    },
+    cardShadowWrapper: {
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 3 },
+      shadowOpacity: 0.4,
+      shadowRadius: 6,
+      elevation: 5,             // Android
+      borderRadius: 20,
     },
     image: {
       width: '90%',
@@ -79,7 +79,7 @@ export default function getStyles(isPortrait, width, height, mode = "edit") {
       borderColor: '#333',
     },
     libraryImage: {
-      position: 'absolute',   // ✅ fills the card fully
+      position: 'absolute',  
       top: 0,
       left: 0,
       width: '100%',
