@@ -117,7 +117,7 @@ export default function HomeScreen({ navigation, route }) {
                       const ImageComponent = isSvg ? resolvedImage : null;
 
                       return isSvg ? (
-                        <ImageComponent width={95} height={95} style={{}} />
+                        <ImageComponent width='80' height='75' preserveAspectRatio="none" />
                       ) : (
                         <Image
                           source={typeof resolvedImage === 'string' ? { uri: resolvedImage } : resolvedImage}
@@ -134,10 +134,6 @@ export default function HomeScreen({ navigation, route }) {
                       </View>
                     )}
                   </View>
-
-                  {!card.fromLibrary && card.name && (
-                    <Text style={styles.cardLabel}>{card.name}</Text>
-                  )}
                 </View>
               );
             })}

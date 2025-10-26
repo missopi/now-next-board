@@ -65,7 +65,7 @@ export default StyleSheet.create({
   },
   cardPreview: {
     width: 85,
-    marginRight: 10,
+    marginRight: 5,
     alignItems: 'center',
     justifyContent: 'center',
   },
