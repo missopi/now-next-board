@@ -4,33 +4,43 @@ export default function getStyles(isPortrait, width, height, mode = "edit") {
   return StyleSheet.create({
     container: {
       flex: 1,
-      paddingTop: isPortrait? 60 : mode === "view" ? 10 : 25,
-      paddingHorizontal: mode === "edit" ? 20 : 20,
+      paddingTop: isPortrait ? 60 : mode === "view" ? 10 : 25,
+      paddingHorizontal: 20,
     },
+
     card: {
       paddingHorizontal: 16,
       borderWidth: 1,
       borderColor: '#aaa',
       borderRadius: 12,
-      marginTop: 10,
-      marginBottom: 10,
       backgroundColor: '#fff',
       position: 'relative',
       marginLeft: isPortrait && mode === "edit" ? 0 : 20,
-      shadowColor: '#000',
-      shadowOffset: { width: 0, height: 3 },
-      shadowOpacity: 0.4,
-      shadowRadius: 5,
-      elevation: 4,
       width: isPortrait ? width * 0.8 : mode === "view" ? width * 0.35 : width * 0.29,
       height: isPortrait
         ? (mode === "edit" ? height * 0.28 : height * 0.34)
         : (mode === "view" ? height * 0.73 : height * 0.68),
     },
+
+    // clip whole card only when full-bleed SVG (read-only)
+    cardClip: {
+      overflow: 'hidden',
+    },
+
+    cardShadowWrapper: {
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 3 },
+      shadowOpacity: 0.4,
+      shadowRadius: 5,
+      elevation: 4,
+      borderRadius: 20,
+      marginVertical: 10,
+    },
+
     deleteButton: {
       position: 'absolute',
       top: 7,
-      right: 1,
+      right: 7,
       width: 24,
       height: 24,
       borderRadius: 15,
@@ -44,14 +54,27 @@ export default function getStyles(isPortrait, width, height, mode = "edit") {
       fontWeight: 'bold',
       lineHeight: 18,
     },
+
     cardContent: {
       alignItems: 'center',
+      justifyContent: 'center',           // center vertically
       paddingHorizontal: 12,
       paddingTop: isPortrait
         ? (mode === "edit" ? 23 : 16)
         : (mode === "view" ? 16 : 35),
       paddingBottom: 8,
+      width: '100%',
+      height: '100%',
     },
+
+    // remove padding for full-bleed svg (read-only)
+    cardContentFlush: {
+      paddingHorizontal: 0,
+      paddingTop: 0,
+      paddingBottom: 0,
+    },
+
+    // PHOTO size (kept as-is)
     image: {
       width: mode === "edit" ? 187.5 : 250,
       height: mode === "edit" ? 168.75 : 225,
@@ -60,9 +83,10 @@ export default function getStyles(isPortrait, width, height, mode = "edit") {
       borderWidth: 1,
       borderColor: '#333',
     },
+
     placeholder: {
-      width: 190,
-      height: 168.75,
+      width: mode === "edit" ? 187.5 : 250,
+      height: mode === "edit" ? 168.75 : 225,
       borderRadius: 10,
       backgroundColor: '#fff',
       justifyContent: 'center',
@@ -73,15 +97,17 @@ export default function getStyles(isPortrait, width, height, mode = "edit") {
       color: '#aaa',
       fontSize: 18,
     },
+
     title: {
       fontSize: 20,
       fontWeight: 'bold',
       textAlign: 'center',
     },
+
     dragHandle: {
       position: 'absolute',
       top: 3,
-      left: 1,
+      left: 7,
       zIndex: 2,
       borderRadius: 16,
       paddingHorizontal: 6,
@@ -92,6 +118,7 @@ export default function getStyles(isPortrait, width, height, mode = "edit") {
       fontSize: 25,
       color: '#ccc',
     },
+
     saveButton: {
       width: '40%',
       paddingVertical: 7,
@@ -108,43 +135,29 @@ export default function getStyles(isPortrait, width, height, mode = "edit") {
       shadowRadius: 3,
       elevation: 3,
     },
-    saveText: {
-      color: '#fff', 
-      fontSize: 16, 
-      fontWeight: 'bold',
-      textAlign: 'center',
-    },
+    saveText: { color: '#fff', fontSize: 16, fontWeight: 'bold', textAlign: 'center' },
+
     buttonRow: {
-      flexDirection: 'row', 
-      justifyContent: 'center', 
-      gap: 10, 
-      backgroundColor: 'transparent', 
-      position: "absolute", 
+      flexDirection: 'row',
+      justifyContent: 'center',
+      gap: 10,
+      backgroundColor: 'transparent',
+      position: "absolute",
       bottom: 3,
       left: 0,
       right: 0
     },
-    listContainer: {
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-  
-    // title chooser
 
-    chooserTop: {
-      paddingHorizontal: 16,
-      paddingTop: 65,
-    },
-    chooserTextInput: {
-      padding: 9,
-      backgroundColor: '#fff',
-      borderRadius: 12,
-      marginBottom: 12,
-      marginHorizontal: 10,
-      fontSize: 17,
-      color: '#111',
-      borderColor: '#ccc',
-      borderWidth: 1,
+    listContainer: { justifyContent: 'center', alignItems: 'center' },
+
+    // SVG wrappers
+    // Edit mode: make SVG exactly the same size as photos so rows align
+    svgInsetWrapper: {
+      width: mode === "edit" ? 205 : 250,   // match .image sizes
+      height: mode === "edit" ? 190 : 225,
+      borderRadius: 10,
+      overflow: 'hidden',
+      alignSelf: 'center',
     },
   });
-};
+}

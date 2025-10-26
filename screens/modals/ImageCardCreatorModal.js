@@ -23,6 +23,8 @@ export default function ImageCardCreatorModal({
 
   const isFeatureReady = true;
 
+  console.log("[Modal prop check] setActivityCallback:", typeof setActivityCallback);
+
   const { width, height } = useWindowDimensions();
   const isPortrait = height > width;
   const styles = getModalStyles(isPortrait, width, height);
@@ -66,11 +68,21 @@ export default function ImageCardCreatorModal({
                   ]}
                   onPress={() => {
                     if (!isFeatureReady) return;
-                    const slotKey = typeof slotRef.current === 'string'
-                      ? slotRef.current
-                      : slotRef.current?.slot;
+                    let slotKey;
+                    if (slotRef.current !== undefined && slotRef.current !== null) {
+                      // if it's an object like { slot: "Now" } use that property
+                      if (typeof slotRef.current === "object" && "slot" in slotRef.current) {
+                        slotKey = slotRef.current.slot;
+                      } else {
+                        // otherwise just use the direct value (like 0, 1, etc.)
+                        slotKey = slotRef.current;
+                      }
+                    } else {
+                      console.warn("[Modal] slotRef.current is undefined or null");
+                    }
+
                     setActivityCallback(slotKey, handleSetActivity);
-                    navigation.navigate('LibraryScreen', { slot: slotKey });
+                    navigation.navigate("LibraryScreen", { slot: String(slotKey) });
                     closeModal();
                   }}
                 >

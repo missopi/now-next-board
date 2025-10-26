@@ -2,13 +2,13 @@
 // Each activity includes id, name, and image
 // Used by Library screen flatlist to render selectable cards
 
-import Sunday from "../assets/days-of-the-week/sunday2.svg";
+import First from "../assets/days-of-the-week/first.svg";
 
 export const activityLibrary = [
   {
     id: '1',
-    name: 'Sunday',
-    image: Sunday,
+    name: 'First',
+    image: First,
     category: 'Schedules',
   },
 ]

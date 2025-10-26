@@ -9,6 +9,7 @@ import ImageCardCreatorModal from "./modals/ImageCardCreatorModal";
 import uuid from "react-native-uuid";
 import { saveBoard, updateBoard } from "../utilities/BoardStore";
 import SaveModal from "./modals/SaveModal";
+import { activityLibrary } from "../data/ActivityLibrary";
 
 const RoutineScreen = ({ navigation, route }) => {
   const { mode, board } = route.params || {};
@@ -67,6 +68,15 @@ const RoutineScreen = ({ navigation, route }) => {
   const styles = getStyles(isPortrait, width, height, "edit");
 
   const slotIndexRef = useRef(null);
+
+  function resolveActivityImage(activity) {
+    if (!activity) return null;
+    if (activity.fromLibrary && activity.imageKey) {
+      const match = activityLibrary.find(a => a.id === activity.imageKey);
+      return match ? match.image : null;
+    }
+    return activity.image || null;
+  };
 
   const onSelectSlot = (index) => {
     slotIndexRef.current = index;
@@ -134,7 +144,7 @@ const RoutineScreen = ({ navigation, route }) => {
       return;
     }
 
-    const validActivities = activities.filter(a => a && a.image && a.image.uri);
+    const validActivities = activities.filter(a => a && ((a.image && a.image.uri) || a.fromLibrary));
     if (validActivities.length === 0) {
       alert("Please add at least one activity with an image before saving.");
       return;
@@ -199,6 +209,7 @@ const RoutineScreen = ({ navigation, route }) => {
                 drag={drag}
                 readOnly={false}
                 styles={styles}
+                resolveActivityImage={resolveActivityImage} 
               />
             );
           }}
