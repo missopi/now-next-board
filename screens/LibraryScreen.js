@@ -22,17 +22,6 @@ const LibraryScreen = ({ navigation, route }) => {
     }
   }, [categorySettings]);
 
-  // setting cog in header
-  useEffect(() => { 
-    navigation.setOptions({
-      headerRight: () => (
-        <TouchableOpacity onPress={() => modalRef.current?.open()}>
-          <CogIcon width={24} height={24} style={{ marginRight: 10 }} />
-        </TouchableOpacity>
-      ),
-    });
-  }, [navigation]);
-
   useEffect(() => {
     const loadSettings = async () => {
       try {
