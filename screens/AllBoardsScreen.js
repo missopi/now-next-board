@@ -95,44 +95,46 @@ export default function HomeScreen({ navigation, route }) {
               const isLastVisible = idx === 2 && extraCount > 0;
 
               return (
-                <View key={idx} style={styles.cardPreview}>
-                  <View style={styles.imageWrapper}>
-                    {(() => {
-                      const resolvedImage = resolveActivityImage(card);
+                <View style={styles.shadowWrapper}>
+                  <View key={idx} style={styles.cardPreview}>
+                    <View style={styles.imageWrapper}>
+                      {(() => {
+                        const resolvedImage = resolveActivityImage(card);
 
-                      if (!resolvedImage) {
-                        return (
-                          <View style={[styles.cardImage, { 
-                            backgroundColor: '#f2f2f2', 
-                            alignItems: 'center', 
-                            justifyContent: 'center' 
-                          }]}>
-                            <Text style={{ color: '#aaa', fontSize: 12 }}>No image</Text>
-                          </View>
+                        if (!resolvedImage) {
+                          return (
+                            <View style={[styles.cardImage, { 
+                              backgroundColor: '#f2f2f2', 
+                              alignItems: 'center', 
+                              justifyContent: 'center' 
+                            }]}>
+                              <Text style={{ color: '#aaa', fontSize: 12 }}>No image</Text>
+                            </View>
+                          );
+                        }
+
+                        // Check if it’s an SVG or bitmap
+                        const isSvg = typeof resolvedImage === 'function';
+                        const ImageComponent = isSvg ? resolvedImage : null;
+
+                        return isSvg ? (
+                          <ImageComponent width='80' height='75' style={styles.libraryImage} preserveAspectRatio="none" />
+                        ) : (
+                          <Image
+                            source={typeof resolvedImage === 'string' ? { uri: resolvedImage } : resolvedImage}
+                            style={[styles.cardImage, isLastVisible && { opacity: 0.7 }]}
+                            resizeMode="cover"
+                          />
                         );
-                      }
+                      })()}
 
-                      // Check if it’s an SVG or bitmap
-                      const isSvg = typeof resolvedImage === 'function';
-                      const ImageComponent = isSvg ? resolvedImage : null;
-
-                      return isSvg ? (
-                        <ImageComponent width='80' height='75' style={styles.libraryImage} preserveAspectRatio="none" />
-                      ) : (
-                        <Image
-                          source={typeof resolvedImage === 'string' ? { uri: resolvedImage } : resolvedImage}
-                          style={[styles.cardImage, isLastVisible && { opacity: 0.7 }]}
-                          resizeMode="cover"
-                        />
-                      );
-                    })()}
-
-                    {/* Overlay text for +N */}
-                    {isLastVisible && (
-                      <View style={styles.overlayContainer}>
-                        <Text style={styles.overlayText}>+{extraCount}</Text>
-                      </View>
-                    )}
+                      {/* Overlay text for +N */}
+                      {isLastVisible && (
+                        <View style={styles.overlayContainer}>
+                          <Text style={styles.overlayText}>+{extraCount}</Text>
+                        </View>
+                      )}
+                    </View>
                   </View>
                 </View>
               );

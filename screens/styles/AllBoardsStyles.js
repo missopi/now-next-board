@@ -64,8 +64,7 @@ export default StyleSheet.create({
     fontWeight: 'bold',
   },
   cardPreview: {
-    width: 85,
-    marginRight: 5,
+    width: 80,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -73,14 +72,15 @@ export default StyleSheet.create({
     width: 80,
     height: 75,
     borderRadius: 12,
-    borderColor: '#111',
+    borderColor: '#aaa',
     borderWidth: 1,
-    backgroundColor: '#eee',
+    backgroundColor: '#fff',
+    overflow: 'hidden',
   },
   libraryImage: {
     borderRadius: 12,
-    borderColor: '#111',
-    borderWidth: 1,
+    backgroundColor: '#fff',
+    overflow: 'hidden',
   },
   boardContent: {
     flexDirection: 'row',
@@ -206,5 +206,20 @@ export default StyleSheet.create({
     color: 'rgba(255, 255, 255, 0.7)',
     fontSize: 45,
     fontWeight: 'bold',
+  },
+  shadowWrapper: {
+    borderRadius: 12,
+    backgroundColor: '#fff',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.7,
+    shadowRadius: 2.5,
+    elevation: 4,
+    marginHorizontal: 7,
+    marginVertical: 6,
+  },
+  imageWrapper: {
+    borderRadius: 12,
+    overflow: 'hidden', // keeps rounded corners
   },
 });
