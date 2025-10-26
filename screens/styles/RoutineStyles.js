@@ -158,6 +158,7 @@ export default function getStyles(isPortrait, width, height, mode = "edit") {
       borderRadius: 10,
       overflow: 'hidden',
       alignSelf: 'center',
+      transform: mode === "edit" ? [{ scale: 1.05 }] : undefined,
     },
   });
 }
