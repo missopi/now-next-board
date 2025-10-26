@@ -77,6 +77,11 @@ export default StyleSheet.create({
     borderWidth: 1,
     backgroundColor: '#eee',
   },
+  libraryImage: {
+    borderRadius: 12,
+    borderColor: '#111',
+    borderWidth: 1,
+  },
   boardContent: {
     flexDirection: 'row',
     alignItems: 'center',
