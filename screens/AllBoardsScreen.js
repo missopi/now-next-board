@@ -95,8 +95,8 @@ export default function HomeScreen({ navigation, route }) {
               const isLastVisible = idx === 2 && extraCount > 0;
 
               return (
-                <View style={styles.shadowWrapper}>
-                  <View key={idx} style={styles.cardPreview}>
+                <View key={idx} style={styles.shadowWrapper}>
+                  <View style={styles.cardPreview}>
                     <View style={styles.imageWrapper}>
                       {(() => {
                         const resolvedImage = resolveActivityImage(card);
