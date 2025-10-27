@@ -9,55 +9,49 @@ export default function DeleteModal({
   onDeleted,
   setBoards,
 }) {
-  if (!boardToDelete) return null;
+  const { width, height } = useWindowDimensions();
+  const isPortrait = height > width;
+  const styles = getModalStyles(isPortrait, width, height);
 
   const handleDelete = async () => {
+    if (!boardToDelete) return;
     const updated = await deleteBoard(boardToDelete.id);
     setBoards(updated);          // update state in parent
     onDeleted?.();               // optional callback (e.g. clear selection)
     onClose();                   // close modal
   };
 
-  const { width, height } = useWindowDimensions();
-  const isPortrait = height > width;
-  const styles = getModalStyles(isPortrait, width, height);
-
   return (
     <Modal
       transparent
       animationType="fade"
-      visible={visible}
+      visible={!!visible && !!boardToDelete}  // safe visibility toggle
       onRequestClose={onClose}
       supportedOrientations={["portrait", "landscape"]}
     >
-    {/* OUTER PRESSABLE: closes modal when touched outside */}
-      <Pressable
-        style={styles.addOverlay}
-        onPress={onClose}
-      >
-        {/* INNER PRESSABLE: stops outside touch from closing modal */}
-        <Pressable
-          style={styles.addBox}
-          onPress={(e) => e.stopPropagation()}
-        >
-          <Text style={styles.addTitle}>Delete Board</Text>
-          <Text style={styles.deleteDialog}>Are you sure you want to delete "{boardToDelete?.title}"?</Text>
-          <View style={styles.deleteRow}>
-            <TouchableOpacity
-              style={styles.deleteButton}
-              onPress={handleDelete}
-            >
-              <Text style={styles.deleteText}>Delete</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.cancelDeleteButton}
-              onPress={onClose}
-            >
-              <Text style={styles.cancelDeleteText}>Cancel</Text>
-            </TouchableOpacity>
-          </View>
+      {boardToDelete ? (
+        // Only render content when there’s something to show
+        <Pressable style={styles.addOverlay} onPress={onClose}>
+          <Pressable style={styles.addBox} onPress={(e) => e.stopPropagation()}>
+            <Text style={styles.addTitle}>Delete Board</Text>
+            <Text style={styles.deleteDialog}>
+              Are you sure you want to delete "{boardToDelete.title}"?
+            </Text>
+
+            <View style={styles.deleteRow}>
+              <TouchableOpacity style={styles.deleteButton} onPress={handleDelete}>
+                <Text style={styles.deleteText}>Delete</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.cancelDeleteButton} onPress={onClose}>
+                <Text style={styles.cancelDeleteText}>Cancel</Text>
+              </TouchableOpacity>
+            </View>
+          </Pressable>
         </Pressable>
-      </Pressable>
+      ) : (
+        // keep stable tree even if no boardToDelete
+        <View />
+      )}
     </Modal>
-  )
-};
+  );
+}
