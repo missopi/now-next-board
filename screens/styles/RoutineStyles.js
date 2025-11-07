@@ -99,7 +99,7 @@ export default function getStyles(isPortrait, width, height, mode = "edit") {
     },
 
     title: {
-      fontSize: 20,
+      fontSize: 24,
       fontWeight: 'bold',
       textAlign: 'center',
     },
