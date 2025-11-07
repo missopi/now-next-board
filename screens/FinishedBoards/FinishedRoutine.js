@@ -48,8 +48,8 @@ export default function RoutineViewScreen({ route }) {
             <View style={{ alignItems: "center", marginVertical: 5 }}>
               <Text
                 style={{
-                  fontSize: 24,
-                  fontWeight: "600",
+                  fontSize: 28,
+                  fontWeight: "700",
                   color: "#333",
                   textAlign: "center",
                 }}
@@ -74,8 +74,8 @@ export default function RoutineViewScreen({ route }) {
           <View style={{ alignItems: "center", marginVertical: 5 }}>
             <Text
               style={{
-                fontSize: 24,
-                fontWeight: "600",
+                fontSize: 28,
+                fontWeight: "700",
                 color: "#333",
                 textAlign: "center",
               }}
