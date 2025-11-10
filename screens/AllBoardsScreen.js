@@ -17,6 +17,37 @@ export default function HomeScreen({ navigation, route }) {
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const [boardToDelete, setBoardToDelete] = useState(null);
 
+  const { width, height } = useWindowDimensions();
+  const isPortrait = height >= width;
+
+  // ---------- Layout constants ----------
+  // Single source of truth for spacing so everything stays consistent
+  const GAP = 12;            // space between items
+  const EDGE = 16;           // uniform screen padding
+  const CARD_INNER = 10;     // inner padding
+
+  // Choose columns by width & device/orientation
+  const computeColumns = () => {
+    if (!isPortrait) {
+      // Landscape: allow more density
+      if (width >= 1200) return 4;
+      if (width >= 900) return 3;
+      if (width >= 600) return 2;
+      return 2;
+    } else {
+      // Portrait: phones stay 1–2, iPad 3–4
+      if (width >= 1200) return 4;
+      if (width >= 900) return 3;
+      if (width >= 600) return 2;
+      return 1;
+    }
+  };
+
+  const numColumns = computeColumns();
+
+  // For FlatList layout changes, change the key when columns change
+  const listKey = `cols-${numColumns}`;
+
   const TAB_TYPE_MAP = {
     'Now & Next': 'nowNextThen',
     'Routine': 'routine',
