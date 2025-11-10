@@ -1,7 +1,6 @@
-import { useEffect, useState, useRef, useCallback } from 'react';
-import { View, Text, FlatList, Image, ScrollView, TouchableOpacity, TextInput } from 'react-native';
+import { useEffect, useState, useCallback } from 'react';
+import { View, Text, FlatList, Image, ScrollView, TouchableOpacity, TextInput, useWindowDimensions } from 'react-native';
 import { activityLibrary } from "../data/ActivityLibrary";
-import * as ScreenOrientation from 'expo-screen-orientation';
 import { getBoards } from '../utilities/BoardStore';
 import { useFocusEffect } from '@react-navigation/native';
 import { Feather } from '@expo/vector-icons';
@@ -17,8 +16,6 @@ export default function HomeScreen({ navigation, route }) {
   const [activeTab, setActiveTab] = useState('All');
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const [boardToDelete, setBoardToDelete] = useState(null);
-
-  const modalRef = useRef(null);
 
   const TAB_TYPE_MAP = {
     'Now & Next': 'nowNextThen',
