@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useMemo } from 'react';
 import { View, Text, FlatList, Image, ScrollView, TouchableOpacity, TextInput, useWindowDimensions } from 'react-native';
 import { activityLibrary } from "../data/ActivityLibrary";
 import { getBoards } from '../utilities/BoardStore';
@@ -26,27 +26,32 @@ export default function HomeScreen({ navigation, route }) {
   const EDGE = 16;           // uniform screen padding
   const CARD_INNER = 10;     // inner padding
 
-  // Choose columns by width & device/orientation
-  const computeColumns = () => {
+  const desiredCols = useMemo(() => {
     if (!isPortrait) {
-      // Landscape: allow more density
       if (width >= 1200) return 4;
       if (width >= 900) return 3;
       if (width >= 600) return 2;
       return 2;
     } else {
-      // Portrait: phones stay 1–2, iPad 3–4
       if (width >= 1200) return 4;
       if (width >= 900) return 3;
       if (width >= 600) return 2;
       return 1;
     }
-  };
+  }, [width, isPortrait]);
 
-  const numColumns = computeColumns();
+  // hold the active columns in state (so we can control when the list remounts)
+  const [numColumns, setNumColumns] = useState(desiredCols);
 
-  // For FlatList layout changes, change the key when columns change
-  const listKey = `cols-${numColumns}`;
+  // update columns AFTER layout changes; this triggers a remount via the key below
+  useEffect(() => {
+    if (numColumns !== desiredCols) {
+      setNumColumns(desiredCols);
+    }
+  }, [desiredCols, numColumns]);
+
+  // force-remount key
+  const listKey = useMemo(() => `boards-cols-${numColumns}`, [numColumns]);
 
   const TAB_TYPE_MAP = {
     'Now & Next': 'nowNextThen',
@@ -86,7 +91,11 @@ export default function HomeScreen({ navigation, route }) {
       return match ? match.image : null;
     }
     return card.image || null;
-  } 
+  }
+
+  const totalGaps = (numColumns - 1) * GAP;
+  const available = width - (EDGE * 2) - totalGaps;
+  const itemWidth = Math.floor(available / numColumns);
 
   const renderBoard = ({ item }) => (
     <TouchableOpacity
@@ -99,7 +108,14 @@ export default function HomeScreen({ navigation, route }) {
           console.warn('Unknown board type:', item.type);
         }
       }}
-      style={styles.boardCard}
+      style={[styles.boardCard,
+        {
+          width: itemWidth,
+          marginRight: GAP,
+          marginBottom: GAP,
+          padding: CARD_INNER,
+        }
+      ]}
     >
       <View style={{ flexDirection: 'column'}}>
         <View style={styles.boardHeader}>
@@ -189,7 +205,7 @@ export default function HomeScreen({ navigation, route }) {
 
   return (
     <>
-      <View style={styles.container}>
+      <View style={[styles.container, { paddingHorizontal: EDGE, paddingTop: EDGE - 5 }]}>
         <View style={styles.searchContainer}>
           <Search width={20} height={20} style={styles.searchIcon} />
           <TextInput
@@ -213,11 +229,16 @@ export default function HomeScreen({ navigation, route }) {
         </View>
 
         <FlatList
+          key={listKey}
           data={filteredBoards}
           keyExtractor={(item) => item.id}
           renderItem={renderBoard}
-          contentContainerStyle={{ paddingBottom: 20 }}
+          contentContainerStyle={{ paddingBottom: EDGE }}
           showsVerticalScrollIndicator={false} 
+          numColumns={numColumns}
+          {...(numColumns > 1
+            ? { columnWrapperStyle: { marginRight: -GAP } }
+            : undefined)}
         />
       </View>
       <AddModal
