@@ -13,6 +13,7 @@ export default function AddModal({ visible, navigation, onClose}) {
       animationType="fade"
       visible={visible}
       onRequestClose={onClose}
+      supportedOrientations={["portrait", "landscape"]}
     >
       {/* OUTER PRESSABLE: closes modal when touched outside */}
       <Pressable
