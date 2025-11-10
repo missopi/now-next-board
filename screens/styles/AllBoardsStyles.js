@@ -2,17 +2,7 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   container: {
-    paddingHorizontal: 16,
-    paddingTop: 10,
     flex: 1,
-  },
-  title: {
-    marginLeft: 10,
-    paddingVertical: 8,
-  },
-  titleText:{
-    fontSize: 28,
-    fontWeight: '700',
   },
   searchContainer: {
     flexDirection: "row",
@@ -24,7 +14,6 @@ export default StyleSheet.create({
     borderColor: '#ccc',
     marginBottom: 12,
     borderWidth: 1,
-    marginHorizontal: 10,
   },
   searchIcon: {
     marginRight: 8,
@@ -38,7 +27,6 @@ export default StyleSheet.create({
     flexDirection: 'row',
     marginBottom: 16,
     justifyContent: 'space-between',
-    marginHorizontal: 10,
   },
   tab: {
     paddingVertical: 7,
@@ -88,16 +76,13 @@ export default StyleSheet.create({
   },
   boardCard: {
     backgroundColor: '#fff',
-    padding: 10,
     borderRadius: 12,
-    marginBottom: 16,
     shadowColor: '#000',
     borderColor: '#aaa',
     borderWidth: 1,
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.4,
     shadowRadius: 5,
-    marginHorizontal: 10,
     elevation: 2,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -153,21 +138,6 @@ export default StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     gap: 6,
-  },
-  handle: {
-    backgroundColor: '#ccc',
-    width: 40,
-    height: 5,
-    borderRadius: 2.5,
-    alignSelf: 'center',
-    marginBottom: 10, // adds space between handle and first item
-  },
-  modal: {
-    backgroundColor: '#fff',
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    paddingBottom: 20,
-    paddingTop: 10,
   },
   group: {
     backgroundColor: '#f5f5f5',
