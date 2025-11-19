@@ -1,6 +1,30 @@
 import { StyleSheet } from "react-native";
 
 export default function getStyles(isPortrait, width, height, mode = "edit") {
+
+  const isPad = Math.min(width, height) >= 768;
+
+  const EDGE = isPortrait ? 16 : 20; 
+  const GAP  = isPortrait ? 12 : 24; 
+  const MAX_PORTRAIT_CARD = isPad ? 820 : 720;
+
+  const RATIO_CREATED = isPad
+    ? (isPortrait ? 0.95 : 1.05)  // inset card on iPad
+    : (isPortrait ? 0.90 : 0.98);
+
+  const RATIO_LIBRARY = isPad
+    ? (isPortrait ? 1.05 : 1.15)  // full-bleed on iPad
+    : (isPortrait ? 0.98 : 1.05);
+  
+  // ---- Grid math ----
+  const columns = isPortrait ? 1 : 2;
+  const totalGaps = (columns - 1) * GAP;
+  const contentWidth = width - EDGE * 2;
+  const columnWidth = Math.floor((contentWidth - totalGaps) / columns);
+
+  // Portrait card width (centred with a max)
+  const portraitCardWidth = Math.min(contentWidth, MAX_PORTRAIT_CARD);
+
   return StyleSheet.create({
     container: {
       flex: 1,
