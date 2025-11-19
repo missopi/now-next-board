@@ -203,29 +203,45 @@ export default function HomeScreen({ navigation, route }) {
     </TouchableOpacity>
   );
 
+  const isPhonePortrait = isPortrait && width < 600;
+
   return (
     <>
-      <View style={[styles.container, { paddingHorizontal: EDGE, paddingTop: EDGE - 5 }]}>
-        <View style={styles.searchContainer}>
-          <Search width={20} height={20} style={styles.searchIcon} />
-          <TextInput
-            placeholder="Search"
-            placeholderTextColor={'#777'}
-            value={searchQuery}
-            onChangeText={setSearchQuery}
-            style={styles.searchInput}
-          />
-        </View>
-        <View style={styles.tabs}>
-          {TABS.map((tab) => (
-            <TouchableOpacity
-              key={tab}
-              onPress={() => setActiveTab(tab)}
-              style={[styles.tab, activeTab === tab && styles.activeTab]}
-            >
-              <Text style={[styles.tabText,  activeTab === tab && styles.activeTabText]}>{tab}</Text>
-            </TouchableOpacity>
-          ))}
+      <View style={[styles.container, { paddingHorizontal: EDGE, paddingTop: EDGE - 5, paddingBottom: EDGE }]}>
+        <View
+          style={[
+            styles.searchTabsRow,
+            {
+              flexDirection: isPhonePortrait ? 'column' : 'row',
+              gap: 10,
+            }
+          ]}
+        >
+          <View style={[styles.searchContainer, { flex: isPhonePortrait ? 0 : 1, width: isPhonePortrait ? '100%' : undefined }]}>
+            <Search width={20} height={20} style={styles.searchIcon} />
+            <TextInput
+              placeholder="Search"
+              placeholderTextColor={'#777'}
+              value={searchQuery}
+              onChangeText={setSearchQuery}
+              style={styles.searchInput}
+            />
+          </View>
+
+          <View style={[
+            styles.tabs,
+            { width: isPhonePortrait ? '100%' : 'auto' }
+          ]}>
+            {TABS.map((tab) => (
+              <TouchableOpacity
+                key={tab}
+                onPress={() => setActiveTab(tab)}
+                style={[styles.tab, activeTab === tab && styles.activeTab]}
+              >
+                <Text style={[styles.tabText, activeTab === tab && styles.activeTabText]}>{tab}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
         </View>
 
         <FlatList

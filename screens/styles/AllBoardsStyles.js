@@ -27,6 +27,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
     marginBottom: 16,
     justifyContent: 'space-between',
+    gap: 10,
   },
   tab: {
     paddingVertical: 7,
