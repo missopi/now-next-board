@@ -223,7 +223,7 @@ export default function RoutineScreen({ navigation, route }) {
         justifyContent: 'center',
         backgroundColor: 'transparent',
         paddingVertical: isPortrait ? 14 : 0,
-        marginLeft: isPortrait ? 0 : 20,   
+        marginLeft: isPortrait ? 0 : 10,   
       }}
     >
       <TouchableOpacity onPress={onPress} style={styles.saveButton}>
@@ -270,10 +270,10 @@ export default function RoutineScreen({ navigation, route }) {
               onPress={addEmptySlot}
               isPortrait={isPortrait}
               styles={styles}
-              cardWidth={isPortrait ? undefined : (mode === "view" ? width * 0.35 : width * 0.27)}
+              cardWidth={isPortrait ? undefined : width * 0.27}
             />
           }
-          ListFooterComponentStyle={{ paddingBottom: isPortrait ? 24 : 0 }}
+          ListFooterComponentStyle={ isPortrait ? { alignSelf: 'stretch' } : null }
         />
       </View>
 
