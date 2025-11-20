@@ -91,6 +91,7 @@ export default function getStyles(isPortrait, width, height, mode = "edit") {
       width: '90%',
       height: '75%',
       borderRadius: 8,
+      marginBottom: 10,
       resizeMode: 'cover',
       borderWidth: 1,
       borderColor: '#333',
@@ -106,8 +107,8 @@ export default function getStyles(isPortrait, width, height, mode = "edit") {
       resizeMode: 'cover',
     },
     label: {
-      fontSize: 20,
-      fontWeight: 'bold',
+      fontSize: isPad ? 40 : 28,
+      fontWeight: '800',
       color: '#333',
     },
     placeholder: {
