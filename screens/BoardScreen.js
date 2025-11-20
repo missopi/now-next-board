@@ -16,6 +16,7 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
   const { mode, board } = route.params || {};
   const [isSaveModalVisible, setIsSaveModalVisible] = useState(false);
   const [boardTitle, setBoardTitle] = useState('');
+  const [hasChanges, setHasChanges] = useState(false);
 
   // track the 3 activities
   const [nowActivity, setNowActivity] = useState(null);
@@ -37,6 +38,26 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
   const { width, height } = useWindowDimensions();
   const isPortrait = height > width;
   const styles = getStyles(isPortrait, width, height, "edit");
+
+  // Intercept navigation to show Save modal if unsaved changes exist
+  const pendingActionRef = useRef(null);
+
+  useEffect(() => {
+    const unsub = navigation.addListener('beforeRemove', (e) => {
+      if (!hasChanges) return;      // allow normal navigation if nothing to save
+      e.preventDefault();           // block leaving
+      pendingActionRef.current = e.data.action;
+      setIsSaveModalVisible(true);  // show Save modal
+    });
+
+    return unsub; // cleanup when unmounting
+  }, [navigation, hasChanges]);
+
+  const completeNavigation = () => {
+    const action = pendingActionRef.current;
+    pendingActionRef.current = null;
+    if (action) navigation.dispatch(action);
+  };
 
   // loading saved boards
   useEffect(() => {
@@ -74,17 +95,15 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
   };
 
   function handleSetActivity(activity) {
-    console.log('[handleSetActivity slot ref:', slotRef.current);
-    console.log("[NowNextBoardScreen] Activity received:", activity);
     const currentSlot = typeof slotRef.current === 'string'
       ? slotRef.current
       : slotRef.current?.slot;
-
-    console.log('[handleSetActivity] Current Slot Ref:', currentSlot);
       
     if (currentSlot === 'Now') setNowActivity(activity);
     else if (currentSlot === 'Next') setNextActivity(activity);
     else console.warn('Invalid slot. Could not assign activity.');
+
+    setHasChanges(true);
   };
 
   async function handleImagePick(type) {
@@ -115,6 +134,7 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
     setIsNewCardVisible(false);
     setNewCardImage(null);
     setNewCardTitle('');
+    setHasChanges(true);
     slotRef.current = null;
   };
 
@@ -146,8 +166,15 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
     setBoardTitle(titleToUse);
     setCurrentBoardId(board.id);
     setIsSaveModalVisible(false);
+    setHasChanges(false);
+    if (pendingActionRef.current) completeNavigation(); 
   };
 
+  const handleDiscard = () => {
+    setIsSaveModalVisible(false);
+    setHasChanges(false); 
+    completeNavigation();  
+  };
 
   const loadNowNextBoard = (board) => {
     const now = board.cards[0] ? { 
@@ -164,6 +191,7 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
     setNextActivity(next);
     setCurrentBoardId(board.id);
     setBoardTitle(board.title || '');
+    setHasChanges(false);
   };
 
   return (
@@ -176,16 +204,6 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
           readOnly={false} 
           styles={styles}
         />
-      </View>
-      <View style={{ backgroundColor: '#fff' }}>
-        <View style={styles.buttonRow}>
-          <TouchableOpacity
-            onPress={handleSavePress}
-            style={styles.saveButton}
-          >
-            <Text style={styles.saveText}>Save</Text>
-          </TouchableOpacity>
-        </View>
       </View>
       <ImageCardCreatorModal
         visible={isNewCardVisible}
@@ -209,8 +227,9 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
       <SaveModal
         visible={isSaveModalVisible}
         initialTitle={boardTitle}
-        onClose={() => setIsSaveModalVisible(false)}
+        onClose={() => { setIsSaveModalVisible(false); pendingActionRef.current = null; }}
         onSave={(title) => saveCurrentNowNextBoard(title)}
+        onDiscard={handleDiscard} 
       />
     </View>
   );

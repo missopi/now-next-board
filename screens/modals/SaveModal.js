@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Modal, View, Text, TextInput, TouchableOpacity, Pressable, useWindowDimensions } from "react-native";
 import getModalStyles from "../styles/ModalStyles";
 
-export default function SaveModal({ visible, initialTitle = "", onClose, onSave }) {
+export default function SaveModal({ visible, initialTitle = "", onClose, onSave, onDiscard }) {
   const [title, setTitle] = useState(initialTitle);
 
   // Keep title in sync when modal reopens
@@ -56,6 +56,9 @@ export default function SaveModal({ visible, initialTitle = "", onClose, onSave 
           <View style={styles.buttonRow}>
             <TouchableOpacity onPress={handleSave} style={styles.imageAddButton}>
               <Text style={styles.imageAddText}>Save</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={onDiscard} style={styles.cancelButton}>
+              <Text style={styles.cancelText}>Discard</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={onClose} style={styles.cancelButton}>
               <Text style={styles.cancelText}>Cancel</Text>

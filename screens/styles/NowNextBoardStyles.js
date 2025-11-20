@@ -118,11 +118,12 @@ export default function getStyles(isPortrait, width, height, mode = "edit") {
       color: '#aaa',
     },
     saveButton: {
-      width: isPortrait ? '50%' : '25%',
-      paddingVertical: 7,
+      width: '25%',
+      paddingVertical: 5,
       borderRadius: 12,
-      marginTop: 15,
-      marginBottom: 28,
+      marginBottom: isPad 
+        ? ( isPortrait ? 10 : 20)
+        : 9,
       alignItems: 'center',
       backgroundColor: '#38b6ff',
       borderWidth: 2,
@@ -135,7 +136,7 @@ export default function getStyles(isPortrait, width, height, mode = "edit") {
     },
     saveText: {
       color: '#fff', 
-      fontSize: 16, 
+      fontSize: isPad ? 18 : 12, 
       fontWeight: 'bold',
       textAlign: 'center',
     },
