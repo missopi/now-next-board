@@ -48,7 +48,7 @@ export default function getStyles(isPortrait, width, height, mode = "edit") {
       gap: 5,
     },
     textTitle: {
-      fontSize: 20,
+      fontSize: isPad ? 40 : 20,
       fontWeight: 'bold',
     },
     iconRow: {
