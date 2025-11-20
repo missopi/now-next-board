@@ -1,3 +1,5 @@
+// Main routine screen 
+
 import { useEffect, useRef, useState } from "react";
 import { View, Text, TouchableOpacity, useWindowDimensions } from "react-native";
 import DraggableFlatList from 'react-native-draggable-flatlist';
@@ -11,7 +13,7 @@ import { saveBoard, updateBoard } from "../utilities/BoardStore";
 import SaveModal from "./modals/SaveModal";
 import { activityLibrary } from "../data/ActivityLibrary";
 
-const RoutineScreen = ({ navigation, route }) => {
+export default function RoutineScreen({ navigation, route }) {
   const { mode, board } = route.params || {};
   const [isSaveModalVisible, setIsSaveModalVisible] = useState(false);
 
@@ -264,5 +266,3 @@ const RoutineScreen = ({ navigation, route }) => {
     </View>
   );
 };
-
-export default RoutineScreen;
