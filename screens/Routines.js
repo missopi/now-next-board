@@ -157,10 +157,6 @@ export default function RoutineScreen({ navigation, route }) {
     setHasChanges(true);
   };
 
-  const handleSavePress = () => {
-    setIsSaveModalVisible(true);
-  };
-
   const saveCurrentRoutineBoard = async (titleFromModal) => {
     const titleToUse = titleFromModal || newBoardTitle;
 
