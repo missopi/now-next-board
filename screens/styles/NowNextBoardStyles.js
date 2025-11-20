@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-export default function getStyles(isPortrait, width, height, mode = "edit") {
+export default function getStyles(isPortrait, width, height) {
 
   const isPad = Math.min(width, height) >= 768;
 
@@ -25,18 +25,13 @@ export default function getStyles(isPortrait, width, height, mode = "edit") {
   return StyleSheet.create({
     container: {
       flex: 1,
-      paddingBottom: isPortrait
-        ? (mode === "edit" ? 25 : 0)
-        : (mode === "view" ? 0 : 60),
     },
     wrapper: {
       flex: 1,
       alignItems: 'center',
       justifyContent: 'center',
       flexDirection: isPortrait ? 'column' : 'row',
-      gap: isPortrait 
-        ? (mode === "edit" ? 2 : 5) 
-        : 50,
+      gap: isPortrait ? 5 : 40,
       paddingHorizontal: isPortrait ? 0 : 20,
     },
     textRow: {
@@ -63,7 +58,7 @@ export default function getStyles(isPortrait, width, height, mode = "edit") {
       flexDirection: 'column',
       alignItems: 'center',
       marginVertical: 8,
-      gap: mode === "view" ? 6 : 8,
+      gap: 6,
       width: isPortrait ? portraitCardWidth : columnWidth,
     },
     card: {
@@ -116,38 +111,6 @@ export default function getStyles(isPortrait, width, height, mode = "edit") {
     placeholder: {
       fontSize: 18,
       color: '#aaa',
-    },
-    saveButton: {
-      width: '25%',
-      paddingVertical: 5,
-      borderRadius: 12,
-      marginBottom: isPad 
-        ? ( isPortrait ? 10 : 20)
-        : 9,
-      alignItems: 'center',
-      backgroundColor: '#38b6ff',
-      borderWidth: 2,
-      borderColor: '#38b6ff',
-      shadowColor: '#000',
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.15,
-      shadowRadius: 3,
-      elevation: 3,
-    },
-    saveText: {
-      color: '#fff', 
-      fontSize: isPad ? 18 : 12, 
-      fontWeight: 'bold',
-      textAlign: 'center',
-    },
-    buttonRow: {
-      flexDirection: 'row', 
-      justifyContent: 'center', 
-      backgroundColor: 'transparent', 
-      position: 'absolute', 
-      bottom: isPortrait ? 3 : 1,
-      left: 0,
-      right: 0
     },
   });
 };
