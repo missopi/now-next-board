@@ -120,11 +120,11 @@ export default function getStyles(isPortrait, width, height, mode = "edit") {
     },
 
     saveButton: {
-      width: '40%',
+      width: isPortrait ? '55%' : 220,  // tweak as you like
       paddingVertical: 7,
       borderRadius: 12,
-      marginTop: 15,
-      marginBottom: 28,
+      marginTop: 6,
+      marginBottom: 8,
       alignItems: 'center',
       backgroundColor: '#38b6ff',
       borderWidth: 2,
@@ -135,18 +135,8 @@ export default function getStyles(isPortrait, width, height, mode = "edit") {
       shadowRadius: 3,
       elevation: 3,
     },
-    saveText: { color: '#fff', fontSize: 16, fontWeight: 'bold', textAlign: 'center' },
 
-    buttonRow: {
-      flexDirection: 'row',
-      justifyContent: 'center',
-      gap: 10,
-      backgroundColor: 'transparent',
-      position: "absolute",
-      bottom: 3,
-      left: 0,
-      right: 0
-    },
+    saveText: { color: '#fff', fontSize: 16, fontWeight: 'bold', textAlign: 'center' },
 
     listContainer: { justifyContent: 'center', alignItems: 'center' },
 

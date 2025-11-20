@@ -215,6 +215,23 @@ export default function RoutineScreen({ navigation, route }) {
     ...( !isPortrait && { flexDirection: 'row', alignItems: 'center' } )
   };
 
+  const AddCardFooter = ({ onPress, isPortrait, styles, cardWidth }) => (
+    <View
+      style={{
+        width: isPortrait ? '100%' : cardWidth, // match card width in landscape
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'transparent',
+        paddingVertical: isPortrait ? 14 : 0,
+        marginLeft: isPortrait ? 0 : 20,   
+      }}
+    >
+      <TouchableOpacity onPress={onPress} style={styles.saveButton}>
+        <Text style={styles.saveText}>Add Card</Text>
+      </TouchableOpacity>
+    </View>
+  );
+
   return (
     <View style={styles.container}>
       <View style={{ flex: 1 }}>
@@ -246,16 +263,18 @@ export default function RoutineScreen({ navigation, route }) {
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={containerStyle}
+
+          // footer button that follows the last card
+          ListFooterComponent={
+            <AddCardFooter
+              onPress={addEmptySlot}
+              isPortrait={isPortrait}
+              styles={styles}
+              cardWidth={isPortrait ? undefined : (mode === "view" ? width * 0.35 : width * 0.27)}
+            />
+          }
+          ListFooterComponentStyle={{ paddingBottom: isPortrait ? 24 : 0 }}
         />
-      </View>
-      
-      <View style={styles.buttonRow}>
-        <TouchableOpacity
-          onPress={addEmptySlot}
-          style={styles.saveButton}
-        >
-          <Text style={styles.saveText}>Add Card</Text>
-        </TouchableOpacity>
       </View>
 
       <ImageCardCreatorModal
