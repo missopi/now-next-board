@@ -4,17 +4,16 @@ export default function getStyles(isPortrait, width, height, mode = "edit") {
 
   const isPad = Math.min(width, height) >= 768;
 
-  const EDGE = isPortrait ? 16 : 20; 
+  const EDGE = isPad
+    ? (isPortrait ? 130 : 50)
+    : (isPortrait ? 30 : 70);
+  
   const GAP  = isPortrait ? 12 : 24; 
   const MAX_PORTRAIT_CARD = isPad ? 820 : 720;
 
-  const RATIO_CREATED = isPad
-    ? (isPortrait ? 0.95 : 1.05)  // inset card on iPad
-    : (isPortrait ? 0.90 : 0.98);
-
   const RATIO_LIBRARY = isPad
-    ? (isPortrait ? 1.05 : 1.15)  // full-bleed on iPad
-    : (isPortrait ? 0.98 : 1.05);
+    ? (isPortrait ? 1.2 : 1.05)  
+    : (isPortrait ? 1.05 : 1.1);
   
   // ---- Grid math ----
   const columns = isPortrait ? 1 : 2;
@@ -62,10 +61,11 @@ export default function getStyles(isPortrait, width, height, mode = "edit") {
       flexDirection: 'column',
       alignItems: 'center',
       marginVertical: 8,
-      gap: mode === "view" ? 3 : 5,
-      width: isPortrait ? '100%' : 'auto',
+      gap: mode === "view" ? 6 : 8,
+      width: isPortrait ? portraitCardWidth : columnWidth,
     },
     card: {
+      alignSelf: "stretch",
       borderWidth: 1,
       borderColor: '#aaa',
       borderRadius: 20,
@@ -76,10 +76,7 @@ export default function getStyles(isPortrait, width, height, mode = "edit") {
       overflow: 'hidden',        
       gap: 5,
       paddingTop: 3,
-      width: isPortrait ? width * 0.8 : mode === "view" ? width * 0.35 : width * 0.28,
-      height: isPortrait
-        ? (mode === "edit" ? height * 0.33 : height * 0.36)
-        : (mode === "view" ? height * 0.75 : height * 0.60),
+      aspectRatio: RATIO_LIBRARY,
     },
     cardShadowWrapper: {
       shadowColor: '#000',
@@ -88,6 +85,7 @@ export default function getStyles(isPortrait, width, height, mode = "edit") {
       shadowRadius: 6,
       elevation: 5,             // Android
       borderRadius: 20,
+      alignSelf: "stretch",   
     },
     image: {
       width: '90%',
@@ -104,6 +102,7 @@ export default function getStyles(isPortrait, width, height, mode = "edit") {
       width: '100%',
       height: '100%',
       borderRadius: 20,
+      backgroundColor: '#fff',
       resizeMode: 'cover',
     },
     label: {
