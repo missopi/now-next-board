@@ -1,7 +1,7 @@
 // Main board screen containing the Now/Next/Then board
 
 import { useEffect, useRef, useState } from "react";  
-import { View, Text, TouchableOpacity, useWindowDimensions } from "react-native";
+import { View, useWindowDimensions } from "react-native";
 import NowNextBoard from "./components/NowNextBoard";
 import getStyles from "./styles/NowNextBoardStyles";
 import { setActivityCallback } from "./components/CallbackStore";
