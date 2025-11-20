@@ -57,8 +57,8 @@ export default function SaveModal({ visible, initialTitle = "", onClose, onSave,
             <TouchableOpacity onPress={handleSave} style={styles.imageAddButton}>
               <Text style={styles.imageAddText}>Save</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={onDiscard} style={styles.cancelButton}>
-              <Text style={styles.cancelText}>Discard</Text>
+            <TouchableOpacity onPress={onDiscard} style={styles.imageAddButton}>
+              <Text style={styles.imageAddText}>Discard</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={onClose} style={styles.cancelButton}>
               <Text style={styles.cancelText}>Cancel</Text>
