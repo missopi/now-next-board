@@ -138,10 +138,6 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
     slotRef.current = null;
   };
 
-  const handleSavePress = () => {
-    setIsSaveModalVisible(true);
-  };
-
   const saveCurrentNowNextBoard = async (titleFromModal) => {
     const titleToUse = titleFromModal || boardTitle;
 

@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-export default function getStyles(isPortrait, width, height) {
+export default function getStyles(isPortrait, width, height, mode = 'edit') {
 
   const isPad = Math.min(width, height) >= 768;
 

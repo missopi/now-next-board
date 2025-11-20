@@ -16,6 +16,7 @@ import { activityLibrary } from "../data/ActivityLibrary";
 export default function RoutineScreen({ navigation, route }) {
   const { mode, board } = route.params || {};
   const [isSaveModalVisible, setIsSaveModalVisible] = useState(false);
+  const [hasChanges, setHasChanges] = useState(false);
 
   // track the activities added
   const [activities, setActivities] = useState(() => {
@@ -39,9 +40,7 @@ export default function RoutineScreen({ navigation, route }) {
   // saving boards
   const [currentBoardId, setCurrentBoardId] = useState(null);
 
-  useEffect(() => {
-    console.log('RoutineScreen mount/params', { mode, activities });
-  }, [mode, activities]);
+  useEffect(() => {}, [mode, activities]);
 
   // loading saved boards
   useEffect(() => {
@@ -68,6 +67,26 @@ export default function RoutineScreen({ navigation, route }) {
   const { width, height } = useWindowDimensions();
   const isPortrait = height > width;
   const styles = getStyles(isPortrait, width, height, "edit");
+
+  // Intercept navigation to show Save modal if unsaved changes exist
+  const pendingActionRef = useRef(null);
+
+  useEffect(() => {
+    const unsub = navigation.addListener('beforeRemove', (e) => {
+      if (!hasChanges) return;      // allow normal navigation if nothing to save
+      e.preventDefault();           // block leaving
+      pendingActionRef.current = e.data.action;
+      setIsSaveModalVisible(true);  // show Save modal
+    });
+
+    return unsub; // cleanup when unmounting
+  }, [navigation, hasChanges]);
+
+  const completeNavigation = () => {
+    const action = pendingActionRef.current;
+    pendingActionRef.current = null;
+    if (action) navigation.dispatch(action);
+  };
 
   const slotIndexRef = useRef(null);
 
@@ -101,6 +120,7 @@ export default function RoutineScreen({ navigation, route }) {
     const updated = [...activities];
     updated.splice(index, 1);
     setActivities(updated);
+    setHasChanges(true);
   };
 
   function handleSetActivity(activity) {
@@ -110,6 +130,7 @@ export default function RoutineScreen({ navigation, route }) {
       updated[index] = { ...activity, id: updated[index]?.id || uuid.v4() };
       setActivities(updated);
     }
+    setHasChanges(true);
     closeModal();
     slotIndexRef.current = null;
   }
@@ -118,6 +139,7 @@ export default function RoutineScreen({ navigation, route }) {
     const imageUri = await pickImage(type);
     if (imageUri) {
       setNewCardImage(imageUri);
+      setHasChanges(true);
     }
   };
 
@@ -132,6 +154,7 @@ export default function RoutineScreen({ navigation, route }) {
       image: { uri: newCardImage }
     };
     handleSetActivity(newCard);
+    setHasChanges(true);
   };
 
   const handleSavePress = () => {
@@ -168,6 +191,14 @@ export default function RoutineScreen({ navigation, route }) {
     setCurrentBoardId(board.id);
     setNewBoardTitle(titleToUse);
     setIsSaveModalVisible(false);
+    setHasChanges(false);
+    if (pendingActionRef.current) completeNavigation(); 
+  };
+
+  const handleDiscard = () => {
+    setIsSaveModalVisible(false);
+    setHasChanges(false); 
+    completeNavigation();  
   };
 
   const loadRoutineBoard = (board) => {
@@ -175,6 +206,7 @@ export default function RoutineScreen({ navigation, route }) {
     setNewBoardTitle(board.title);
     setActivities(loaded);
     setCurrentBoardId(board.id);
+    setHasChanges(false);
   };
 
   const addEmptySlot = () => {
@@ -228,13 +260,6 @@ export default function RoutineScreen({ navigation, route }) {
         >
           <Text style={styles.saveText}>Add Card</Text>
         </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={handleSavePress}
-          style={styles.saveButton}
->
-          <Text style={styles.saveText}>Save</Text>
-        </TouchableOpacity>
       </View>
 
       <ImageCardCreatorModal
@@ -260,8 +285,9 @@ export default function RoutineScreen({ navigation, route }) {
       <SaveModal
         visible={isSaveModalVisible}
         initialTitle={newBoardTitle}
-        onClose={() => setIsSaveModalVisible(false)}
+        onClose={() => { setIsSaveModalVisible(false); pendingActionRef.current = null; }}
         onSave={(title) => saveCurrentRoutineBoard(title)}
+        onDiscard={handleDiscard} 
       />
     </View>
   );
