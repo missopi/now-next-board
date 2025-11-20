@@ -1,6 +1,6 @@
 // Visual layout for Now/Next boards
 
-import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, Image, StyleSheet, useWindowDimensions } from "react-native";
 import { activityLibrary } from "../../data/ActivityLibrary";
 import Now from "../../assets/cards/now.svg";
 import Next from "../../assets/cards/next.svg";
@@ -82,19 +82,27 @@ const NowNextBoard = ({ nowActivity, nextActivity, onSelectSlot, readOnly, style
       </View>
     );
   };
+
+  const { width, height } = useWindowDimensions();
+  const isPad = Math.min(width, height) >= 768;
+
+  const iconScale = isPad ? 1.6 : 1; // 1.6× bigger on iPad (tweak this number)
+  const iconWidth = 50 * iconScale;
+  const iconHeight = 40 * iconScale;  
+
   return (
     <View style={styles.container}>
       <View style={styles.wrapper}>
         <View style={styles.column}>
           {<View style={styles.iconRow}>
-            <Now width={50} height={40} />
+            <Now width={iconWidth} height={iconHeight} />
             <Text style={styles.textTitle}>Now </Text>
           </View>}
           {renderCard(nowActivity, "Now")}
         </View>
         <View style={styles.column}>
           {<View style={styles.iconRow}>
-            <Next width={50} height={40} />
+            <Next width={iconWidth} height={iconHeight} />
             <Text style={styles.textTitle}>Next </Text>
           </View>}
           {renderCard(nextActivity, "Next")}

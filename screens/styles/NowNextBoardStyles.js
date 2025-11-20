@@ -5,15 +5,13 @@ export default function getStyles(isPortrait, width, height, mode = "edit") {
   const isPad = Math.min(width, height) >= 768;
 
   const EDGE = isPad
-    ? (isPortrait ? 130 : 50)
-    : (isPortrait ? 30 : 70);
+    ? (isPortrait ? 160 : 50)
+    : (isPortrait ? 30 : 90);
   
-  const GAP  = isPortrait ? 12 : 24; 
+  const GAP  = isPortrait ? 12 : 22; 
   const MAX_PORTRAIT_CARD = isPad ? 820 : 720;
 
-  const RATIO_LIBRARY = isPad
-    ? (isPortrait ? 1.2 : 1.05)  
-    : (isPortrait ? 1.05 : 1.1);
+  const RATIO_LIBRARY = 1.05;
   
   // ---- Grid math ----
   const columns = isPortrait ? 1 : 2;
@@ -46,6 +44,10 @@ export default function getStyles(isPortrait, width, height, mode = "edit") {
       alignItems: 'center',
       justifyContent: 'center',
       gap: 5,
+    },
+    icon: {
+      height: 50,
+      width: 40,
     },
     textTitle: {
       fontSize: isPad ? 40 : 20,
