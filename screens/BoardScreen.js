@@ -190,6 +190,17 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
     setHasChanges(false);
   };
 
+  const swapNowAndNext = () => {
+    if (!nowActivity || !nextActivity) return; // nothing to swap
+    const now = nowActivity;
+    const next = nextActivity;
+    setNowActivity(next);
+    setNextActivity(now);
+    setHasChanges(true);
+  };
+
+  const canSwap = !!(nowActivity && nextActivity);
+
   return (
     <View style={{ flex: 1 }}>
       <View style={{ flex: 1 }}>
@@ -197,6 +208,8 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
           nowActivity={nowActivity}
           nextActivity={nextActivity} 
           onSelectSlot={onSelectSlot}
+          onSwap={swapNowAndNext}
+          canSwap={canSwap}
           readOnly={false} 
           styles={styles}
         />

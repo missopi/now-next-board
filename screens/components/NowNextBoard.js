@@ -4,8 +4,9 @@ import { View, Text, TouchableOpacity, Image, StyleSheet, useWindowDimensions } 
 import { activityLibrary } from "../../data/ActivityLibrary";
 import Now from "../../assets/cards/now.svg";
 import Next from "../../assets/cards/next.svg";
+import Swap from "../../assets/swap.svg";
 
-const NowNextBoard = ({ nowActivity, nextActivity, onSelectSlot, readOnly, styles }) => {
+const NowNextBoard = ({ nowActivity, nextActivity, onSelectSlot, onSwap, canSwap, readOnly, styles }) => {
   const resolveActivityImage = (activity) => {
     if (!activity) return null;
     if (activity.fromLibrary && activity.imageKey) {
@@ -85,6 +86,7 @@ const NowNextBoard = ({ nowActivity, nextActivity, onSelectSlot, readOnly, style
 
   const { width, height } = useWindowDimensions();
   const isPad = Math.min(width, height) >= 768;
+  const isPortrait = height > width;
 
   const iconScale = isPad ? 1.6 : 1; // 1.6× bigger on iPad (tweak this number)
   const iconWidth = 50 * iconScale;
@@ -100,10 +102,34 @@ const NowNextBoard = ({ nowActivity, nextActivity, onSelectSlot, readOnly, style
           </View>}
           {renderCard(nowActivity, "Now")}
         </View>
+        {/* LANDSCAPE: swap icon between cards */}
+        {!readOnly && !isPortrait && (
+          <TouchableOpacity
+            onPress={onSwap}
+            disabled={!canSwap}
+            style={[styles.swapButton, !canSwap && { opacity: 0.4 }]}
+          >
+            <Swap
+              width={iconWidth * 1.0}
+              height={iconHeight * 1.2}
+              style={{ transform: [{ rotate: "90deg" }] }}
+            />
+          </TouchableOpacity>
+        )}
         <View style={styles.column}>
           {<View style={styles.iconRow}>
             <Next width={iconWidth} height={iconHeight} />
             <Text style={styles.textTitle}>Next </Text>
+            {/* PORTRAIT: swap icon inline with “Next” */}
+            {!readOnly && isPortrait && (
+              <TouchableOpacity
+                onPress={onSwap}
+                disabled={!canSwap}
+                style={[styles.swapButtonInline, !canSwap && { opacity: 0.4 }]}
+              >
+                <Swap width={iconWidth * 1} height={iconHeight * 1.2} />
+              </TouchableOpacity>
+            )}
           </View>}
           {renderCard(nextActivity, "Next")}
         </View>

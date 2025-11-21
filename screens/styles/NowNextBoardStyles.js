@@ -108,5 +108,12 @@ export default function getStyles(isPortrait, width, height, mode = 'edit') {
       fontSize: 18,
       color: '#aaa',
     },
+    swapButton: {
+      alignSelf: "center",
+    },
+    swapButtonInline: {
+      marginLeft: 8,
+      paddingHorizontal: 4,
+    },
   });
 };
