@@ -85,7 +85,10 @@ const NowNextBoard = ({ nowActivity, nextActivity, onSelectSlot, onSwap, canSwap
   };
 
   const { width, height } = useWindowDimensions();
-  const isPad = Math.min(width, height) >= 768;
+  const shorter = Math.min(width, height);
+  const longer = Math.max(width, height);
+  const aspect = longer / shorter;
+  const isPad = shorter >= 744 && aspect < 1.6;
   const isPortrait = height > width;
 
   const iconScale = isPad ? 1.6 : 1; // 1.6× bigger on iPad (tweak this number)
@@ -93,37 +96,35 @@ const NowNextBoard = ({ nowActivity, nextActivity, onSelectSlot, onSwap, canSwap
   const iconHeight = 40 * iconScale;  
 
   return (
-    <View style={styles.container}>
-      <View style={styles.wrapper}>
-        <View style={styles.column}>
-          {<View style={styles.iconRow}>
-            <Now width={iconWidth} height={iconHeight} />
-            <Text style={styles.textTitle}>Now </Text>
-          </View>}
-          {renderCard(nowActivity, "Now")}
-        </View>
-        {/* LANDSCAPE: swap icon between cards */}
-        {!readOnly && !isPortrait && (
-          <TouchableOpacity
-            onPress={onSwap}
-            disabled={!canSwap}
-            style={[styles.swapButton, !canSwap && { opacity: 0.4 }]}
-          >
-            <Swap
-              width={iconWidth * 1.0}
-              height={iconHeight * 1.2}
-              style={{ transform: [{ rotate: "90deg" }] }}
-            />
-          </TouchableOpacity>
+    <View style={styles.container}> 
+      <View style={styles.wrapper}> 
+        <View style={styles.column}> 
+          <View style={styles.iconRow}> 
+            <Now width={iconWidth} height={iconHeight} /> 
+            <Text style={styles.textTitle}>Now </Text> 
+          </View>
+          {renderCard(nowActivity, "Now")} 
+        </View> 
+        {!readOnly && !isPortrait && ( 
+          <TouchableOpacity 
+            onPress={onSwap} 
+            disabled={!canSwap} 
+            style={[styles.swapButton, 
+            !canSwap && { opacity: 0.4 }]} 
+          > 
+            <Swap width={iconWidth * 1.0} height={iconHeight * 1.2} style={{ transform: [{ rotate: "90deg" }] }} /> 
+          </TouchableOpacity> 
         )}
+
         <View style={styles.column}>
-          {isPortrait && (
+          {isPortrait ? (
             <View style={styles.portraitNextHeader}>
               <View style={{ flex: 1 }} />
               <View style={styles.centerGroup}>
                 <Next width={iconWidth} height={iconHeight} />
                 <Text style={styles.textTitle}>Next</Text>
               </View>
+
               <View style={{ flex: 1, alignItems: 'flex-end' }}>
                 {!readOnly && (
                   <TouchableOpacity
@@ -136,7 +137,13 @@ const NowNextBoard = ({ nowActivity, nextActivity, onSelectSlot, onSwap, canSwap
                 )}
               </View>
             </View>
+          ) : (
+            <View style={styles.iconRow}>
+              <Next width={iconWidth} height={iconHeight} />
+              <Text style={styles.textTitle}>Next</Text>
+            </View>
           )}
+
           {renderCard(nextActivity, "Next")}
         </View>
       </View>

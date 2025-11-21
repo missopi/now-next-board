@@ -2,11 +2,20 @@ import { StyleSheet } from "react-native";
 
 export default function getStyles(isPortrait, width, height, mode = 'edit') {
 
-  const isPad = Math.min(width, height) >= 768;
+  const shorter = Math.min(width, height);
+  const longer = Math.max(width, height);
+  const isPad = longer >= 1024 && shorter >= 810; 
+  const isPadMini = shorter >= 744 && shorter < 810;
 
-  const EDGE = isPad ? (isPortrait ? 160 : 50) : (isPortrait ? 30 : 90);
-  const GAP  = isPortrait ? 12 : 22; 
-  const MAX_PORTRAIT_CARD = isPad ? 820 : 720;
+  const EDGE = isPad 
+    ? (isPortrait ? 160 
+    : (mode == 'edit' ? 80 : 50)) 
+    : isPadMini
+    ? (isPortrait ? 140 
+    : (mode == 'edit' ? 80 : 50)) 
+    : (isPortrait ? 30 : 90);
+  const GAP = isPad ? 22 : isPadMini ? 16 : isPortrait ? 12 : 22;
+  const MAX_PORTRAIT_CARD = isPad ? 820 : isPadMini ? 650 : 720;
   const RATIO_LIBRARY = 1.05;
   
   // ---- Grid math ----
@@ -27,7 +36,7 @@ export default function getStyles(isPortrait, width, height, mode = 'edit') {
       alignItems: 'center',
       justifyContent: 'center',
       flexDirection: isPortrait ? 'column' : 'row',
-      gap: isPortrait ? 5 : 40,
+      gap: isPortrait ? 5 : (mode == 'edit' ? 15 : 40),
       paddingHorizontal: isPortrait ? 0 : 20,
     },
     textRow: {
@@ -41,7 +50,7 @@ export default function getStyles(isPortrait, width, height, mode = 'edit') {
       width: 40,
     },
     textTitle: {
-      fontSize: isPad ? 40 : 20,
+      fontSize: isPad ? 40 : isPadMini ? 28 : 20,
       fontWeight: 'bold',
     },
     iconRow: {
@@ -100,7 +109,7 @@ export default function getStyles(isPortrait, width, height, mode = 'edit') {
       resizeMode: 'cover',
     },
     label: {
-      fontSize: isPad ? 40 : 28,
+      fontSize: isPad ? 40 : isPadMini ? 32 : 28,
       fontWeight: '800',
       color: '#333',
     },
