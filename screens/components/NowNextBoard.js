@@ -87,11 +87,11 @@ const NowNextBoard = ({ nowActivity, nextActivity, onSelectSlot, onSwap, canSwap
   const { width, height } = useWindowDimensions();
   const shorter = Math.min(width, height);
   const longer = Math.max(width, height);
-  const aspect = longer / shorter;
-  const isPad = shorter >= 744 && aspect < 1.6;
+  const isPad = longer >= 1024 && shorter >= 810; 
+  const isPadMini = shorter >= 744 && shorter < 810;
   const isPortrait = height > width;
 
-  const iconScale = isPad ? 1.6 : 1; // 1.6× bigger on iPad (tweak this number)
+  const iconScale = isPad ? 1.6 : isPadMini ? 1.4 : 1; 
   const iconWidth = 50 * iconScale;
   const iconHeight = 40 * iconScale;  
 
