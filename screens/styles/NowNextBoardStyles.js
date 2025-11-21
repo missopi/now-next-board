@@ -115,5 +115,17 @@ export default function getStyles(isPortrait, width, height, mode = 'edit') {
       marginLeft: 8,
       paddingHorizontal: 4,
     },
+    portraitNextHeader: {
+      alignSelf: 'stretch',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingBottom: 5,
+    },
+    centerGroup: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 3,
+    },
   });
 };

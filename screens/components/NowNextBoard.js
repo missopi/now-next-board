@@ -117,20 +117,26 @@ const NowNextBoard = ({ nowActivity, nextActivity, onSelectSlot, onSwap, canSwap
           </TouchableOpacity>
         )}
         <View style={styles.column}>
-          {<View style={styles.iconRow}>
-            <Next width={iconWidth} height={iconHeight} />
-            <Text style={styles.textTitle}>Next </Text>
-            {/* PORTRAIT: swap icon inline with “Next” */}
-            {!readOnly && isPortrait && (
-              <TouchableOpacity
-                onPress={onSwap}
-                disabled={!canSwap}
-                style={[styles.swapButtonInline, !canSwap && { opacity: 0.4 }]}
-              >
-                <Swap width={iconWidth * 1} height={iconHeight * 1.2} />
-              </TouchableOpacity>
-            )}
-          </View>}
+          {isPortrait && (
+            <View style={styles.portraitNextHeader}>
+              <View style={{ flex: 1 }} />
+              <View style={styles.centerGroup}>
+                <Next width={iconWidth} height={iconHeight} />
+                <Text style={styles.textTitle}>Next</Text>
+              </View>
+              <View style={{ flex: 1, alignItems: 'flex-end' }}>
+                {!readOnly && (
+                  <TouchableOpacity
+                    onPress={onSwap}
+                    disabled={!canSwap}
+                    style={[styles.swapButtonInline, !canSwap && { opacity: 0.4 }]}
+                  >
+                    <Swap width={iconWidth * 1} height={iconHeight * 1.2} />
+                  </TouchableOpacity>
+                )}
+              </View>
+            </View>
+          )}
           {renderCard(nextActivity, "Next")}
         </View>
       </View>
