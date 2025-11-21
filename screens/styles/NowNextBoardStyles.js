@@ -4,13 +4,9 @@ export default function getStyles(isPortrait, width, height, mode = 'edit') {
 
   const isPad = Math.min(width, height) >= 768;
 
-  const EDGE = isPad
-    ? (isPortrait ? 160 : 50)
-    : (isPortrait ? 30 : 90);
-  
+  const EDGE = isPad ? (isPortrait ? 160 : 50) : (isPortrait ? 30 : 90);
   const GAP  = isPortrait ? 12 : 22; 
   const MAX_PORTRAIT_CARD = isPad ? 820 : 720;
-
   const RATIO_LIBRARY = 1.05;
   
   // ---- Grid math ----
