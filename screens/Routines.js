@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { View, Text, TouchableOpacity, useWindowDimensions, StyleSheet } from "react-native";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import DraggableFlatList from 'react-native-draggable-flatlist';
 import RoutineCard from "./components/RoutineCard";
 import getStyles from "./styles/RoutineStyles";
@@ -67,6 +68,14 @@ export default function RoutineScreen({ navigation, route }) {
   const { width, height } = useWindowDimensions();
   const isPortrait = height > width;
   const styles = getStyles(isPortrait, width, height, "edit");
+  const insets = useSafeAreaInsets();
+  const screenContainerStyle = StyleSheet.flatten([
+    styles.container,
+    {
+      paddingTop: Math.max(styles.container.paddingTop - insets.top, 0),
+      paddingBottom: Math.max((styles.container.paddingBottom || 0) - insets.bottom, 0),
+    },
+  ]);
 
   // Intercept navigation to show Save modal if unsaved changes exist
   const pendingActionRef = useRef(null);
@@ -210,7 +219,7 @@ export default function RoutineScreen({ navigation, route }) {
     setActivities([...activities, newSlot]);
   };
 
-  const containerStyle = StyleSheet.flatten([
+  const listContainerStyle = StyleSheet.flatten([
     styles.listContainer,
     {gap: 30},
     !isPortrait && {
@@ -240,7 +249,7 @@ export default function RoutineScreen({ navigation, route }) {
   );
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={screenContainerStyle} edges={['top', 'bottom', 'left', 'right']}>
       <View style={{ flex: 1 }}>
         <DraggableFlatList
           data={activities}
@@ -269,7 +278,7 @@ export default function RoutineScreen({ navigation, route }) {
           }}
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={containerStyle}
+          contentContainerStyle={listContainerStyle}
 
           // footer button that follows the last card
           ListFooterComponent={
@@ -311,6 +320,6 @@ export default function RoutineScreen({ navigation, route }) {
         onSave={(title) => saveCurrentRoutineBoard(title)}
         onDiscard={handleDiscard}
       />
-    </View>
+    </SafeAreaView>
   );
 };

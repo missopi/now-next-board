@@ -1,4 +1,5 @@
 import { View, useWindowDimensions } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import NowNextBoard from "../components/NowNextBoard";
 import getStyles from "../styles/NowNextBoardStyles"; 
 
@@ -13,7 +14,7 @@ export default function FinishedNowNext({ route }) {
   const styles = getStyles(isPortrait, width, height, "view");
 
   return (
-    <View style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1 }} edges={['top', 'bottom', 'left', 'right']}>
       <NowNextBoard
         nowActivity={nowActivity}
         nextActivity={nextActivity}
@@ -21,6 +22,6 @@ export default function FinishedNowNext({ route }) {
         readOnly={true}
         styles={styles}
       />
-    </View>
+    </SafeAreaView>
   );
 }

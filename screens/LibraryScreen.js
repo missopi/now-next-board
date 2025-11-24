@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import { Text, View, FlatList, TouchableOpacity, Image, ScrollView, TextInput } from "react-native";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import styles from './styles/LibraryStyles';
 import { activityLibrary } from "../data/ActivityLibrary";
 import { setActivityCallback, triggerActivityCallback } from "./components/CallbackStore";
@@ -15,6 +16,7 @@ const LibraryScreen = ({ navigation, route }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [categorySettings, setCategorySettings] = useState(allCategories);
   const modalRef = useRef(null);
+  const insets = useSafeAreaInsets();
 
   useEffect(() => {
     if (!visibleCategories.some(cat => cat.label === selectedCategory)) {
@@ -74,8 +76,14 @@ const LibraryScreen = ({ navigation, route }) => {
     navigation.goBack();
   };
 
-  return ( // wrapped in safeview to respect notches/status bar
-    <View style={{ flex: 1, backgroundColor: '#fff', paddingTop: 60, }}>
+  const paddingTop = Math.max(60 - insets.top, 0);
+  const paddingBottom = Math.max(0 - insets.bottom, 0);
+
+  return (
+    <SafeAreaView
+      style={{ flex: 1, backgroundColor: '#fff', paddingTop, paddingBottom }}
+      edges={['top', 'bottom', 'left', 'right']}
+    >
       <View style={{ flex: 1, minHeight: '50%' }}>
         {/* search bar */}
         <View style={styles.searchContainer}>
@@ -151,7 +159,7 @@ const LibraryScreen = ({ navigation, route }) => {
           )}
         />
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 

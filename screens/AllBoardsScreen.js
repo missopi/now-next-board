@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback, useMemo } from 'react';
 import { View, Text, FlatList, Image, ScrollView, TouchableOpacity, TextInput, useWindowDimensions, Platform } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { activityLibrary } from "../data/ActivityLibrary";
 import { getBoards } from '../utilities/BoardStore';
 import { useFocusEffect } from '@react-navigation/native';
@@ -91,7 +92,7 @@ export default function HomeScreen({ navigation, route }) {
 
       return () => {
         if (isIosPhone || isIpad) {
-          ScreenOrientation.unlockAsync().catch(() => {});
+          ScreenOrientation.unlockAsync().catch(() => { });
         }
       };
     }, [isIosPhone, isIpad])
@@ -136,15 +137,15 @@ export default function HomeScreen({ navigation, route }) {
         }
       }}
       style={[styles.boardCard,
-        {
-          width: itemWidth,
-          marginRight: GAP,
-          marginBottom: GAP,
-          padding: CARD_INNER,
-        }
+      {
+        width: itemWidth,
+        marginRight: GAP,
+        marginBottom: GAP,
+        padding: CARD_INNER,
+      }
       ]}
     >
-      <View style={{ flexDirection: 'column'}}>
+      <View style={{ flexDirection: 'column' }}>
         <View style={styles.boardHeader}>
           <Text style={styles.boardTitle}>{item.title || 'No Title'}</Text>
         </View>
@@ -164,10 +165,10 @@ export default function HomeScreen({ navigation, route }) {
 
                         if (!resolvedImage) {
                           return (
-                            <View style={[styles.cardImage, { 
-                              backgroundColor: '#f2f2f2', 
-                              alignItems: 'center', 
-                              justifyContent: 'center' 
+                            <View style={[styles.cardImage, {
+                              backgroundColor: '#f2f2f2',
+                              alignItems: 'center',
+                              justifyContent: 'center'
                             }]}>
                               <Text style={{ color: '#aaa', fontSize: 12 }}>No image</Text>
                             </View>
@@ -203,7 +204,7 @@ export default function HomeScreen({ navigation, route }) {
           </ScrollView>
         </View>
       </View>
-      
+
       <View style={styles.buttonColumn}>
         <TouchableOpacity
           onPress={() => {
@@ -224,7 +225,7 @@ export default function HomeScreen({ navigation, route }) {
             }
           }}
         >
-          <Feather name="edit" size={20} color="#999"  />
+          <Feather name="edit" size={20} color="#999" />
         </TouchableOpacity>
       </View>
     </TouchableOpacity>
@@ -234,14 +235,15 @@ export default function HomeScreen({ navigation, route }) {
   const stackGap = isPhonePortrait ? 6 : 10;
 
   return (
-    <>
-      <View style={[styles.container, { paddingHorizontal: EDGE, paddingTop: EDGE - 5, paddingBottom: EDGE }]}>
+    <SafeAreaView style={{ flex: 1, paddingHorizontal: EDGE }} edges={['left', 'right', 'bottom']}>
+      <View>
         <View
           style={[
             styles.searchTabsRow,
             {
               flexDirection: isPhonePortrait ? 'column' : 'row',
               gap: stackGap,
+              marginTop: 10,
               marginBottom: isPhonePortrait ? stackGap : 16,
             }
           ]}
@@ -266,7 +268,7 @@ export default function HomeScreen({ navigation, route }) {
 
           <View style={[
             styles.tabs,
-            { 
+            {
               width: isPhonePortrait ? '100%' : 'auto',
               marginBottom: isPhonePortrait ? stackGap : undefined,
             }
@@ -289,18 +291,20 @@ export default function HomeScreen({ navigation, route }) {
           keyExtractor={(item) => item.id}
           renderItem={renderBoard}
           contentContainerStyle={{ paddingBottom: EDGE }}
-          showsVerticalScrollIndicator={false} 
+          showsVerticalScrollIndicator={false}
           numColumns={numColumns}
           {...(numColumns > 1
             ? { columnWrapperStyle: { marginRight: -GAP } }
             : undefined)}
         />
       </View>
+
       <AddModal
         visible={showAddModal}
         onClose={() => setShowAddModal(false)}
         navigation={navigation}
       />
+
       <DeleteModal
         visible={deleteModalVisible}
         boardToDelete={boardToDelete}
@@ -308,6 +312,6 @@ export default function HomeScreen({ navigation, route }) {
         onDeleted={() => setBoardToDelete(null)}
         setBoards={setBoards}
       />
-    </>
+    </SafeAreaView>
   );
 };

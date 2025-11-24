@@ -1,4 +1,5 @@
-import { View, Text, useWindowDimensions } from "react-native";
+import { View, Text, useWindowDimensions, StyleSheet } from "react-native";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import DraggableFlatList from "react-native-draggable-flatlist";
 import RoutineCard from "../components/RoutineCard";
 import getStyles from "../styles/RoutineStyles";
@@ -14,6 +15,14 @@ export default function RoutineViewScreen({ route }) {
   const { width, height } = useWindowDimensions();
   const isPortrait = height > width;
   const styles = getStyles(isPortrait, width, height, "view");
+  const insets = useSafeAreaInsets();
+  const containerStyle = StyleSheet.flatten([
+    styles.container,
+    {
+      paddingTop: Math.max(styles.container.paddingTop - insets.top, 0),
+      paddingBottom: Math.max((styles.container.paddingBottom || 0) - insets.bottom, 0),
+    },
+  ]);
   const minHeightLandscape = !isPortrait ? height : undefined;
   const gap = 16;
 
@@ -27,7 +36,7 @@ export default function RoutineViewScreen({ route }) {
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={containerStyle} edges={['top', 'bottom', 'left', 'right']}>
       {isPortrait ? (
         <DraggableFlatList
           data={activities}
@@ -121,6 +130,6 @@ export default function RoutineViewScreen({ route }) {
           />
         </>
       )}
-    </View>
+    </SafeAreaView>
   );
 }

@@ -12,7 +12,6 @@ export default StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 9,
     borderColor: '#ccc',
-    marginBottom: 12,
     borderWidth: 1,
   },
   searchIcon: {

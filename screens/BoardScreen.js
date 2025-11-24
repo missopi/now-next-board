@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";  
 import { View, useWindowDimensions } from "react-native";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import NowNextBoard from "./components/NowNextBoard";
 import getStyles from "./styles/NowNextBoardStyles";
 import { setActivityCallback } from "./components/CallbackStore";
@@ -38,6 +39,7 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
   const { width, height } = useWindowDimensions();
   const isPortrait = height > width;
   const styles = getStyles(isPortrait, width, height, "edit");
+  const insets = useSafeAreaInsets();
 
   // Intercept navigation to show Save modal if unsaved changes exist
   const pendingActionRef = useRef(null);
@@ -202,7 +204,10 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
   const canSwap = !!(nowActivity && nextActivity);
 
   return (
-    <View style={{ flex: 1 }}>
+    <SafeAreaView
+      style={{ flex: 1, paddingTop: Math.max(0 - insets.top, 0), paddingBottom: Math.max(0 - insets.bottom, 0) }}
+      edges={['top', 'bottom', 'left', 'right']}
+    >
       <View style={{ flex: 1 }}>
         <NowNextBoard 
           nowActivity={nowActivity}
@@ -240,6 +245,6 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
         onSave={(title) => saveCurrentNowNextBoard(title)}
         onDiscard={handleDiscard} 
       />
-    </View>
+    </SafeAreaView>
   );
 };

@@ -1,11 +1,13 @@
 import { useState, useRef, useLayoutEffect } from 'react';
 import { View, Text, FlatList, Image, Pressable } from 'react-native';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import styles from '../styles/SlideshowStyles';
 
 const Slideshow = ({ route, navigation }) => {
   const { title, activities } = route.params || {};
   const [currentIndex, setCurrentIndex] = useState(0);
   const [controlsVisible, setControlsVisible] = useState(true);
+  const insets = useSafeAreaInsets();
 
   const toggleControls = () => setControlsVisible(!controlsVisible);
 
@@ -19,10 +21,16 @@ const Slideshow = ({ route, navigation }) => {
     }
   }).current;
 
+  const headerPaddingTop = Math.max(styles.header.paddingTop - insets.top, 0);
+  const dotsMarginBottom = Math.max(styles.dotsContainer.marginBottom - insets.bottom, 0);
+
   return (
-    <View style={[styles.container, { backgroundColor: '#E0F2FE'}]}>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: '#E0F2FE' }]}
+      edges={['top', 'bottom', 'left', 'right']}
+    >
       {controlsVisible && (
-        <View style={styles.header}>
+        <View style={[styles.header, { paddingTop: headerPaddingTop }]}>
           <Text style={styles.title}>{title}</Text>
         </View>
       )}
@@ -58,7 +66,7 @@ const Slideshow = ({ route, navigation }) => {
       />
 
       {controlsVisible && (
-        <View style={styles.dotsContainer}>
+        <View style={[styles.dotsContainer, { marginBottom: dotsMarginBottom }]}>
           {activities.map((_, i) => (
             <View
               key={i}
@@ -70,7 +78,7 @@ const Slideshow = ({ route, navigation }) => {
           ))}
         </View>
       )}
-    </View>
+    </SafeAreaView>
   );
 };
 
