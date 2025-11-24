@@ -231,6 +231,7 @@ export default function HomeScreen({ navigation, route }) {
   );
 
   const isPhonePortrait = isPortrait && width < 600;
+  const stackGap = isPhonePortrait ? 6 : 10;
 
   return (
     <>
@@ -240,11 +241,18 @@ export default function HomeScreen({ navigation, route }) {
             styles.searchTabsRow,
             {
               flexDirection: isPhonePortrait ? 'column' : 'row',
-              gap: 10,
+              gap: stackGap,
             }
           ]}
         >
-          <View style={[styles.searchContainer, { flex: isPhonePortrait ? 0 : 1, width: isPhonePortrait ? '100%' : undefined }]}>
+          <View style={[
+            styles.searchContainer,
+            {
+              flex: isPhonePortrait ? 0 : 1,
+              width: isPhonePortrait ? '100%' : undefined,
+              marginBottom: isPhonePortrait ? 0 : undefined,
+            }
+          ]}>
             <Search width={20} height={20} style={styles.searchIcon} />
             <TextInput
               placeholder="Search"
@@ -257,7 +265,10 @@ export default function HomeScreen({ navigation, route }) {
 
           <View style={[
             styles.tabs,
-            { width: isPhonePortrait ? '100%' : 'auto' }
+            { 
+              width: isPhonePortrait ? '100%' : 'auto',
+              marginBottom: isPhonePortrait ? stackGap : 12,
+            }
           ]}>
             {TABS.map((tab) => (
               <TouchableOpacity

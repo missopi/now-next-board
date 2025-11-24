@@ -25,17 +25,17 @@ export default StyleSheet.create({
   },
   tabs: {
     flexDirection: 'row',
-    marginBottom: 16,
     justifyContent: 'space-between',
     gap: 10,
   },
   tab: {
-    paddingVertical: 7,
+    paddingVertical: 9,
     paddingHorizontal: 26,
     backgroundColor: '#fff',
     borderColor: '#ccc',
     borderWidth: 1,
     borderRadius: 15,
+    alignItems: 'center',
   },
   activeTab: {
     backgroundColor: '#cdedffff',
