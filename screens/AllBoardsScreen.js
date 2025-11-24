@@ -242,6 +242,7 @@ export default function HomeScreen({ navigation, route }) {
             {
               flexDirection: isPhonePortrait ? 'column' : 'row',
               gap: stackGap,
+              marginBottom: isPhonePortrait ? stackGap : 16,
             }
           ]}
         >
@@ -267,7 +268,7 @@ export default function HomeScreen({ navigation, route }) {
             styles.tabs,
             { 
               width: isPhonePortrait ? '100%' : 'auto',
-              marginBottom: isPhonePortrait ? stackGap : 12,
+              marginBottom: isPhonePortrait ? stackGap : undefined,
             }
           ]}>
             {TABS.map((tab) => (
