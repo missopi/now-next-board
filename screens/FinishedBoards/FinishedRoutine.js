@@ -14,6 +14,8 @@ export default function RoutineViewScreen({ route }) {
   const { width, height } = useWindowDimensions();
   const isPortrait = height > width;
   const styles = getStyles(isPortrait, width, height, "view");
+  const minHeightLandscape = !isPortrait ? height : undefined;
+  const gap = 16;
 
   function resolveActivityImage(activity) {
     if (!activity) return null;
@@ -27,7 +29,6 @@ export default function RoutineViewScreen({ route }) {
   return (
     <View style={styles.container}>
       {isPortrait ? (
-        // 📱 Portrait: title scrolls with list
         <DraggableFlatList
           data={activities}
           key={isPortrait ? 'portrait' : 'landscape'}
@@ -35,17 +36,17 @@ export default function RoutineViewScreen({ route }) {
           keyExtractor={(item) => item.id}
           scrollEnabled={true}
           showsVerticalScrollIndicator={false}
-          onDragEnd={() => {}}
+          onDragEnd={() => { }}
           renderItem={({ item }) => (
             <RoutineCard
               activity={item}
               readOnly={true}
               styles={styles}
-              resolveActivityImage={resolveActivityImage}  
+              resolveActivityImage={resolveActivityImage}
             />
           )}
           ListHeaderComponent={() => (
-            <View style={{ alignItems: "center", marginVertical: 5 }}>
+            <View style={{ alignItems: "center", marginTop: 10 }}>
               <Text
                 style={{
                   fontSize: 28,
@@ -66,12 +67,12 @@ export default function RoutineViewScreen({ route }) {
               />
             </View>
           )}
-          contentContainerStyle={{ paddingBottom: 80 }}
+          contentContainerStyle={{ gap: 20 }}
         />
       ) : (
         // 💻 Landscape: title fixed, list below
         <>
-          <View style={{ alignItems: "center", marginVertical: 5 }}>
+          <View style={{ alignItems: "center", marginTop: 40 }}>
             <Text
               style={{
                 fontSize: 28,
@@ -99,16 +100,24 @@ export default function RoutineViewScreen({ route }) {
             keyExtractor={(item) => item.id}
             scrollEnabled={true}
             showsVerticalScrollIndicator={false}
-            onDragEnd={() => {}}
+            onDragEnd={() => { }}
+            style={{ flex: 1 }}
             renderItem={({ item }) => (
               <RoutineCard
                 activity={item}
                 readOnly={true}
                 styles={styles}
-                resolveActivityImage={resolveActivityImage} 
+                resolveActivityImage={resolveActivityImage}
               />
             )}
-            contentContainerStyle={{ paddingBottom: 80 }}
+            contentContainerStyle={{
+              gap: 20,
+              paddingBottom: 80,
+              justifyContent: 'center',
+              alignItems: 'center',
+              minHeight: minHeightLandscape,
+              flexGrow: !isPortrait ? 1 : undefined,
+            }}
           />
         </>
       )}

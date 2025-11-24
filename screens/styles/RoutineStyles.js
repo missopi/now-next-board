@@ -1,25 +1,44 @@
 import { StyleSheet } from "react-native";
 
 export default function getStyles(isPortrait, width, height, mode = "edit") {
-  return StyleSheet.create({
+  // Pure responsive layout: everything is proportional to the screen, no clamp/scale.
+  const paddingH = width * 0.06; // 6% gutters
+  const contentWidth = width - paddingH * 2;
+
+  // Keep cards square; bound by available width and a portion of height so they never overflow.
+  const cardBase = isPortrait ? contentWidth * 0.95 : width * 0.44;
+  const cardMaxByHeight = height * (isPortrait ? 0.55 : 0.75);
+  const cardSize = Math.min(cardBase, cardMaxByHeight);
+  const cardWidth = cardSize;
+  const cardHeight = cardSize;
+
+  const mediaWidth = cardWidth * (mode === "edit" ? 0.72 : 0.8);
+  const mediaHeight = mediaWidth * 0.9;
+  const saveButtonWidth = cardWidth * 0.7;
+
+  const textLarge = width * 0.06;  // scales naturally with screen width
+  const textBody = width * 0.048;
+
+  const styles = StyleSheet.create({
     container: {
       flex: 1,
-      paddingTop: isPortrait ? 60 : mode === "view" ? 10 : 25,
-      paddingHorizontal: 20,
+      paddingTop: isPortrait ? height * 0.07 : height * 0.02,
+      paddingHorizontal: paddingH,
+      justifyContent: isPortrait ? 'flex-start' : 'center',
+      alignItems: isPortrait ? 'stretch' : 'center',
     },
 
     card: {
-      paddingHorizontal: 16,
+      paddingHorizontal: cardWidth * 0.04,
       borderWidth: 1,
       borderColor: '#aaa',
-      borderRadius: 12,
+      borderRadius: 14,
       backgroundColor: '#fff',
       position: 'relative',
-      marginLeft: isPortrait && mode === "edit" ? 0 : 20,
-      width: isPortrait ? width * 0.8 : mode === "view" ? width * 0.35 : width * 0.29,
-      height: isPortrait
-        ? (mode === "edit" ? height * 0.28 : height * 0.34)
-        : (mode === "view" ? height * 0.73 : height * 0.68),
+      alignSelf: 'center', // center within the list container
+      maxWidth: cardWidth,
+      width: cardWidth,
+      height: cardHeight,
     },
 
     // clip whole card only when full-bleed SVG (read-only)
@@ -34,35 +53,34 @@ export default function getStyles(isPortrait, width, height, mode = "edit") {
       shadowRadius: 5,
       elevation: 4,
       borderRadius: 20,
-      marginVertical: 10,
     },
 
     deleteButton: {
       position: 'absolute',
-      top: 7,
-      right: 7,
-      width: 24,
-      height: 24,
-      borderRadius: 15,
+      top: height * 0.007,
+      right: height * 0.007,
+      width: width * 0.065,
+      height: width * 0.065,
+      borderRadius: width * 0.04,
       justifyContent: 'center',
       alignItems: 'center',
       zIndex: 2,
     },
     deleteText: {
       color: '#ccc',
-      fontSize: 18,
+      fontSize: width * 0.048,
       fontWeight: 'bold',
-      lineHeight: 18,
+      lineHeight: width * 0.048,
     },
 
     cardContent: {
       alignItems: 'center',
-      justifyContent: 'center',           // center vertically
-      paddingHorizontal: 12,
+      justifyContent: 'center',
+      paddingHorizontal: cardWidth * 0.035,
       paddingTop: isPortrait
-        ? (mode === "edit" ? 23 : 16)
-        : (mode === "view" ? 16 : 35),
-      paddingBottom: 8,
+        ? (mode === "edit" ? height * 0.025 : height * 0.018)
+        : (mode === "view" ? height * 0.015 : height * 0.03),
+      paddingBottom: height * 0.015,
       width: '100%',
       height: '100%',
     },
@@ -74,57 +92,56 @@ export default function getStyles(isPortrait, width, height, mode = "edit") {
       paddingBottom: 0,
     },
 
-    // PHOTO size (kept as-is)
     image: {
-      width: mode === "edit" ? 187.5 : 250,
-      height: mode === "edit" ? 168.75 : 225,
+      width: mediaWidth,
+      height: mediaHeight,
       borderRadius: 10,
-      marginBottom: 6,
+      marginBottom: height * 0.01,
       borderWidth: 1,
       borderColor: '#333',
     },
 
     placeholder: {
-      width: mode === "edit" ? 187.5 : 250,
-      height: mode === "edit" ? 168.75 : 225,
+      width: mediaWidth,
+      height: mediaHeight,
       borderRadius: 10,
       backgroundColor: '#fff',
       justifyContent: 'center',
       alignItems: 'center',
-      marginBottom: 8,
+      marginBottom: height * 0.012,
     },
     placeholderText: {
       color: '#aaa',
-      fontSize: 18,
+      fontSize: textBody,
     },
 
     title: {
-      fontSize: 24,
+      fontSize: textLarge,
       fontWeight: 'bold',
       textAlign: 'center',
     },
 
     dragHandle: {
       position: 'absolute',
-      top: 3,
-      left: 7,
+      top: height * 0.004,
+      left: width * 0.018,
       zIndex: 2,
       borderRadius: 16,
-      paddingHorizontal: 6,
-      paddingTop: 0.5,
-      paddingBottom: 2,
+      paddingHorizontal: width * 0.016,
+      paddingTop: height * 0.002,
+      paddingBottom: height * 0.0035,
     },
     dragText: {
-      fontSize: 25,
+      fontSize: width * 0.064,
       color: '#ccc',
     },
 
     saveButton: {
-      width: isPortrait ? '55%' : 220,  // tweak as you like
-      paddingVertical: 7,
+      width: saveButtonWidth,
+      paddingVertical: height * 0.012,
       borderRadius: 12,
-      marginTop: 6,
-      marginBottom: 8,
+      marginTop: height * 0.008,
+      marginBottom: height * 0.012,
       alignItems: 'center',
       backgroundColor: '#38b6ff',
       borderWidth: 2,
@@ -136,19 +153,34 @@ export default function getStyles(isPortrait, width, height, mode = "edit") {
       elevation: 3,
     },
 
-    saveText: { color: '#fff', fontSize: 16, fontWeight: 'bold', textAlign: 'center' },
+    saveText: { color: '#fff', fontSize: width * 0.042, fontWeight: 'bold', textAlign: 'center' },
 
-    listContainer: { justifyContent: 'center', alignItems: 'center' },
+    listContainer: {
+      justifyContent: 'flex-start',
+      alignItems: isPortrait ? 'center' : 'center',
+      paddingBottom: height * 0.035,
+    },
 
     // SVG wrappers
-    // Edit mode: make SVG exactly the same size as photos so rows align
     svgInsetWrapper: {
-      width: mode === "edit" ? 205 : 250,   // match .image sizes
-      height: mode === "edit" ? 190 : 225,
+      width: mediaWidth,
+      height: mediaHeight,
       borderRadius: 10,
       overflow: 'hidden',
       alignSelf: 'center',
       transform: mode === "edit" ? [{ scale: 1.05 }] : undefined,
     },
   });
+
+  // Expose a few computed sizes for components that need to line up with the cards.
+  return {
+    ...styles,
+    metrics: {
+      cardWidth,
+      cardHeight,
+      mediaWidth,
+      mediaHeight,
+      saveButtonWidth,
+    },
+  };
 }

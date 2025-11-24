@@ -1,7 +1,7 @@
 // Main routine screen 
 
 import { useEffect, useRef, useState } from "react";
-import { View, Text, TouchableOpacity, useWindowDimensions } from "react-native";
+import { View, Text, TouchableOpacity, useWindowDimensions, StyleSheet } from "react-native";
 import DraggableFlatList from 'react-native-draggable-flatlist';
 import RoutineCard from "./components/RoutineCard";
 import getStyles from "./styles/RoutineStyles";
@@ -40,7 +40,7 @@ export default function RoutineScreen({ navigation, route }) {
   // saving boards
   const [currentBoardId, setCurrentBoardId] = useState(null);
 
-  useEffect(() => {}, [mode, activities]);
+  useEffect(() => { }, [mode, activities]);
 
   // loading saved boards
   useEffect(() => {
@@ -114,7 +114,7 @@ export default function RoutineScreen({ navigation, route }) {
     setNewCardTitle('');
     setIsPickingImage(false);
     setModalStep('choose');
-  }; 
+  };
 
   const deleteActivity = (index) => {
     const updated = [...activities];
@@ -188,13 +188,13 @@ export default function RoutineScreen({ navigation, route }) {
     setNewBoardTitle(titleToUse);
     setIsSaveModalVisible(false);
     setHasChanges(false);
-    if (pendingActionRef.current) completeNavigation(); 
+    if (pendingActionRef.current) completeNavigation();
   };
 
   const handleDiscard = () => {
     setIsSaveModalVisible(false);
-    setHasChanges(false); 
-    completeNavigation();  
+    setHasChanges(false);
+    completeNavigation();
   };
 
   const loadRoutineBoard = (board) => {
@@ -210,10 +210,17 @@ export default function RoutineScreen({ navigation, route }) {
     setActivities([...activities, newSlot]);
   };
 
-  const containerStyle = {
-    ...styles.listContainer,
-    ...( !isPortrait && { flexDirection: 'row', alignItems: 'center' } )
-  };
+  const containerStyle = StyleSheet.flatten([
+    styles.listContainer,
+    {gap: 30},
+    !isPortrait && {
+      flexDirection: 'row',
+      alignItems: 'center',      // center vertically in landscape
+      justifyContent: 'center',  // center horizontally in landscape
+      minHeight: height,
+    },
+    isPortrait && { alignItems: 'center' },
+  ]);
 
   const AddCardFooter = ({ onPress, isPortrait, styles, cardWidth }) => (
     <View
@@ -222,8 +229,8 @@ export default function RoutineScreen({ navigation, route }) {
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: 'transparent',
-        paddingVertical: isPortrait ? 14 : 0,
-        marginLeft: isPortrait ? 0 : 10,   
+        paddingVertical: isPortrait ? 14 : 8,
+        marginLeft: isPortrait ? 0 : 10,
       }}
     >
       <TouchableOpacity onPress={onPress} style={styles.saveButton}>
@@ -239,7 +246,7 @@ export default function RoutineScreen({ navigation, route }) {
           data={activities}
           extraData={activities}
           key={isPortrait ? 'portrait' : 'landscape'}
-          horizontal={!isPortrait}  
+          horizontal={!isPortrait}
           onDragEnd={({ data }) => setActivities(data)}
           keyExtractor={(item) => item.id}
           renderItem={(params) => {
@@ -256,7 +263,7 @@ export default function RoutineScreen({ navigation, route }) {
                 drag={drag}
                 readOnly={false}
                 styles={styles}
-                resolveActivityImage={resolveActivityImage} 
+                resolveActivityImage={resolveActivityImage}
               />
             );
           }}
@@ -270,10 +277,10 @@ export default function RoutineScreen({ navigation, route }) {
               onPress={addEmptySlot}
               isPortrait={isPortrait}
               styles={styles}
-              cardWidth={isPortrait ? undefined : width * 0.27}
+              cardWidth={styles.metrics?.cardWidth || width * 0.4}
             />
           }
-          ListFooterComponentStyle={ isPortrait ? { alignSelf: 'stretch' } : null }
+          ListFooterComponentStyle={isPortrait ? { alignSelf: 'stretch' } : null}
         />
       </View>
 
@@ -302,7 +309,7 @@ export default function RoutineScreen({ navigation, route }) {
         initialTitle={newBoardTitle}
         onClose={() => { setIsSaveModalVisible(false); pendingActionRef.current = null; }}
         onSave={(title) => saveCurrentRoutineBoard(title)}
-        onDiscard={handleDiscard} 
+        onDiscard={handleDiscard}
       />
     </View>
   );
