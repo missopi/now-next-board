@@ -1,7 +1,8 @@
-import { View, useWindowDimensions } from "react-native";
+import { useWindowDimensions } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import NowNextBoard from "../components/NowNextBoard";
 import getStyles from "../styles/NowNextBoardStyles"; 
+import useHandheldPortraitLock from "../../utilities/useHandheldPortraitLock";
 
 export default function FinishedNowNext({ route }) {
   const { board } = route.params || {};
@@ -12,6 +13,8 @@ export default function FinishedNowNext({ route }) {
   const { width, height } = useWindowDimensions();
   const isPortrait = height > width;
   const styles = getStyles(isPortrait, width, height, "view");
+
+  useHandheldPortraitLock();
 
   return (
     <SafeAreaView style={{ flex: 1 }} edges={['top', 'bottom', 'left', 'right']}>

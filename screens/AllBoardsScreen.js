@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback, useMemo } from 'react';
-import { View, Text, FlatList, Image, ScrollView, TouchableOpacity, TextInput, useWindowDimensions, Platform } from 'react-native';
+import { View, Text, FlatList, Image, ScrollView, TouchableOpacity, TextInput, useWindowDimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { activityLibrary } from "../data/ActivityLibrary";
 import { getBoards } from '../utilities/BoardStore';
@@ -9,7 +9,7 @@ import AddModal from './modals/AddModal';
 import styles from './styles/AllBoardsStyles';
 import DeleteModal from './modals/DeleteModal';
 import Search from "../assets/icons/search.svg";
-import * as ScreenOrientation from 'expo-screen-orientation';
+import useHandheldPortraitLock from '../utilities/useHandheldPortraitLock';
 
 export default function HomeScreen({ navigation, route }) {
   const [boards, setBoards] = useState([]);
@@ -21,8 +21,6 @@ export default function HomeScreen({ navigation, route }) {
 
   const { width, height } = useWindowDimensions();
   const isPortrait = height >= width;
-  const isIosPhone = Platform.OS === 'ios' && !Platform.isPad;
-  const isIpad = Platform.OS === 'ios' && Platform.isPad;
 
   // ---------- Layout constants ----------
   // Single source of truth for spacing so everything stays consistent
@@ -74,29 +72,7 @@ export default function HomeScreen({ navigation, route }) {
     }, [])
   );
 
-  useFocusEffect(
-    useCallback(() => {
-      const lockOrientation = async () => {
-        try {
-          if (isIosPhone) {
-            await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
-          } else if (isIpad) {
-            await ScreenOrientation.unlockAsync();
-          }
-        } catch (error) {
-          console.warn('Could not set orientation on Home screen', error);
-        }
-      };
-
-      lockOrientation();
-
-      return () => {
-        if (isIosPhone || isIpad) {
-          ScreenOrientation.unlockAsync().catch(() => { });
-        }
-      };
-    }, [isIosPhone, isIpad])
-  );
+  useHandheldPortraitLock();
 
   useEffect(() => {
     console.log('showAddModal param changed:', route.params?.showAddModal);

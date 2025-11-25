@@ -4,6 +4,7 @@ import DraggableFlatList from "react-native-draggable-flatlist";
 import RoutineCard from "../components/RoutineCard";
 import getStyles from "../styles/RoutineStyles";
 import { activityLibrary } from "../../data/ActivityLibrary";
+import useHandheldPortraitLock from "../../utilities/useHandheldPortraitLock";
 
 export default function RoutineViewScreen({ route }) {
   const { board } = route.params || {};
@@ -15,6 +16,8 @@ export default function RoutineViewScreen({ route }) {
   const { width, height } = useWindowDimensions();
   const isPortrait = height > width;
   const styles = getStyles(width, height, "view");
+
+  useHandheldPortraitLock();
 
   function resolveActivityImage(activity) {
     if (!activity) return null;

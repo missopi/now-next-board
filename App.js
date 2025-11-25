@@ -1,11 +1,13 @@
 // Stack navigator setup for main app screens
 // Case sensitive filenames
 
+import { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { TouchableOpacity, View } from "react-native";
+import { Platform, TouchableOpacity, View } from "react-native";
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import * as ScreenOrientation from 'expo-screen-orientation';
 
 import AllBoardsScreen from "./screens/AllBoardsScreen";
 import Routines from "./screens/Routines";
@@ -21,6 +23,20 @@ import Word from "./assets/andNext-word.svg";
 const Stack = createStackNavigator();
 
 export default function App() {
+  useEffect(() => {
+    const lockPhonePortrait = async () => {
+      const isTablet = Platform.OS === 'ios' && Platform.isPad;
+      if (isTablet) return; // keep iPad flexible
+      try {
+        await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
+      } catch (error) {
+        console.warn('Could not globally lock portrait on handheld', error);
+      }
+    };
+
+    lockPhonePortrait();
+  }, []);
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>

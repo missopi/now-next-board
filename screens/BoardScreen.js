@@ -1,7 +1,7 @@
 // Main board screen containing the Now/Next/Then board
 
 import { useEffect, useRef, useState } from "react";  
-import { View, useWindowDimensions } from "react-native";
+import { Platform, View, useWindowDimensions } from "react-native";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import NowNextBoard from "./components/NowNextBoard";
 import getStyles from "./styles/NowNextBoardStyles";
@@ -12,6 +12,7 @@ import uuid from "react-native-uuid";
 import { saveBoard, updateBoard } from "../utilities/BoardStore";
 import SaveModal from "./modals/SaveModal";
 import { activityLibrary } from "../data/ActivityLibrary";
+import useHandheldPortraitLock from "../utilities/useHandheldPortraitLock";
 
 export default function NowNextBoardScreen({ navigation, route }) {  // useState used to track selected activities
   const { mode, board } = route.params || {};
@@ -41,21 +42,25 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
   const styles = getStyles(isPortrait, width, height, "edit");
   const insets = useSafeAreaInsets();
 
+  useHandheldPortraitLock();
+
   // Intercept navigation to show Save modal if unsaved changes exist
   const pendingActionRef = useRef(null);
 
   useEffect(() => {
     const unsub = navigation.addListener('beforeRemove', (e) => {
-      if (!hasChanges) return;      // allow normal navigation if nothing to save
-      e.preventDefault();           // block leaving
-      pendingActionRef.current = e.data.action;
-      setIsSaveModalVisible(true);  // show Save modal
+      if (!hasChanges) return;
+
+      const action = e.data.action;
+      e.preventDefault();
+      pendingActionRef.current = action;
+      setIsSaveModalVisible(true);
     });
 
     return unsub; // cleanup when unmounting
   }, [navigation, hasChanges]);
 
-  const completeNavigation = () => {
+  const completeNavigation = async () => {
     const action = pendingActionRef.current;
     pendingActionRef.current = null;
     if (action) navigation.dispatch(action);

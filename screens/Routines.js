@@ -1,7 +1,7 @@
 // Main routine screen 
 
 import { useEffect, useRef, useState } from "react";
-import { View, Text, TouchableOpacity, useWindowDimensions } from "react-native";
+import { Platform, View, Text, TouchableOpacity, useWindowDimensions } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import DraggableFlatList from 'react-native-draggable-flatlist';
 import RoutineCard from "./components/RoutineCard";
@@ -13,6 +13,7 @@ import uuid from "react-native-uuid";
 import { saveBoard, updateBoard } from "../utilities/BoardStore";
 import SaveModal from "./modals/SaveModal";
 import { activityLibrary } from "../data/ActivityLibrary";
+import useHandheldPortraitLock from "../utilities/useHandheldPortraitLock";
 
 export default function RoutineScreen({ navigation, route }) {
   const { mode, board } = route.params || {};
@@ -69,21 +70,25 @@ export default function RoutineScreen({ navigation, route }) {
   const isPortrait = height > width;
   const styles = getStyles(width, height, "edit");
 
+  useHandheldPortraitLock();
+
   // Intercept navigation to show Save modal if unsaved changes exist
   const pendingActionRef = useRef(null);
 
   useEffect(() => {
     const unsub = navigation.addListener('beforeRemove', (e) => {
-      if (!hasChanges) return;      // allow normal navigation if nothing to save
-      e.preventDefault();           // block leaving
-      pendingActionRef.current = e.data.action;
-      setIsSaveModalVisible(true);  // show Save modal
+      if (!hasChanges) return;
+
+      const action = e.data.action;
+      e.preventDefault();
+      pendingActionRef.current = action;
+      setIsSaveModalVisible(true);
     });
 
     return unsub; // cleanup when unmounting
   }, [navigation, hasChanges]);
 
-  const completeNavigation = () => {
+  const completeNavigation = async () => {
     const action = pendingActionRef.current;
     pendingActionRef.current = null;
     if (action) navigation.dispatch(action);

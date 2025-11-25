@@ -9,6 +9,7 @@ import { setActivityCallback, triggerActivityCallback } from "./components/Callb
 import Search from "../assets/icons/search.svg";
 import { allCategories } from '../data/Categories';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import useHandheldPortraitLock from "../utilities/useHandheldPortraitLock";
 
 const LibraryScreen = ({ navigation, route }) => {  
   const slot = route?.params?.slot;
@@ -60,6 +61,8 @@ const LibraryScreen = ({ navigation, route }) => {
 
     });
   }, [slot]);
+
+  useHandheldPortraitLock();
 
   const handlePress = (activity) => {
     if (!slot) return;
