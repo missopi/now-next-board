@@ -1,88 +1,42 @@
 import { StyleSheet } from "react-native";
 
-export default function getStyles(isPortrait, width, height, mode = "edit") {
-  // Pure responsive layout: everything is proportional to the screen, no clamp/scale.
-  const paddingH = width * 0.06; // 6% gutters
-  const contentWidth = width - paddingH * 2;
+export default function getStyles(width, height, mode = "edit") {
+  const textLarge = Math.min(width, height) * 0.06;  // scales naturally with screen width
+  const textBody = Math.min(width, height) * 0.035;
 
-  // Keep cards square; bound by available width and a portion of height so they never overflow.
-  const cardBase = isPortrait ? contentWidth * 0.95 : width * 0.44;
-  const cardMaxByHeight = height * (isPortrait ? 0.55 : 0.75);
-  const cardSize = Math.min(cardBase, cardMaxByHeight);
-  const cardWidth = cardSize;
-  const cardHeight = cardSize;
+  const cardWidth = Math.min(Math.min(width, height) * 0.8, 500);
 
-  const mediaWidth = cardWidth * (mode === "edit" ? 0.72 : 0.8);
-  const mediaHeight = mediaWidth * 0.9;
-  const saveButtonWidth = cardWidth * 0.7;
-
-  const textLarge = width * 0.06;  // scales naturally with screen width
-  const textBody = width * 0.048;
-
-  const styles = StyleSheet.create({
+  return StyleSheet.create({
+    safeContainer: {
+      flex: 1,
+      padding: 20,
+    },
     container: {
       flex: 1,
-      paddingTop: isPortrait ? height * 0.07 : height * 0.02,
-      paddingHorizontal: paddingH,
-      justifyContent: isPortrait ? 'flex-start' : 'center',
-      alignItems: isPortrait ? 'stretch' : 'center',
+      justifyContent: 'center',
+      alignItems: 'center',
     },
 
     card: {
-      paddingHorizontal: cardWidth * 0.04,
+      flex: 1,
+      padding: 30,
+      paddingTop: mode === "edit" ? 10 : 30,
       borderWidth: 1,
       borderColor: '#aaa',
-      borderRadius: 14,
+      borderRadius: 20,
       backgroundColor: '#fff',
-      position: 'relative',
       alignSelf: 'center', // center within the list container
-      maxWidth: cardWidth,
+      aspectRatio: 1.05,
       width: cardWidth,
-      height: cardHeight,
-    },
-
-    // clip whole card only when full-bleed SVG (read-only)
-    cardClip: {
-      overflow: 'hidden',
-    },
-
-    cardShadowWrapper: {
       shadowColor: '#000',
       shadowOffset: { width: 0, height: 3 },
       shadowOpacity: 0.4,
       shadowRadius: 5,
       elevation: 4,
-      borderRadius: 20,
-    },
-
-    deleteButton: {
-      position: 'absolute',
-      top: height * 0.007,
-      right: height * 0.007,
-      width: width * 0.065,
-      height: width * 0.065,
-      borderRadius: width * 0.04,
-      justifyContent: 'center',
-      alignItems: 'center',
-      zIndex: 2,
-    },
-    deleteText: {
-      color: '#ccc',
-      fontSize: width * 0.048,
-      fontWeight: 'bold',
-      lineHeight: width * 0.048,
     },
 
     cardContent: {
-      alignItems: 'center',
-      justifyContent: 'center',
-      paddingHorizontal: cardWidth * 0.035,
-      paddingTop: isPortrait
-        ? (mode === "edit" ? height * 0.025 : height * 0.018)
-        : (mode === "view" ? height * 0.015 : height * 0.03),
-      paddingBottom: height * 0.015,
-      width: '100%',
-      height: '100%',
+      flex: 1,
     },
 
     // remove padding for full-bleed svg (read-only)
@@ -93,17 +47,16 @@ export default function getStyles(isPortrait, width, height, mode = "edit") {
     },
 
     image: {
-      width: mediaWidth,
-      height: mediaHeight,
-      borderRadius: 10,
-      marginBottom: height * 0.01,
-      borderWidth: 1,
+      flex: 1,
+      borderRadius: 20,
       borderColor: '#333',
+      borderWidth: 1,
+      marginBottom: 8,
     },
 
     placeholder: {
-      width: mediaWidth,
-      height: mediaHeight,
+      flex: 1,
+      width: '100%',
       borderRadius: 10,
       backgroundColor: '#fff',
       justifyContent: 'center',
@@ -121,66 +74,54 @@ export default function getStyles(isPortrait, width, height, mode = "edit") {
       textAlign: 'center',
     },
 
-    dragHandle: {
-      position: 'absolute',
-      top: height * 0.004,
-      left: width * 0.018,
-      zIndex: 2,
-      borderRadius: 16,
-      paddingHorizontal: width * 0.016,
-      paddingTop: height * 0.002,
-      paddingBottom: height * 0.0035,
-    },
-    dragText: {
-      fontSize: width * 0.064,
-      color: '#ccc',
+    titleUnderline: {
+      height: 2,
+      width: "60%",
+      alignSelf: "center",
+      backgroundColor: "#ccc",
+      marginTop: 8,
     },
 
-    saveButton: {
-      width: saveButtonWidth,
-      paddingVertical: height * 0.012,
-      borderRadius: 12,
-      marginTop: height * 0.008,
-      marginBottom: height * 0.012,
+    cardFooter: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: 'transparent',
+    },
+
+    addButton: {
+      width: cardWidth,
+      paddingVertical: Math.min(width, height) * 0.015,
+      borderRadius: 15,
       alignItems: 'center',
       backgroundColor: '#38b6ff',
-      borderWidth: 2,
-      borderColor: '#38b6ff',
       shadowColor: '#000',
       shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.15,
+      shadowOpacity: 0.4,
       shadowRadius: 3,
       elevation: 3,
     },
 
-    saveText: { color: '#fff', fontSize: width * 0.042, fontWeight: 'bold', textAlign: 'center' },
+    addText: {
+      color: '#fff',
+      fontSize: textBody,
+      fontWeight: 'bold',
+      textAlign: 'center'
+    },
 
     listContainer: {
       justifyContent: 'flex-start',
-      alignItems: isPortrait ? 'center' : 'center',
+      alignItems: 'center',
       paddingBottom: height * 0.035,
     },
-
-    // SVG wrappers
-    svgInsetWrapper: {
-      width: mediaWidth,
-      height: mediaHeight,
-      borderRadius: 10,
-      overflow: 'hidden',
-      alignSelf: 'center',
-      transform: mode === "edit" ? [{ scale: 1.05 }] : undefined,
+    dragText: {
+      fontSize: Math.min(width, height) * 0.064,
+      color: '#ccc',
+    },
+    deleteText: {
+      color: '#ccc',
+      fontSize: Math.min(width, height) * 0.048,
+      fontWeight: 'bold',
+      lineHeight: Math.min(width, height) * 0.048,
     },
   });
-
-  // Expose a few computed sizes for components that need to line up with the cards.
-  return {
-    ...styles,
-    metrics: {
-      cardWidth,
-      cardHeight,
-      mediaWidth,
-      mediaHeight,
-      saveButtonWidth,
-    },
-  };
 }

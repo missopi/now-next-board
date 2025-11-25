@@ -1,8 +1,8 @@
 // Main routine screen 
 
 import { useEffect, useRef, useState } from "react";
-import { View, Text, TouchableOpacity, useWindowDimensions, StyleSheet } from "react-native";
-import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
+import { View, Text, TouchableOpacity, useWindowDimensions } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import DraggableFlatList from 'react-native-draggable-flatlist';
 import RoutineCard from "./components/RoutineCard";
 import getStyles from "./styles/RoutineStyles";
@@ -67,15 +67,7 @@ export default function RoutineScreen({ navigation, route }) {
   // screen orientation
   const { width, height } = useWindowDimensions();
   const isPortrait = height > width;
-  const styles = getStyles(isPortrait, width, height, "edit");
-  const insets = useSafeAreaInsets();
-  const screenContainerStyle = StyleSheet.flatten([
-    styles.container,
-    {
-      paddingTop: Math.max(styles.container.paddingTop - insets.top, 0),
-      paddingBottom: Math.max((styles.container.paddingBottom || 0) - insets.bottom, 0),
-    },
-  ]);
+  const styles = getStyles(width, height, "edit");
 
   // Intercept navigation to show Save modal if unsaved changes exist
   const pendingActionRef = useRef(null);
@@ -219,42 +211,21 @@ export default function RoutineScreen({ navigation, route }) {
     setActivities([...activities, newSlot]);
   };
 
-  const listContainerStyle = StyleSheet.flatten([
-    styles.listContainer,
-    {gap: 30},
-    !isPortrait && {
-      flexDirection: 'row',
-      alignItems: 'center',      // center vertically in landscape
-      justifyContent: 'center',  // center horizontally in landscape
-      minHeight: height,
-    },
-    isPortrait && { alignItems: 'center' },
-  ]);
-
-  const AddCardFooter = ({ onPress, isPortrait, styles, cardWidth }) => (
-    <View
-      style={{
-        width: isPortrait ? '100%' : cardWidth, // match card width in landscape
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: 'transparent',
-        paddingVertical: isPortrait ? 14 : 8,
-        marginLeft: isPortrait ? 0 : 10,
-      }}
-    >
-      <TouchableOpacity onPress={onPress} style={styles.saveButton}>
-        <Text style={styles.saveText}>Add Card</Text>
+  const AddCardFooter = ({ onPress, styles }) => (
+    <View style={styles.cardFooter}>
+      <TouchableOpacity onPress={onPress} style={styles.addButton}>
+        <Text style={styles.addText}>Add Card</Text>
       </TouchableOpacity>
     </View>
   );
 
   return (
-    <SafeAreaView style={screenContainerStyle} edges={['top', 'bottom', 'left', 'right']}>
-      <View style={{ flex: 1 }}>
+    <SafeAreaView style={{ padding: 20 }} edges={['top', 'bottom', 'left', 'right']}>
+      <View>
         <DraggableFlatList
           data={activities}
           extraData={activities}
-          key={isPortrait ? 'portrait' : 'landscape'}
+          style={{ height: '100%', width: '100%' }}
           horizontal={!isPortrait}
           onDragEnd={({ data }) => setActivities(data)}
           keyExtractor={(item) => item.id}
@@ -278,7 +249,7 @@ export default function RoutineScreen({ navigation, route }) {
           }}
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={listContainerStyle}
+          contentContainerStyle={{ gap: 20 }}
 
           // footer button that follows the last card
           ListFooterComponent={
@@ -286,10 +257,10 @@ export default function RoutineScreen({ navigation, route }) {
               onPress={addEmptySlot}
               isPortrait={isPortrait}
               styles={styles}
-              cardWidth={styles.metrics?.cardWidth || width * 0.4}
+              cardWidth={styles.cardWidth || width * 0.4}
             />
           }
-          ListFooterComponentStyle={isPortrait ? { alignSelf: 'stretch' } : null}
+          ListFooterComponentStyle={{ justifyContent: 'center' }}
         />
       </View>
 
