@@ -9,14 +9,9 @@ export default function getStyles(width, height, mode = "edit") {
   return StyleSheet.create({
     safeContainer: {
       flex: 1,
-      padding: 20,
-    },
-    container: {
-      flex: 1,
+      padding: 40,
       justifyContent: 'center',
-      alignItems: 'center',
     },
-
     card: {
       flex: 1,
       padding: 30,
@@ -34,18 +29,9 @@ export default function getStyles(width, height, mode = "edit") {
       shadowRadius: 5,
       elevation: 4,
     },
-
     cardContent: {
       flex: 1,
     },
-
-    // remove padding for full-bleed svg (read-only)
-    cardContentFlush: {
-      paddingHorizontal: 0,
-      paddingTop: 0,
-      paddingBottom: 0,
-    },
-
     image: {
       flex: 1,
       borderRadius: 20,
@@ -53,7 +39,6 @@ export default function getStyles(width, height, mode = "edit") {
       borderWidth: 1,
       marginBottom: 8,
     },
-
     placeholder: {
       flex: 1,
       width: '100%',
@@ -67,13 +52,11 @@ export default function getStyles(width, height, mode = "edit") {
       color: '#aaa',
       fontSize: textBody,
     },
-
     title: {
       fontSize: textLarge,
       fontWeight: 'bold',
       textAlign: 'center',
     },
-
     titleUnderline: {
       height: 2,
       width: "60%",
@@ -81,13 +64,11 @@ export default function getStyles(width, height, mode = "edit") {
       backgroundColor: "#ccc",
       marginTop: 8,
     },
-
     cardFooter: {
       alignItems: 'center',
       justifyContent: 'center',
       backgroundColor: 'transparent',
     },
-
     addButton: {
       width: cardWidth,
       paddingVertical: Math.min(width, height) * 0.015,
@@ -100,18 +81,11 @@ export default function getStyles(width, height, mode = "edit") {
       shadowRadius: 3,
       elevation: 3,
     },
-
     addText: {
       color: '#fff',
       fontSize: textBody,
       fontWeight: 'bold',
       textAlign: 'center'
-    },
-
-    listContainer: {
-      justifyContent: 'flex-start',
-      alignItems: 'center',
-      paddingBottom: height * 0.035,
     },
     dragText: {
       fontSize: Math.min(width, height) * 0.064,
