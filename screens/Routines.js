@@ -1,7 +1,7 @@
 // Main routine screen 
 
 import { useEffect, useRef, useState } from "react";
-import { Platform, View, Text, TouchableOpacity, useWindowDimensions } from "react-native";
+import { View, Text, TouchableOpacity, useWindowDimensions } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import DraggableFlatList from 'react-native-draggable-flatlist';
 import RoutineCard from "./components/RoutineCard";
