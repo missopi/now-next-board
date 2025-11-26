@@ -50,7 +50,7 @@ export default function RoutineViewScreen({ route }) {
             resolveActivityImage={resolveActivityImage}
           />
         )}
-        contentContainerStyle={{ gap: 20 }}
+        contentContainerStyle={{ gap: 20, paddingBottom: isPortrait ? 80 : 0 }}
       />
     </SafeAreaView>
   );
