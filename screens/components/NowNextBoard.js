@@ -19,12 +19,10 @@ const NowNextBoard = ({ nowActivity, nextActivity, onSelectSlot, onSwap, canSwap
 
   const { width, height } = useWindowDimensions();
   const shorter = Math.min(width, height);
-  const longer = Math.max(width, height);
-  const isPad = longer >= 1024 && shorter >= 810; 
-  const isPadMini = shorter >= 744 && shorter < 810;
   const isPortrait = height > width;
 
-  const iconScale = isPad ? 1.6 : isPadMini ? 1.4 : 1; 
+  // Scale icons smoothly based on the current viewport size 
+  const iconScale = Math.min(Math.max(shorter / 430, 1), 1.6);
   const iconWidth = 50 * iconScale;
   const iconHeight = 40 * iconScale;  
 
