@@ -1,4 +1,4 @@
-import { ZoomIn } from "react-native-reanimated";
+// Styling for universal activiity card used throughout app
 
 export default function getCardBaseStyles(width, height) {
   const shorter = Math.min(width, height);
