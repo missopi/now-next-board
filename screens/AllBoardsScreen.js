@@ -215,7 +215,6 @@ export default function HomeScreen({ navigation, route }) {
       <View>
         <View
           style={[
-            styles.searchTabsRow,
             {
               flexDirection: isPhonePortrait ? 'column' : 'row',
               gap: stackGap,

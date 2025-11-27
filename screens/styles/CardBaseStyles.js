@@ -25,9 +25,6 @@ export default function getCardBaseStyles(width, height) {
       marginVertical: 6,
       marginHorizontal: 4,
     },
-    cardContent: {
-      flex: 1,
-    },
     image: {
       flex: 1,
       borderRadius: 20,

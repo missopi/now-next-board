@@ -1,9 +1,6 @@
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
-  container: {
-    flex: 1,
-  },
   searchContainer: {
     flexDirection: "row",
     alignItems: "center",
@@ -113,53 +110,6 @@ export default StyleSheet.create({
     top: 9,
     right: 2,
   },
-  cardLabel: {
-    fontSize: 14,
-    color: '#333',
-    marginTop: 4,
-    color: '#444',
-  },
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.4)',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  cardFooter: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    paddingTop: 10,
-    gap: 12,
-  },
-  iconButton: {
-    padding: 6,
-  },
-  iconColumn: {
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    gap: 6,
-  },
-  group: {
-    backgroundColor: '#f5f5f5',
-    marginHorizontal: 12,
-    marginBottom: 10,
-    borderRadius: 14,
-    overflow: 'hidden',
-  },
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 14,
-    paddingHorizontal: 18,
-    borderBottomColor: '#ddd',
-    borderBottomWidth: 1,
-  },
-  text: {
-    fontSize: 16,
-    color: '#000',
-    fontWeight: '600',
-  },
   overlayContainer: {
     position: 'absolute',
     top: 0,
@@ -169,8 +119,7 @@ export default StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.2)',
     alignItems: 'center',
-
-    borderRadius: 10, // match your image radius if needed
+    borderRadius: 10, 
   },
   overlayText: {
     color: 'rgba(255, 255, 255, 0.7)',

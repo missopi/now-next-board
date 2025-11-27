@@ -109,16 +109,6 @@ export default function getModalStyles(isPortrait, width, height) {
       overflow: 'hidden',
       marginBottom: 10,
     },
-    label: {
-      fontSize: 20,
-      marginTop: 4,
-      fontWeight: '600',
-      color: '#333',
-    },
-    placeholder: {
-      fontSize: 15,
-      color: '#aaa',
-    },
     smallButton: {
       backgroundColor: "#22aefe",
       borderRadius: 10,
@@ -130,10 +120,6 @@ export default function getModalStyles(isPortrait, width, height) {
       color: "#fff",
       fontWeight: "bold",
       textAlign: "center",
-    },
-    smallText: {
-      fontSize: 15,
-      fontWeight: 500,
     },
 
     // modal for + feature

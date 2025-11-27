@@ -26,16 +26,6 @@ export default function getStyles(isPortrait, width, height, mode = 'edit') {
         ? '0.5%' 
         : (isPortrait? '0.5%' : '4%'),
     },
-    textRow: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'center',
-      gap: 5,
-    },
-    icon: {
-      height: 50,
-      width: 40,
-    },
     textTitle: {
       fontSize: titleSize,
       fontWeight: 'bold',
