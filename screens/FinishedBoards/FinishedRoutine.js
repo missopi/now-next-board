@@ -30,8 +30,8 @@ export default function RoutineViewScreen({ route }) {
 
   return (
     <SafeAreaView style={styles.safeContainer} edges={['top', 'bottom', 'left', 'right']}>
-      <View style={{marginBottom: isPortrait ? 20 : 5}}>
-        <Text style={styles.title}>{board.title || "Routine"}</Text>
+      <View style={{marginBottom: isPortrait ? 10 : 5}}>
+        <Text style={styles.topTitle}>{board.title || "Routine"}</Text>
         <View style={styles.titleUnderline}/>
       </View>
       <DraggableFlatList
@@ -50,7 +50,7 @@ export default function RoutineViewScreen({ route }) {
             resolveActivityImage={resolveActivityImage}
           />
         )}
-        contentContainerStyle={{ gap: 20, paddingBottom: isPortrait ? 80 : 0 }}
+        contentContainerStyle={{ gap: '1%', paddingBottom: isPortrait ? 50 : 0, paddingRight: isPortrait? 0 : 50 }}
       />
     </SafeAreaView>
   );

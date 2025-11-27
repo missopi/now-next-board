@@ -225,7 +225,7 @@ export default function RoutineScreen({ navigation, route }) {
   );
 
   return (
-    <SafeAreaView style={{ padding: 20 }} edges={['top', 'bottom', 'left', 'right']}>
+    <SafeAreaView style={{ paddingHorizontal: 20 }} edges={['top', 'bottom', 'left', 'right']}>
       <View>
         <DraggableFlatList
           data={activities}
@@ -254,7 +254,7 @@ export default function RoutineScreen({ navigation, route }) {
           }}
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ gap: 20 }}
+          contentContainerStyle={{ gap: '1%', paddingBottom: 50 }}
 
           // footer button that follows the last card
           ListFooterComponent={

@@ -1,10 +1,11 @@
 // Visual layout for Now/Next boards
 
-import { View, Text, TouchableOpacity, Image, StyleSheet, useWindowDimensions } from "react-native";
+import { View, Text, TouchableOpacity, useWindowDimensions } from "react-native";
 import { activityLibrary } from "../../data/ActivityLibrary";
 import Now from "../../assets/cards/now.svg";
 import Next from "../../assets/cards/next.svg";
 import Swap from "../../assets/swap.svg";
+import ActivityCard from "./ActivityCard";
 
 const NowNextBoard = ({ nowActivity, nextActivity, onSelectSlot, onSwap, canSwap, readOnly, styles }) => {
   const resolveActivityImage = (activity) => {
@@ -14,74 +15,6 @@ const NowNextBoard = ({ nowActivity, nextActivity, onSelectSlot, onSwap, canSwap
       return match ? match.image : null;
     }
     return activity.image || null;
-  };
-
-  const getImageSource = (image) => {
-    if (!image) return null;
-    if (typeof image === "function") return image;
-    if (typeof image === 'number') return image;
-    if (typeof image === 'string') return { uri: image };
-    if (image.uri && typeof image.uri === 'string') return { uri: image.uri };
-    return null;
-  };
-
-  const renderCard = (activity, label) => {
-    const isLibraryCard = activity?.fromLibrary; // flag from LibraryScreen
-    const resolvedImage = resolveActivityImage(activity);
-    const imageSource = getImageSource(resolvedImage);
-    const isSvg = typeof imageSource === "function";
-    const ImageComponent = isSvg ? imageSource : null;
-
-    return (
-      <View style={styles.cardShadowWrapper}>
-        <TouchableOpacity
-          disabled={readOnly}
-          style={[
-            styles.card,
-            isLibraryCard && styles.libraryCard,
-          ]}
-          onPress={() => !readOnly && onSelectSlot({ slot: label })}
-        >
-          {activity && (
-            <>
-              {isLibraryCard ? (
-                // Full-card library image
-                isSvg ? (
-                  <View style={StyleSheet.absoluteFill}>
-                    <ImageComponent
-                      width="100%"
-                      height="100%"
-                      preserveAspectRatio="none"
-                    />
-                  </View>
-                ) : (
-                  <Image
-                    source={imageSource}
-                    style={styles.image}
-                  />
-                )
-              ) : (
-                // Regular user-created card
-                imageSource && (
-                  <Image
-                    source={imageSource}
-                    style={styles.image}
-                  />
-                )
-              )}
-
-              {/* Only show the text for non-library cards */}
-              {!isLibraryCard && activity?.name && (
-                <Text style={styles.label}>{activity.name}</Text>
-              )}
-            </>
-          )}
-          {!activity && (
-            <Text style={styles.placeholder}>Add {label}</Text>
-          )}
-        </TouchableOpacity>
-      </View>
-    );
   };
 
   const { width, height } = useWindowDimensions();
@@ -103,7 +36,14 @@ const NowNextBoard = ({ nowActivity, nextActivity, onSelectSlot, onSwap, canSwap
             <Now width={iconWidth} height={iconHeight} /> 
             <Text style={styles.textTitle}>Now </Text> 
           </View>
-          {renderCard(nowActivity, "Now")} 
+          <ActivityCard
+            activity={nowActivity}
+            label="Add Now"
+            onPress={() => onSelectSlot({ slot: "Now" })}
+            readOnly={readOnly}
+            styles={styles}
+            resolveActivityImage={resolveActivityImage}
+          />
         </View> 
         {!readOnly && !isPortrait && ( 
           <TouchableOpacity 
@@ -144,7 +84,14 @@ const NowNextBoard = ({ nowActivity, nextActivity, onSelectSlot, onSwap, canSwap
             </View>
           )}
 
-          {renderCard(nextActivity, "Next")}
+          <ActivityCard
+            activity={nextActivity}
+            label="Add Next"
+            onPress={() => onSelectSlot({ slot: "Next" })}
+            readOnly={readOnly}
+            styles={styles}
+            resolveActivityImage={resolveActivityImage}
+          />
         </View>
       </View>
     </View>
