@@ -1,6 +1,7 @@
-import { useWindowDimensions, StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
 
-const { width, height } = useWindowDimensions();
+// Use static Dimensions at module scope; hooks can't be called outside components.
+const { width, height } = Dimensions.get('window');
 
 export default StyleSheet.create({
   container: {
@@ -19,7 +20,7 @@ export default StyleSheet.create({
     color: '#000',
   },
   slide: {
-    width: screenWidth,
+    width: width,
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 48,
