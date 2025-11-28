@@ -11,6 +11,18 @@ import DeleteModal from './modals/DeleteModal';
 import Search from "../assets/icons/search.svg";
 import useHandheldPortraitLock from '../utilities/useHandheldPortraitLock';
 
+const TAB_TYPE_MAP = {
+  'Now & Next': 'nowNextThen',
+  'Routine': 'routine',
+};
+
+const TABS = ['All'].concat(Object.keys(TAB_TYPE_MAP));
+
+// Layout constants
+const GAP = 12;            // space between items
+const EDGE = 16;           // uniform screen padding
+const CARD_INNER = 10;     // inner padding
+
 export default function HomeScreen({ navigation, route }) {
   const [boards, setBoards] = useState([]);
   const [showAddModal, setShowAddModal] = useState(false);
@@ -21,12 +33,6 @@ export default function HomeScreen({ navigation, route }) {
 
   const { width, height } = useWindowDimensions();
   const isPortrait = height >= width;
-
-  // ---------- Layout constants ----------
-  // Single source of truth for spacing so everything stays consistent
-  const GAP = 12;            // space between items
-  const EDGE = 16;           // uniform screen padding
-  const CARD_INNER = 10;     // inner padding
 
   const desiredCols = useMemo(() => {
     if (!isPortrait) {
@@ -55,13 +61,6 @@ export default function HomeScreen({ navigation, route }) {
   // force-remount key
   const listKey = useMemo(() => `boards-cols-${numColumns}`, [numColumns]);
 
-  const TAB_TYPE_MAP = {
-    'Now & Next': 'nowNextThen',
-    'Routine': 'routine',
-  };
-
-  const TABS = ['All'].concat(Object.keys(TAB_TYPE_MAP));
-
   useFocusEffect(
     useCallback(() => {
       const loadBoards = async () => {
@@ -75,53 +74,74 @@ export default function HomeScreen({ navigation, route }) {
   useHandheldPortraitLock();
 
   useEffect(() => {
-    console.log('showAddModal param changed:', route.params?.showAddModal);
     if (route.params?.showAddModal) {
       setShowAddModal(true);
       navigation.setParams({ showAddModal: false }); // reset
     }
   }, [route.params?.showAddModal]);
 
-  const filteredBoards = boards.filter((board) => {
+  const libraryImageMap = useMemo(() => {
+    return activityLibrary.reduce((acc, item) => {
+      acc[item.id] = item.image;
+      return acc;
+    }, {});
+  }, []);
+
+  const filteredBoards = useMemo(() => boards.filter((board) => {
     const matchesType = activeTab === 'All' || board.type === TAB_TYPE_MAP[activeTab];
     const matchesSearch = board.title?.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesType && matchesSearch;
-  });
+  }), [boards, activeTab, searchQuery]);
 
-  function resolveActivityImage(card) {
+  const resolveActivityImage = useCallback((card) => {
     if (!card) return null;
     if (card.fromLibrary && card.imageKey) {
-      const match = activityLibrary.find(a => a.id === card.imageKey);
-      return match ? match.image : null;
+      return libraryImageMap[card.imageKey] || null;
     }
     return card.image || null;
-  }
+  }, [libraryImageMap]);
 
+  // gap between items (none when single column)
   const totalGaps = (numColumns - 1) * GAP;
   const available = width - (EDGE * 2) - totalGaps;
   const itemWidth = Math.floor(available / numColumns);
 
-  const renderBoard = ({ item }) => (
-    <TouchableOpacity
-      onPress={() => {
-        if (item.type === 'routine') {
-          navigation.navigate('FinishedRoutine', { board: item });
-        } else if (item.type === 'nowNextThen') {
-          navigation.navigate('FinishedNowNext', { board: item });
-        } else {
-          console.warn('Unknown board type:', item.type);
-        }
-      }}
-      style={[styles.boardCard,
-      {
-        width: itemWidth,
-        marginRight: GAP,
-        marginBottom: GAP,
-        padding: CARD_INNER,
-      }
-      ]}
+  const cardSpacingStyle = useMemo(() => ({
+    marginRight: GAP,
+    marginBottom: GAP,
+    padding: CARD_INNER,
+  }), [numColumns]);
+
+  const renderBoard = useCallback(({ item }) => (
+    <View
+      style={[styles.boardCard, cardSpacingStyle, { width: itemWidth }]}
     >
-      <View style={{ flexDirection: 'column' }}>
+      <TouchableOpacity
+        accessibilityRole="button"
+        accessibilityLabel={`Delete ${item.title || 'board'}`}
+        hitSlop={8}
+        style={styles.deleteButton}
+        onPress={() => {
+          setBoardToDelete(item);
+          setDeleteModalVisible(true);
+        }}
+      >
+        <Text style={styles.deleteIcon}>✕</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.cardBody}
+        activeOpacity={0.7}
+        onPress={() => {
+          if (item.type === 'routine') {
+            navigation.navigate('FinishedRoutine', { board: item });
+          } else if (item.type === 'nowNextThen') {
+            navigation.navigate('FinishedNowNext', { board: item });
+          } else {
+            console.warn('Unknown board type:', item.type);
+          }
+        }}
+      >
         <View style={styles.boardHeader}>
           <Text style={styles.boardTitle}>{item.title || 'No Title'}</Text>
         </View>
@@ -133,64 +153,57 @@ export default function HomeScreen({ navigation, route }) {
               const isLastVisible = idx === 2 && extraCount > 0;
 
               return (
-                <View key={idx} style={styles.shadowWrapper}>
-                  <View style={styles.cardPreview}>
-                    <View style={styles.imageWrapper}>
-                      {(() => {
-                        const resolvedImage = resolveActivityImage(card);
+                <View key={idx} style={styles.cardPreview}>
+                  <View style={styles.imageWrapper}>
+                    {(() => {
+                      const resolvedImage = resolveActivityImage(card);
 
-                        if (!resolvedImage) {
-                          return (
-                            <View style={[styles.cardImage, {
-                              backgroundColor: '#f2f2f2',
-                              alignItems: 'center',
-                              justifyContent: 'center'
-                            }]}>
-                              <Text style={{ color: '#aaa', fontSize: 12 }}>No image</Text>
-                            </View>
-                          );
-                        }
-
-                        // Check if it’s an SVG or bitmap
-                        const isSvg = typeof resolvedImage === 'function';
-                        const ImageComponent = isSvg ? resolvedImage : null;
-
-                        return isSvg ? (
-                          <ImageComponent width='80' height='75' style={styles.libraryImage} preserveAspectRatio="none" />
-                        ) : (
-                          <Image
-                            source={typeof resolvedImage === 'string' ? { uri: resolvedImage } : resolvedImage}
-                            style={[styles.cardImage, isLastVisible && { opacity: 0.7 }]}
-                            resizeMode="cover"
-                          />
+                      if (!resolvedImage) {
+                        return (
+                          <View style={[styles.cardImage, {
+                            backgroundColor: '#f2f2f2',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                          }]}>
+                            <Text style={{ color: '#aaa', fontSize: 12 }}>No image</Text>
+                          </View>
                         );
-                      })()}
+                      }
 
-                      {/* Overlay text for +N */}
-                      {isLastVisible && (
-                        <View style={styles.overlayContainer}>
-                          <Text style={styles.overlayText}>+{extraCount}</Text>
-                        </View>
-                      )}
-                    </View>
+                      // Check if it’s an SVG or bitmap
+                      const isSvg = typeof resolvedImage === 'function';
+                      const ImageComponent = isSvg ? resolvedImage : null;
+
+                      return isSvg ? (
+                        <ImageComponent width='80' height='75' style={styles.libraryImage} preserveAspectRatio="none" />
+                      ) : (
+                        <Image
+                          source={typeof resolvedImage === 'string' ? { uri: resolvedImage } : resolvedImage}
+                          style={[styles.cardImage, isLastVisible && { opacity: 0.7 }]}
+                          resizeMode="cover"
+                        />
+                      );
+                    })()}
+
+                    {/* Overlay text for +N */}
+                    {isLastVisible && (
+                      <View style={styles.overlayContainer}>
+                        <Text style={styles.overlayText}>+{extraCount}</Text>
+                      </View>
+                    )}
                   </View>
                 </View>
               );
             })}
           </ScrollView>
         </View>
-      </View>
+      </TouchableOpacity>
 
       <View style={styles.buttonColumn}>
         <TouchableOpacity
-          onPress={() => {
-            setBoardToDelete(item);
-            setDeleteModalVisible(true);
-          }}
-        >
-          <Text style={styles.deleteIcon}>✕</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
+          accessibilityRole="button"
+          accessibilityLabel={`Edit ${item.title || 'board'}`}
+          hitSlop={4}
           onPress={() => {
             if (item.type === 'routine') {
               navigation.navigate('Routines', { mode: 'load', board: item });
@@ -204,12 +217,13 @@ export default function HomeScreen({ navigation, route }) {
           <Feather name="edit" size={20} color="#999" />
         </TouchableOpacity>
       </View>
-    </TouchableOpacity>
-  );
+
+    </View>
+  ), [cardSpacingStyle, itemWidth, navigation, resolveActivityImage]);
 
   const isPhonePortrait = isPortrait && width < 600;
-  const stackGap = isPhonePortrait ? 6 : 10;
-
+  const stackGap = isPhonePortrait ? 8 : 10;
+  
   return (
     <SafeAreaView style={{ flex: 1, paddingHorizontal: EDGE }} edges={['left', 'right', 'bottom']}>
       <View>
@@ -218,8 +232,8 @@ export default function HomeScreen({ navigation, route }) {
             {
               flexDirection: isPhonePortrait ? 'column' : 'row',
               gap: stackGap,
-              marginTop: 10,
-              marginBottom: isPhonePortrait ? stackGap : 16,
+              marginTop: 8,
+              marginBottom: isPhonePortrait ? 2 : 10,
             }
           ]}
         >
@@ -268,9 +282,17 @@ export default function HomeScreen({ navigation, route }) {
           contentContainerStyle={{ paddingBottom: EDGE }}
           showsVerticalScrollIndicator={false}
           numColumns={numColumns}
-          {...(numColumns > 1
-            ? { columnWrapperStyle: { marginRight: -GAP } }
-            : undefined)}
+          initialNumToRender={8}
+          windowSize={5}
+          maxToRenderPerBatch={8}
+          removeClippedSubviews
+          ListEmptyComponent={
+            <View style={styles.emptyState}>
+              <Text style={styles.emptyTitle}>No boards yet</Text>
+              <Text style={styles.emptySubtitle}>Tap the + button to create your first board.</Text>
+            </View>
+          }
+          columnWrapperStyle={numColumns > 1 ? undefined : undefined}
         />
       </View>
 
