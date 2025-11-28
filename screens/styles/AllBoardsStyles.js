@@ -32,7 +32,7 @@ export default StyleSheet.create({
   },
   tab: {
     paddingVertical: 9,
-    paddingHorizontal: 29,
+    paddingHorizontal: 28,
     backgroundColor: '#fff',
     borderColor: '#ccc',
     borderWidth: 1,
@@ -101,9 +101,15 @@ export default StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 2.5,
     elevation: 1,
+    width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
     position: 'relative',
+  },
+  cardWrapper: {
+    paddingHorizontal: 6,
+    paddingVertical: 4,
+    overflow: 'visible',
   },
   cardBody: {
     flex: 1,
@@ -154,6 +160,9 @@ export default StyleSheet.create({
     color: 'rgba(255, 255, 255, 0.7)',
     fontSize: 45,
     fontWeight: 'bold',
+  },
+  headerRow: {
+    paddingHorizontal: 6,
   },
   imageWrapper: {
     borderRadius: 12,
