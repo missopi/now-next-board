@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { Platform, TouchableOpacity, View, useWindowDimensions } from "react-native";
+import { TouchableOpacity, View, useWindowDimensions } from "react-native";
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import * as ScreenOrientation from 'expo-screen-orientation';
 
@@ -23,22 +23,26 @@ import Word from "./assets/andNext-word.svg";
 const Stack = createStackNavigator();
 
 export default function App() {
+  const { width, height } = useWindowDimensions();
+  const shorter = Math.min(width, height);
+
   useEffect(() => {
     const lockPhonePortrait = async () => {
-      const isTablet = Platform.OS === 'ios' && Platform.isPad;
-      if (isTablet) return; // keep iPad flexible
+      const isLargeScreen = shorter >= 600; // let tablets and larger devices rotate
       try {
-        await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
+        if (isLargeScreen) {
+          await ScreenOrientation.unlockAsync();
+        } else {
+          await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
+        }
       } catch (error) {
-        console.warn('Could not globally lock portrait on handheld', error);
+        console.warn('Could not adjust global orientation lock', error);
       }
     };
 
     lockPhonePortrait();
-  }, []);
+  }, [shorter]);
 
-  const { width, height } = useWindowDimensions();
-  const shorter = Math.min(width, height);
   const scale = Math.min(Math.max(shorter / 430, 1), 1.6);
   const iconSize = 28 * scale;
   const headerSpace = 10 * scale;
