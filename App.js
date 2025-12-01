@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { Platform, TouchableOpacity, View } from "react-native";
+import { Platform, TouchableOpacity, View, useWindowDimensions } from "react-native";
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import * as ScreenOrientation from 'expo-screen-orientation';
 
@@ -37,6 +37,13 @@ export default function App() {
     lockPhonePortrait();
   }, []);
 
+  const { width, height } = useWindowDimensions();
+  const shorter = Math.min(width, height);
+  const scale = Math.min(Math.max(shorter / 430, 1), 1.6);
+  const iconSize = 28 * scale;
+  const headerSpace = 10 * scale;
+  const wordWidth = 180 * scale; 
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>
@@ -50,15 +57,19 @@ export default function App() {
               component={AllBoardsScreen}
               options={({ navigation }) => ({ 
                 headerTitle: '',
+                headerStyle: {
+                  height: 72 + headerSpace * 2,
+                  paddingVertical: headerSpace,
+                },
                 headerLeft: () => (
                   <View style={{ pointerEvents: 'none' }}>
-                    <Word width={180} height={28} style={{ marginLeft: 8, marginBottom: 9 }} />
+                    <Word width={wordWidth} height={iconSize} style={{ marginLeft: 8, marginBottom: 9 }} />
                   </View>
                 ),
                 headerRight: () => (
                   <View style={{ flexDirection: 'row', justifyContent: 'flex-end', paddingBottom: 9, marginRight: 20 }}>
                     <TouchableOpacity onPress={() => navigation.setParams({ showAddModal: true })}>
-                      <Add width={28} height={28} style={{ marginRight: 5 }} />
+                      <Add width={iconSize} height={iconSize} style={{ marginRight: 5 }} />
                     </TouchableOpacity>
                   </View>
                 ),
