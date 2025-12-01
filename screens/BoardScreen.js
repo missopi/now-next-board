@@ -17,12 +17,28 @@ import useHandheldPortraitLock from "../utilities/useHandheldPortraitLock";
 export default function NowNextBoardScreen({ navigation, route }) {  // useState used to track selected activities
   const { mode, board } = route.params || {};
   const [isSaveModalVisible, setIsSaveModalVisible] = useState(false);
-  const [boardTitle, setBoardTitle] = useState('');
   const [hasChanges, setHasChanges] = useState(false);
 
-  // track the 3 activities
-  const [nowActivity, setNowActivity] = useState(null);
-  const [nextActivity, setNextActivity] = useState(null);
+  function resolveActivityImage(activity) {
+    if (!activity) return null;
+    if (activity.fromLibrary && activity.imageKey) {
+      const match = activityLibrary.find(a => a.id === activity.imageKey);
+      return match ? match.image : null;
+    }
+    return activity.image || null;
+  };
+
+  // hydrate initial state immediately so the transition doesn't render an empty shell
+  const initialNow = mode === 'load' && board?.cards?.[0]
+    ? { ...board.cards[0], image: resolveActivityImage(board.cards[0]) }
+    : null;
+  const initialNext = mode === 'load' && board?.cards?.[1]
+    ? { ...board.cards[1], image: resolveActivityImage(board.cards[1]) }
+    : null;
+
+  const [boardTitle, setBoardTitle] = useState(mode === 'load' ? (board?.title || '') : '');
+  const [nowActivity, setNowActivity] = useState(initialNow);
+  const [nextActivity, setNextActivity] = useState(initialNext);
   
   // modal for adding custom card
   const [newCardImage, setNewCardImage] = useState(null);
@@ -34,7 +50,7 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
   const [modalStep, setModalStep] = useState('choose');
 
   // saving boards
-  const [currentBoardId, setCurrentBoardId] = useState(null);
+  const [currentBoardId, setCurrentBoardId] = useState(mode === 'load' ? board?.id || null : null);
 
   // screen orientation
   const { width, height } = useWindowDimensions();
@@ -68,21 +84,12 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
 
   // loading saved boards
   useEffect(() => {
-    if (mode === 'load' && board) {
+    if (mode === 'load' && board && board.id !== currentBoardId) {
       loadNowNextBoard(board);
     }
-  }, [mode, board]);
+  }, [mode, board, currentBoardId]);
 
   const slotRef = useRef(null);
-
-  function resolveActivityImage(activity) {
-    if (!activity) return null;
-    if (activity.fromLibrary && activity.imageKey) {
-      const match = activityLibrary.find(a => a.id === activity.imageKey);
-      return match ? match.image : null;
-    }
-    return activity.image || null;
-  };
 
   function onSelectSlot(slot) {
     slotRef.current = slot;

@@ -22,13 +22,14 @@ export default function RoutineScreen({ navigation, route }) {
 
   // track the activities added
   const [activities, setActivities] = useState(() => {
-    return mode === 'new'
-      ? [{ id: uuid.v4(), name: null, image: null }]
-      : [];
+    if (mode === 'load' && board?.cards?.length) {
+      return board.cards.map(card => ({ ...card, id: card.id || uuid.v4() }));
+    }
+    return [{ id: uuid.v4(), name: null, image: null }];
   });
 
   // title
-  const [newBoardTitle, setNewBoardTitle] = useState('');
+  const [newBoardTitle, setNewBoardTitle] = useState(mode === 'load' ? (board?.title || '') : '');
 
   // modal for adding custom card
   const [newCardImage, setNewCardImage] = useState(null);
@@ -40,16 +41,16 @@ export default function RoutineScreen({ navigation, route }) {
   const [modalStep, setModalStep] = useState('choose');
 
   // saving boards
-  const [currentBoardId, setCurrentBoardId] = useState(null);
+  const [currentBoardId, setCurrentBoardId] = useState(mode === 'load' ? board?.id || null : null);
 
   useEffect(() => { }, [mode, activities]);
 
   // loading saved boards
   useEffect(() => {
-    if (mode === 'load' && board) {
+    if (mode === 'load' && board && board.id !== currentBoardId) {
       loadRoutineBoard(board);
     }
-  }, [mode, board]);
+  }, [mode, board, currentBoardId]);
 
   // automatically add one empty slot for new routines
   useEffect(() => {

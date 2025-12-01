@@ -59,7 +59,6 @@ export default function App() {
                 headerTitle: '',
                 headerStyle: {
                   height: 72 + headerSpace * 2,
-                  paddingVertical: headerSpace,
                 },
                 headerLeft: () => (
                   <View style={{ pointerEvents: 'none' }}>
