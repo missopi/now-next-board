@@ -129,21 +129,23 @@ export default StyleSheet.create({
     paddingBottom: 3,
   },
   buttonColumn: {
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
     alignItems: 'center',
     paddingHorizontal: 6,
+    paddingVertical: 15,
+    gap: 18,
   },
   deleteButton: {
     position: 'absolute',
-    top: 12,
-    right: 12,
+    top: 16,
+    right: 13,
     padding: 6,
   },
   deleteIcon: {
     color: '#999',
     fontSize: 22,
     fontWeight: 'bold',
-    lineHeight: 18,
+    lineHeight: 20,
   },
   overlayContainer: {
     position: 'absolute',
@@ -181,5 +183,23 @@ export default StyleSheet.create({
   emptySubtitle: {
     fontSize: 14,
     color: '#555',
+  },
+  iconButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    backgroundColor: '#f4f6f8',
+    borderRadius: 12,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    minWidth: 120,
+    gap: 8,
+    borderColor: '#d0d7de',
+    borderWidth: 1,
+  },
+  iconLabel: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: '#334155',
   },
 });

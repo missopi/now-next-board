@@ -1,13 +1,37 @@
-import { useState, useRef, useLayoutEffect } from 'react';
-import { View, Text, FlatList, Image, Pressable } from 'react-native';
+import { useState, useRef, useLayoutEffect, useMemo } from 'react';
+import { View, Text, FlatList, Image, Pressable, useWindowDimensions } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
-import styles from '../styles/SlideshowStyles';
+import getStyles from '../styles/SlideshowStyles';
+import { activityLibrary } from '../../data/ActivityLibrary';
+
+const libraryImageMap = activityLibrary.reduce((acc, item) => {
+  acc[item.id] = item.image;
+  return acc;
+}, {});
+
+const getImageSource = (image) => {
+  if (!image) return null;
+  if (typeof image === 'function' || typeof image === 'number') return image;
+  if (typeof image === 'string') return { uri: image };
+  return image?.uri && typeof image.uri === 'string' ? { uri: image.uri } : null;
+};
+
+const resolveCardImage = (card) => {
+  if (!card) return null;
+  if (card.fromLibrary && card.imageKey) {
+    return libraryImageMap[card.imageKey] || null;
+  }
+  return card.image || null;
+};
 
 const Slideshow = ({ route, navigation }) => {
-  const { title, activities } = route.params || {};
+  const { title, activities = [] } = route.params || {};
   const [currentIndex, setCurrentIndex] = useState(0);
   const [controlsVisible, setControlsVisible] = useState(true);
   const insets = useSafeAreaInsets();
+  const { width, height } = useWindowDimensions();
+  const isPortrait = height >= width;
+  const styles = useMemo(() => getStyles(width, height, isPortrait), [width, height, isPortrait]);
 
   const toggleControls = () => setControlsVisible(!controlsVisible);
 
@@ -46,20 +70,35 @@ const Slideshow = ({ route, navigation }) => {
         renderItem={({ item }) => (
           <Pressable style={styles.slide} onPress={toggleControls}>
             <View>
-              {item?.image?.uri ? (
-                <View style={styles.cardWrapper}>
-                  <View style={styles.cardInner}>
-                    <Image
-                      source={{ uri: item.image.uri }}
-                      style={styles.image}
-                      resizeMode="cover"
-                    />
-                    <Text style={styles.cardTitle}>{item?.name}</Text>
-                  </View>
+              <View style={styles.cardWrapper}>
+                <View style={styles.cardInner}>
+                  {(() => {
+                    const resolvedImage = resolveCardImage(item);
+                    const imageSource = getImageSource(resolvedImage);
+                    if (!imageSource) {
+                      return <Text style={styles.noImageText}>No image</Text>;
+                    }
+
+                    const isSvg = typeof imageSource === 'function';
+                    const ImageComponent = isSvg ? imageSource : null;
+
+                    return isSvg ? (
+                      <ImageComponent
+                        width={styles.image.width}
+                        height={styles.image.height}
+                        preserveAspectRatio="xMidYMid slice"
+                      />
+                    ) : (
+                      <Image
+                        source={imageSource}
+                        style={styles.image}
+                        resizeMode="cover"
+                      />
+                    );
+                  })()}
+                  <Text style={styles.cardTitle}>{item?.name || ''}</Text>
                 </View>
-              ) : (
-                <Text style={styles.noImageText}>No image</Text>
-              )}
+              </View>
             </View>
           </Pressable>
         )}

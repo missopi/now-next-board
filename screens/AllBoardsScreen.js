@@ -198,6 +198,24 @@ export default function HomeScreen({ navigation, route }) {
         </TouchableOpacity>
 
         <View style={styles.buttonColumn}>
+          {item.type === 'routine' && (
+            <TouchableOpacity
+              accessibilityRole="button"
+              accessibilityLabel={`Play slideshow for ${item.title || 'routine'}`}
+              hitSlop={4}
+              onPress={() => {
+                const slides = (item.cards || []).filter(
+                  (card) => card && ((card.image && card.image.uri) || card.fromLibrary)
+                );
+                navigation.navigate('Slideshow', {
+                  title: item.title || 'Routine',
+                  activities: slides,
+                });
+              }}
+            >
+              <Feather name="play-circle" size={22} color="#999" />
+            </TouchableOpacity>
+          )}
           <TouchableOpacity
             accessibilityRole="button"
             accessibilityLabel={`Edit ${item.title || 'board'}`}
