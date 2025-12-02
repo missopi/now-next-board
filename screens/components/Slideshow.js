@@ -1,22 +1,16 @@
 import { useState, useRef, useLayoutEffect, useMemo } from 'react';
-import { View, Text, FlatList, Image, Pressable, useWindowDimensions } from 'react-native';
+import { View, Text, FlatList, Pressable, useWindowDimensions } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import getStyles from '../styles/SlideshowStyles';
 import { activityLibrary } from '../../data/ActivityLibrary';
+import ActivityCard from './ActivityCard';
 
 const libraryImageMap = activityLibrary.reduce((acc, item) => {
   acc[item.id] = item.image;
   return acc;
 }, {});
 
-const getImageSource = (image) => {
-  if (!image) return null;
-  if (typeof image === 'function' || typeof image === 'number') return image;
-  if (typeof image === 'string') return { uri: image };
-  return image?.uri && typeof image.uri === 'string' ? { uri: image.uri } : null;
-};
-
-const resolveCardImage = (card) => {
+const resolveActivityImage = (card) => {
   if (!card) return null;
   if (card.fromLibrary && card.imageKey) {
     return libraryImageMap[card.imageKey] || null;
@@ -50,7 +44,7 @@ const Slideshow = ({ route, navigation }) => {
 
   return (
     <SafeAreaView
-      style={[styles.container, { backgroundColor: '#E0F2FE' }]}
+      style={styles.container}
       edges={['top', 'bottom', 'left', 'right']}
     >
       {controlsVisible && (
@@ -69,36 +63,14 @@ const Slideshow = ({ route, navigation }) => {
         viewabilityConfig={{ itemVisiblePercentThreshold: 50 }}
         renderItem={({ item }) => (
           <Pressable style={styles.slide} onPress={toggleControls}>
-            <View>
-              <View style={styles.cardWrapper}>
-                <View style={styles.cardInner}>
-                  {(() => {
-                    const resolvedImage = resolveCardImage(item);
-                    const imageSource = getImageSource(resolvedImage);
-                    if (!imageSource) {
-                      return <Text style={styles.noImageText}>No image</Text>;
-                    }
-
-                    const isSvg = typeof imageSource === 'function';
-                    const ImageComponent = isSvg ? imageSource : null;
-
-                    return isSvg ? (
-                      <ImageComponent
-                        width={styles.image.width}
-                        height={styles.image.height}
-                        preserveAspectRatio="xMidYMid slice"
-                      />
-                    ) : (
-                      <Image
-                        source={imageSource}
-                        style={styles.image}
-                        resizeMode="cover"
-                      />
-                    );
-                  })()}
-                  <Text style={styles.cardTitle}>{item?.name || ''}</Text>
-                </View>
-              </View>
+            <View style={styles.cardContainer}>
+              <ActivityCard
+                activity={item}
+                label="No activity"
+                readOnly
+                styles={styles}
+                resolveActivityImage={resolveActivityImage}
+              />
             </View>
           </Pressable>
         )}

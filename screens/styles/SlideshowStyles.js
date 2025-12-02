@@ -1,16 +1,30 @@
 import { StyleSheet } from 'react-native';
+import getCardBaseStyles from "./CardBaseStyles";
 
 const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
 
 const getSlideshowStyles = (width, height, isPortrait) => {
-  const maxImageWidth = clamp(width * 0.92, 280, 1100);
-  const maxImageHeight = isPortrait
-    ? clamp(height * 0.62, 260, height * 0.82)
-    : clamp(height * 0.78, 240, height * 0.9);
+  const shorter = Math.min(width, height);
+  const { baseStyles, metrics } = getCardBaseStyles(width, height);
+  const pagePadding = clamp(shorter * 0.05, 18, 38);
+  const cardAspect = baseStyles.card?.aspectRatio || 1.05;
+  const headerAllowance = clamp(height * 0.05, 32, 72) + 30; // title row height buffer
+  const dotsAllowance = (isPortrait ? 30 : 18) + 10;
+  const slidePadding = isPortrait ? pagePadding : pagePadding * 0.75;
+  const availableHeight = Math.max(
+    height - headerAllowance - dotsAllowance - slidePadding * 2,
+    200
+  );
+  const heightLimitedWidth = availableHeight * cardAspect * 0.96;
+  const targetWidth = shorter * 0.95;
+  const maxWidth = isPortrait ? width * 0.9 : width * 0.8;
+  const cardWidth = Math.min(clamp(targetWidth, 320, maxWidth), heightLimitedWidth);
 
   return StyleSheet.create({
+    ...baseStyles,
     container: {
       flex: 1,
+      backgroundColor: '#E0F2FE',
     },
     header: {
       paddingTop: clamp(height * 0.05, 32, 72),
@@ -29,46 +43,34 @@ const getSlideshowStyles = (width, height, isPortrait) => {
       width,
       alignItems: 'center',
       justifyContent: 'center',
-      paddingVertical: isPortrait ? 28 : 18,
+      paddingVertical: isPortrait ? pagePadding : pagePadding * 0.75,
       paddingHorizontal: clamp(width * 0.04, 12, 36),
     },
-    cardWrapper: {
-      backgroundColor: '#1f2937',
-      borderRadius: 20,
-      padding: 3,
-      shadowColor: '#000',
-      shadowOffset: { width: 0, height: 4 },
-      shadowOpacity: 0.35,
-      shadowRadius: 6,
-    },
-    cardInner: {
-      backgroundColor: 'white',
-      borderRadius: 17,
-      overflow: 'hidden',
-      padding: isPortrait ? 16 : 14,
-      paddingBottom: isPortrait ? 26 : 20,
-      alignItems: 'center',
-      gap: 14,
+    card: {
+      ...baseStyles.card,
+      width: cardWidth,
+      maxHeight: availableHeight,
     },
     image: {
-      width: maxImageWidth,
-      height: maxImageHeight,
-      borderRadius: 14,
-      borderColor: '#0f172a',
-      borderWidth: 1,
+      ...baseStyles.image,
+      flex: 1,
     },
-    noImageText: {
-      color: '#64748b',
-      backgroundColor: 'transparent',
-      fontSize: 18,
-      textAlign: 'center',
-      paddingVertical: 12,
+    bitmapEditImage: {
+      ...baseStyles.bitmapEditImage,
     },
-    cardTitle: {
-      fontSize: 22,
-      fontWeight: '700',
-      textAlign: 'center',
-      color: '#0f172a',
+    placeholder: {
+      ...baseStyles.placeholder,
+    },
+    placeholderText: {
+      ...baseStyles.placeholderText,
+    },
+    title: {
+      ...baseStyles.title,
+    },
+    cardContainer: {
+      width: cardWidth,
+      maxWidth: cardWidth,
+      alignSelf: 'center',
     },
     dotsContainer: {
       flexDirection: 'row',
