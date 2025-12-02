@@ -5,7 +5,7 @@ const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
 
 const getSlideshowStyles = (width, height, isPortrait) => {
   const shorter = Math.min(width, height);
-  const { baseStyles, metrics } = getCardBaseStyles(width, height);
+  const { baseStyles } = getCardBaseStyles(width, height);
   const pagePadding = clamp(shorter * 0.05, 18, 38);
   const cardAspect = baseStyles.card?.aspectRatio || 1.05;
   const headerAllowance = clamp(height * 0.05, 32, 72) + 30; // title row height buffer
@@ -27,7 +27,7 @@ const getSlideshowStyles = (width, height, isPortrait) => {
       backgroundColor: '#E0F2FE',
     },
     header: {
-      paddingTop: clamp(height * 0.05, 32, 72),
+      paddingTop: clamp(height * 0.10, 32, 72),
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'center',
