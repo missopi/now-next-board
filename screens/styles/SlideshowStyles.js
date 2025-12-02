@@ -27,7 +27,7 @@ const getSlideshowStyles = (width, height, isPortrait) => {
       backgroundColor: '#E0F2FE',
     },
     header: {
-      paddingTop: clamp(height * 0.10, 32, 72),
+      paddingTop: isPortrait ? clamp(height * 0.10, 32, 72) : 0,
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'center',
