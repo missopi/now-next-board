@@ -47,6 +47,7 @@
     "@babel/plugin-syntax-flow": "^7.27.1",
     "@react-native/babel-preset": "^0.81.4",
     "babel-preset-expo": "~54.0.0",
+    "baseline-browser-mapping": "^2.8.32",
     "metro-react-native-babel-transformer": "^0.77.0",
     "react-native-svg-transformer": "^1.5.1"
   },

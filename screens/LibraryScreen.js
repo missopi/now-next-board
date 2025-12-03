@@ -1,6 +1,6 @@
 // Flatlist of all available activity cards for users to choose from
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useMemo } from "react";
 import { Text, View, FlatList, TouchableOpacity, ScrollView, TextInput, useWindowDimensions } from "react-native";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import styles from './styles/LibraryStyles';
@@ -22,12 +22,40 @@ const LibraryScreen = ({ navigation, route }) => {
   const modalRef = useRef(null);
   const insets = useSafeAreaInsets();
   const { width, height } = useWindowDimensions();
+  const GAP = 12;
   const { baseStyles, metrics } = getCardBaseStyles(width, height);
+  const isPortrait = height >= width;
+  const desiredCols = useMemo(() => {
+    if (!isPortrait) {
+      if (width >= 1150) return 4;
+      if (width >= 800) return 3;
+      if (width >= 600) return 2;
+      return 2;
+    } else {
+      if (width >= 1150) return 4;
+      if (width >= 800) return 3;
+      if (width >= 600) return 2;
+      return 1;
+    }
+  }, [width, isPortrait]);
+
+  // Mirror the column update pattern from AllBoardsScreen to force quick remounts on size change.
+  const [numColumns, setNumColumns] = useState(desiredCols);
+
+  useEffect(() => {
+    if (numColumns !== desiredCols) {
+      setNumColumns(desiredCols);
+    }
+  }, [desiredCols, numColumns]);
+
+  const listKey = useMemo(() => `library-cols-${numColumns}`, [numColumns]);
+  const availableWidth = Math.max(width - 60 - (GAP * (numColumns - 1)), 240);
+  const cardWidth = Math.min(metrics.cardWidth, availableWidth / numColumns);
   const cardStyles = {
     ...baseStyles,
     card: {
       ...baseStyles.card,
-      width: metrics.cardWidth,
+      width: cardWidth,
     },
   };
 
@@ -151,13 +179,18 @@ const LibraryScreen = ({ navigation, route }) => {
         {/* list of image cards */}
         <FlatList
           contentContainerStyle={{
-            flexGrow: 1, // Fill the screen even with fewer items
-            minHeight: 700,
-            alignItems: 'center',
-          }}
+            flexGrow: 1,
+            paddingHorizontal: 20,
+          paddingBottom: 40,
+          paddingTop: 6,
+          gap: GAP,
+        }}
+          columnWrapperStyle={numColumns > 1 ? { gap: GAP, justifyContent: 'center' } : undefined}
           ListEmptyComponent={<Text style={{ color: '#888', marginTop: 40, textAlign: 'center' }}>No activities in this category</Text>}
-          showsVerticalScrollIndicator={false} // remove line on right when scrolling
+          showsVerticalScrollIndicator={false}
           data={filteredActivities}
+          key={listKey}
+          numColumns={numColumns}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <ActivityCard
