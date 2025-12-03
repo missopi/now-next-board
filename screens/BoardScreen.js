@@ -13,6 +13,7 @@ import { saveBoard, updateBoard } from "../utilities/BoardStore";
 import SaveModal from "./modals/SaveModal";
 import { activityLibrary } from "../data/ActivityLibrary";
 import useHandheldPortraitLock from "../utilities/useHandheldPortraitLock";
+import BackButton from "./components/BackButton";
 
 export default function NowNextBoardScreen({ navigation, route }) {  // useState used to track selected activities
   const { mode, board } = route.params || {};
@@ -220,6 +221,7 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
       style={{ flex: 1, paddingTop: Math.max(0 - insets.top, 0), paddingBottom: Math.max(0 - insets.bottom, 0) }}
       edges={['top', 'bottom', 'left', 'right']}
     >
+      <BackButton onPress={() => navigation.goBack()} />
       <View style={{ flex: 1 }}>
         <NowNextBoard 
           nowActivity={nowActivity}

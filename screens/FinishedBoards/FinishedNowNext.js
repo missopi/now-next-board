@@ -3,8 +3,9 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import NowNextBoard from "../components/NowNextBoard";
 import getStyles from "../styles/NowNextBoardStyles"; 
 import useHandheldPortraitLock from "../../utilities/useHandheldPortraitLock";
+import BackButton from "../components/BackButton";
 
-export default function FinishedNowNext({ route }) {
+export default function FinishedNowNext({ route, navigation }) {
   const { board } = route.params || {};
 
   const nowActivity = board?.cards?.[0] || null;
@@ -18,6 +19,7 @@ export default function FinishedNowNext({ route }) {
 
   return (
     <SafeAreaView style={{ flex: 1 }} edges={['top', 'bottom', 'left', 'right']}>
+      <BackButton onPress={() => navigation.goBack()} />
       <NowNextBoard
         nowActivity={nowActivity}
         nextActivity={nextActivity}

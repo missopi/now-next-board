@@ -32,7 +32,7 @@ export default StyleSheet.create({
   },
   tab: {
     paddingVertical: 9,
-    paddingHorizontal: 28,
+    paddingHorizontal: 27,
     backgroundColor: '#fff',
     borderColor: '#ccc',
     borderWidth: 1,
