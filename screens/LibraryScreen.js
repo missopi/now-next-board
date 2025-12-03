@@ -85,7 +85,8 @@ const LibraryScreen = ({ navigation, route }) => {
     return matchesCategory && matchesSearch;
   });
 
-  const visibleCategories = categorySettings.filter(cat => cat.visible);
+  // Filter out the manual "All" tab so it only renders once.
+  const visibleCategories = categorySettings.filter(cat => cat.visible && cat.key !== 'All');
 
   useEffect(() => {
     if (!slot) {
@@ -145,14 +146,14 @@ const LibraryScreen = ({ navigation, route }) => {
           horizontal 
           showsHorizontalScrollIndicator={false} 
           style={styles.tabs}
-          contentContainerStyle={{ alignContent: 'center', justifyContent: 'center', gap: 7 }}
+          contentContainerStyle={{ alignItems: 'center', justifyContent: 'center', gap: 7 }}
         >
           <TouchableOpacity // 'ALL' tab always visible on far left of screen
             key="All"
             onPress={() => setSelectedCategory('All')}
             style={[ styles.tab, {
               backgroundColor: selectedCategory === 'All' ? '#cdedffff' : '#fff',
-              borderColor: selectedCategory === 'All' ? '#01a2ffff' : '#ccc',
+              borderColor: selectedCategory === 'All' ? '#0792e2ff' : '#ccc',
               borderWidth: selectedCategory === 'All' ? 2 : 1 }
             ]}
           >
@@ -166,7 +167,7 @@ const LibraryScreen = ({ navigation, route }) => {
               onPress={() => setSelectedCategory(cat.label)}
               style={[ styles.tab, { 
                 backgroundColor: selectedCategory === cat.label ? '#cdedffff' : '#fff', 
-                borderColor: selectedCategory === cat.label ? '#01a2ffff' : '#ccc' ,
+                borderColor: selectedCategory === cat.label ? '#0792e2ff' : '#ccc' ,
                 borderWidth: selectedCategory === cat.label ? 2 : 1 }
               ]}>
             <Text style={[ styles.tabText, { color: selectedCategory === cat.label ? '#01a2ffff' : '#ccc' }]}>
