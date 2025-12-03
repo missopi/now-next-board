@@ -3,17 +3,22 @@ import { StyleSheet } from 'react-native';
 export default StyleSheet.create({
   tabs: {
     flexDirection: 'row',
-    marginBottom: 16,
+    marginBottom: 8,
     marginHorizontal: 25,
   },
   tab: {
     paddingVertical: 7,
-    paddingHorizontal: 26,
+    paddingHorizontal: 20,
     borderWidth: 2,
     borderRadius: 15,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.15,
+    shadowRadius: 2,
+    elevation: 2,
   },
   tabText: {
-    fontSize: 15,
+    fontSize: 14,
     fontWeight: 'bold',
   },
   searchContainer: {
@@ -27,6 +32,11 @@ export default StyleSheet.create({
     marginBottom: 12,
     borderWidth: 1,
     marginHorizontal: 25,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.15,
+    shadowRadius: 2,
+    elevation: 2,
   },
   searchIcon: {
     marginRight: 8,

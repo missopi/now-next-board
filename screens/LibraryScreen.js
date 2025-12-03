@@ -14,12 +14,11 @@ import BackButton from "./components/BackButton";
 import ActivityCard from "./components/ActivityCard";
 import getCardBaseStyles from "./styles/CardBaseStyles";
 
-const LibraryScreen = ({ navigation, route }) => {  
+const LibraryScreen = ({ navigation, route }) => {
   const slot = route?.params?.slot;
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [categorySettings, setCategorySettings] = useState(allCategories);
-  const modalRef = useRef(null);
   const insets = useSafeAreaInsets();
   const { width, height } = useWindowDimensions();
   const GAP = 12;
@@ -142,22 +141,23 @@ const LibraryScreen = ({ navigation, route }) => {
           />
         </View>
         {/* category scroll bar */}
-        <ScrollView 
-          horizontal 
-          showsHorizontalScrollIndicator={false} 
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
           style={styles.tabs}
           contentContainerStyle={{ alignItems: 'center', justifyContent: 'center', gap: 7 }}
         >
           <TouchableOpacity // 'ALL' tab always visible on far left of screen
             key="All"
             onPress={() => setSelectedCategory('All')}
-            style={[ styles.tab, {
+            style={[styles.tab, {
               backgroundColor: selectedCategory === 'All' ? '#cdedffff' : '#fff',
-              borderColor: selectedCategory === 'All' ? '#0792e2ff' : '#ccc',
-              borderWidth: selectedCategory === 'All' ? 2 : 1 }
+              borderColor: selectedCategory === 'All' ? '#0792e2ff' : '#fff',
+              borderWidth: selectedCategory === 'All' ? 2 : 1
+            }
             ]}
           >
-            <Text style={[ styles.tabText, { color: selectedCategory === 'All' ? '#01a2ffff' : '#ccc' } ]}>
+            <Text style={[styles.tabText, { color: selectedCategory === 'All' ? '#01a2ffff' : '#ccc' }]}>
               All
             </Text>
           </TouchableOpacity>
@@ -165,16 +165,17 @@ const LibraryScreen = ({ navigation, route }) => {
             <TouchableOpacity
               key={cat.key}
               onPress={() => setSelectedCategory(cat.label)}
-              style={[ styles.tab, { 
-                backgroundColor: selectedCategory === cat.label ? '#cdedffff' : '#fff', 
-                borderColor: selectedCategory === cat.label ? '#0792e2ff' : '#ccc' ,
-                borderWidth: selectedCategory === cat.label ? 2 : 1 }
+              style={[styles.tab, {
+                backgroundColor: selectedCategory === cat.label ? '#cdedffff' : '#fff',
+                borderColor: selectedCategory === cat.label ? '#0792e2ff' : '#fff',
+                borderWidth: selectedCategory === cat.label ? 2 : 1
+              }
               ]}>
-            <Text style={[ styles.tabText, { color: selectedCategory === cat.label ? '#01a2ffff' : '#ccc' }]}>
-              {cat.label}
-            </Text>
-          </TouchableOpacity>
-        ))}
+              <Text style={[styles.tabText, { color: selectedCategory === cat.label ? '#01a2ffff' : '#ccc' }]}>
+                {cat.label}
+              </Text>
+            </TouchableOpacity>
+          ))}
 
         </ScrollView>
         {/* list of image cards */}
@@ -182,11 +183,11 @@ const LibraryScreen = ({ navigation, route }) => {
           contentContainerStyle={{
             flexGrow: 1,
             paddingHorizontal: 20,
-          paddingBottom: 40,
-          paddingTop: 6,
-          gap: GAP,
-        }}
-          columnWrapperStyle={numColumns > 1 ? { gap: GAP, justifyContent: 'center' } : undefined}
+            paddingBottom: 40,
+            paddingTop: 6,
+            gap: GAP,
+          }}
+          columnWrapperStyle={numColumns > 1 ? { gap: GAP, justifyContent: 'flex-start' } : undefined}
           ListEmptyComponent={<Text style={{ color: '#888', marginTop: 40, textAlign: 'center' }}>No activities in this category</Text>}
           showsVerticalScrollIndicator={false}
           data={filteredActivities}
