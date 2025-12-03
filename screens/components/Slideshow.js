@@ -4,6 +4,7 @@ import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import getStyles from '../styles/SlideshowStyles';
 import { activityLibrary } from '../../data/ActivityLibrary';
 import ActivityCard from './ActivityCard';
+import BackButton from './BackButton';
 
 const libraryImageMap = activityLibrary.reduce((acc, item) => {
   acc[item.id] = item.image;
@@ -47,6 +48,7 @@ const Slideshow = ({ route, navigation }) => {
       style={styles.container}
       edges={['top', 'bottom', 'left', 'right']}
     >
+      {controlsVisible && <BackButton onPress={() => navigation.goBack()} />}
       {controlsVisible && (
         <View style={[styles.header, { paddingTop: headerPaddingTop }]}>
           <Text style={styles.title}>{title}</Text>

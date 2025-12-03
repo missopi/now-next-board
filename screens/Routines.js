@@ -14,6 +14,7 @@ import { saveBoard, updateBoard } from "../utilities/BoardStore";
 import SaveModal from "./modals/SaveModal";
 import { activityLibrary } from "../data/ActivityLibrary";
 import useHandheldPortraitLock from "../utilities/useHandheldPortraitLock";
+import BackButton from "./components/BackButton";
 
 export default function RoutineScreen({ navigation, route }) {
   const { mode, board } = route.params || {};
@@ -69,6 +70,8 @@ export default function RoutineScreen({ navigation, route }) {
   // screen orientation
   const { width, height } = useWindowDimensions();
   const isPortrait = height > width;
+  const isHandheld = Math.min(width, height) < 700;
+  const listTopPadding = isHandheld ? 50 : 10;
   const styles = getStyles(width, height, "edit");
 
   useHandheldPortraitLock();
@@ -226,7 +229,10 @@ export default function RoutineScreen({ navigation, route }) {
   );
 
   return (
-    <SafeAreaView style={{ paddingHorizontal: 20 }} edges={['top', 'bottom', 'left', 'right']}>
+    <SafeAreaView
+      style={{ paddingHorizontal: 20, flex: 1 }}
+      edges={['top', 'bottom', 'left', 'right']}
+    >
       <View>
         <DraggableFlatList
           data={activities}
@@ -255,7 +261,7 @@ export default function RoutineScreen({ navigation, route }) {
           }}
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ gap: '1%', paddingBottom: isPortrait ? 50 : 0 }}
+          contentContainerStyle={{ gap: '1%', paddingTop: listTopPadding, paddingBottom: isPortrait ? 50 : 0 }}
 
           // footer button that follows the last card
           ListFooterComponent={
@@ -269,6 +275,7 @@ export default function RoutineScreen({ navigation, route }) {
           ListFooterComponentStyle={{ justifyContent: 'center', paddingBottom: isPortrait ? 80 : 0, paddingRight: isPortrait? 0 : 80 }}
         />
       </View>
+      <BackButton onPress={() => navigation.goBack()} style={{ zIndex: 10 }} />
 
       <ImageCardCreatorModal
         visible={isNewCardVisible}
