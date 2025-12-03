@@ -44,9 +44,9 @@ export default function App() {
   }, [shorter]);
 
   const scale = Math.min(Math.max(shorter / 430, 1), 1.6);
-  const iconSize = 28 * scale;
+  const iconSize = 30 * scale;
   const headerSpace = 10 * scale;
-  const wordWidth = 180 * scale; 
+  const wordWidth = 190 * scale; 
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
@@ -62,7 +62,8 @@ export default function App() {
               options={({ navigation }) => ({ 
                 headerTitle: '',
                 headerStyle: {
-                  height: 72 + headerSpace * 2,
+                  height: 72 + headerSpace * 3,
+                  backgroundColor: '#0792e2ff',
                 },
                 headerLeft: () => (
                   <View style={{ pointerEvents: 'none' }}>

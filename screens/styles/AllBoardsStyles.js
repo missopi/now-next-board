@@ -8,7 +8,7 @@ export default StyleSheet.create({
     borderRadius: 12,
     paddingHorizontal: 12,
     paddingVertical: 9,
-    borderColor: '#ccc',
+    borderColor: '#fff',
     borderWidth: 1,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
@@ -22,7 +22,7 @@ export default StyleSheet.create({
   searchInput: {
     flex: 1,
     fontSize: 16,
-    color: "#333",
+    color: "#222",
   },
   tabs: {
     flexDirection: 'row',
@@ -34,7 +34,7 @@ export default StyleSheet.create({
     paddingVertical: 9,
     paddingHorizontal: 27,
     backgroundColor: '#fff',
-    borderColor: '#ccc',
+    borderColor: '#fff',
     borderWidth: 1,
     borderRadius: 15,
     alignItems: 'center',
@@ -47,7 +47,7 @@ export default StyleSheet.create({
   activeTab: {
     backgroundColor: '#cdedffff',
     borderWidth: 2,
-    borderColor: '#01a2ffff',
+    borderColor: '#0792e2ff',
   },
   tabText: {
     color: '#ccc',
@@ -55,7 +55,7 @@ export default StyleSheet.create({
     fontWeight: 'bold',
   },
   activeTabText: {
-    color: '#01a2ffff',
+    color: '#0792e2ff',
     fontSize: 15,
     fontWeight: 'bold',
   },
@@ -95,7 +95,7 @@ export default StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 12,
     shadowColor: '#000',
-    borderColor: '#aaa',
+    borderColor: '#fff',
     borderWidth: 1,
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.3,

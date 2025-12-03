@@ -249,8 +249,8 @@ export default function HomeScreen({ navigation, route }) {
             {
               flexDirection: isPhonePortrait ? 'column' : 'row',
               gap: stackGap,
-              marginTop: 8,
-              marginBottom: isPhonePortrait ? 2 : 10,
+              marginTop: 15,
+              marginBottom: isPhonePortrait ? 3 : 10,
             }
           ]}
         >
@@ -259,7 +259,7 @@ export default function HomeScreen({ navigation, route }) {
             {
               flex: isPhonePortrait ? 0 : 1,
               width: isPhonePortrait ? '100%' : undefined,
-              marginBottom: isPhonePortrait ? 0 : undefined,
+              marginBottom: isPhonePortrait ? 4 : undefined,
             }
           ]}>
             <Search width={20} height={20} style={styles.searchIcon} />

@@ -10,7 +10,7 @@ export default function getCardBaseStyles(width, height) {
     card: {
       padding: '7%',
       borderWidth: 1,
-      borderColor: "#aaa",
+      borderColor: "#fff",
       borderRadius: 20,
       backgroundColor: "#fff",
       flexDirection: "column",
