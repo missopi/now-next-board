@@ -23,7 +23,7 @@ export default StyleSheet.create({
     borderRadius: 12,
     paddingHorizontal: 12,
     paddingVertical: 9,
-    borderColor: '#ccc',
+    borderColor: '#fff',
     marginBottom: 12,
     borderWidth: 1,
     marginHorizontal: 25,

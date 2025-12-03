@@ -1,7 +1,7 @@
 // Flatlist of all available activity cards for users to choose from
 
 import { useEffect, useState, useRef } from "react";
-import { Text, View, FlatList, TouchableOpacity, Image, ScrollView, TextInput } from "react-native";
+import { Text, View, FlatList, TouchableOpacity, ScrollView, TextInput, useWindowDimensions } from "react-native";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import styles from './styles/LibraryStyles';
 import { activityLibrary } from "../data/ActivityLibrary";
@@ -11,6 +11,8 @@ import { allCategories } from '../data/Categories';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import useHandheldPortraitLock from "../utilities/useHandheldPortraitLock";
 import BackButton from "./components/BackButton";
+import ActivityCard from "./components/ActivityCard";
+import getCardBaseStyles from "./styles/CardBaseStyles";
 
 const LibraryScreen = ({ navigation, route }) => {  
   const slot = route?.params?.slot;
@@ -19,6 +21,15 @@ const LibraryScreen = ({ navigation, route }) => {
   const [categorySettings, setCategorySettings] = useState(allCategories);
   const modalRef = useRef(null);
   const insets = useSafeAreaInsets();
+  const { width, height } = useWindowDimensions();
+  const { baseStyles, metrics } = getCardBaseStyles(width, height);
+  const cardStyles = {
+    ...baseStyles,
+    card: {
+      ...baseStyles.card,
+      width: metrics.cardWidth,
+    },
+  };
 
   useEffect(() => {
     if (!visibleCategories.some(cat => cat.label === selectedCategory)) {
@@ -85,7 +96,7 @@ const LibraryScreen = ({ navigation, route }) => {
 
   return (
     <SafeAreaView
-      style={{ flex: 1, backgroundColor: '#fff', paddingTop, paddingBottom }}
+      style={{ flex: 1, paddingTop, paddingBottom }}
       edges={['top', 'bottom', 'left', 'right']}
     >
       <BackButton onPress={() => navigation.goBack()} />
@@ -149,18 +160,13 @@ const LibraryScreen = ({ navigation, route }) => {
           data={filteredActivities}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <TouchableOpacity 
-              onPress={() => handlePress(item)} 
-              style={{ alignItems: 'center' }}
-            >
-              {typeof item.image === 'function' ? (
-                <View>
-                  <item.image width={250} height={250} />
-                </View>
-              ) : (
-                <Image source={item.image} />
-              )}
-            </TouchableOpacity>
+            <ActivityCard
+              activity={{ ...item, fromLibrary: true, imageKey: item.id }}
+              label=""
+              onPress={() => handlePress(item)}
+              styles={cardStyles}
+              resolveActivityImage={(activity) => activity?.image || null}
+            />
           )}
         />
       </View>
