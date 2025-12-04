@@ -8,8 +8,10 @@ const getSlideshowStyles = (width, height, isPortrait) => {
   const { baseStyles } = getCardBaseStyles(width, height);
   const pagePadding = clamp(shorter * 0.05, 18, 38);
   const cardAspect = baseStyles.card?.aspectRatio || 1.05;
-  const headerAllowance = clamp(height * 0.05, 32, 72) + 30; // title row height buffer
-  const dotsAllowance = (isPortrait ? 30 : 18) + 10;
+  // Smaller allowances keep the card vertically centered while leaving breathing room
+  // for the overlayed header and pagination dots.
+  const headerAllowance = clamp(height * 0.035, 18, 46);
+  const dotsAllowance = clamp(shorter * 0.045, isPortrait ? 18 : 12, 34);
   const slidePadding = isPortrait ? pagePadding : pagePadding * 0.75;
   const availableHeight = Math.max(
     height - headerAllowance - dotsAllowance - slidePadding * 2,
@@ -24,13 +26,21 @@ const getSlideshowStyles = (width, height, isPortrait) => {
     ...baseStyles,
     container: {
       flex: 1,
+      justifyContent: 'center',
     },
     header: {
-      paddingTop: isPortrait ? clamp(height * 0.10, 32, 72) : 0,
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      paddingTop: isPortrait ? clamp(height * 0.06, 26, 58) : clamp(height * 0.04, 18, 44),
+      paddingBottom: 8,
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'center',
       backgroundColor: 'transparent',
+      zIndex: 2,
+      pointerEvents: 'box-none',
     },
     title: {
       fontSize: 22,
@@ -72,9 +82,13 @@ const getSlideshowStyles = (width, height, isPortrait) => {
       alignSelf: 'center',
     },
     dotsContainer: {
+      position: 'absolute',
+      bottom: isPortrait ? 22 : 14,
+      left: 0,
+      right: 0,
       flexDirection: 'row',
       justifyContent: 'center',
-      marginBottom: isPortrait ? 30 : 18,
+      zIndex: 2,
     },
     dot: {
       width: 11,

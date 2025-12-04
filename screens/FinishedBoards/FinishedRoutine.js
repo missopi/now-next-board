@@ -1,5 +1,5 @@
 import { View, Text, useWindowDimensions } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import DraggableFlatList from "react-native-draggable-flatlist";
 import RoutineCard from "../components/RoutineCard";
 import getStyles from "../styles/RoutineStyles";
@@ -13,6 +13,8 @@ export default function RoutineViewScreen({ route, navigation }) {
   if (!board) return null;
 
   const activities = board.cards || [];
+
+  const insets = useSafeAreaInsets();
 
   const { width, height } = useWindowDimensions();
   const isPortrait = height > width;
@@ -32,9 +34,11 @@ export default function RoutineViewScreen({ route, navigation }) {
   return (
     <SafeAreaView style={styles.safeContainer} edges={['top', 'bottom', 'left', 'right']}>
       <BackButton onPress={() => navigation.goBack()} />
-      <View style={{marginBottom: isPortrait ? 10 : 5}}>
-        <Text style={styles.topTitle}>{board.title || "Routine"}</Text>
-        <View style={styles.titleUnderline}/>
+      <View style={[styles.floatingTitle, { paddingTop: insets.top }]}>
+        <View style={styles.floatingTitleInner}>
+          <Text style={styles.topTitle}>{board.title || "Routine"}</Text>
+          <View style={styles.titleUnderline}/>
+        </View>
       </View>
       <DraggableFlatList
         data={activities}
@@ -52,7 +56,12 @@ export default function RoutineViewScreen({ route, navigation }) {
             resolveActivityImage={resolveActivityImage}
           />
         )}
-        contentContainerStyle={{ gap: '1%', paddingBottom: isPortrait ? 50 : 0, paddingRight: isPortrait? 0 : 50 }}
+        contentContainerStyle={{
+          gap: '1%',
+          paddingTop: styles.listContentPaddingTop,
+          paddingBottom: isPortrait ? 50 : 0,
+          paddingRight: isPortrait ? 0 : 50,
+        }}
       />
     </SafeAreaView>
   );

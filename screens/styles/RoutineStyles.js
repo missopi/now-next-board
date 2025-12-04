@@ -3,18 +3,47 @@ import getCardBaseStyles from "./CardBaseStyles";
 
 export default function getStyles(width, height, mode = "edit") {
   const shorter = Math.min(width, height);
+  const isPortrait = height >= width;
   const { baseStyles, metrics } = getCardBaseStyles(width, height, mode);
   const textBody = metrics.textBody;
   const cardWidth = metrics.cardWidth;
   const pagePadding = Math.min(shorter * 0.08, 35);
 
+  const bigScreenBoost = shorter >= 800 ? shorter * 0.025 : shorter >= 700 ? shorter * 0.015 : 0;
+  const portraitBoost = bigScreenBoost;
+  const landscapeBoost = bigScreenBoost * 0.6;
+
+  // In view mode keep header off the cards but allow more breathing room in portrait.
+  const topPadding = mode === "view"
+    ? (isPortrait
+      ? Math.max(pagePadding * 1.1 + portraitBoost, 28)
+      : Math.max(pagePadding * 0.4 + landscapeBoost, 12))
+    : pagePadding;
+  const horizontalPadding = mode === "view" ? Math.min(pagePadding, 32) : pagePadding;
+  const contentTopPadding = mode === "view"
+    ? (isPortrait ? Math.max(topPadding * 0.95, 22) : Math.max(topPadding * 0.65, 12))
+    : 0;
+
   return StyleSheet.create({
     ...baseStyles,
     safeContainer: {
       flex: 1,
-      paddingTop: pagePadding,
-      paddingHorizontal: pagePadding,
+      paddingTop: topPadding,
+      paddingHorizontal: horizontalPadding,
       justifyContent: 'center',
+    },
+    floatingTitle: {
+      position: 'absolute',
+      top: 0,
+      left: horizontalPadding,
+      right: horizontalPadding,
+      alignItems: 'center',
+      zIndex: 2,
+      pointerEvents: 'none',
+    },
+    floatingTitleInner: {
+      alignItems: 'center',
+      paddingTop: Math.max(topPadding * 0.3, 6),
     },
     card: {
       ...baseStyles.card,
@@ -59,6 +88,7 @@ export default function getStyles(width, height, mode = "edit") {
       fontWeight: 'bold',
       textAlign: 'center'
     },
+    listContentPaddingTop: contentTopPadding,
     dragText: {
       fontSize: shorter * 0.05,
       color: '#ccc',

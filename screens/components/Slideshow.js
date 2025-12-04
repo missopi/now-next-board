@@ -40,15 +40,20 @@ const Slideshow = ({ route, navigation }) => {
     }
   }).current;
 
-  const headerPaddingTop = Math.max(styles.header.paddingTop - insets.top, 0);
-  const dotsMarginBottom = Math.max(styles.dotsContainer.marginBottom - insets.bottom, 0);
+  const headerPaddingTop = styles.header.paddingTop + Math.max(insets.top * 0.35, 0);
+  const dotsOffset = styles.dotsContainer.bottom + Math.max(insets.bottom * 0.6, 0);
 
   return (
     <SafeAreaView
       style={styles.container}
       edges={['top', 'bottom', 'left', 'right']}
     >
-      {controlsVisible && <BackButton onPress={() => navigation.goBack()} />}
+      {controlsVisible && (
+        <BackButton
+          onPress={() => navigation.goBack()}
+          style={{ zIndex: 3, elevation: 3 }}
+        />
+      )}
       {controlsVisible && (
         <View style={[styles.header, { paddingTop: headerPaddingTop }]}>
           <Text style={styles.title}>{title}</Text>
@@ -79,7 +84,7 @@ const Slideshow = ({ route, navigation }) => {
       />
 
       {controlsVisible && (
-        <View style={[styles.dotsContainer, { marginBottom: dotsMarginBottom }]}>
+        <View style={[styles.dotsContainer, { bottom: dotsOffset }]}>
           {activities.map((_, i) => (
             <View
               key={i}
