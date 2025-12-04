@@ -1,6 +1,6 @@
 // Flatlist of all available activity cards for users to choose from
 
-import { useEffect, useState, useRef, useMemo } from "react";
+import { useEffect, useState, useMemo, useRef } from "react";
 import { Text, View, FlatList, TouchableOpacity, ScrollView, TextInput, useWindowDimensions } from "react-native";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import styles from './styles/LibraryStyles';
@@ -47,7 +47,10 @@ const LibraryScreen = ({ navigation, route }) => {
     }
   }, [desiredCols, numColumns]);
 
-  const listKey = useMemo(() => `library-cols-${numColumns}`, [numColumns]);
+  const listKey = useMemo(
+    () => `library-cols-${numColumns}-cat-${selectedCategory}`,
+    [numColumns, selectedCategory]
+  );
   const availableWidth = Math.max(width - 60 - (GAP * (numColumns - 1)), 240);
   const cardWidth = Math.min(metrics.cardWidth, availableWidth / numColumns);
   const cardStyles = {
@@ -93,8 +96,6 @@ const LibraryScreen = ({ navigation, route }) => {
       return;
     }
 
-    console.log('Library screen received slot:', slot);
-
     // set activity callback so BoardScreen can handle selection
     setActivityCallback((activity) => {
       console.log('triggering activity with:', activity)
@@ -103,6 +104,13 @@ const LibraryScreen = ({ navigation, route }) => {
   }, [slot]);
 
   useHandheldPortraitLock();
+
+  const listRef = useRef(null);
+
+  useEffect(() => {
+    // Reset scroll when filters change so cards start at the top of the list.
+    listRef.current?.scrollToOffset({ offset: 0, animated: false });
+  }, [selectedCategory, searchQuery]);
 
   const handlePress = (activity) => {
     if (!slot) return;
@@ -128,8 +136,7 @@ const LibraryScreen = ({ navigation, route }) => {
       edges={['top', 'bottom', 'left', 'right']}
     >
       <BackButton onPress={() => navigation.goBack()} />
-      <View style={{ flex: 1, minHeight: '50%' }}>
-        {/* search bar */}
+      <View style={{ paddingHorizontal: 20, paddingBottom: 8, paddingTop: 4 }}>
         <View style={styles.searchContainer}>
           <Search width={20} height={20} style={styles.searchIcon} />
           <TextInput
@@ -140,22 +147,21 @@ const LibraryScreen = ({ navigation, route }) => {
             style={styles.searchInput}
           />
         </View>
-        {/* category scroll bar */}
+
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
-          style={styles.tabs}
+          style={[styles.tabs, { marginTop: 10 }]}
           contentContainerStyle={{ alignItems: 'center', justifyContent: 'center', gap: 7 }}
         >
-          <TouchableOpacity // 'ALL' tab always visible on far left of screen
+          <TouchableOpacity
             key="All"
             onPress={() => setSelectedCategory('All')}
             style={[styles.tab, {
               backgroundColor: selectedCategory === 'All' ? '#cdedffff' : '#fff',
               borderColor: selectedCategory === 'All' ? '#0792e2ff' : '#fff',
               borderWidth: selectedCategory === 'All' ? 2 : 1
-            }
-            ]}
+            }]}
           >
             <Text style={[styles.tabText, { color: selectedCategory === 'All' ? '#01a2ffff' : '#ccc' }]}>
               All
@@ -169,42 +175,42 @@ const LibraryScreen = ({ navigation, route }) => {
                 backgroundColor: selectedCategory === cat.label ? '#cdedffff' : '#fff',
                 borderColor: selectedCategory === cat.label ? '#0792e2ff' : '#fff',
                 borderWidth: selectedCategory === cat.label ? 2 : 1
-              }
-              ]}>
+              }]}
+            >
               <Text style={[styles.tabText, { color: selectedCategory === cat.label ? '#01a2ffff' : '#ccc' }]}>
                 {cat.label}
               </Text>
             </TouchableOpacity>
           ))}
-
         </ScrollView>
-        {/* list of image cards */}
-        <FlatList
-          contentContainerStyle={{
-            flexGrow: 1,
-            paddingHorizontal: 20,
-            paddingBottom: 40,
-            paddingTop: 6,
-            gap: GAP,
-          }}
-          columnWrapperStyle={numColumns > 1 ? { gap: GAP, justifyContent: 'flex-start' } : undefined}
-          ListEmptyComponent={<Text style={{ color: '#888', marginTop: 40, textAlign: 'center' }}>No activities in this category</Text>}
-          showsVerticalScrollIndicator={false}
-          data={filteredActivities}
-          key={listKey}
-          numColumns={numColumns}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <ActivityCard
-              activity={{ ...item, fromLibrary: true, imageKey: item.id }}
-              label=""
-              onPress={() => handlePress(item)}
-              styles={cardStyles}
-              resolveActivityImage={(activity) => activity?.image || null}
-            />
-          )}
-        />
       </View>
+
+      <FlatList
+        ref={listRef}
+        style={{ flex: 1 }}
+        contentContainerStyle={{
+          paddingHorizontal: 20,
+          paddingBottom: 40,
+          paddingTop: 6,
+          gap: GAP,
+        }}
+        columnWrapperStyle={numColumns > 1 ? { gap: GAP, justifyContent: 'flex-start' } : undefined}
+        ListEmptyComponent={<Text style={{ color: '#888', marginTop: 12, textAlign: 'left' }}>No activities in this category</Text>}
+        showsVerticalScrollIndicator={false}
+        data={filteredActivities}
+        key={listKey}
+        numColumns={numColumns}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <ActivityCard
+            activity={{ ...item, fromLibrary: true, imageKey: item.id }}
+            label=""
+            onPress={() => handlePress(item)}
+            styles={cardStyles}
+            resolveActivityImage={(activity) => activity?.image || null}
+          />
+        )}
+      />
     </SafeAreaView>
   );
 };
