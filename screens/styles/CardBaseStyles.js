@@ -2,7 +2,14 @@
 
 export default function getCardBaseStyles(width, height) {
   const shorter = Math.min(width, height);
-  const cardWidth = Math.min(shorter * 0.82, 500);
+
+  // Scale cards down slightly on mid-sized tablets (e.g., iPad mini) so they
+  // are not the same footprint as the largest iPads, while keeping phones
+  // untouched and big tablets roomy.
+  const isMidTablet = shorter >= 700 && shorter < 760;
+  const cardWidthCap = isMidTablet ? 470 : 500;
+
+  const cardWidth = Math.min(shorter * 0.82, cardWidthCap);
   const textLarge = shorter * 0.06;
   const textBody = shorter * 0.035;
 
