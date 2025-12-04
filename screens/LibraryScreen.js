@@ -21,20 +21,22 @@ const LibraryScreen = ({ navigation, route }) => {
   const [categorySettings, setCategorySettings] = useState(allCategories);
   const insets = useSafeAreaInsets();
   const { width, height } = useWindowDimensions();
-  const GAP = 12;
+  const GAP = 8;
+  const EDGE = 20;
+  const horizontalPadding = EDGE + Math.max(insets.left, insets.right);
   const { baseStyles, metrics } = getCardBaseStyles(width, height);
   const isPortrait = height >= width;
   const desiredCols = useMemo(() => {
     if (!isPortrait) {
-      if (width >= 1150) return 4;
-      if (width >= 800) return 3;
-      if (width >= 600) return 2;
-      return 2;
+      if (width >= 1150) return 5;
+      if (width >= 800) return 4;
+      if (width >= 600) return 3;
+      return 3;
     } else {
-      if (width >= 1150) return 4;
-      if (width >= 800) return 3;
-      if (width >= 600) return 2;
-      return 1;
+      if (width >= 1150) return 5;
+      if (width >= 800) return 4;
+      if (width >= 600) return 3;
+      return 2;
     }
   }, [width, isPortrait]);
 
@@ -51,13 +53,15 @@ const LibraryScreen = ({ navigation, route }) => {
     () => `library-cols-${numColumns}-cat-${selectedCategory}`,
     [numColumns, selectedCategory]
   );
-  const availableWidth = Math.max(width - 60 - (GAP * (numColumns - 1)), 240);
+  const containerWidth = Math.max(width - (horizontalPadding * 2), 240);
+  const availableWidth = Math.max(containerWidth - (GAP * (numColumns - 1)), 240);
   const cardWidth = Math.min(metrics.cardWidth, availableWidth / numColumns);
   const cardStyles = {
     ...baseStyles,
     card: {
       ...baseStyles.card,
       width: cardWidth,
+      marginHorizontal: 0, // prevent double spacing now that column gap handles gutters
     },
   };
 
@@ -127,7 +131,7 @@ const LibraryScreen = ({ navigation, route }) => {
     navigation.goBack();
   };
 
-  const paddingTop = Math.max(60 - insets.top, 0);
+  const paddingTop = Math.max(40 - insets.top, 0);
   const paddingBottom = Math.max(0 - insets.bottom, 0);
 
   return (
@@ -136,7 +140,7 @@ const LibraryScreen = ({ navigation, route }) => {
       edges={['top', 'bottom', 'left', 'right']}
     >
       <BackButton onPress={() => navigation.goBack()} />
-      <View style={{ paddingHorizontal: 20, paddingBottom: 8, paddingTop: 4 }}>
+      <View style={{ paddingHorizontal: horizontalPadding, paddingBottom: 8 }}>
         <View style={styles.searchContainer}>
           <Search width={20} height={20} style={styles.searchIcon} />
           <TextInput
@@ -189,13 +193,11 @@ const LibraryScreen = ({ navigation, route }) => {
         ref={listRef}
         style={{ flex: 1 }}
         contentContainerStyle={{
-          paddingHorizontal: 20,
-          paddingBottom: 40,
-          paddingTop: 6,
+          paddingHorizontal: horizontalPadding,
           gap: GAP,
         }}
         columnWrapperStyle={numColumns > 1 ? { gap: GAP, justifyContent: 'flex-start' } : undefined}
-        ListEmptyComponent={<Text style={{ color: '#888', marginTop: 12, textAlign: 'left' }}>No activities in this category</Text>}
+        ListEmptyComponent={<Text style={{ color: '#888',paddingTop: 20, textAlign: 'center' }}>No activities in this category</Text>}
         showsVerticalScrollIndicator={false}
         data={filteredActivities}
         key={listKey}
