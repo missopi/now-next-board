@@ -261,7 +261,14 @@ export default function RoutineScreen({ navigation, route }) {
           }}
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ gap: '1%', paddingTop: listTopPadding, paddingBottom: isPortrait ? 50 : 0 }}
+          contentContainerStyle={
+            { 
+              gap: '1%', 
+              paddingTop: listTopPadding, 
+              paddingBottom: isPortrait ? 50 : 0,
+              paddingLeft: isPortrait ? 0 : 20, 
+            }
+          }
 
           // footer button that follows the last card
           ListFooterComponent={
@@ -272,7 +279,15 @@ export default function RoutineScreen({ navigation, route }) {
               cardWidth={styles.cardWidth || width * 0.4}
             />
           }
-          ListFooterComponentStyle={{ justifyContent: 'center', paddingBottom: isPortrait ? 80 : 0, paddingRight: isPortrait? 0 : 80 }}
+          ListFooterComponentStyle={
+            { 
+              justifyContent: 'center', 
+              paddingTop: isPortrait ? 20 : 0, 
+              paddingBottom: isPortrait ? 80 : 0, 
+              paddingRight: isPortrait ? 0 : 80,
+              paddingLeft: isPortrait ? 0 : 20, 
+            }
+          }
         />
       </View>
       <BackButton onPress={() => navigation.goBack()} style={{ zIndex: 10 }} />

@@ -60,14 +60,14 @@ export default function getStyles(width, height, mode = "edit") {
       textAlign: 'center'
     },
     dragText: {
-      fontSize: shorter * 0.064,
+      fontSize: shorter * 0.05,
       color: '#ccc',
     },
     deleteText: {
       color: '#ccc',
-      fontSize: shorter * 0.048,
+      fontSize: shorter * 0.04,
       fontWeight: 'bold',
-      lineHeight: shorter * 0.048,
+      lineHeight: shorter * 0.04,
     },
   });
 }
