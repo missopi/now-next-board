@@ -22,9 +22,6 @@ export default function ImageCardCreatorModal({
 }) {
 
   const isFeatureReady = true;
-
-  console.log("[Modal prop check] setActivityCallback:", typeof setActivityCallback);
-
   const { width, height } = useWindowDimensions();
   const isPortrait = height > width;
   const styles = getModalStyles(isPortrait, width, height);
