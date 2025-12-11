@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Modal, View, Text, Pressable, TextInput, Image, useWindowDimensions } from "react-native";
+import { Modal, View, Text, Pressable, TouchableOpacity, TextInput, Image, useWindowDimensions } from "react-native";
 import getModalStyles from '../styles/ModalStyles';
 
 export default function ImageCardCreatorModal({
@@ -60,7 +60,7 @@ export default function ImageCardCreatorModal({
               <Text style={styles.modalHeader}>Choose Source</Text>
               <Text style={styles.modalDialog}>Please pick an option.</Text>
               <View style={styles.buttonColumn}>
-                <Pressable
+                <TouchableOpacity
                   disabled={!isFeatureReady}
                   style={[
                     styles.smallButton,
@@ -87,9 +87,9 @@ export default function ImageCardCreatorModal({
                   }}
                 >
                   <Text style={[styles.imageAddText, !isFeatureReady && { color: '#666' }]}>Image Library</Text>
-                </Pressable>
+                </TouchableOpacity>
     
-                <Pressable
+                <TouchableOpacity
                   onPress={() => {
                     setNewCardTitle('');
                     setNewCardImage(null);
@@ -99,11 +99,11 @@ export default function ImageCardCreatorModal({
                   style={styles.smallButton}
                 >
                   <Text style={styles.smallButtonText}>Create New</Text>
-                </Pressable>
+                </TouchableOpacity>
     
-                <Pressable onPress={closeModal} style={styles.cancelButton}>
+                <TouchableOpacity onPress={closeModal} style={styles.cancelButton}>
                   <Text style={styles.cancelText}>Cancel</Text>
-                </Pressable>
+                </TouchableOpacity>
               </View>
             </>
           )}
@@ -120,7 +120,7 @@ export default function ImageCardCreatorModal({
                 style={styles.input}
               />
               <View style={styles.buttonRow}>
-                <Pressable
+                <TouchableOpacity
                   onPress={() => {
                     if (!newCardTitle.trim()) {
                       alert('Please enter a title.');
@@ -131,10 +131,10 @@ export default function ImageCardCreatorModal({
                   style={styles.imageAddButton}
                 >
                   <Text style={styles.imageAddText}>Next</Text>
-                </Pressable>
-                <Pressable onPress={closeModal} style={styles.cancelButton}>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={closeModal} style={styles.cancelButton}>
                   <Text style={styles.cancelText}>Cancel</Text>
-                </Pressable>
+                </TouchableOpacity>
               </View>
             </>
           )}
@@ -146,15 +146,15 @@ export default function ImageCardCreatorModal({
               {!newCardImage ? (
                 <View style={styles.buttonColumn}>
                   <Text style={styles.modalDialog}>Please choose an image source.</Text>
-                  <Pressable onPress={() => pickImage('camera')} style={styles.imageButton}>
+                  <TouchableOpacity onPress={() => pickImage('camera')} style={styles.imageButton}>
                     <Text style={styles.addText}>Camera</Text>
-                  </Pressable>
-                  <Pressable onPress={() => pickImage('gallery')} style={styles.imageButton}>
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => pickImage('gallery')} style={styles.imageButton}>
                     <Text style={styles.addText}>Photo Gallery</Text>
-                  </Pressable>
-                  <Pressable onPressIn={closeModal} style={styles.cancelButton}>
+                  </TouchableOpacity>
+                  <TouchableOpacity onPressIn={closeModal} style={styles.cancelButton}>
                     <Text style={styles.cancelText}>Cancel</Text>
-                  </Pressable> 
+                  </TouchableOpacity> 
                 </View>
               ) : (
                 <>
@@ -163,12 +163,12 @@ export default function ImageCardCreatorModal({
                   </View>
 
                   <View style={styles.buttonRow}>
-                    <Pressable onPress={saveNewCard} style={styles.imageAddButton}>
+                    <TouchableOpacity onPress={saveNewCard} style={styles.imageAddButton}>
                       <Text style={styles.imageAddText}>Add</Text>
-                    </Pressable>
-                    <Pressable onPressIn={closeModal} style={styles.cancelButton}>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPressIn={closeModal} style={styles.cancelButton}>
                       <Text style={styles.cancelText}>Cancel</Text>
-                    </Pressable> 
+                    </TouchableOpacity> 
                   </View>
                 </>
               )}
