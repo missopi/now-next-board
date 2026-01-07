@@ -1,13 +1,14 @@
 // Stack navigator setup for main app screens
 // Case sensitive filenames
 
-import { useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { TouchableOpacity, View, useWindowDimensions } from "react-native";
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import * as ScreenOrientation from 'expo-screen-orientation';
+import * as SplashScreen from 'expo-splash-screen';
 
 import AllBoardsScreen from "./screens/AllBoardsScreen";
 import Routines from "./screens/Routines";
@@ -22,9 +23,12 @@ import Word from "./assets/andNext-word.svg";
 
 const Stack = createStackNavigator();
 
+SplashScreen.preventAutoHideAsync().catch(() => {});
+
 export default function App() {
   const { width, height } = useWindowDimensions();
   const shorter = Math.min(width, height);
+  const [appIsReady, setAppIsReady] = useState(false);
 
   useEffect(() => {
     const lockPhonePortrait = async () => {
@@ -43,13 +47,35 @@ export default function App() {
     lockPhonePortrait();
   }, [shorter]);
 
+  useEffect(() => {
+    const prepare = async () => {
+      try {
+        // Keep splash visible until the first layout is ready.
+      } finally {
+        setAppIsReady(true);
+      }
+    };
+
+    prepare();
+  }, []);
+
+  const onLayoutRootView = useCallback(async () => {
+    if (appIsReady) {
+      await SplashScreen.hideAsync();
+    }
+  }, [appIsReady]);
+
   const scale = Math.min(Math.max(shorter / 430, 1), 1.6);
   const iconSize = 30 * scale;
   const headerSpace = 10 * scale;
   const wordWidth = 190 * scale; 
 
+  if (!appIsReady) {
+    return null;
+  }
+
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
+    <GestureHandlerRootView style={{ flex: 1 }} onLayout={onLayoutRootView}>
       <SafeAreaProvider>
         <NavigationContainer>
           <Stack.Navigator 

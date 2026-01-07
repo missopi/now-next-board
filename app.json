@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "now-next-board",
+    "name": "andNext",
     "slug": "now-next-board",
     "version": "1.0.0",
     "orientation": "default", 
@@ -8,7 +8,7 @@
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/splash-icon.png",
+      "image": "./assets/andNext-logo.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
