@@ -11,10 +11,14 @@ const RoutineCard = ({
   styles,
   resolveActivityImage,
 }) => {
+  const hasImage = activity && (resolveActivityImage ? !!resolveActivityImage(activity) : !!activity?.image);
+  const hasName = !!activity?.name;
+  const isEmpty = !activity || (!hasImage && !hasName);
+
   return (
     <ActivityCard
-      activity={activity}
-      label="Add Activity"
+      activity={isEmpty ? null : activity}
+      label="Add Routine Card"
       onPress={() => onPress?.(index)}
       readOnly={readOnly}
       styles={styles}
