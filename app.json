@@ -14,7 +14,7 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.nownextboard"
+      "bundleIdentifier": "com.missopi.andnext"
     },
     "android": {
       "adaptiveIcon": {
@@ -22,7 +22,7 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.anonymous.nownextboard"
+      "package": "com.missopi.andnext"
     },
     "web": {
       "favicon": "./assets/favicon.png"
