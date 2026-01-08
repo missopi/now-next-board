@@ -5,7 +5,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { TouchableOpacity, View, useWindowDimensions } from "react-native";
+import { Text, TouchableOpacity, View, useWindowDimensions } from "react-native";
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import * as SplashScreen from 'expo-splash-screen';
@@ -17,18 +17,24 @@ import BoardScreen from "./screens/BoardScreen";
 import LibraryScreen from "./screens/LibraryScreen";
 import FinishedNowNext from "./screens/FinishedBoards/FinishedNowNext";
 import FinshedRoutine from "./screens/FinishedBoards/FinishedRoutine";
+import SupportScreen from "./screens/SupportScreen";
+import { initLogger } from "./utilities/logger";
 
 import Add from "./assets/icons/add.svg";
 import Word from "./assets/andThen-word.svg";
 
 const Stack = createStackNavigator();
 
-SplashScreen.preventAutoHideAsync().catch(() => {});
+SplashScreen.preventAutoHideAsync().catch(() => { });
 
 export default function App() {
   const { width, height } = useWindowDimensions();
   const shorter = Math.min(width, height);
   const [appIsReady, setAppIsReady] = useState(false);
+
+  useEffect(() => {
+    initLogger();
+  }, []);
 
   useEffect(() => {
     const lockPhonePortrait = async () => {
@@ -68,7 +74,7 @@ export default function App() {
   const scale = Math.min(Math.max(shorter / 430, 1), 1.6);
   const iconSize = 30 * scale;
   const headerSpace = 10 * scale;
-  const wordWidth = 190 * scale; 
+  const wordWidth = 190 * scale;
 
   if (!appIsReady) {
     return null;
@@ -78,14 +84,14 @@ export default function App() {
     <GestureHandlerRootView style={{ flex: 1 }} onLayout={onLayoutRootView}>
       <SafeAreaProvider>
         <NavigationContainer>
-          <Stack.Navigator 
+          <Stack.Navigator
             initialRouteName="Home"
             screenOptions={{ headerMode: 'screen' }}
           >
-            <Stack.Screen 
-              name="Home" 
+            <Stack.Screen
+              name="Home"
               component={AllBoardsScreen}
-              options={({ navigation }) => ({ 
+              options={({ navigation }) => ({
                 headerTitle: '',
                 headerStyle: {
                   height: 72 + headerSpace * 3,
@@ -98,6 +104,12 @@ export default function App() {
                 ),
                 headerRight: () => (
                   <View style={{ flexDirection: 'row', justifyContent: 'flex-end', paddingBottom: 9, marginRight: 20 }}>
+                    <TouchableOpacity
+                      onPress={() => navigation.navigate("Support")}
+                      style={{ paddingVertical: 8, paddingHorizontal: 8, marginRight: 12 }}
+                    >
+                      <Text style={{ color: "#fff", fontSize: 16, fontWeight: "600" }}>Help</Text>
+                    </TouchableOpacity>
                     <TouchableOpacity onPress={() => navigation.setParams({ showAddModal: true })}>
                       <Add width={iconSize} height={iconSize} style={{ marginRight: 5 }} />
                     </TouchableOpacity>
@@ -105,50 +117,59 @@ export default function App() {
                 ),
               })}
             />
-            <Stack.Screen 
-              name="Routines" 
+            <Stack.Screen
+              name="Routines"
               component={Routines}
               options={() => ({
-              headerTransparent: true,
-              headerShown: false,
+                headerTransparent: true,
+                headerShown: false,
               })}
             />
-            <Stack.Screen 
-              name="FinishedRoutine" 
+            <Stack.Screen
+              name="FinishedRoutine"
               component={FinshedRoutine}
               options={() => ({
-              headerTransparent: true,
-              headerShown: false,
+                headerTransparent: true,
+                headerShown: false,
               })}
             />
             <Stack.Screen name="Slideshow" component={Slideshow} />
-            <Stack.Screen 
-              name="Now/Next" 
+            <Stack.Screen
+              name="Now/Next"
               component={BoardScreen}
               options={() => ({
-              headerTransparent: true,
-              headerShown: false,
+                headerTransparent: true,
+                headerShown: false,
               })}
             />
-            <Stack.Screen 
-              name="FinishedNowNext" 
+            <Stack.Screen
+              name="FinishedNowNext"
               component={FinishedNowNext}
               options={() => ({
-              headerTransparent: true,
-              headerShown: false,
+                headerTransparent: true,
+                headerShown: false,
               })}
             />
-            <Stack.Screen 
-              name="LibraryScreen" 
+            <Stack.Screen
+              name="LibraryScreen"
               component={LibraryScreen}
               options={() => ({
-              headerTransparent: true,
-              headerShown: false,
+                headerTransparent: true,
+                headerShown: false,
+              })}
+            />
+            <Stack.Screen
+              name="Support"
+              component={SupportScreen}
+              options={() => ({
+                title: "Support",
+                headerStyle: { backgroundColor: "#0792e2ff" },
+                headerTintColor: "#fff",
               })}
             />
           </Stack.Navigator>
         </NavigationContainer>
       </SafeAreaProvider>
-    </GestureHandlerRootView> 
+    </GestureHandlerRootView>
   );
 }
