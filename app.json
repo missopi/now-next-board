@@ -1,14 +1,14 @@
 {
   "expo": {
-    "name": "andNext",
+    "name": "andThen",
     "slug": "now-next-board",
     "version": "1.0.0",
     "orientation": "default", 
-    "icon": "./assets/icon.png",
+    "icon": "./assets/andThen-icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/andNext-logo.png",
+      "image": "./assets/andThen-logo.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -18,14 +18,14 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/andThen-adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
       "package": "com.missopi.andnext"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/andThen-favicon.png"
     }
   }
 }

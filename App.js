@@ -19,7 +19,7 @@ import FinishedNowNext from "./screens/FinishedBoards/FinishedNowNext";
 import FinshedRoutine from "./screens/FinishedBoards/FinishedRoutine";
 
 import Add from "./assets/icons/add.svg";
-import Word from "./assets/andNext-word.svg";
+import Word from "./assets/andThen-word.svg";
 
 const Stack = createStackNavigator();
 
