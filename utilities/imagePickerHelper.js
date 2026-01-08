@@ -1,11 +1,82 @@
 /**
  * File to store all image picker code so can be used on multiple screens.
  * Will handle selected images from camera and photo gallery.
- * */ 
+ * */
 
 import * as ImagePicker from "expo-image-picker";
 import * as ImageManipulator from "expo-image-manipulator";
+import * as FileSystem from "expo-file-system";
 
+const IMAGE_DIR = `${FileSystem.documentDirectory}user-images`;
+const MAX_IMAGE_WIDTH = 1024;
+const JPEG_QUALITY = 0.85;
+
+const ensureImageDir = async () => {
+  if (!FileSystem.documentDirectory) {
+    console.warn("[pickImage] Document directory unavailable.");
+    return null;
+  }
+
+  try {
+    const dirInfo = await FileSystem.getInfoAsync(IMAGE_DIR);
+    if (!dirInfo.exists) {
+      await FileSystem.makeDirectoryAsync(IMAGE_DIR, { intermediates: true });
+    }
+    return IMAGE_DIR;
+  } catch (error) {
+    console.error("[pickImage] Failed to prepare image directory.", error);
+    return null;
+  }
+};
+
+const createImageFileName = () => {
+  const suffix = Math.random().toString(36).slice(2, 8);
+  return `card-${Date.now()}-${suffix}.jpg`;
+};
+
+const persistImage = async (sourceUri) => {
+  const dir = await ensureImageDir();
+  if (!dir) return sourceUri;
+
+  const destUri = `${dir}/${createImageFileName()}`;
+
+  try {
+    await FileSystem.copyAsync({ from: sourceUri, to: destUri });
+    return destUri;
+  } catch (error) {
+    console.error("[pickImage] Failed to persist image.", error);
+    return sourceUri;
+  }
+};
+
+const normalizeImageUri = async (asset) => {
+  const sourceUri = asset?.uri;
+  const sourceWidth = asset?.width;
+  const lowerUri = sourceUri ? sourceUri.toLowerCase() : "";
+  const mimeType = asset?.mimeType ? asset.mimeType.toLowerCase() : "";
+  const needsResize = sourceWidth && sourceWidth > MAX_IMAGE_WIDTH;
+  const isLibraryAsset = lowerUri.startsWith("ph://") || lowerUri.startsWith("assets-library://");
+  const needsFormatConversion = mimeType.includes("png") || mimeType.includes("heic") || mimeType.includes("heif");
+  const shouldManipulate = isLibraryAsset || needsResize || needsFormatConversion;
+
+  try {
+    if (!shouldManipulate) {
+      return await persistImage(sourceUri);
+    }
+
+    const resizeActions = needsResize ? [{ resize: { width: MAX_IMAGE_WIDTH } }] : [];
+
+    const manipulatedImage = await ImageManipulator.manipulateAsync(
+      sourceUri,
+      resizeActions,
+      { compress: JPEG_QUALITY, format: ImageManipulator.SaveFormat.JPEG }
+    );
+    return await persistImage(manipulatedImage.uri);
+  } catch (error) {
+    console.error("[pickImage] Failed to normalize image.", error);
+    return await persistImage(sourceUri);
+  }
+};
 
 // Ask for permissions
 export async function requestPermission(type) {
@@ -13,12 +84,12 @@ export async function requestPermission(type) {
     const { status } = await ImagePicker.requestCameraPermissionsAsync();
     return status === 'granted';
   } else {
-    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    return status === 'granted';
+    const { status, accessPrivileges } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    return status === 'granted' || accessPrivileges === 'limited';
   }
 }
 
-// Choose image from camera or photo gallery & converts pngs to jpeg
+// Choose image from camera or photo gallery and normalize to a local file
 export async function pickImage(type = 'camera') {
   console.log('[pickImage] start - type:', type);
 
@@ -51,7 +122,7 @@ export async function pickImage(type = 'camera') {
     console.error('[pickImage] Picker error.', error);
     return null;
   }
-  
+
   if (result.canceled || !result.assets?.length) {
     console.log('[pickImage] cancelled or no assets');
     return null;
@@ -66,27 +137,12 @@ export async function pickImage(type = 'camera') {
   }
 
   let imageUri = result.assets[0].uri;
-  console.log('initial image uri:', imageUri);
-  console.time('image conversion')
-  
-  // Converts a picked image to JPEG and returns its URI.
-  if (imageUri.toLowerCase().endsWith('.png')) {
-    console.log('png detected, attempting to convert...');
+  console.log("initial image uri:", imageUri);
+  console.time("[pickImage] normalize image");
 
-    try {
-      const manipulatedImage = await ImageManipulator.manipulateAsync(
-        imageUri,
-        [{ resize: { width: 1024 } }], // resize to help p[erformance
-        { compress: 0.85, format: ImageManipulator.SaveFormat.JPEG }
-      );
-      console.log('[pickImage] jpeg convertion successful. New uri:', manipulatedImage.uri);
-      return manipulatedImage.uri;
-    } catch (error) {
-      console.error('Error converting to JPEG:', error);
-      return null;
-    }
-  }
-  
-  console.timeEnd('image conversion');
-  return imageUri;
+  const normalizedUri = await normalizeImageUri(asset);
+  console.log("[pickImage] normalized image uri:", normalizedUri);
+
+  console.timeEnd("[pickImage] normalize image");
+  return normalizedUri;
 }
