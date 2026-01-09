@@ -36,7 +36,6 @@ const ensureImageDir = async () => {
   try {
     const baseDirectory = documentDir || cacheDir;
     const imageDir = new Directory(baseDirectory, "user-images");
-    console.log("[pickImage] Using image directory:", imageDir.uri);
     imageDir.create({ idempotent: true });
     return imageDir;
   } catch (error) {
@@ -60,10 +59,8 @@ const persistImage = async (sourceUri) => {
   const destFile = new File(dir, createImageFileName());
 
   try {
-    console.log("[pickImage] Persisting image.", { sourceUri, destUri: destFile.uri });
     const sourceFile = new File(sourceUri);
     const sourceInfo = sourceFile.info();
-    console.log("[pickImage] Source info:", sourceInfo);
     if (!sourceInfo.exists) {
       console.warn("[pickImage] Source file missing before copy.", { sourceUri });
     }
@@ -72,10 +69,9 @@ const persistImage = async (sourceUri) => {
       console.warn("[pickImage] Persisted file missing after copy.");
       return sourceUri;
     }
-    console.log("[pickImage] Persisted via copy:", destFile.info());
     return destFile.uri;
   } catch (error) {
-    console.warn("[pickImage] Copy failed, trying move instead.", error);
+    console.warn("[pickImage] Copy failed, trying move instead.");
     try {
       const sourceFile = new File(sourceUri);
       sourceFile.move(destFile);
@@ -83,7 +79,6 @@ const persistImage = async (sourceUri) => {
         console.warn("[pickImage] Persisted file missing after move.");
         return sourceUri;
       }
-      console.log("[pickImage] Persisted via move:", destFile.info());
       return destFile.uri;
     } catch (moveError) {
       console.error("[pickImage] Failed to persist image.", moveError);
@@ -101,16 +96,6 @@ const normalizeImageUri = async (asset) => {
   const isLibraryAsset = lowerUri.startsWith("ph://") || lowerUri.startsWith("assets-library://");
   const needsFormatConversion = mimeType.includes("png") || mimeType.includes("heic") || mimeType.includes("heif");
   const shouldManipulate = isLibraryAsset || needsFormatConversion || needsResize;
-  console.log("[pickImage] Normalize decision:", {
-    sourceUri,
-    sourceWidth,
-    mimeType,
-    needsResize,
-    isLibraryAsset,
-    needsFormatConversion,
-    shouldManipulate,
-  });
-
   if (!sourceUri) {
     console.warn("[pickImage] Normalize skipped: missing source uri.");
     return null;
@@ -121,23 +106,18 @@ const normalizeImageUri = async (asset) => {
 
     if (!shouldManipulate) {
       const persistedUri = await persistImage(sourceUri);
-      console.log("[pickImage] Normalize no-manipulate result:", persistedUri);
       return persistedUri;
     }
 
     if (!isLibraryAsset) {
       const persistedUri = await persistImage(sourceUri);
-      console.log("[pickImage] Persisted before manipulate:", persistedUri);
       try {
-        console.log("[pickImage] Running ImageManipulator on persisted file.", { resizeActions });
         const manipulatedImage = await ImageManipulator.manipulateAsync(
           persistedUri,
           resizeActions,
           { compress: JPEG_QUALITY, format: ImageManipulator.SaveFormat.JPEG }
         );
-        console.log("[pickImage] Manipulated image:", manipulatedImage);
         const normalizedUri = await persistImage(manipulatedImage?.uri || persistedUri);
-        console.log("[pickImage] Normalize persisted after manipulate:", normalizedUri);
         return normalizedUri;
       } catch (manipulateError) {
         console.warn("[pickImage] Manipulator failed on persisted file.", manipulateError);
@@ -145,20 +125,16 @@ const normalizeImageUri = async (asset) => {
       }
     }
 
-    console.log("[pickImage] Running ImageManipulator.", { resizeActions });
     const manipulatedImage = await ImageManipulator.manipulateAsync(
       sourceUri,
       resizeActions,
       { compress: JPEG_QUALITY, format: ImageManipulator.SaveFormat.JPEG }
     );
-    console.log("[pickImage] Manipulated image:", manipulatedImage);
     const normalizedUri = await persistImage(manipulatedImage?.uri || sourceUri);
-    console.log("[pickImage] Normalize persisted after manipulate:", normalizedUri);
     return normalizedUri;
   } catch (error) {
     console.error("[pickImage] Failed to normalize image.", error);
     const fallbackUri = await persistImage(sourceUri);
-    console.log("[pickImage] Normalize fallback persist:", fallbackUri);
     return fallbackUri;
   }
 };
@@ -176,14 +152,7 @@ export async function requestPermission(type) {
 
 // Choose image from camera or photo gallery and normalize to a local file
 export async function pickImage(type = 'camera') {
-  console.log('[pickImage] start - type:', type);
-  const documentDir = getDirectory("document");
-  const cacheDir = getDirectory("cache");
-  console.log("[pickImage] Document directory:", documentDir?.uri || "");
-  console.log("[pickImage] Cache directory:", cacheDir?.uri || "");
-
   const hasPermission = await requestPermission(type);
-  console.log('[pickImage] permission granted:', hasPermission);
 
   if (!hasPermission) {
     alert('Permission denied. Please enable permissions in settings.');
@@ -208,60 +177,42 @@ export async function pickImage(type = 'camera') {
         copyToCacheDirectory: true,
       });
     }
-    console.log('[pickImage] Picker result:', result);
   } catch (error) {
     console.error('[pickImage] Picker error.', error);
     return null;
   }
 
   if (result.canceled || !result.assets?.length) {
-    console.log('[pickImage] cancelled or no assets');
     return null;
   }
 
   const asset = result.assets?.[0];
-  console.log('[pickImage] Picked asset:', asset);
-  console.log("[pickImage] Picked asset summary:", {
-    uri: asset?.uri,
-    fileName: asset?.fileName,
-    fileSize: asset?.fileSize,
-    width: asset?.width,
-    height: asset?.height,
-    type: asset?.type,
-    mimeType: asset?.mimeType,
-  });
 
   if (!asset || !asset.uri) {
     console.error('[pickImage] missing or has no URI', asset);
     return null;
   }
 
-  let imageUri = result.assets[0].uri;
-  console.log("initial image uri:", imageUri);
   try {
-    const initialInfo = new File(imageUri).info();
-    console.log("[pickImage] Initial file info:", initialInfo);
+    new File(asset.uri).info();
   } catch (infoError) {
     console.warn("[pickImage] Failed to read initial file info.", infoError);
   }
   try {
     let normalizedUri = null;
-    console.log("[pickImage] normalize start");
     try {
       normalizedUri = await normalizeImageUri(asset);
     } catch (normalizeError) {
       console.error("[pickImage] normalize threw", normalizeError);
       normalizedUri = asset.uri;
     }
-    console.log("[pickImage] normalized image uri:", normalizedUri);
     if (!normalizedUri) {
       console.warn("[pickImage] normalized image uri missing; falling back to asset uri");
       normalizedUri = asset.uri;
     }
     if (normalizedUri) {
       try {
-        const normalizedInfo = new File(normalizedUri).info();
-        console.log("[pickImage] Normalized file info:", normalizedInfo);
+        new File(normalizedUri).info();
       } catch (normalizedError) {
         console.warn("[pickImage] Failed to read normalized file info.", normalizedError);
       }
