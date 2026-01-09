@@ -122,7 +122,10 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
   };
 
   async function handleImagePick(type) {
+    setModalStep('create');
+    setIsPickingImage(true);
     const imageUri = await pickImage(type);
+    console.log('[handleImagePick] image uri:', imageUri);
     if (imageUri) {
       setNewCardImage(imageUri);
     } else {

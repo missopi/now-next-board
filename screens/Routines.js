@@ -146,10 +146,15 @@ export default function RoutineScreen({ navigation, route }) {
   }
 
   const handleImagePick = async (type) => {
+    setModalStep('create');
+    setIsPickingImage(true);
     const imageUri = await pickImage(type);
+    console.log('[handleImagePick] image uri:', imageUri);
     if (imageUri) {
       setNewCardImage(imageUri);
       setHasChanges(true);
+    } else {
+      console.warn('[handleImagePick] no image returned');
     }
   };
 

@@ -244,19 +244,31 @@ export async function pickImage(type = 'camera') {
   } catch (infoError) {
     console.warn("[pickImage] Failed to read initial file info.", infoError);
   }
-  console.time("[pickImage] normalize image");
-
-  const normalizedUri = await normalizeImageUri(asset);
-  console.log("[pickImage] normalized image uri:", normalizedUri);
-  if (normalizedUri) {
+  try {
+    let normalizedUri = null;
+    console.log("[pickImage] normalize start");
     try {
-      const normalizedInfo = new File(normalizedUri).info();
-      console.log("[pickImage] Normalized file info:", normalizedInfo);
-    } catch (normalizedError) {
-      console.warn("[pickImage] Failed to read normalized file info.", normalizedError);
+      normalizedUri = await normalizeImageUri(asset);
+    } catch (normalizeError) {
+      console.error("[pickImage] normalize threw", normalizeError);
+      normalizedUri = asset.uri;
     }
+    console.log("[pickImage] normalized image uri:", normalizedUri);
+    if (!normalizedUri) {
+      console.warn("[pickImage] normalized image uri missing; falling back to asset uri");
+      normalizedUri = asset.uri;
+    }
+    if (normalizedUri) {
+      try {
+        const normalizedInfo = new File(normalizedUri).info();
+        console.log("[pickImage] Normalized file info:", normalizedInfo);
+      } catch (normalizedError) {
+        console.warn("[pickImage] Failed to read normalized file info.", normalizedError);
+      }
+    }
+    return normalizedUri;
+  } catch (pickError) {
+    console.error("[pickImage] Failed during normalize flow.", pickError);
+    return asset.uri;
   }
-
-  console.timeEnd("[pickImage] normalize image");
-  return normalizedUri;
 }
