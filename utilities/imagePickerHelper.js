@@ -9,10 +9,7 @@ import { Directory, File, Paths } from "expo-file-system";
 
 const MAX_IMAGE_WIDTH = 1024;
 const JPEG_QUALITY = 0.85;
-const IMAGE_MEDIA_TYPE =
-  ImagePicker.MediaTypeOptions?.Images ??
-  ImagePicker.MediaType?.Images ??
-  "images";
+const IMAGE_MEDIA_TYPE = ImagePicker.MediaType?.Images ?? "images";
 
 const getDirectory = (type) => {
   try {
@@ -204,7 +201,7 @@ export async function pickImage(type = 'camera') {
       });
     } else {
       result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: IMAGE_MEDIA_TYPE,
+        mediaTypes: [IMAGE_MEDIA_TYPE],
         allowsEditing: false,
         aspect: [4, 3],
         quality: 1,
