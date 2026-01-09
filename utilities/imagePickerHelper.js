@@ -5,9 +5,8 @@
 
 import * as ImagePicker from "expo-image-picker";
 import * as ImageManipulator from "expo-image-manipulator";
-import * as FileSystem from "expo-file-system";
+import { Directory, File, Paths } from "expo-file-system";
 
-const IMAGE_DIR = `${FileSystem.documentDirectory}user-images`;
 const MAX_IMAGE_WIDTH = 1024;
 const JPEG_QUALITY = 0.85;
 const IMAGE_MEDIA_TYPE =
@@ -15,20 +14,34 @@ const IMAGE_MEDIA_TYPE =
   ImagePicker.MediaType?.Images ??
   "images";
 
+const getDirectory = (type) => {
+  try {
+    const dir = type === "document" ? Paths.document : Paths.cache;
+    return dir?.uri ? dir : null;
+  } catch (error) {
+    return null;
+  }
+};
+
 const ensureImageDir = async () => {
-  if (!FileSystem.documentDirectory) {
-    console.warn("[pickImage] Document directory unavailable.");
+  const documentDir = getDirectory("document");
+  const cacheDir = getDirectory("cache");
+
+  if (!documentDir && !cacheDir) {
+    console.warn("[pickImage] Document and cache directories unavailable.");
     return null;
   }
 
+  if (!documentDir && cacheDir) {
+    console.warn("[pickImage] Document directory unavailable. Falling back to cache directory.");
+  }
+
   try {
-    console.log("[pickImage] Using image directory:", IMAGE_DIR);
-    const dirInfo = await FileSystem.getInfoAsync(IMAGE_DIR);
-    if (!dirInfo.exists) {
-      await FileSystem.makeDirectoryAsync(IMAGE_DIR, { intermediates: true });
-      console.log("[pickImage] Created image directory.");
-    }
-    return IMAGE_DIR;
+    const baseDirectory = documentDir || cacheDir;
+    const imageDir = new Directory(baseDirectory, "user-images");
+    console.log("[pickImage] Using image directory:", imageDir.uri);
+    imageDir.create({ idempotent: true });
+    return imageDir;
   } catch (error) {
     console.error("[pickImage] Failed to prepare image directory.", error);
     return null;
@@ -47,34 +60,34 @@ const persistImage = async (sourceUri) => {
     return sourceUri;
   }
 
-  const destUri = `${dir}/${createImageFileName()}`;
+  const destFile = new File(dir, createImageFileName());
 
   try {
-    console.log("[pickImage] Persisting image.", { sourceUri, destUri });
-    const sourceInfo = await FileSystem.getInfoAsync(sourceUri, { size: true });
+    console.log("[pickImage] Persisting image.", { sourceUri, destUri: destFile.uri });
+    const sourceFile = new File(sourceUri);
+    const sourceInfo = sourceFile.info();
     console.log("[pickImage] Source info:", sourceInfo);
     if (!sourceInfo.exists) {
       console.warn("[pickImage] Source file missing before copy.", { sourceUri });
     }
-    await FileSystem.copyAsync({ from: sourceUri, to: destUri });
-    const destInfo = await FileSystem.getInfoAsync(destUri);
-    if (!destInfo.exists) {
+    sourceFile.copy(destFile);
+    if (!destFile.exists) {
       console.warn("[pickImage] Persisted file missing after copy.");
       return sourceUri;
     }
-    console.log("[pickImage] Persisted via copy:", destInfo);
-    return destUri;
+    console.log("[pickImage] Persisted via copy:", destFile.info());
+    return destFile.uri;
   } catch (error) {
     console.warn("[pickImage] Copy failed, trying move instead.", error);
     try {
-      await FileSystem.moveAsync({ from: sourceUri, to: destUri });
-      const destInfo = await FileSystem.getInfoAsync(destUri);
-      if (!destInfo.exists) {
+      const sourceFile = new File(sourceUri);
+      sourceFile.move(destFile);
+      if (!destFile.exists) {
         console.warn("[pickImage] Persisted file missing after move.");
         return sourceUri;
       }
-      console.log("[pickImage] Persisted via move:", destInfo);
-      return destUri;
+      console.log("[pickImage] Persisted via move:", destFile.info());
+      return destFile.uri;
     } catch (moveError) {
       console.error("[pickImage] Failed to persist image.", moveError);
       return sourceUri;
@@ -167,7 +180,10 @@ export async function requestPermission(type) {
 // Choose image from camera or photo gallery and normalize to a local file
 export async function pickImage(type = 'camera') {
   console.log('[pickImage] start - type:', type);
-  console.log("[pickImage] Document directory:", FileSystem.documentDirectory);
+  const documentDir = getDirectory("document");
+  const cacheDir = getDirectory("cache");
+  console.log("[pickImage] Document directory:", documentDir?.uri || "");
+  console.log("[pickImage] Cache directory:", cacheDir?.uri || "");
 
   const hasPermission = await requestPermission(type);
   console.log('[pickImage] permission granted:', hasPermission);
@@ -226,7 +242,7 @@ export async function pickImage(type = 'camera') {
   let imageUri = result.assets[0].uri;
   console.log("initial image uri:", imageUri);
   try {
-    const initialInfo = await FileSystem.getInfoAsync(imageUri, { size: true });
+    const initialInfo = new File(imageUri).info();
     console.log("[pickImage] Initial file info:", initialInfo);
   } catch (infoError) {
     console.warn("[pickImage] Failed to read initial file info.", infoError);
@@ -236,8 +252,12 @@ export async function pickImage(type = 'camera') {
   const normalizedUri = await normalizeImageUri(asset);
   console.log("[pickImage] normalized image uri:", normalizedUri);
   if (normalizedUri) {
-    const normalizedInfo = await FileSystem.getInfoAsync(normalizedUri, { size: true });
-    console.log("[pickImage] Normalized file info:", normalizedInfo);
+    try {
+      const normalizedInfo = new File(normalizedUri).info();
+      console.log("[pickImage] Normalized file info:", normalizedInfo);
+    } catch (normalizedError) {
+      console.warn("[pickImage] Failed to read normalized file info.", normalizedError);
+    }
   }
 
   console.timeEnd("[pickImage] normalize image");
