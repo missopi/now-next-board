@@ -42,7 +42,10 @@ const createImageFileName = () => {
 
 const persistImage = async (sourceUri) => {
   const dir = await ensureImageDir();
-  if (!dir) return sourceUri;
+  if (!dir) {
+    console.warn("[pickImage] Persist skipped: image directory unavailable.");
+    return sourceUri;
+  }
 
   const destUri = `${dir}/${createImageFileName()}`;
 
@@ -50,6 +53,9 @@ const persistImage = async (sourceUri) => {
     console.log("[pickImage] Persisting image.", { sourceUri, destUri });
     const sourceInfo = await FileSystem.getInfoAsync(sourceUri, { size: true });
     console.log("[pickImage] Source info:", sourceInfo);
+    if (!sourceInfo.exists) {
+      console.warn("[pickImage] Source file missing before copy.", { sourceUri });
+    }
     await FileSystem.copyAsync({ from: sourceUri, to: destUri });
     const destInfo = await FileSystem.getInfoAsync(destUri);
     if (!destInfo.exists) {
@@ -84,7 +90,7 @@ const normalizeImageUri = async (asset) => {
   const needsResize = sourceWidth && sourceWidth > MAX_IMAGE_WIDTH;
   const isLibraryAsset = lowerUri.startsWith("ph://") || lowerUri.startsWith("assets-library://");
   const needsFormatConversion = mimeType.includes("png") || mimeType.includes("heic") || mimeType.includes("heif");
-  const shouldManipulate = isLibraryAsset || needsFormatConversion;
+  const shouldManipulate = isLibraryAsset || needsFormatConversion || needsResize;
   console.log("[pickImage] Normalize decision:", {
     sourceUri,
     sourceWidth,
@@ -95,12 +101,39 @@ const normalizeImageUri = async (asset) => {
     shouldManipulate,
   });
 
+  if (!sourceUri) {
+    console.warn("[pickImage] Normalize skipped: missing source uri.");
+    return null;
+  }
+
   try {
+    const resizeActions = needsResize ? [{ resize: { width: MAX_IMAGE_WIDTH } }] : [];
+
     if (!shouldManipulate) {
-      return await persistImage(sourceUri);
+      const persistedUri = await persistImage(sourceUri);
+      console.log("[pickImage] Normalize no-manipulate result:", persistedUri);
+      return persistedUri;
     }
 
-    const resizeActions = needsResize ? [{ resize: { width: MAX_IMAGE_WIDTH } }] : [];
+    if (!isLibraryAsset) {
+      const persistedUri = await persistImage(sourceUri);
+      console.log("[pickImage] Persisted before manipulate:", persistedUri);
+      try {
+        console.log("[pickImage] Running ImageManipulator on persisted file.", { resizeActions });
+        const manipulatedImage = await ImageManipulator.manipulateAsync(
+          persistedUri,
+          resizeActions,
+          { compress: JPEG_QUALITY, format: ImageManipulator.SaveFormat.JPEG }
+        );
+        console.log("[pickImage] Manipulated image:", manipulatedImage);
+        const normalizedUri = await persistImage(manipulatedImage?.uri || persistedUri);
+        console.log("[pickImage] Normalize persisted after manipulate:", normalizedUri);
+        return normalizedUri;
+      } catch (manipulateError) {
+        console.warn("[pickImage] Manipulator failed on persisted file.", manipulateError);
+        return persistedUri;
+      }
+    }
 
     console.log("[pickImage] Running ImageManipulator.", { resizeActions });
     const manipulatedImage = await ImageManipulator.manipulateAsync(
@@ -109,10 +142,14 @@ const normalizeImageUri = async (asset) => {
       { compress: JPEG_QUALITY, format: ImageManipulator.SaveFormat.JPEG }
     );
     console.log("[pickImage] Manipulated image:", manipulatedImage);
-    return await persistImage(manipulatedImage.uri);
+    const normalizedUri = await persistImage(manipulatedImage?.uri || sourceUri);
+    console.log("[pickImage] Normalize persisted after manipulate:", normalizedUri);
+    return normalizedUri;
   } catch (error) {
     console.error("[pickImage] Failed to normalize image.", error);
-    return await persistImage(sourceUri);
+    const fallbackUri = await persistImage(sourceUri);
+    console.log("[pickImage] Normalize fallback persist:", fallbackUri);
+    return fallbackUri;
   }
 };
 
@@ -188,6 +225,12 @@ export async function pickImage(type = 'camera') {
 
   let imageUri = result.assets[0].uri;
   console.log("initial image uri:", imageUri);
+  try {
+    const initialInfo = await FileSystem.getInfoAsync(imageUri, { size: true });
+    console.log("[pickImage] Initial file info:", initialInfo);
+  } catch (infoError) {
+    console.warn("[pickImage] Failed to read initial file info.", infoError);
+  }
   console.time("[pickImage] normalize image");
 
   const normalizedUri = await normalizeImageUri(asset);
