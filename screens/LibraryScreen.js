@@ -1,7 +1,15 @@
 // Flatlist of all available activity cards for users to choose from
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Text, View, FlatList, TouchableOpacity, ScrollView, TextInput, useWindowDimensions } from "react-native";
+import {
+  Text,
+  View,
+  FlatList,
+  TouchableOpacity,
+  ScrollView,
+  TextInput,
+  useWindowDimensions,
+} from "react-native";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import styles from './styles/LibraryStyles';
 import { activityLibrary } from "../data/ActivityLibrary";
@@ -15,14 +23,14 @@ import BackButton from "./components/BackButton";
 import ActivityCard from "./components/ActivityCard";
 import getCardBaseStyles from "./styles/CardBaseStyles";
 import DeleteCardModal from "./modals/DeleteCardModal";
-import { deleteCustomCard, getCustomCards } from "../utilities/CustomCardStore";
+import { deleteCustomCard, getCachedCustomCards, getCustomCards } from "../utilities/CustomCardStore";
 
 const LibraryScreen = ({ navigation, route }) => {
   const slot = route?.params?.slot;
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [categorySettings, setCategorySettings] = useState(allCategories);
-  const [customCards, setCustomCards] = useState([]);
+  const [customCards, setCustomCards] = useState(() => getCachedCustomCards() || []);
   const [deleteCardVisible, setDeleteCardVisible] = useState(false);
   const [cardToDelete, setCardToDelete] = useState(null);
   const insets = useSafeAreaInsets();
@@ -113,7 +121,13 @@ const LibraryScreen = ({ navigation, route }) => {
       let isActive = true;
       const loadCustomCards = async () => {
         const saved = await getCustomCards();
-        if (isActive) setCustomCards(saved);
+        if (!isActive) return;
+        setCustomCards((current) => {
+          if (current.length === saved.length && saved.every((card, index) => card.id === current[index]?.id)) {
+            return current;
+          }
+          return saved;
+        });
       };
       loadCustomCards();
       return () => {

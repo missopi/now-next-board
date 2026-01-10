@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Linking, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { clearLogs, getLogText, shareLogs } from "../utilities/logger";
+import { clearLogs, getLogText } from "../utilities/logger";
 
 const SupportScreen = () => {
   const [logs, setLogs] = useState("");
@@ -35,33 +35,56 @@ const SupportScreen = () => {
     await Linking.openURL(mailtoUrl);
   };
 
+  const handleEmailSupport = async () => {
+    const subject = "andThen support question";
+    const body = "Hi,\n\nI have a question about:\n\n";
+    const mailtoUrl = `mailto:support@andthenapp.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+    const canOpen = await Linking.canOpenURL(mailtoUrl);
+    if (!canOpen) {
+      alert("Email isn't available on this device. Please use Share Logs instead.");
+      return;
+    }
+    await Linking.openURL(mailtoUrl);
+  };
+
   return (
-    <SafeAreaView style={styles.safe}>
+    <SafeAreaView style={styles.safe} edges={["left", "right", "bottom"]}>
       <View style={styles.container}>
         <Text style={styles.title}>Support</Text>
         <Text style={styles.description}>
-          If something isn't working, you can share recent logs with us.
+          Choose the kind of help you need. Questions and feedback are separate from log sharing.
         </Text>
 
-        <View style={styles.buttonRow}>
-          <TouchableOpacity style={styles.primaryButton} onPress={handleEmailLogs}>
-            <Text style={styles.primaryButtonText}>Email Logs</Text>
+        <View style={styles.group}>
+          <Text style={styles.groupTitle}>Questions or feedback</Text>
+          <Text style={styles.groupText}>
+            Send a message without logs.
+          </Text>
+          <TouchableOpacity style={styles.primaryButtonFull} onPress={handleEmailSupport}>
+            <Text style={styles.primaryButtonText}>Email Support</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.primaryButton} onPress={shareLogs}>
-            <Text style={styles.primaryButtonText}>Share Logs</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.secondaryButton}
-            onPress={async () => {
-              await clearLogs();
-              await loadLogs();
-            }}
-          >
-            <Text style={styles.secondaryButtonText}>Clear Logs</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.secondaryButton} onPress={loadLogs}>
-            <Text style={styles.secondaryButtonText}>Refresh</Text>
-          </TouchableOpacity>
+        </View>
+
+        <View style={styles.group}>
+          <Text style={styles.groupTitle}>Share logs for troubleshooting</Text>
+          <Text style={styles.groupText}>
+            Send recent logs so we can help fix issues.
+          </Text>
+          <View style={styles.buttonRow}>
+            <TouchableOpacity style={styles.primaryButtonHalf} onPress={handleEmailLogs}>
+              <Text style={styles.primaryButtonText}>Email Logs</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.secondaryButtonHalf}
+              onPress={async () => {
+                await clearLogs();
+                await loadLogs();
+              }}
+            >
+              <Text style={styles.secondaryButtonText}>Clear Logs</Text>
+            </TouchableOpacity>
+          </View>
         </View>
 
         <Text style={styles.sectionTitle}>Recent Logs</Text>
@@ -80,7 +103,9 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    padding: 20,
+    paddingHorizontal: 20,
+    paddingBottom: 20,
+    paddingTop: 12,
   },
   title: {
     fontSize: 26,
@@ -92,35 +117,67 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#35526a",
   },
+  group: {
+    marginTop: 18,
+    padding: 16,
+    backgroundColor: "#ffffff",
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: "#d7e5f2",
+  },
+  groupTitle: {
+    fontSize: 18,
+    fontWeight: "700",
+    color: "#14324a",
+  },
+  groupText: {
+    marginTop: 6,
+    fontSize: 15,
+    color: "#2b4d66",
+  },
   buttonRow: {
-    marginTop: 16,
+    marginTop: 12,
     flexDirection: "row",
     flexWrap: "wrap",
+    justifyContent: "space-between",
   },
-  primaryButton: {
+  primaryButtonFull: {
     backgroundColor: "#0792e2",
     paddingVertical: 12,
     paddingHorizontal: 18,
     borderRadius: 14,
-    minWidth: 130,
+    minHeight: 48,
+    alignItems: "center",
+    alignSelf: "stretch",
+    marginTop: 12,
+  },
+  primaryButtonHalf: {
+    flex: 1,
+    backgroundColor: "#0792e2",
+    paddingVertical: 12,
+    paddingHorizontal: 12,
+    borderRadius: 14,
+    minHeight: 48,
     alignItems: "center",
     marginRight: 12,
     marginBottom: 12,
+    marginTop: 12,
   },
   primaryButtonText: {
     color: "#fff",
     fontSize: 16,
     fontWeight: "600",
   },
-  secondaryButton: {
+  secondaryButtonHalf: {
+    flex: 1,
     backgroundColor: "#e6f1fb",
     paddingVertical: 12,
-    paddingHorizontal: 16,
+    paddingHorizontal: 12,
     borderRadius: 14,
-    minWidth: 110,
+    minHeight: 48,
     alignItems: "center",
-    marginRight: 12,
     marginBottom: 12,
+    marginTop: 12,
   },
   secondaryButtonText: {
     color: "#1d4a6b",

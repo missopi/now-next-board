@@ -18,6 +18,9 @@ import LibraryScreen from "./screens/LibraryScreen";
 import FinishedNowNext from "./screens/FinishedBoards/FinishedNowNext";
 import FinshedRoutine from "./screens/FinishedBoards/FinishedRoutine";
 import SupportScreen from "./screens/SupportScreen";
+import HelpScreen from "./screens/HelpScreen";
+import UserGuideScreen from "./screens/UserGuideScreen";
+import RoutineGuideScreen from "./screens/RoutineGuideScreen";
 import { initLogger } from "./utilities/logger";
 
 import Add from "./assets/icons/add.svg";
@@ -105,7 +108,7 @@ export default function App() {
                 headerRight: () => (
                   <View style={{ flexDirection: 'row', justifyContent: 'flex-end', paddingBottom: 9, marginRight: 20 }}>
                     <TouchableOpacity
-                      onPress={() => navigation.navigate("Support")}
+                      onPress={() => navigation.navigate("Help")}
                       style={{ paddingVertical: 8, paddingHorizontal: 8, marginRight: 12 }}
                     >
                       <Text style={{ color: "#fff", fontSize: 16, fontWeight: "600" }}>Help</Text>
@@ -159,12 +162,47 @@ export default function App() {
               })}
             />
             <Stack.Screen
+              name="Help"
+              component={HelpScreen}
+              options={() => ({
+                title: "",
+                headerStyle: { backgroundColor: "#0792e2ff" },
+                headerTintColor: "#fff",
+                headerBackTitleVisible: false,
+                headerBackTitle: "",
+              })}
+            />
+            <Stack.Screen
+              name="UserGuide"
+              component={UserGuideScreen}
+              options={() => ({
+                title: "",
+                headerStyle: { backgroundColor: "#0792e2ff" },
+                headerTintColor: "#fff",
+                headerBackTitleVisible: false,
+                headerBackTitle: "",
+              })}
+            />
+            <Stack.Screen
+              name="RoutineGuide"
+              component={RoutineGuideScreen}
+              options={() => ({
+                title: "",
+                headerStyle: { backgroundColor: "#0792e2ff" },
+                headerTintColor: "#fff",
+                headerBackTitleVisible: false,
+                headerBackTitle: "",
+              })}
+            />
+            <Stack.Screen
               name="Support"
               component={SupportScreen}
               options={() => ({
-                title: "Support",
+                title: "",
                 headerStyle: { backgroundColor: "#0792e2ff" },
                 headerTintColor: "#fff",
+                headerBackTitleVisible: false,
+                headerBackTitle: "",
               })}
             />
           </Stack.Navigator>

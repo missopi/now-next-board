@@ -2,6 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import uuid from "react-native-uuid";
 
 const STORAGE_KEY = "customActivityCards";
+let cachedCards = null;
 
 export const getCardImageUri = (card) => {
   if (!card) return null;
@@ -14,12 +15,16 @@ export const getCardImageUri = (card) => {
 export const getCustomCards = async () => {
   try {
     const raw = await AsyncStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : [];
+    const parsed = raw ? JSON.parse(raw) : [];
+    cachedCards = parsed;
+    return parsed;
   } catch (err) {
     console.error("Failed to load custom cards:", err);
     return [];
   }
 };
+
+export const getCachedCustomCards = () => cachedCards;
 
 export const saveCustomCard = async ({ id, name, category, imageUri }) => {
   try {
@@ -47,6 +52,7 @@ export const saveCustomCard = async ({ id, name, category, imageUri }) => {
     };
     const updated = [newCard, ...existing];
     await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+    cachedCards = updated;
     return { cards: updated, savedCard: newCard, wasDuplicate: false };
   } catch (err) {
     console.error("Failed to save custom card:", err);
@@ -59,6 +65,7 @@ export const deleteCustomCard = async (id) => {
     const cards = await getCustomCards();
     const updated = cards.filter((card) => card.id !== id);
     await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+    cachedCards = updated;
     return updated;
   } catch (err) {
     console.error("Failed to delete custom card:", err);
