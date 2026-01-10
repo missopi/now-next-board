@@ -7,7 +7,16 @@ import Next from "../../assets/cards/next.svg";
 import Swap from "../../assets/swap.svg";
 import ActivityCard from "./ActivityCard";
 
-const NowNextBoard = ({ nowActivity, nextActivity, onSelectSlot, onSwap, canSwap, readOnly, styles }) => {
+const NowNextBoard = ({
+  nowActivity,
+  nextActivity,
+  onSelectSlot,
+  onSwap,
+  canSwap,
+  readOnly,
+  styles,
+  onLongPressActivity,
+}) => {
   const resolveActivityImage = (activity) => {
     if (!activity) return null;
     if (activity.fromLibrary && activity.imageKey) {
@@ -25,6 +34,10 @@ const NowNextBoard = ({ nowActivity, nextActivity, onSelectSlot, onSwap, canSwap
   const iconScale = Math.min(Math.max(shorter / 430, 1), 1.6);
   const iconWidth = 50 * iconScale;
   const iconHeight = 40 * iconScale;  
+  const handleLongPress = (activity) => {
+    if (readOnly || !onLongPressActivity || !activity || activity.fromLibrary) return;
+    onLongPressActivity(activity);
+  };
 
   return (
     <View style={styles.container}> 
@@ -38,6 +51,7 @@ const NowNextBoard = ({ nowActivity, nextActivity, onSelectSlot, onSwap, canSwap
             activity={nowActivity}
             label="Add Now"
             onPress={() => onSelectSlot({ slot: "Now" })}
+            onLongPress={() => handleLongPress(nowActivity)}
             readOnly={readOnly}
             styles={styles}
             resolveActivityImage={resolveActivityImage}
@@ -86,6 +100,7 @@ const NowNextBoard = ({ nowActivity, nextActivity, onSelectSlot, onSwap, canSwap
             activity={nextActivity}
             label="Add Next"
             onPress={() => onSelectSlot({ slot: "Next" })}
+            onLongPress={() => handleLongPress(nextActivity)}
             readOnly={readOnly}
             styles={styles}
             resolveActivityImage={resolveActivityImage}

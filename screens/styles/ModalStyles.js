@@ -226,5 +226,45 @@ export default function getModalStyles(isPortrait, width, height) {
       fontWeight: "bold",
       textAlign: "center",
     },
+    categoryPicker: {
+      borderRadius: 10,
+      borderColor: "#ccc",
+      borderWidth: 1,
+      paddingVertical: 12,
+      paddingHorizontal: 14,
+      alignItems: "center",
+      marginBottom: 6,
+    },
+    categoryPickerText: {
+      fontSize: 16,
+      color: "#333",
+      fontWeight: "600",
+      textAlign: "center",
+    },
+    categoryList: {
+      borderRadius: 10,
+      borderColor: "#ddd",
+      borderWidth: 1,
+      maxHeight: 180,
+      marginTop: 8,
+      overflow: "hidden",
+    },
+    categoryOption: {
+      paddingVertical: 12,
+      paddingHorizontal: 14,
+      alignItems: "center",
+      backgroundColor: "#fff",
+    },
+    categoryOptionActive: {
+      backgroundColor: "#cdedffff",
+    },
+    categoryOptionText: {
+      fontSize: 16,
+      color: "#333",
+      fontWeight: "600",
+    },
+    categoryOptionTextActive: {
+      color: "#01a2ffff",
+    },
   });
 };

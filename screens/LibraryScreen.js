@@ -1,7 +1,7 @@
 // Flatlist of all available activity cards for users to choose from
 
-import { useEffect, useState, useMemo, useRef } from "react";
-import { Text, View, FlatList, TouchableOpacity, ScrollView, TextInput, useWindowDimensions } from "react-native";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Text, View, FlatList, TouchableOpacity, ScrollView, TextInput, useWindowDimensions, StyleSheet } from "react-native";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import styles from './styles/LibraryStyles';
 import { activityLibrary } from "../data/ActivityLibrary";
@@ -9,16 +9,46 @@ import { setActivityCallback, triggerActivityCallback } from "./components/Callb
 import Search from "../assets/icons/search.svg";
 import { allCategories } from '../data/Categories';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useFocusEffect } from "@react-navigation/native";
 import useHandheldPortraitLock from "../utilities/useHandheldPortraitLock";
 import BackButton from "./components/BackButton";
 import ActivityCard from "./components/ActivityCard";
 import getCardBaseStyles from "./styles/CardBaseStyles";
+import DeleteCardModal from "./modals/DeleteCardModal";
+import { deleteCustomCard, getCustomCards } from "../utilities/CustomCardStore";
+
+const deleteStyles = StyleSheet.create({
+  cornerAlignRight: {
+    flex: 1,
+    alignItems: "flex-end",
+  },
+  deleteButton: {
+    minWidth: 48,
+    minHeight: 48,
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 12,
+    borderWidth: 2,
+    borderColor: "#d40000ff",
+    backgroundColor: "#fff",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  deleteText: {
+    color: "#d40000ff",
+    fontSize: 12,
+    fontWeight: "700",
+  },
+});
 
 const LibraryScreen = ({ navigation, route }) => {
   const slot = route?.params?.slot;
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [categorySettings, setCategorySettings] = useState(allCategories);
+  const [customCards, setCustomCards] = useState([]);
+  const [deleteCardVisible, setDeleteCardVisible] = useState(false);
+  const [cardToDelete, setCardToDelete] = useState(null);
   const insets = useSafeAreaInsets();
   const { width, height } = useWindowDimensions();
   const GAP = 8;
@@ -85,7 +115,36 @@ const LibraryScreen = ({ navigation, route }) => {
     loadSettings();
   }, []);
 
-  const filteredActivities = activityLibrary.filter((activity) => {
+  useFocusEffect(
+    useCallback(() => {
+      let isActive = true;
+      const loadCustomCards = async () => {
+        const saved = await getCustomCards();
+        if (isActive) setCustomCards(saved);
+      };
+      loadCustomCards();
+      return () => {
+        isActive = false;
+      };
+    }, [])
+  );
+
+  const combinedActivities = useMemo(() => {
+    const userCards = customCards.map((card) => ({
+      id: card.id,
+      name: card.name,
+      category: card.category || "Personal Care",
+      image: card.imageUri,
+      isCustom: true,
+    }));
+    const libraryCards = activityLibrary.map((card) => ({
+      ...card,
+      isCustom: false,
+    }));
+    return [...userCards, ...libraryCards];
+  }, [customCards]);
+
+  const filteredActivities = combinedActivities.filter((activity) => {
     const matchesCategory = selectedCategory === 'All' || activity.category === selectedCategory;
     const matchesSearch = activity.name.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCategory && matchesSearch;
@@ -119,6 +178,22 @@ const LibraryScreen = ({ navigation, route }) => {
   const handlePress = (activity) => {
     if (!slot) return;
 
+    if (activity.isCustom) {
+      const customImage = typeof activity.image === "string"
+        ? { uri: activity.image }
+        : activity.image;
+      const simplifiedActivity = {
+        id: activity.id,
+        name: activity.name,
+        category: activity.category,
+        image: customImage,
+      };
+
+      triggerActivityCallback(slot, simplifiedActivity);
+      navigation.goBack();
+      return;
+    }
+
     const simplifiedActivity = {
       id: activity.id,
       name: activity.name,
@@ -129,6 +204,14 @@ const LibraryScreen = ({ navigation, route }) => {
 
     triggerActivityCallback(slot, simplifiedActivity);
     navigation.goBack();
+  };
+
+  const handleDeleteCard = async () => {
+    if (!cardToDelete) return;
+    const updated = await deleteCustomCard(cardToDelete.id);
+    setCustomCards(updated);
+    setDeleteCardVisible(false);
+    setCardToDelete(null);
   };
 
   const paddingTop = Math.max(40 - insets.top, 0);
@@ -205,13 +288,37 @@ const LibraryScreen = ({ navigation, route }) => {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <ActivityCard
-            activity={{ ...item, fromLibrary: true, imageKey: item.id }}
+            activity={{ ...item, fromLibrary: !item.isCustom, imageKey: item.id }}
             label=""
             onPress={() => handlePress(item)}
+            cornerContent={
+              item.isCustom ? (
+                <View style={deleteStyles.cornerAlignRight}>
+                  <TouchableOpacity
+                    style={deleteStyles.deleteButton}
+                    onPress={() => {
+                      setCardToDelete(item);
+                      setDeleteCardVisible(true);
+                    }}
+                  >
+                    <Text style={deleteStyles.deleteText}>Delete</Text>
+                  </TouchableOpacity>
+                </View>
+              ) : null
+            }
             styles={cardStyles}
             resolveActivityImage={(activity) => activity?.image || null}
           />
         )}
+      />
+      <DeleteCardModal
+        visible={deleteCardVisible}
+        card={cardToDelete}
+        onClose={() => {
+          setDeleteCardVisible(false);
+          setCardToDelete(null);
+        }}
+        onDelete={handleDeleteCard}
       />
     </SafeAreaView>
   );

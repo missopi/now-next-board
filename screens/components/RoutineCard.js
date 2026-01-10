@@ -5,6 +5,7 @@ const RoutineCard = ({
   activity,
   index,
   onPress,
+  onLongPress,
   onDelete,
   drag,
   readOnly = false,
@@ -14,12 +15,14 @@ const RoutineCard = ({
   const hasImage = activity && (resolveActivityImage ? !!resolveActivityImage(activity) : !!activity?.image);
   const hasName = !!activity?.name;
   const isEmpty = !activity || (!hasImage && !hasName);
+  const cardActivity = isEmpty ? null : activity;
 
   return (
     <ActivityCard
-      activity={isEmpty ? null : activity}
+      activity={cardActivity}
       label="Add Routine Card"
       onPress={() => onPress?.(index)}
+      onLongPress={onLongPress ? () => onLongPress(cardActivity, index) : undefined}
       readOnly={readOnly}
       styles={styles}
       resolveActivityImage={resolveActivityImage}

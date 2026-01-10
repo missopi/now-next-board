@@ -1,6 +1,6 @@
 // Main routine screen 
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { View, Text, TouchableOpacity, useWindowDimensions } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import DraggableFlatList from 'react-native-draggable-flatlist';
@@ -9,10 +9,13 @@ import getStyles from "./styles/RoutineStyles";
 import { setActivityCallback } from "./components/CallbackStore";
 import { pickImage } from "../utilities/imagePickerHelper";
 import ImageCardCreatorModal from "./modals/ImageCardCreatorModal";
+import SaveCardModal from "./modals/SaveCardModal";
 import uuid from "react-native-uuid";
 import { saveBoard, updateBoard } from "../utilities/BoardStore";
 import SaveModal from "./modals/SaveModal";
 import { activityLibrary } from "../data/ActivityLibrary";
+import { allCategories } from "../data/Categories";
+import { getCardImageUri, saveCustomCard } from "../utilities/CustomCardStore";
 import useHandheldPortraitLock from "../utilities/useHandheldPortraitLock";
 import BackButton from "./components/BackButton";
 
@@ -20,6 +23,8 @@ export default function RoutineScreen({ navigation, route }) {
   const { mode, board } = route.params || {};
   const [isSaveModalVisible, setIsSaveModalVisible] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
+  const [isSaveCardModalVisible, setIsSaveCardModalVisible] = useState(false);
+  const [cardToSave, setCardToSave] = useState(null);
 
   // track the activities added
   const [activities, setActivities] = useState(() => {
@@ -73,6 +78,10 @@ export default function RoutineScreen({ navigation, route }) {
   const isHandheld = Math.min(width, height) < 700;
   const listTopPadding = isHandheld ? 50 : 10;
   const styles = getStyles(width, height, "edit");
+  const categoryOptions = useMemo(
+    () => allCategories.filter((cat) => cat.key !== "All").map((cat) => cat.label),
+    []
+  );
 
   useHandheldPortraitLock();
 
@@ -171,6 +180,39 @@ export default function RoutineScreen({ navigation, route }) {
     setHasChanges(true);
   };
 
+  const openSaveCardModal = (activity) => {
+    if (!activity || activity.fromLibrary) return;
+    setCardToSave(activity);
+    setIsSaveCardModalVisible(true);
+  };
+
+  const closeSaveCardModal = () => {
+    setIsSaveCardModalVisible(false);
+    setCardToSave(null);
+  };
+
+  const handleSaveCard = async (category) => {
+    if (!cardToSave) return;
+    const imageUri = getCardImageUri(cardToSave);
+    const name = cardToSave?.name?.trim();
+    if (!name || !imageUri) {
+      alert("Please make sure this card has a title and image.");
+      return;
+    }
+
+    const result = await saveCustomCard({ name, category, imageUri });
+    closeSaveCardModal();
+    if (result?.wasDuplicate) {
+      alert("This card is already in your library.");
+      return;
+    }
+    if (!result?.savedCard) {
+      alert("Unable to save this card. Please try again.");
+      return;
+    }
+    alert("Card saved to library.");
+  };
+
   const saveCurrentRoutineBoard = async (titleFromModal) => {
     const titleToUse = titleFromModal || newBoardTitle;
 
@@ -255,6 +297,7 @@ export default function RoutineScreen({ navigation, route }) {
                 activity={item}
                 index={index}
                 onPress={() => onSelectSlot(index)}
+                onLongPress={openSaveCardModal}
                 onDelete={() => deleteActivity(index)}
                 drag={drag}
                 readOnly={false}
@@ -322,6 +365,14 @@ export default function RoutineScreen({ navigation, route }) {
         onClose={() => { setIsSaveModalVisible(false); pendingActionRef.current = null; }}
         onSave={(title) => saveCurrentRoutineBoard(title)}
         onDiscard={handleDiscard}
+      />
+      <SaveCardModal
+        visible={isSaveCardModalVisible}
+        cardName={cardToSave?.name || ""}
+        categories={categoryOptions}
+        initialCategory={cardToSave?.category || ""}
+        onSave={handleSaveCard}
+        onClose={closeSaveCardModal}
       />
     </SafeAreaView>
   );

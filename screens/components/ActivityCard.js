@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { View, Text, TouchableOpacity, Image } from "react-native";
 
 const getImageSource = (image) => {
@@ -11,6 +12,7 @@ const ActivityCard = ({
   activity,
   label,
   onPress,
+  onLongPress,
   readOnly = false,
   styles,
   resolveActivityImage,
@@ -42,10 +44,29 @@ const ActivityCard = ({
         />
       );
 
+  const longPressHandledRef = useRef(false);
+
+  const handleLongPress = () => {
+    if (readOnly || !onLongPress) return;
+    longPressHandledRef.current = true;
+    onLongPress();
+  };
+
+  const handlePress = () => {
+    if (readOnly) return;
+    if (longPressHandledRef.current) {
+      longPressHandledRef.current = false;
+      return;
+    }
+    onPress?.();
+  };
+
   return (
     <TouchableOpacity
       disabled={readOnly}
-      onPress={readOnly ? undefined : onPress}
+      onPress={handlePress}
+      onLongPress={onLongPress ? handleLongPress : undefined}
+      delayLongPress={350}
       style={[styles.card, isLibraryCard && styles.libraryCard]}
     >
       {cornerContent ? (
