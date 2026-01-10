@@ -1,7 +1,7 @@
 // Flatlist of all available activity cards for users to choose from
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Text, View, FlatList, TouchableOpacity, ScrollView, TextInput, useWindowDimensions, StyleSheet } from "react-native";
+import { Text, View, FlatList, TouchableOpacity, ScrollView, TextInput, useWindowDimensions } from "react-native";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import styles from './styles/LibraryStyles';
 import { activityLibrary } from "../data/ActivityLibrary";
@@ -16,30 +16,6 @@ import ActivityCard from "./components/ActivityCard";
 import getCardBaseStyles from "./styles/CardBaseStyles";
 import DeleteCardModal from "./modals/DeleteCardModal";
 import { deleteCustomCard, getCustomCards } from "../utilities/CustomCardStore";
-
-const deleteStyles = StyleSheet.create({
-  cornerAlignRight: {
-    flex: 1,
-    alignItems: "flex-end",
-  },
-  deleteButton: {
-    minWidth: 48,
-    minHeight: 48,
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-    borderRadius: 12,
-    borderWidth: 2,
-    borderColor: "#d40000ff",
-    backgroundColor: "#fff",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  deleteText: {
-    color: "#d40000ff",
-    fontSize: 12,
-    fontWeight: "700",
-  },
-});
 
 const LibraryScreen = ({ navigation, route }) => {
   const slot = route?.params?.slot;
@@ -94,6 +70,23 @@ const LibraryScreen = ({ navigation, route }) => {
       marginHorizontal: 0, // prevent double spacing now that column gap handles gutters
     },
   };
+  const customTitleSize = Math.max(metrics.textBody * 1.1, 12);
+  const customCardStyles = useMemo(() => ({
+    ...cardStyles,
+    card: {
+      ...cardStyles.card,
+      padding: '4%',
+    },
+    image: {
+      ...cardStyles.image,
+      marginBottom: Math.max(metrics.textBody * 0.3, 4),
+    },
+    title: {
+      ...cardStyles.title,
+      fontSize: customTitleSize,
+      marginTop: 2,
+    },
+  }), [cardStyles, customTitleSize, metrics.textBody]);
 
   useEffect(() => {
     if (!visibleCategories.some(cat => cat.label === selectedCategory)) {
@@ -291,22 +284,12 @@ const LibraryScreen = ({ navigation, route }) => {
             activity={{ ...item, fromLibrary: !item.isCustom, imageKey: item.id }}
             label=""
             onPress={() => handlePress(item)}
-            cornerContent={
-              item.isCustom ? (
-                <View style={deleteStyles.cornerAlignRight}>
-                  <TouchableOpacity
-                    style={deleteStyles.deleteButton}
-                    onPress={() => {
-                      setCardToDelete(item);
-                      setDeleteCardVisible(true);
-                    }}
-                  >
-                    <Text style={deleteStyles.deleteText}>Delete</Text>
-                  </TouchableOpacity>
-                </View>
-              ) : null
-            }
-            styles={cardStyles}
+            onLongPress={() => {
+              if (!item.isCustom) return;
+              setCardToDelete(item);
+              setDeleteCardVisible(true);
+            }}
+            styles={item.isCustom ? customCardStyles : cardStyles}
             resolveActivityImage={(activity) => activity?.image || null}
           />
         )}
