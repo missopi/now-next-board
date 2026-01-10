@@ -10,6 +10,7 @@ import { setActivityCallback } from "./components/CallbackStore";
 import { pickImage } from "../utilities/imagePickerHelper";
 import ImageCardCreatorModal from "./modals/ImageCardCreatorModal";
 import SaveCardModal from "./modals/SaveCardModal";
+import StatusModal from "./modals/StatusModal";
 import uuid from "react-native-uuid";
 import { saveBoard, updateBoard } from "../utilities/BoardStore";
 import SaveModal from "./modals/SaveModal";
@@ -25,6 +26,7 @@ export default function RoutineScreen({ navigation, route }) {
   const [hasChanges, setHasChanges] = useState(false);
   const [isSaveCardModalVisible, setIsSaveCardModalVisible] = useState(false);
   const [cardToSave, setCardToSave] = useState(null);
+  const [saveStatus, setSaveStatus] = useState({ visible: false, title: "", message: "" });
 
   // track the activities added
   const [activities, setActivities] = useState(() => {
@@ -203,14 +205,26 @@ export default function RoutineScreen({ navigation, route }) {
     const result = await saveCustomCard({ name, category, imageUri });
     closeSaveCardModal();
     if (result?.wasDuplicate) {
-      alert("This card is already in your library.");
+      setSaveStatus({
+        visible: true,
+        title: "Already saved",
+        message: "This card is already in your library.",
+      });
       return;
     }
     if (!result?.savedCard) {
-      alert("Unable to save this card. Please try again.");
+      setSaveStatus({
+        visible: true,
+        title: "Save failed",
+        message: "Unable to save this card. Please try again.",
+      });
       return;
     }
-    alert("Card saved to library.");
+    setSaveStatus({
+      visible: true,
+      title: "Card saved",
+      message: "This card is now in your library.",
+    });
   };
 
   const saveCurrentRoutineBoard = async (titleFromModal) => {
@@ -373,6 +387,12 @@ export default function RoutineScreen({ navigation, route }) {
         initialCategory={cardToSave?.category || ""}
         onSave={handleSaveCard}
         onClose={closeSaveCardModal}
+      />
+      <StatusModal
+        visible={saveStatus.visible}
+        title={saveStatus.title}
+        message={saveStatus.message}
+        onClose={() => setSaveStatus({ visible: false, title: "", message: "" })}
       />
     </SafeAreaView>
   );
