@@ -15,6 +15,7 @@ import Routines from "./screens/Routines";
 import Slideshow from "./screens/components/Slideshow";
 import BoardScreen from "./screens/BoardScreen";
 import LibraryScreen from "./screens/LibraryScreen";
+import LibraryCardCreatorScreen from "./screens/LibraryCardCreatorScreen";
 import FinishedNowNext from "./screens/FinishedBoards/FinishedNowNext";
 import FinshedRoutine from "./screens/FinishedBoards/FinishedRoutine";
 import SupportScreen from "./screens/SupportScreen";
@@ -156,6 +157,14 @@ export default function App() {
             <Stack.Screen
               name="LibraryScreen"
               component={LibraryScreen}
+              options={() => ({
+                headerTransparent: true,
+                headerShown: false,
+              })}
+            />
+            <Stack.Screen
+              name="LibraryCardCreator"
+              component={LibraryCardCreatorScreen}
               options={() => ({
                 headerTransparent: true,
                 headerShown: false,

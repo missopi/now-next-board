@@ -45,6 +45,15 @@ export default function AddModal({ visible, navigation, onClose}) {
             <Text style={styles.addText}>Routine</Text>
           </TouchableOpacity>
           <TouchableOpacity
+            style={styles.addButton}
+            onPress={() => {
+              onClose();
+              navigation.navigate('LibraryCardCreator');
+            }}
+          >
+            <Text style={styles.addText}>Library Card</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
             style={styles.addCancelButton}
             onPress={onClose}
           >
