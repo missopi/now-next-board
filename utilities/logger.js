@@ -1,8 +1,6 @@
-import * as FileSystem from "expo-file-system";
+import { Directory, File, Paths } from "expo-file-system";
 import { Share } from "react-native";
 
-const LOG_DIR = `${FileSystem.documentDirectory}logs`;
-const LOG_FILE = `${LOG_DIR}/app.log`;
 const MAX_LOG_BYTES = 120000;
 const WRITE_DELAY_MS = 500;
 
@@ -11,16 +9,27 @@ let isInitialized = false;
 let writeTimer = null;
 let hasLoaded = false;
 
-const ensureLogDir = async () => {
-  if (!FileSystem.documentDirectory) {
-    return false;
+const getLogDir = () => {
+  try {
+    const base = Paths.document;
+    if (!base?.uri) return null;
+    return new Directory(base, "logs");
+  } catch (error) {
+    return null;
   }
+};
+
+const getLogFile = () => {
+  const dir = getLogDir();
+  return dir ? new File(dir, "app.log") : null;
+};
+
+const ensureLogDir = async () => {
+  const dir = getLogDir();
+  if (!dir) return false;
 
   try {
-    const info = await FileSystem.getInfoAsync(LOG_DIR);
-    if (!info.exists) {
-      await FileSystem.makeDirectoryAsync(LOG_DIR, { intermediates: true });
-    }
+    dir.create({ intermediates: true, idempotent: true });
     return true;
   } catch {
     return false;
@@ -32,12 +41,9 @@ const loadCache = async () => {
   hasLoaded = true;
 
   try {
-    const info = await FileSystem.getInfoAsync(LOG_FILE);
-    if (info.exists) {
-      logCache = await FileSystem.readAsStringAsync(LOG_FILE, {
-        encoding: FileSystem.EncodingType.UTF8,
-      });
-    }
+    const file = getLogFile();
+    if (!file || !file.exists) return;
+    logCache = await file.text();
   } catch {
     logCache = "";
   }
@@ -59,9 +65,9 @@ const scheduleWrite = () => {
     const ready = await ensureLogDir();
     if (!ready) return;
     try {
-      await FileSystem.writeAsStringAsync(LOG_FILE, logCache, {
-        encoding: FileSystem.EncodingType.UTF8,
-      });
+      const file = getLogFile();
+      if (!file) return;
+      file.write(logCache, { encoding: "utf8" });
     } catch {
       // ignore write failures to avoid recursive console logging
     }
@@ -111,9 +117,9 @@ export const clearLogs = async () => {
   logCache = "";
   const ready = await ensureLogDir();
   if (!ready) return;
-  await FileSystem.writeAsStringAsync(LOG_FILE, "", {
-    encoding: FileSystem.EncodingType.UTF8,
-  });
+  const file = getLogFile();
+  if (!file) return;
+  file.write("", { encoding: "utf8" });
 };
 
 export const shareLogs = async () => {
