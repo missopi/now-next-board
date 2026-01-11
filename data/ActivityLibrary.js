@@ -8,12 +8,10 @@ import Bath from "../assets/visuals/bath.svg";
 import Bedtime from "../assets/visuals/bedtime.svg";
 import Breakfast from "../assets/visuals/breakfast.svg";
 import BrushTeeth from "../assets/visuals/brush-teeth.svg";
-import GetDressed from "../assets/visuals/get-dressed.svg";
 import Milk from "../assets/visuals/milk.svg";
 import OrangeJuice from "../assets/visuals/orange-juice.svg";
 import School from "../assets/visuals/school.svg";
 import Water from "../assets/visuals/water.svg";
-import Pajamas from "../assets/visuals/pajamas.svg";
 
 export const activityLibrary = [
   {
@@ -54,38 +52,26 @@ export const activityLibrary = [
   },
   {
     id: '7',
-    name: 'get dressed',
-    image: GetDressed,
-    category: 'Daily Routine',
-  },
-  {
-    id: '8',
     name: 'milk',
     image: Milk,
     category: 'Food',
   },
   {
-    id: '9',
+    id: '8',
     name: 'orange juice',
     image: OrangeJuice,
     category: 'Food',
   },
   {
-    id: '10',
+    id: '9',
     name: 'water',
     image: Water,
     category: 'Food',
   },
   {
-    id: '11',
+    id: '10',
     name: 'school',
     image: School,
     category: 'Places',
-  },
-    {
-    id: '12',
-    name: 'pajamas',
-    image: Pajamas,
-    category: 'Clothes',
   },
 ]
