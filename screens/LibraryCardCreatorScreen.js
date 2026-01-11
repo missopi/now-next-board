@@ -70,11 +70,28 @@ const LibraryCardCreatorScreen = ({ navigation }) => {
         alignItems: "center",
         justifyContent: "center",
       },
+      secondaryButton: {
+        marginTop: 12,
+        backgroundColor: "#e6f1fb",
+        borderRadius: 16,
+        paddingVertical: 14,
+        minWidth: buttonWidth,
+        minHeight: 52,
+        alignItems: "center",
+        justifyContent: "center",
+        borderWidth: 2,
+        borderColor: "#0792e2",
+      },
       buttonDisabled: {
         backgroundColor: "#b7d7ef",
       },
       buttonText: {
         color: "#fff",
+        fontSize: buttonFontSize,
+        fontWeight: "700",
+      },
+      secondaryButtonText: {
+        color: "#155a8f",
         fontSize: buttonFontSize,
         fontWeight: "700",
       },
@@ -183,6 +200,12 @@ const LibraryCardCreatorScreen = ({ navigation }) => {
           disabled={!draftCard}
         >
           <Text style={styles.buttonText}>Save to library</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("LibraryScreen", { readOnly: true })}
+          style={styles.button}
+        >
+          <Text style={styles.buttonText}>View Library</Text>
         </TouchableOpacity>
       </View>
 

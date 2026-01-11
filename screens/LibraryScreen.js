@@ -27,6 +27,7 @@ import { deleteCustomCard, getCachedCustomCards, getCustomCards } from "../utili
 
 const LibraryScreen = ({ navigation, route }) => {
   const slot = route?.params?.slot;
+  const isReadOnly = route?.params?.readOnly;
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [categorySettings, setCategorySettings] = useState(allCategories);
@@ -161,17 +162,18 @@ const LibraryScreen = ({ navigation, route }) => {
   const visibleCategories = categorySettings.filter(cat => cat.visible && cat.key !== 'All');
 
   useEffect(() => {
-    if (!slot) {
+    if (!slot && !isReadOnly) {
       console.warn("No slot provided to LibraryScreen");
       return;
     }
 
     // set activity callback so BoardScreen can handle selection
-    setActivityCallback((activity) => {
-      console.log('triggering activity with:', activity)
-
-    });
-  }, [slot]);
+    if (slot) {
+      setActivityCallback((activity) => {
+        console.log('triggering activity with:', activity);
+      });
+    }
+  }, [slot, isReadOnly]);
 
   useHandheldPortraitLock();
 
@@ -183,7 +185,7 @@ const LibraryScreen = ({ navigation, route }) => {
   }, [selectedCategory, searchQuery]);
 
   const handlePress = (activity) => {
-    if (!slot) return;
+    if (!slot || isReadOnly) return;
 
     if (activity.isCustom) {
       const customImage = typeof activity.image === "string"
