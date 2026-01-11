@@ -33,9 +33,9 @@ const RoutineGuideScreen = ({ navigation }) => {
           </View>
 
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>4. Saving an activity</Text>
+            <Text style={styles.sectionTitle}>4. Saving a card</Text>
             <Text style={styles.sectionText}>
-              Long press an activity card if you want to save it to the library.  You can delete the card if you no longer want it by long pressing it in the library.
+              Long press a card to save it to the library.  Long press it in the library to delete it.
             </Text>
           </View>
 

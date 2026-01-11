@@ -33,9 +33,9 @@ const UserGuideScreen = ({ navigation }) => {
           </View>
 
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>4. Saving an activity</Text>
+            <Text style={styles.sectionTitle}>4. Saving a card</Text>
             <Text style={styles.sectionText}>
-              Long press an activity card to save it to the library.  Long press the card in the library to delete it.
+              Long press a card to save it to the library.  Long press it in the library to delete it.
             </Text>
           </View>
 
