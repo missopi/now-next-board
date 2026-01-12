@@ -22,6 +22,9 @@ const TABS = ['All'].concat(Object.keys(TAB_TYPE_MAP));
 const GAP = 12;            // space between items
 const EDGE = 12;           // uniform screen padding
 const CARD_INNER = 10;     // inner padding
+const PREVIEW_CARD_WIDTH = 80;
+const PREVIEW_CARD_MARGIN = 7 * 2;
+const PREVIEW_CARD_TOTAL = PREVIEW_CARD_WIDTH + PREVIEW_CARD_MARGIN;
 
 export default function HomeScreen({ navigation, route }) {
   const [boards, setBoards] = useState([]);
@@ -36,13 +39,11 @@ export default function HomeScreen({ navigation, route }) {
 
   const desiredCols = useMemo(() => {
     if (!isPortrait) {
-      if (width >= 1200) return 4;
-      if (width >= 900) return 3;
+      if (width >= 1100) return 3;
       if (width >= 600) return 2;
       return 2;
     } else {
-      if (width >= 1200) return 4;
-      if (width >= 900) return 3;
+      if (width >= 1100) return 3;
       if (width >= 600) return 2;
       return 1;
     }
@@ -111,6 +112,12 @@ export default function HomeScreen({ navigation, route }) {
     marginBottom: GAP,
   }), [numColumns]);
 
+  const previewCount = useMemo(() => {
+    const availablePreviewWidth = itemWidth - (CARD_INNER * 2);
+    const fitCount = Math.floor(availablePreviewWidth / PREVIEW_CARD_TOTAL);
+    return Math.min(4, Math.max(3, fitCount));
+  }, [itemWidth]);
+
   const renderBoard = useCallback(({ item }) => (
     <View style={[styles.cardWrapper, cardSpacingStyle, { width: itemWidth }]}>
       <View style={[styles.boardCard, { padding: CARD_INNER }]}>
@@ -146,9 +153,9 @@ export default function HomeScreen({ navigation, route }) {
 
           <View style={styles.boardContent}>
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-              {item.cards.slice(0, 3).map((card, idx) => {
-                const extraCount = item.cards.length - 3;
-                const isLastVisible = idx === 2 && extraCount > 0;
+              {item.cards.slice(0, previewCount).map((card, idx) => {
+                const extraCount = item.cards.length - previewCount;
+                const isLastVisible = idx === previewCount - 1 && extraCount > 0;
 
                 return (
                   <View key={idx} style={styles.cardPreview}>
@@ -235,7 +242,7 @@ export default function HomeScreen({ navigation, route }) {
         </View>
       </View>
     </View>
-  ), [cardSpacingStyle, itemWidth, navigation, resolveActivityImage]);
+  ), [cardSpacingStyle, itemWidth, navigation, previewCount, resolveActivityImage]);
 
   const isPhonePortrait = isPortrait && width < 600;
   const stackGap = isPhonePortrait ? 8 : 10;
