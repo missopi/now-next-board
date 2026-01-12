@@ -7,7 +7,8 @@ export default function getCardBaseStyles(width, height) {
   // are not the same footprint as the largest iPads, while keeping phones
   // untouched and big tablets roomy.
   const isMidTablet = shorter >= 700 && shorter < 760;
-  const cardWidthCap = isMidTablet ? 470 : 500;
+  const isLargeTablet = shorter >= 990
+  const cardWidthCap = isMidTablet ? 470 : ( isLargeTablet ? 580 : 500);
 
   const cardWidth = Math.min(shorter * 0.82, cardWidthCap);
   const textLarge = shorter * 0.06;
