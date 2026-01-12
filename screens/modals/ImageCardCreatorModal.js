@@ -23,8 +23,7 @@ export default function ImageCardCreatorModal({
 
   const isFeatureReady = true;
   const { width, height } = useWindowDimensions();
-  const isPortrait = height > width;
-  const styles = getModalStyles(isPortrait, width, height);
+  const styles = getModalStyles(width, height);
 
   useEffect(() => {
     if (!isFeatureReady && modalStep === 'choose') {

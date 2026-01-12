@@ -3,8 +3,7 @@ import getModalStyles from "../styles/ModalStyles";
 
 export default function StatusModal({ visible, title = "Saved", message, buttonLabel = "OK", onClose }) {
   const { width, height } = useWindowDimensions();
-  const isPortrait = height > width;
-  const styles = getModalStyles(isPortrait, width, height);
+  const styles = getModalStyles(width, height);
 
   return (
     <Modal

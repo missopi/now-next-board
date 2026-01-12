@@ -1,6 +1,10 @@
 import { StyleSheet } from "react-native";
 
-export default function getModalStyles(isPortrait, width, height) {
+export default function getModalStyles(width, height) {
+  const isTablet = Math.min(width, height) >= 768;
+  const modalWidth = isTablet ? width * 0.5 : width * 0.9;
+  const addBoxWidth = isTablet ? width * 0.5 : "80%";
+
   return StyleSheet.create({
   
     // NowNext & Routines cards
@@ -23,8 +27,8 @@ export default function getModalStyles(isPortrait, width, height) {
       elevation: 5,
       justifyContent: 'flex-start',
       position: 'absolute',
-      width: isPortrait ? width * 0.9 : width * 0.45,
-      maxHeight: isPortrait ? height * 0.9 : height * 0.8,
+      width: modalWidth,
+      maxHeight: isTablet ? height * 0.8 : height * 0.9,
     },
     modalHeader: {
       fontSize: 24,
@@ -135,7 +139,7 @@ export default function getModalStyles(isPortrait, width, height) {
       borderRadius: 20,
       paddingVertical: 30,
       paddingHorizontal: 25,
-      width: '80%',
+      width: addBoxWidth,
       alignItems: 'center',
       shadowColor: '#000',
       shadowOffset: { width: 0, height: 4 },

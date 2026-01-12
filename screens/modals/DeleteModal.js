@@ -10,8 +10,7 @@ export default function DeleteModal({
   setBoards,
 }) {
   const { width, height } = useWindowDimensions();
-  const isPortrait = height > width;
-  const styles = getModalStyles(isPortrait, width, height);
+  const styles = getModalStyles(width, height);
 
   const handleDelete = async () => {
     if (!boardToDelete) return;

@@ -43,8 +43,7 @@ export default function SaveCardModal({
   };
 
   const { width, height } = useWindowDimensions();
-  const isPortrait = height > width;
-  const styles = getModalStyles(isPortrait, width, height);
+  const styles = getModalStyles(width, height);
   const helperText = cardName
     ? `Choose a category for "${cardName}".`
     : "Choose a category for this card.";

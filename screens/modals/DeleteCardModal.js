@@ -3,8 +3,7 @@ import getModalStyles from "../styles/ModalStyles";
 
 export default function DeleteCardModal({ visible, card, onClose, onDelete }) {
   const { width, height } = useWindowDimensions();
-  const isPortrait = height > width;
-  const styles = getModalStyles(isPortrait, width, height);
+  const styles = getModalStyles(width, height);
 
   const handleDelete = () => {
     onDelete?.(card);

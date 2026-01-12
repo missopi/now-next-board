@@ -13,7 +13,7 @@ const HelpScreen = ({ navigation }) => {
 
           <TouchableOpacity
             accessibilityRole="button"
-            style={styles.primaryCard}
+            style={styles.secondaryCard}
             onPress={() => navigation.navigate("UserGuide")}
           >
             <Text style={styles.cardTitle}>Now & Next Guide</Text>
