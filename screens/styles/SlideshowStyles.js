@@ -8,16 +8,17 @@ const getSlideshowStyles = (width, height, isPortrait) => {
   const { baseStyles } = getCardBaseStyles(width, height);
   const pagePadding = clamp(shorter * 0.05, 18, 38);
   const cardAspect = baseStyles.card?.aspectRatio || 1.05;
-  // Smaller allowances keep the card vertically centered while leaving breathing room
-  // for the overlayed header and pagination dots.
-  const headerAllowance = clamp(height * 0.035, 18, 46);
-  const dotsAllowance = clamp(shorter * 0.045, isPortrait ? 18 : 12, 34);
+  // Allow more space for the larger header title, especially in landscape.
+  const headerAllowance = isPortrait
+    ? clamp(height * 0.045, 24, 60)
+    : clamp(height * 0.07, 28, 80);
+  const dotsAllowance = clamp(shorter * 0.05, isPortrait ? 20 : 16, 40);
   const slidePadding = isPortrait ? pagePadding : pagePadding * 0.75;
   const availableHeight = Math.max(
     height - headerAllowance - dotsAllowance - slidePadding * 2,
     200
   );
-  const heightLimitedWidth = availableHeight * cardAspect * 0.96;
+  const heightLimitedWidth = availableHeight * cardAspect * (isPortrait ? 0.94 : 0.9);
   const targetWidth = shorter * 0.95;
   const maxWidth = isPortrait ? width * 0.9 : width * 0.8;
   const cardWidth = Math.min(clamp(targetWidth, 320, maxWidth), heightLimitedWidth);
