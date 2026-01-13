@@ -34,12 +34,17 @@ const LibraryCardCreatorScreen = ({ navigation }) => {
 
   const cardStyles = useMemo(() => {
     const { baseStyles, metrics } = getCardBaseStyles(width, height);
-    const cardWidth = Math.min(shorter * 0.82, metrics.cardWidth);
+    const isTablet = shorter >= 700;
+    const cardWidth = isTablet
+      ? Math.min(shorter * 0.9, metrics.cardWidth + 60)
+      : Math.min(shorter * 0.82, metrics.cardWidth);
+    const cardPadding = isTablet ? "5%" : baseStyles.card.padding;
     return {
       ...baseStyles,
       card: {
         ...baseStyles.card,
         width: cardWidth,
+        padding: cardPadding,
       },
     };
   }, [width, height, shorter]);
@@ -47,6 +52,9 @@ const LibraryCardCreatorScreen = ({ navigation }) => {
   const styles = useMemo(() => {
     const buttonWidth = Math.min(width * 0.82, 360);
     const buttonFontSize = Math.max(16, Math.min(shorter * 0.045, 22));
+    const isTablet = shorter >= 700;
+    const primaryButtonSpacing = isTablet ? 50 : 18;
+    const secondaryButtonSpacing = 12;
     return StyleSheet.create({
       safe: {
         flex: 1,
@@ -61,7 +69,7 @@ const LibraryCardCreatorScreen = ({ navigation }) => {
         paddingTop: 20,
       },
       button: {
-        marginTop: 18,
+        marginTop: secondaryButtonSpacing,
         backgroundColor: "#0792e2",
         borderRadius: 16,
         paddingVertical: 14,
@@ -70,8 +78,11 @@ const LibraryCardCreatorScreen = ({ navigation }) => {
         alignItems: "center",
         justifyContent: "center",
       },
+      primaryButton: {
+        marginTop: primaryButtonSpacing,
+      },
       secondaryButton: {
-        marginTop: 12,
+        marginTop: secondaryButtonSpacing,
         backgroundColor: "#e6f1fb",
         borderRadius: 16,
         paddingVertical: 14,
@@ -196,7 +207,11 @@ const LibraryCardCreatorScreen = ({ navigation }) => {
         />
         <TouchableOpacity
           onPress={openSaveModal}
-          style={[styles.button, !draftCard && styles.buttonDisabled]}
+          style={[
+            styles.button,
+            styles.primaryButton,
+            !draftCard && styles.buttonDisabled,
+          ]}
           disabled={!draftCard}
         >
           <Text style={styles.buttonText}>Save to library</Text>

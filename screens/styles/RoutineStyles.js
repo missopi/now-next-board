@@ -4,6 +4,7 @@ import getCardBaseStyles from "./CardBaseStyles";
 export default function getStyles(width, height, mode = "edit") {
   const shorter = Math.min(width, height);
   const isPortrait = height >= width;
+  const isTablet = shorter >= 700;
   const { baseStyles, metrics } = getCardBaseStyles(width, height, mode);
   const textBody = metrics.textBody;
   const cardWidth = metrics.cardWidth;
@@ -48,6 +49,7 @@ export default function getStyles(width, height, mode = "edit") {
     card: {
       ...baseStyles.card,
       width: cardWidth,
+      padding: mode === "view" && isTablet ? "5%" : baseStyles.card.padding,
     },
     image: {
       ...baseStyles.image,
