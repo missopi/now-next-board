@@ -1,13 +1,19 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View, useWindowDimensions } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const HelpScreen = ({ navigation }) => {
+  const { width } = useWindowDimensions();
+  const isTablet = width >= 768;
+  const horizontalPadding = isTablet ? 32 : 20;
+  const contentMaxWidth = isTablet ? 680 : 560;
+  const textScale = isTablet ? 1.5 : 1;
+
   return (
     <SafeAreaView style={styles.safe} edges={["left", "right", "bottom"]}>
-      <View style={styles.container}>
-        <View style={styles.content}>
-          <Text style={styles.title}>How can we help?</Text>
-          <Text style={styles.description}>
+      <View style={[styles.container, { paddingHorizontal: horizontalPadding }]}>
+        <View style={[styles.content, { maxWidth: contentMaxWidth }]}>
+          <Text style={[styles.title, { fontSize: 26 * textScale }]}>How can we help?</Text>
+          <Text style={[styles.description, { fontSize: 16 * textScale }]}>
             Choose a guide or contact support. Everything is simple and easy to follow.
           </Text>
 
@@ -16,8 +22,10 @@ const HelpScreen = ({ navigation }) => {
             style={styles.secondaryCard}
             onPress={() => navigation.navigate("UserGuide")}
           >
-            <Text style={styles.cardTitle}>Now & Next Guide</Text>
-            <Text style={styles.cardText}>Step-by-step help for building a Now/Next board.</Text>
+            <Text style={[styles.cardTitle, { fontSize: 18 * textScale }]}>Now & Next Guide</Text>
+            <Text style={[styles.cardText, { fontSize: 15 * textScale }]}>
+              Step-by-step help for building a Now/Next board.
+            </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -25,8 +33,10 @@ const HelpScreen = ({ navigation }) => {
             style={styles.secondaryCard}
             onPress={() => navigation.navigate("RoutineGuide")}
           >
-            <Text style={styles.cardTitle}>Routine Guide</Text>
-            <Text style={styles.cardText}>Simple steps for building a routine with multiple cards.</Text>
+            <Text style={[styles.cardTitle, { fontSize: 18 * textScale }]}>Routine Guide</Text>
+            <Text style={[styles.cardText, { fontSize: 15 * textScale }]}>
+              Simple steps for building a routine with multiple cards.
+            </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -34,8 +44,10 @@ const HelpScreen = ({ navigation }) => {
             style={styles.secondaryCard}
             onPress={() => navigation.navigate("Support")}
           >
-            <Text style={styles.cardTitle}>Support</Text>
-            <Text style={styles.cardText}>Share logs or email us if something is not working.</Text>
+            <Text style={[styles.cardTitle, { fontSize: 18 * textScale }]}>Support</Text>
+            <Text style={[styles.cardText, { fontSize: 15 * textScale }]}>
+              Share logs or email us if something is not working.
+            </Text>
           </TouchableOpacity>
         </View>
       </View>

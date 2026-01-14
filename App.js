@@ -79,6 +79,10 @@ export default function App() {
   const iconSize = 30 * scale;
   const headerSpace = 10 * scale;
   const wordWidth = 190 * scale;
+  const isLargeScreen = shorter >= 600;
+  const helpButtonPaddingVertical = isLargeScreen ? 10 : 8;
+  const helpButtonPaddingHorizontal = isLargeScreen ? 14 : 8;
+  const helpButtonFontSize = isLargeScreen ? 22 : 16;
 
   if (!appIsReady) {
     return null;
@@ -110,9 +114,13 @@ export default function App() {
                   <View style={{ flexDirection: 'row', justifyContent: 'flex-end', paddingBottom: 9, marginRight: 20 }}>
                     <TouchableOpacity
                       onPress={() => navigation.navigate("Help")}
-                      style={{ paddingVertical: 8, paddingHorizontal: 8, marginRight: 12 }}
+                      style={{
+                        paddingVertical: helpButtonPaddingVertical,
+                        paddingHorizontal: helpButtonPaddingHorizontal,
+                        marginRight: 12,
+                      }}
                     >
-                      <Text style={{ color: "#fff", fontSize: 16, fontWeight: "600" }}>Help</Text>
+                      <Text style={{ color: "#fff", fontSize: helpButtonFontSize, fontWeight: "600" }}>Help</Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => navigation.setParams({ showAddModal: true })}>
                       <Add width={iconSize} height={iconSize} style={{ marginRight: 5 }} />

@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
-import { Linking, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useCallback, useEffect, useState } from "react";
+import { Linking, ScrollView, StyleSheet, Text, TouchableOpacity, View, useWindowDimensions } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useFocusEffect } from "@react-navigation/native";
 import { clearLogs, getLogText, shareLogs } from "../utilities/logger";
 import StatusModal from "./modals/StatusModal";
 
@@ -9,6 +10,11 @@ const SUPPORT_EMAIL = "support@andthenapp.com";
 const SupportScreen = () => {
   const [logs, setLogs] = useState("");
   const [emailStatusVisible, setEmailStatusVisible] = useState(false);
+  const { width } = useWindowDimensions();
+  const isTablet = width >= 768;
+  const horizontalPadding = isTablet ? 32 : 20;
+  const contentMaxWidth = isTablet ? 720 : 640;
+  const textScale = isTablet ? 1.5 : 1;
 
   const loadLogs = async () => {
     const text = await getLogText();
@@ -18,6 +24,12 @@ const SupportScreen = () => {
   useEffect(() => {
     loadLogs();
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      loadLogs();
+    }, [])
+  );
 
   const openEmail = async ({ subject, body }) => {
     const baseUrl = `mailto:${SUPPORT_EMAIL}`;
@@ -83,46 +95,61 @@ const SupportScreen = () => {
   return (
     <SafeAreaView style={styles.safe} edges={["left", "right", "bottom"]}>
       <View style={styles.container}>
-        <Text style={styles.title}>Support</Text>
-        <Text style={styles.description}>
-          Choose the kind of help you need. Questions and feedback are separate from log sharing.
-        </Text>
-
-        <View style={styles.group}>
-          <Text style={styles.groupTitle}>Questions or feedback</Text>
-          <Text style={styles.groupText}>
-            Send a message without logs.
+        <View
+          style={[
+            styles.content,
+            { paddingHorizontal: horizontalPadding, maxWidth: contentMaxWidth },
+          ]}
+        >
+          <Text style={[styles.title, { fontSize: 26 * textScale }]}>Support</Text>
+          <Text style={[styles.description, { fontSize: 16 * textScale }]}>
+            Choose the kind of help you need. Questions and feedback are separate from log sharing.
           </Text>
-          <TouchableOpacity style={styles.primaryButtonFull} onPress={handleEmailSupport}>
-            <Text style={styles.primaryButtonText}>Email Support</Text>
-          </TouchableOpacity>
-        </View>
 
-        <View style={styles.group}>
-          <Text style={styles.groupTitle}>Share logs for troubleshooting</Text>
-          <Text style={styles.groupText}>
-            Send recent logs so we can help fix issues.
-          </Text>
-          <View style={styles.buttonRow}>
-            <TouchableOpacity style={styles.primaryButtonHalf} onPress={handleEmailLogs}>
-              <Text style={styles.primaryButtonText}>Email Logs</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.secondaryButtonHalf}
-              onPress={async () => {
-                await clearLogs();
-                await loadLogs();
-              }}
-            >
-              <Text style={styles.secondaryButtonText}>Clear Logs</Text>
+          <View style={styles.group}>
+            <Text style={[styles.groupTitle, { fontSize: 18 * textScale }]}>Questions or feedback</Text>
+            <Text style={[styles.groupText, { fontSize: 15 * textScale }]}>
+              Send a message without logs.
+            </Text>
+            <TouchableOpacity style={styles.primaryButtonFull} onPress={handleEmailSupport}>
+              <Text style={[styles.primaryButtonText, { fontSize: 16 * textScale }]}>
+                Email Support
+              </Text>
             </TouchableOpacity>
           </View>
-        </View>
 
-        <Text style={styles.sectionTitle}>Recent Logs</Text>
-        <ScrollView style={styles.logBox} contentContainerStyle={styles.logContent}>
-          <Text style={styles.logText}>{logs}</Text>
-        </ScrollView>
+          <View style={styles.group}>
+            <Text style={[styles.groupTitle, { fontSize: 18 * textScale }]}>
+              Share logs for troubleshooting
+            </Text>
+            <Text style={[styles.groupText, { fontSize: 15 * textScale }]}>
+              Send recent logs so we can help fix issues.
+            </Text>
+            <View style={styles.buttonRow}>
+              <TouchableOpacity style={styles.primaryButtonHalf} onPress={handleEmailLogs}>
+                <Text style={[styles.primaryButtonText, { fontSize: 16 * textScale }]}>
+                  Email Logs
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.secondaryButtonHalf}
+                onPress={async () => {
+                  await clearLogs();
+                  await loadLogs();
+                }}
+              >
+                <Text style={[styles.secondaryButtonText, { fontSize: 15 * textScale }]}>
+                  Clear Logs
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          <Text style={[styles.sectionTitle, { fontSize: 18 * textScale }]}>Recent Logs</Text>
+          <ScrollView style={styles.logBox} contentContainerStyle={styles.logContent}>
+            <Text style={[styles.logText, { fontSize: 12 * textScale }]}>{logs}</Text>
+          </ScrollView>
+        </View>
       </View>
 
       <StatusModal
@@ -143,7 +170,11 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    paddingHorizontal: 20,
+  },
+  content: {
+    flex: 1,
+    width: "100%",
+    alignSelf: "center",
     paddingBottom: 20,
     paddingTop: 12,
   },
