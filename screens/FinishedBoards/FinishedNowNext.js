@@ -18,7 +18,7 @@ export default function FinishedNowNext({ route, navigation }) {
   useHandheldPortraitLock();
 
   return (
-    <SafeAreaView style={{ flex: 1 }} edges={['top', 'bottom', 'left', 'right']}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#f7fbff" }} edges={['top', 'bottom', 'left', 'right']}>
       <BackButton onPress={() => navigation.goBack()} />
       <NowNextBoard
         nowActivity={nowActivity}

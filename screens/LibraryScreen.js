@@ -228,7 +228,7 @@ const LibraryScreen = ({ navigation, route }) => {
 
   return (
     <SafeAreaView
-      style={{ flex: 1, paddingTop, paddingBottom }}
+      style={{ flex: 1, paddingTop, paddingBottom, backgroundColor: "#f7fbff" }}
       edges={['top', 'bottom', 'left', 'right']}
     >
       <BackButton onPress={() => navigation.goBack()} />

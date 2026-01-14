@@ -28,6 +28,7 @@ const getSlideshowStyles = (width, height, isPortrait) => {
     container: {
       flex: 1,
       justifyContent: 'center',
+      backgroundColor: "#f7fbff",
     },
     header: {
       position: 'absolute',

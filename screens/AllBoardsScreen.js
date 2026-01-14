@@ -248,7 +248,7 @@ export default function HomeScreen({ navigation, route }) {
   const stackGap = isPhonePortrait ? 8 : 10;
   
   return (
-    <SafeAreaView style={{ flex: 1, paddingHorizontal: EDGE }} edges={['left', 'right', 'bottom']}>
+    <SafeAreaView style={{ flex: 1, paddingHorizontal: EDGE, backgroundColor: "#f7fbff" }} edges={['left', 'right', 'bottom']}>
       <View>
         <View
           style={[

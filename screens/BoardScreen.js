@@ -276,7 +276,7 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
 
   return (
     <SafeAreaView
-      style={{ flex: 1, paddingTop: Math.max(0 - insets.top, 0), paddingBottom: Math.max(0 - insets.bottom, 0) }}
+      style={{ flex: 1, paddingTop: Math.max(0 - insets.top, 0), paddingBottom: Math.max(0 - insets.bottom, 0), backgroundColor: "#f7fbff" }}
       edges={['top', 'bottom', 'left', 'right']}
     >
       <BackButton onPress={() => navigation.goBack()} />

@@ -16,6 +16,7 @@ export default function getStyles(isPortrait, width, height, mode = 'edit') {
       flex: 1,
       paddingHorizontal: 16,
       paddingVertical: 12,
+      backgroundColor: "#f7fbff",
     },
     wrapper: {
       flex: 1,

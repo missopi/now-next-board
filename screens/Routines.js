@@ -290,7 +290,7 @@ export default function RoutineScreen({ navigation, route }) {
 
   return (
     <SafeAreaView
-      style={{ paddingHorizontal: 20, flex: 1 }}
+      style={{ paddingHorizontal: 20, flex: 1, backgroundColor: "#f7fbff" }}
       edges={['top', 'bottom', 'left', 'right']}
     >
       <View>

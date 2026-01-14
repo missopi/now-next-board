@@ -32,6 +32,7 @@ export default function getStyles(width, height, mode = "edit") {
       paddingTop: topPadding,
       paddingHorizontal: horizontalPadding,
       justifyContent: 'center',
+      backgroundColor: "#f7fbff",
     },
     floatingTitle: {
       position: 'absolute',
