@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
 import { Linking, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { clearLogs, getLogText } from "../utilities/logger";
+import { clearLogs, getLogText, shareLogs } from "../utilities/logger";
+import StatusModal from "./modals/StatusModal";
+
+const SUPPORT_EMAIL = "support@andthenapp.com";
 
 const SupportScreen = () => {
   const [logs, setLogs] = useState("");
+  const [emailStatusVisible, setEmailStatusVisible] = useState(false);
 
   const loadLogs = async () => {
     const text = await getLogText();
@@ -14,6 +18,42 @@ const SupportScreen = () => {
   useEffect(() => {
     loadLogs();
   }, []);
+
+  const openEmail = async ({ subject, body }) => {
+    const baseUrl = `mailto:${SUPPORT_EMAIL}`;
+    const queryParts = [];
+    if (subject) {
+      queryParts.push(`subject=${encodeURIComponent(subject)}`);
+    }
+    if (body) {
+      queryParts.push(`body=${encodeURIComponent(body)}`);
+    }
+    const fullUrl = queryParts.length ? `${baseUrl}?${queryParts.join("&")}` : baseUrl;
+
+    try {
+      await Linking.openURL(fullUrl);
+      return true;
+    } catch {
+      // fall back to simpler mailto formats for third-party apps
+    }
+
+    if (subject) {
+      const subjectOnlyUrl = `${baseUrl}?subject=${encodeURIComponent(subject)}`;
+      try {
+        await Linking.openURL(subjectOnlyUrl);
+        return true;
+      } catch {
+        // keep falling back
+      }
+    }
+
+    try {
+      await Linking.openURL(baseUrl);
+      return true;
+    } catch {
+      return false;
+    }
+  };
 
   const handleEmailLogs = async () => {
     const text = await getLogText();
@@ -25,27 +65,19 @@ const SupportScreen = () => {
       : trimmed;
 
     const subject = "andThen support logs";
-    const mailtoUrl = `mailto:support@andthenapp.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-
-    const canOpen = await Linking.canOpenURL(mailtoUrl);
-    if (!canOpen) {
-      alert("Email isn't available on this device. Please use Share Logs instead.");
-      return;
+    const opened = await openEmail({ subject, body });
+    if (!opened) {
+      await shareLogs();
     }
-    await Linking.openURL(mailtoUrl);
   };
 
   const handleEmailSupport = async () => {
     const subject = "andThen support question";
     const body = "Hi,\n\nI have a question about:\n\n";
-    const mailtoUrl = `mailto:support@andthenapp.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-
-    const canOpen = await Linking.canOpenURL(mailtoUrl);
-    if (!canOpen) {
-      alert("Email isn't available on this device. Please use Share Logs instead.");
-      return;
+    const opened = await openEmail({ subject, body });
+    if (!opened) {
+      setEmailStatusVisible(true);
     }
-    await Linking.openURL(mailtoUrl);
   };
 
   return (
@@ -92,6 +124,14 @@ const SupportScreen = () => {
           <Text style={styles.logText}>{logs}</Text>
         </ScrollView>
       </View>
+
+      <StatusModal
+        visible={emailStatusVisible}
+        title="Email not available"
+        message={`Please email ${SUPPORT_EMAIL} from any mail app.`}
+        buttonLabel="OK"
+        onClose={() => setEmailStatusVisible(false)}
+      />
     </SafeAreaView>
   );
 };
