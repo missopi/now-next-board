@@ -41,6 +41,9 @@ const LibraryScreen = ({ navigation, route }) => {
   const horizontalPadding = EDGE + Math.max(insets.left, insets.right);
   const { baseStyles, metrics } = getCardBaseStyles(width, height);
   const isPortrait = height >= width;
+  const isPhone = Math.min(width, height) < 600;
+  const rowGap = GAP;
+  const columnGap = isPhone ? 23 : GAP;
   const desiredCols = useMemo(() => {
     if (!isPortrait) {
       if (width >= 1150) return 5;
@@ -69,7 +72,7 @@ const LibraryScreen = ({ navigation, route }) => {
     [numColumns, selectedCategory]
   );
   const containerWidth = Math.max(width - (horizontalPadding * 2), 240);
-  const availableWidth = Math.max(containerWidth - (GAP * (numColumns - 1)), 240);
+  const availableWidth = Math.max(containerWidth - (columnGap * (numColumns - 1)), 240);
   const cardWidth = Math.min(metrics.cardWidth, availableWidth / numColumns);
   const cardStyles = {
     ...baseStyles,
@@ -229,7 +232,7 @@ const LibraryScreen = ({ navigation, route }) => {
   return (
     <SafeAreaView
       style={{ flex: 1, paddingTop, paddingBottom, backgroundColor: "#f7fbff" }}
-      edges={['top', 'bottom', 'left', 'right']}
+      edges={['top', 'left', 'right']}
     >
       <BackButton onPress={() => navigation.goBack()} />
       <View style={{ paddingHorizontal: horizontalPadding, paddingBottom: 8 }}>
@@ -286,9 +289,9 @@ const LibraryScreen = ({ navigation, route }) => {
         style={{ flex: 1 }}
         contentContainerStyle={{
           paddingHorizontal: horizontalPadding,
-          gap: GAP,
+          gap: rowGap,
         }}
-        columnWrapperStyle={numColumns > 1 ? { gap: GAP, justifyContent: 'flex-start' } : undefined}
+        columnWrapperStyle={numColumns > 1 ? { gap: columnGap, justifyContent: 'flex-start' } : undefined}
         ListEmptyComponent={<Text style={{ color: '#888',paddingTop: 20, textAlign: 'center' }}>No activities in this category</Text>}
         showsVerticalScrollIndicator={false}
         data={filteredActivities}

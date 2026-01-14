@@ -28,6 +28,8 @@ export default function BackButton({ onPress, style, iconStyle }) {
           height: 38,
           justifyContent: "center",
           alignItems: "center",
+          zIndex: 10,
+          elevation: 10,
           opacity: pressed ? 0.6 : 1,
         },
         style,

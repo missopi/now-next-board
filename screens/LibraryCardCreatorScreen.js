@@ -58,6 +58,7 @@ const LibraryCardCreatorScreen = ({ navigation }) => {
     return StyleSheet.create({
       safe: {
         flex: 1,
+        backgroundColor: "#f7fbff",
       },
       content: {
         flex: 1,
