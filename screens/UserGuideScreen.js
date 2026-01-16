@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
   },
   supportButton: {
     marginTop: 20,
-    backgroundColor: "#0792e2",
+    backgroundColor: "#0d63b9ff",
     paddingVertical: 14,
     paddingHorizontal: 18,
     borderRadius: 16,

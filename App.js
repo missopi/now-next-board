@@ -108,7 +108,7 @@ export default function App() {
                 headerTitle: '',
                 headerStyle: {
                   height: 72 + headerSpace * 3,
-                  backgroundColor: '#0792e2ff',
+                  backgroundColor: '#0d63b9ff',
                 },
                 headerLeft: () => (
                   <View style={{ pointerEvents: 'none' }}>

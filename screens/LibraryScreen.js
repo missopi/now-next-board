@@ -258,11 +258,11 @@ const LibraryScreen = ({ navigation, route }) => {
             onPress={() => setSelectedCategory('All')}
             style={[styles.tab, {
               backgroundColor: selectedCategory === 'All' ? '#cdedffff' : '#fff',
-              borderColor: selectedCategory === 'All' ? '#0792e2ff' : '#fff',
+              borderColor: selectedCategory === 'All' ? '#0d63b9ff' : '#fff',
               borderWidth: selectedCategory === 'All' ? 2 : 1
             }]}
           >
-            <Text style={[styles.tabText, { color: selectedCategory === 'All' ? '#01a2ffff' : '#ccc' }]}>
+            <Text style={[styles.tabText, { color: selectedCategory === 'All' ? '#0d63b9ff' : '#ccc' }]}>
               All
             </Text>
           </TouchableOpacity>
@@ -272,11 +272,11 @@ const LibraryScreen = ({ navigation, route }) => {
               onPress={() => setSelectedCategory(cat.label)}
               style={[styles.tab, {
                 backgroundColor: selectedCategory === cat.label ? '#cdedffff' : '#fff',
-                borderColor: selectedCategory === cat.label ? '#0792e2ff' : '#fff',
+                borderColor: selectedCategory === cat.label ? '#0d63b9ff' : '#fff',
                 borderWidth: selectedCategory === cat.label ? 2 : 1
               }]}
             >
-              <Text style={[styles.tabText, { color: selectedCategory === cat.label ? '#01a2ffff' : '#ccc' }]}>
+              <Text style={[styles.tabText, { color: selectedCategory === cat.label ? '#0d63b9ff' : '#ccc' }]}>
                 {cat.label}
               </Text>
             </TouchableOpacity>

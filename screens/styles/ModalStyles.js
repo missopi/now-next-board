@@ -56,14 +56,14 @@ export default function getModalStyles(width, height) {
       marginVertical: 10,
     },
     imageButton: {
-      backgroundColor: "#0792e2ff",
+      backgroundColor: "#0d63b9ff",
       borderRadius: 10,
       paddingHorizontal: 25,
       paddingVertical: 15,
     },
     imageAddButton: {
       flex: 1,
-      backgroundColor: "#0792e2ff",
+      backgroundColor: "#0d63b9ff",
       borderRadius: 10,
       paddingVertical: 14,
       alignItems: 'center',
@@ -114,7 +114,7 @@ export default function getModalStyles(width, height) {
       marginBottom: 10,
     },
     smallButton: {
-      backgroundColor: "#0792e2ff",
+      backgroundColor: "#0d63b9ff",
       borderRadius: 10,
       paddingVertical: 14,
       alignItems: 'center',
@@ -159,9 +159,9 @@ export default function getModalStyles(width, height) {
       borderRadius: 12,
       marginVertical: 6,
       alignItems: 'center',
-      backgroundColor: '#0792e2ff',
+      backgroundColor: '#0d63b9ff',
       borderWidth: 2,
-      borderColor: '#0792e2ff',
+      borderColor: '#0d63b9ff',
       shadowColor: '#000',
       shadowOffset: { width: 0, height: 2 },
       shadowOpacity: 0.15,
@@ -260,7 +260,7 @@ export default function getModalStyles(width, height) {
       backgroundColor: "#fff",
     },
     categoryOptionActive: {
-      backgroundColor: "#cdedffff",
+      backgroundColor: "#0d63b9ff",
     },
     categoryOptionText: {
       fontSize: 16,
@@ -268,7 +268,7 @@ export default function getModalStyles(width, height) {
       fontWeight: "600",
     },
     categoryOptionTextActive: {
-      color: "#01a2ffff",
+      color: "#0d63b9ff",
     },
   });
 };

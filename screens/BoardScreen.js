@@ -78,7 +78,8 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
   const insets = useSafeAreaInsets();
   const topButtonOffset = insets.top + (isHandheld ? 5 : 10);
   const isSaveEnabled = hasChanges && !!(nowActivity && nextActivity);
-  const saveButtonColor = isSaveEnabled ? "#0792e2ff" : "#ccc";
+  const saveButtonBackground = isSaveEnabled ? "#0d63b9ff" : "#cfcfcf";
+  const saveButtonTextColor = "#fff";
   const categoryOptions = useMemo(
     () => allCategories.filter((cat) => cat.key !== "All").map((cat) => cat.label),
     []
@@ -307,17 +308,17 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
           height: saveButtonHeight,
           paddingHorizontal: 16,
           borderRadius: 10,
-          borderWidth: 2,
-          borderColor: saveButtonColor,
-          backgroundColor: "#fff",
+          borderWidth: 0,
+          borderColor: saveButtonBackground,
+          backgroundColor: saveButtonBackground,
           alignItems: "center",
           justifyContent: "center",
           zIndex: 10,
           elevation: 10,
-          opacity: isSaveEnabled ? 1 : 0.6,
+          opacity: 1,
         }}
       >
-        <Text style={{ color: saveButtonColor, fontSize: 18, fontWeight: "600" }}>
+        <Text style={{ color: saveButtonTextColor, fontSize: 18, fontWeight: "600" }}>
           Save
         </Text>
       </TouchableOpacity>

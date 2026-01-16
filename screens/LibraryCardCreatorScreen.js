@@ -70,7 +70,7 @@ const LibraryCardCreatorScreen = ({ navigation }) => {
       },
       button: {
         marginTop: secondaryButtonSpacing,
-        backgroundColor: "#0792e2",
+        backgroundColor: "#0d63b9ff",
         borderRadius: 16,
         paddingVertical: 14,
         minWidth: buttonWidth,
@@ -83,7 +83,7 @@ const LibraryCardCreatorScreen = ({ navigation }) => {
       },
       secondaryButton: {
         marginTop: secondaryButtonSpacing,
-        backgroundColor: "#e6f1fb",
+        backgroundColor: "#fff",
         borderRadius: 16,
         paddingVertical: 14,
         minWidth: buttonWidth,
@@ -91,10 +91,10 @@ const LibraryCardCreatorScreen = ({ navigation }) => {
         alignItems: "center",
         justifyContent: "center",
         borderWidth: 2,
-        borderColor: "#0792e2",
+        borderColor: "#0d63b9ff",
       },
       buttonDisabled: {
-        backgroundColor: "#b7d7ef",
+        backgroundColor: "#cfcfcf",
       },
       buttonText: {
         color: "#fff",
@@ -102,7 +102,7 @@ const LibraryCardCreatorScreen = ({ navigation }) => {
         fontWeight: "700",
       },
       secondaryButtonText: {
-        color: "#155a8f",
+        color: "#0d63b9ff",
         fontSize: buttonFontSize,
         fontWeight: "700",
       },
@@ -218,9 +218,9 @@ const LibraryCardCreatorScreen = ({ navigation }) => {
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => navigation.navigate("LibraryScreen", { readOnly: true })}
-          style={styles.button}
+          style={styles.secondaryButton}
         >
-          <Text style={styles.buttonText}>View Library</Text>
+          <Text style={styles.secondaryButtonText}>View Library</Text>
         </TouchableOpacity>
       </View>
 
