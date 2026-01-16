@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   tabs: {
@@ -25,7 +25,8 @@ export default StyleSheet.create({
     backgroundColor: "#fff",
     borderRadius: 20,
     paddingHorizontal: 12,
-    paddingVertical: 9,
+    paddingVertical: Platform.OS === 'android' ? 6 : 9,
+    minHeight: 40,
     borderColor: '#fff',
     borderWidth: 1,
     shadowColor: '#000',
@@ -42,5 +43,8 @@ export default StyleSheet.create({
     flex: 1,
     fontSize: 16,
     color: "#333",
+    includeFontPadding: Platform.OS === 'android' ? false : undefined,
+    paddingVertical: Platform.OS === 'android' ? 0 : undefined,
+    textAlignVertical: 'center',
   },
 })
