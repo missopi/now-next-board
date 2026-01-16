@@ -34,7 +34,10 @@ export default function RoutineScreen({ navigation, route }) {
     if (mode === 'load' && board?.cards?.length) {
       return board.cards.map(card => ({ ...card, id: card.id || uuid.v4() }));
     }
-    return [{ id: uuid.v4(), name: null, image: null }];
+    return [
+      { id: uuid.v4(), name: null, image: null },
+      { id: uuid.v4(), name: null, image: null },
+    ];
   });
 
   // title
@@ -61,10 +64,13 @@ export default function RoutineScreen({ navigation, route }) {
     }
   }, [mode, board, currentBoardId]);
 
-  // automatically add one empty slot for new routines
+  // automatically add empty slots for new routines
   useEffect(() => {
     if (mode === 'new' && activities.length === 0) {
-      setActivities([{ id: uuid.v4(), name: null, image: null }]);
+      setActivities([
+        { id: uuid.v4(), name: null, image: null },
+        { id: uuid.v4(), name: null, image: null },
+      ]);
     }
   }, [mode, activities]);
 
