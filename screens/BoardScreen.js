@@ -1,10 +1,11 @@
 // Main board screen containing the Now/Next/Then board
 
 import { useEffect, useMemo, useRef, useState } from "react";  
-import { Platform, View, useWindowDimensions } from "react-native";
+import { Platform, Text, TouchableOpacity, View, useWindowDimensions } from "react-native";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import NowNextBoard from "./components/NowNextBoard";
 import getStyles from "./styles/NowNextBoardStyles";
+import getCardBaseStyles from "./styles/CardBaseStyles";
 import { setActivityCallback } from "./components/CallbackStore";
 import { pickImage } from "../utilities/imagePickerHelper";
 import ImageCardCreatorModal from "./modals/ImageCardCreatorModal";
@@ -63,8 +64,21 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
   // screen orientation
   const { width, height } = useWindowDimensions();
   const isPortrait = height > width;
+  const shorterSide = Math.min(width, height);
+  const isHandheld = shorterSide < 700;
+  const iconScale = Math.min(Math.max(shorterSide / 430, 1), 1.6);
+  const saveButtonHeight = Math.round(40 * iconScale);
+  const { metrics } = getCardBaseStyles(width, height);
+  const baseColumn = Math.min(shorterSide * 0.9, metrics.cardWidth);
+  const columnWidth = isPortrait ? baseColumn : Math.min(width * 0.42, metrics.cardWidth);
+  const gapSize = Math.round(width * 0.005);
+  const rowWidth = isPortrait ? columnWidth : columnWidth * 2 + gapSize;
+  const cardOuterInset = Math.max(16, Math.round((width - rowWidth) / 2));
   const styles = getStyles(isPortrait, width, height, "edit");
   const insets = useSafeAreaInsets();
+  const topButtonOffset = insets.top + (isHandheld ? 5 : 10);
+  const isSaveEnabled = hasChanges && !!(nowActivity && nextActivity);
+  const saveButtonColor = isSaveEnabled ? "#0792e2ff" : "#ccc";
   const categoryOptions = useMemo(
     () => allCategories.filter((cat) => cat.key !== "All").map((cat) => cat.label),
     []
@@ -280,6 +294,33 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
       edges={['top', 'bottom', 'left', 'right']}
     >
       <BackButton onPress={() => navigation.goBack()} />
+      <TouchableOpacity
+        accessibilityRole="button"
+        accessibilityLabel="Save board"
+        disabled={!isSaveEnabled}
+        onPress={() => setIsSaveModalVisible(true)}
+        style={{
+          position: "absolute",
+          top: topButtonOffset,
+          right: cardOuterInset,
+          minWidth: 96,
+          height: saveButtonHeight,
+          paddingHorizontal: 16,
+          borderRadius: 10,
+          borderWidth: 2,
+          borderColor: saveButtonColor,
+          backgroundColor: "#fff",
+          alignItems: "center",
+          justifyContent: "center",
+          zIndex: 10,
+          elevation: 10,
+          opacity: isSaveEnabled ? 1 : 0.6,
+        }}
+      >
+        <Text style={{ color: saveButtonColor, fontSize: 18, fontWeight: "600" }}>
+          Save
+        </Text>
+      </TouchableOpacity>
       <View style={{ flex: 1 }}>
         <NowNextBoard 
           nowActivity={nowActivity}

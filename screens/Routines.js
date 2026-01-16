@@ -2,10 +2,11 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { View, Text, TouchableOpacity, useWindowDimensions } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import DraggableFlatList from 'react-native-draggable-flatlist';
 import RoutineCard from "./components/RoutineCard";
 import getStyles from "./styles/RoutineStyles";
+import getCardBaseStyles from "./styles/CardBaseStyles";
 import { setActivityCallback } from "./components/CallbackStore";
 import { pickImage } from "../utilities/imagePickerHelper";
 import ImageCardCreatorModal from "./modals/ImageCardCreatorModal";
@@ -78,8 +79,20 @@ export default function RoutineScreen({ navigation, route }) {
   const { width, height } = useWindowDimensions();
   const isPortrait = height > width;
   const isHandheld = Math.min(width, height) < 700;
+  const shorterSide = Math.min(width, height);
+  const iconScale = Math.min(Math.max(shorterSide / 430, 1), 1.6);
+  const saveButtonHeight = Math.round(40 * iconScale);
+  const { metrics } = getCardBaseStyles(width, height);
+  const cardOuterInset = Math.max(16, Math.round((width - metrics.cardWidth) / 2));
   const listTopPadding = isHandheld ? 50 : 10;
   const styles = getStyles(width, height, "edit");
+  const insets = useSafeAreaInsets();
+  const topButtonOffset = insets.top + (isHandheld ? 5 : 10);
+  const hasValidActivities = activities.some(
+    (activity) => activity && ((activity.image && activity.image.uri) || activity.fromLibrary)
+  );
+  const isSaveEnabled = hasChanges && hasValidActivities;
+  const saveButtonColor = isSaveEnabled ? "#0792e2ff" : "#ccc";
   const categoryOptions = useMemo(
     () => allCategories.filter((cat) => cat.key !== "All").map((cat) => cat.label),
     []
@@ -352,6 +365,33 @@ export default function RoutineScreen({ navigation, route }) {
         />
       </View>
       <BackButton onPress={() => navigation.goBack()} style={{ zIndex: 10 }} />
+      <TouchableOpacity
+        accessibilityRole="button"
+        accessibilityLabel="Save routine"
+        disabled={!isSaveEnabled}
+        onPress={() => setIsSaveModalVisible(true)}
+        style={{
+          position: "absolute",
+          top: topButtonOffset,
+          right: cardOuterInset,
+          minWidth: 96,
+          height: saveButtonHeight,
+          paddingHorizontal: 16,
+          borderRadius: 10,
+          borderWidth: 2,
+          borderColor: saveButtonColor,
+          backgroundColor: "#fff",
+          alignItems: "center",
+          justifyContent: "center",
+          zIndex: 10,
+          elevation: 10,
+          opacity: isSaveEnabled ? 1 : 0.6,
+        }}
+      >
+        <Text style={{ color: saveButtonColor, fontSize: 18, fontWeight: "600" }}>
+          Save
+        </Text>
+      </TouchableOpacity>
 
       <ImageCardCreatorModal
         visible={isNewCardVisible}
