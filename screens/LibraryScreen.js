@@ -42,8 +42,8 @@ const LibraryScreen = ({ navigation, route }) => {
   const { baseStyles, metrics } = getCardBaseStyles(width, height);
   const isPortrait = height >= width;
   const isPhone = Math.min(width, height) < 600;
-  const rowGap = GAP;
-  const columnGap = isPhone ? 23 : GAP;
+  const rowGap = isPhone ? GAP - 3 : GAP * 1.5;
+  const columnGap = isPhone ? 22 : GAP * 3;
   const desiredCols = useMemo(() => {
     if (!isPortrait) {
       if (width >= 1150) return 5;
@@ -82,12 +82,12 @@ const LibraryScreen = ({ navigation, route }) => {
       marginHorizontal: 0, // prevent double spacing now that column gap handles gutters
     },
   };
-  const customTitleSize = Math.max(metrics.textBody * 1.1, 12);
+  const customTitleSize = isPhone ? Math.max(metrics.textBody * 1.1, 12) : Math.max(metrics.textBody * 0.5, 12);
   const customCardStyles = useMemo(() => ({
     ...cardStyles,
     card: {
       ...cardStyles.card,
-      padding: '4%',
+      padding: isPhone ? '4%' : '2.5%',
     },
     image: {
       ...cardStyles.image,
@@ -98,7 +98,7 @@ const LibraryScreen = ({ navigation, route }) => {
       fontSize: customTitleSize,
       marginTop: 2,
     },
-  }), [cardStyles, customTitleSize, metrics.textBody]);
+  }), [cardStyles, metrics.textBody, customTitleSize]);
 
   useEffect(() => {
     if (!visibleCategories.some(cat => cat.label === selectedCategory)) {
