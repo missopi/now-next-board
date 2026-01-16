@@ -92,7 +92,7 @@ export default function RoutineScreen({ navigation, route }) {
     (activity) => activity && ((activity.image && activity.image.uri) || activity.fromLibrary)
   );
   const isSaveEnabled = hasChanges && hasValidActivities;
-  const saveButtonBackground = isSaveEnabled ? "#0d63b9ff" : "#cfcfcf";
+  const saveButtonBackground = isSaveEnabled ? "#2b7cceff" : "#cfcfcf";
   const saveButtonTextColor = "#fff";
   const categoryOptions = useMemo(
     () => allCategories.filter((cat) => cat.key !== "All").map((cat) => cat.label),

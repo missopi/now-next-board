@@ -51,7 +51,7 @@ export default StyleSheet.create({
   activeTab: {
     backgroundColor: '#cdedffff',
     borderWidth: 2,
-    borderColor: '#0d63b9ff',
+    borderColor: '#2b7cceff',
   },
   tabText: {
     color: '#ccc',
@@ -59,7 +59,7 @@ export default StyleSheet.create({
     fontWeight: 'bold',
   },
   activeTabText: {
-    color: '#0d63b9ff',
+    color: '#2b7cceff',
     fontSize: 15,
     fontWeight: 'bold',
   },

@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
   },
   primaryCard: {
     marginTop: 20,
-    backgroundColor: "#0d63b9ff",
+    backgroundColor: "#2b7cceff",
     paddingVertical: 18,
     paddingHorizontal: 18,
     borderRadius: 16,
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
   },
   secondaryCard: {
     marginTop: 14,
-    backgroundColor: "#0d63b9ff",
+    backgroundColor: "#2b7cceff",
     paddingVertical: 18,
     paddingHorizontal: 18,
     borderRadius: 16,

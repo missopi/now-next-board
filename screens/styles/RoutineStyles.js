@@ -78,7 +78,7 @@ export default function getStyles(width, height, mode = "edit") {
       paddingVertical: shorter * 0.015,
       borderRadius: 15,
       alignItems: 'center',
-      backgroundColor: '#0d63b9ff',
+      backgroundColor: '#2b7cceff',
       shadowColor: '#000',
       shadowOffset: { width: 0, height: 2 },
       shadowOpacity: 0.4,

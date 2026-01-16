@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     borderRadius: 16,
     borderWidth: 1,
-    borderColor: "#0d63b9ff",
+    borderColor: "#2b7cceff",
   },
   groupTitle: {
     fontSize: 18,
@@ -213,7 +213,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   primaryButtonFull: {
-    backgroundColor: "#0d63b9ff",
+    backgroundColor: "#2b7cceff",
     paddingVertical: 12,
     paddingHorizontal: 18,
     borderRadius: 14,
@@ -224,7 +224,7 @@ const styles = StyleSheet.create({
   },
   primaryButtonHalf: {
     flex: 1,
-    backgroundColor: "#0d63b9ff",
+    backgroundColor: "#2b7cceff",
     paddingVertical: 12,
     paddingHorizontal: 12,
     borderRadius: 14,
@@ -250,10 +250,10 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     marginTop: 12,
     borderWidth: 2,
-    borderColor: "#0d63b9ff",
+    borderColor: "#2b7cceff",
   },
   secondaryButtonText: {
-    color: "#0d63b9ff",
+    color: "#2b7cceff",
     fontSize: 15,
     fontWeight: "600",
   },
@@ -269,7 +269,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     borderRadius: 16,
     borderWidth: 1,
-    borderColor: "#0d63b9ff",
+    borderColor: "#2b7cceff",
   },
   logContent: {
     padding: 14,

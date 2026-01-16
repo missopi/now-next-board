@@ -108,7 +108,7 @@ export default function App() {
                 headerTitle: '',
                 headerStyle: {
                   height: 72 + headerSpace * 3,
-                  backgroundColor: '#0d63b9ff',
+                  backgroundColor: '#2b7cceff',
                 },
                 headerLeft: () => (
                   <View style={{ pointerEvents: 'none' }}>
@@ -188,7 +188,7 @@ export default function App() {
               component={HelpScreen}
               options={() => ({
                 title: "",
-                headerStyle: { backgroundColor: "#0792e2ff" },
+                headerStyle: { backgroundColor: "#2b7cceff" },
                 headerTintColor: "#fff",
                 headerBackTitleVisible: false,
                 headerBackTitle: "",
@@ -199,7 +199,7 @@ export default function App() {
               component={UserGuideScreen}
               options={() => ({
                 title: "",
-                headerStyle: { backgroundColor: "#0792e2ff" },
+                headerStyle: { backgroundColor: "#2b7cceff" },
                 headerTintColor: "#fff",
                 headerBackTitleVisible: false,
                 headerBackTitle: "",
@@ -210,7 +210,7 @@ export default function App() {
               component={RoutineGuideScreen}
               options={() => ({
                 title: "",
-                headerStyle: { backgroundColor: "#0792e2ff" },
+                headerStyle: { backgroundColor: "#2b7cceff" },
                 headerTintColor: "#fff",
                 headerBackTitleVisible: false,
                 headerBackTitle: "",
@@ -221,7 +221,7 @@ export default function App() {
               component={SupportScreen}
               options={() => ({
                 title: "",
-                headerStyle: { backgroundColor: "#0792e2ff" },
+                headerStyle: { backgroundColor: "#2b7cceff" },
                 headerTintColor: "#fff",
                 headerBackTitleVisible: false,
                 headerBackTitle: "",

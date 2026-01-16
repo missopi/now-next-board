@@ -72,7 +72,7 @@ const LibraryCardCreatorScreen = ({ navigation }) => {
         paddingTop: 20,
       },
       button: {
-        backgroundColor: "#0d63b9ff",
+        backgroundColor: "#2b7cceff",
         borderRadius: 16,
         paddingVertical: buttonPaddingVertical,
         minHeight: buttonMinHeight,
@@ -100,7 +100,7 @@ const LibraryCardCreatorScreen = ({ navigation }) => {
         alignItems: "center",
         justifyContent: "center",
         borderWidth: 2,
-        borderColor: "#0d63b9ff",
+        borderColor: "#2b7cceff",
       },
       buttonDisabled: {
         backgroundColor: "#cfcfcf",
@@ -111,7 +111,7 @@ const LibraryCardCreatorScreen = ({ navigation }) => {
         fontWeight: "700",
       },
       secondaryButtonText: {
-        color: "#0d63b9ff",
+        color: "#2b7cceff",
         fontSize: buttonFontSize,
         fontWeight: "700",
       },

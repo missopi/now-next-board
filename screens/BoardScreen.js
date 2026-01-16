@@ -78,7 +78,7 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
   const insets = useSafeAreaInsets();
   const topButtonOffset = insets.top + (isHandheld ? 5 : 10);
   const isSaveEnabled = hasChanges && !!(nowActivity && nextActivity);
-  const saveButtonBackground = isSaveEnabled ? "#0d63b9ff" : "#cfcfcf";
+  const saveButtonBackground = isSaveEnabled ? "#2b7cceff" : "#cfcfcf";
   const saveButtonTextColor = "#fff";
   const categoryOptions = useMemo(
     () => allCategories.filter((cat) => cat.key !== "All").map((cat) => cat.label),
