@@ -51,10 +51,13 @@ const LibraryCardCreatorScreen = ({ navigation }) => {
 
   const styles = useMemo(() => {
     const buttonWidth = Math.min(width * 0.82, 360);
-    const buttonFontSize = Math.max(16, Math.min(shorter * 0.045, 22));
+    const buttonRowWidth = Math.min(buttonWidth, cardStyles.card.width);
+    const buttonFontSize = Math.max(16, Math.min(shorter * 0.045, 24));
     const isTablet = shorter >= 700;
     const primaryButtonSpacing = isTablet ? 50 : 18;
-    const secondaryButtonSpacing = 12;
+    const secondaryButtonSpacing = isTablet ? 22 : 12;
+    const buttonPaddingVertical = isTablet ? 18 : 14;
+    const buttonMinHeight = isTablet ? 60 : 52;
     return StyleSheet.create({
       safe: {
         flex: 1,
@@ -69,25 +72,31 @@ const LibraryCardCreatorScreen = ({ navigation }) => {
         paddingTop: 20,
       },
       button: {
-        marginTop: secondaryButtonSpacing,
         backgroundColor: "#0d63b9ff",
         borderRadius: 16,
-        paddingVertical: 14,
-        minWidth: buttonWidth,
-        minHeight: 52,
+        paddingVertical: buttonPaddingVertical,
+        minHeight: buttonMinHeight,
         alignItems: "center",
         justifyContent: "center",
       },
       primaryButton: {
         marginTop: primaryButtonSpacing,
       },
-      secondaryButton: {
+      buttonRow: {
+        width: buttonRowWidth,
+        flexDirection: "row",
+        gap: 12,
         marginTop: secondaryButtonSpacing,
+      },
+      buttonHalf: {
+        flex: 1,
+        minWidth: 0,
+      },
+      secondaryButton: {
         backgroundColor: "#fff",
         borderRadius: 16,
-        paddingVertical: 14,
-        minWidth: buttonWidth,
-        minHeight: 52,
+        paddingVertical: buttonPaddingVertical,
+        minHeight: buttonMinHeight,
         alignItems: "center",
         justifyContent: "center",
         borderWidth: 2,
@@ -107,7 +116,7 @@ const LibraryCardCreatorScreen = ({ navigation }) => {
         fontWeight: "700",
       },
     });
-  }, [insets.bottom, shorter, width]);
+  }, [cardStyles.card.width, insets.bottom, shorter, width]);
 
   const openNewCardModal = () => {
     setNewCardTitle("");
@@ -205,23 +214,25 @@ const LibraryCardCreatorScreen = ({ navigation }) => {
           onPress={openNewCardModal}
           styles={cardStyles}
         />
-        <TouchableOpacity
-          onPress={openSaveModal}
-          style={[
-            styles.button,
-            styles.primaryButton,
-            !draftCard && styles.buttonDisabled,
-          ]}
-          disabled={!draftCard}
-        >
-          <Text style={styles.buttonText}>Save to library</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => navigation.navigate("LibraryScreen", { readOnly: true })}
-          style={styles.secondaryButton}
-        >
-          <Text style={styles.secondaryButtonText}>View Library</Text>
-        </TouchableOpacity>
+        <View style={styles.buttonRow}>
+          <TouchableOpacity
+            onPress={openSaveModal}
+            style={[
+              styles.button,
+              styles.buttonHalf,
+              !draftCard && styles.buttonDisabled,
+            ]}
+            disabled={!draftCard}
+          >
+            <Text style={styles.buttonText}>Save to library</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("LibraryScreen", { readOnly: true })}
+            style={[styles.secondaryButton, styles.buttonHalf]}
+          >
+            <Text style={styles.secondaryButtonText}>View Library</Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
       <ImageCardCreatorModal
