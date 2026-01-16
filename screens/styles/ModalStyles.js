@@ -196,7 +196,7 @@ export default function getModalStyles(width, height) {
     deleteButton: {
       flex: 1,
       borderRadius: 10,
-      backgroundColor: '#fff',
+      backgroundColor: '#d40000ff',
       borderColor:'#d40000ff',
       borderWidth: 2,
       paddingVertical: 14,
@@ -205,7 +205,7 @@ export default function getModalStyles(width, height) {
     },
     deleteText: {
       fontSize: 18,
-      color: '#d40000ff',
+      color: '#fff',
       fontWeight: "bold",
       textAlign: "center",
     },
@@ -217,7 +217,7 @@ export default function getModalStyles(width, height) {
     },
     cancelDeleteButton: {
       flex: 1,
-      backgroundColor: "#d40000ff",
+      backgroundColor: "#fff",
       borderColor:'#d40000ff',
       borderWidth: 2,
       borderRadius: 10,
@@ -226,7 +226,7 @@ export default function getModalStyles(width, height) {
     },
     cancelDeleteText: {
       fontSize: 18,
-      color: "#fff",
+      color: "#d40000ff",
       fontWeight: "bold",
       textAlign: "center",
     },
