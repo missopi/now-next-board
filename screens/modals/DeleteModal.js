@@ -25,6 +25,7 @@ export default function DeleteModal({
       transparent
       animationType="fade"
       visible={!!visible && !!boardToDelete}  // safe visibility toggle
+      statusBarTranslucent
       onRequestClose={onClose}
       supportedOrientations={["portrait", "landscape"]}
     >

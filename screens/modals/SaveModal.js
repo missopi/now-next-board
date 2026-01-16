@@ -27,6 +27,7 @@ export default function SaveModal({ visible, initialTitle = "", onClose, onSave,
       visible={visible}
       transparent={true}
       animationType="fade"
+      statusBarTranslucent
       supportedOrientations={["portrait", "landscape"]}
       onRequestClose={onClose} // Android back button closes modal
     >

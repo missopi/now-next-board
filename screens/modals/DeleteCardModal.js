@@ -19,6 +19,7 @@ export default function DeleteCardModal({ visible, card, onClose, onDelete }) {
       transparent
       animationType="fade"
       visible={!!visible && !!card}
+      statusBarTranslucent
       onRequestClose={onClose}
       supportedOrientations={["portrait", "landscape"]}
     >

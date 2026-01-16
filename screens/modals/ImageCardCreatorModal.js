@@ -36,6 +36,7 @@ export default function ImageCardCreatorModal({
       visible={visible} 
       transparent={true} 
       animationType="fade" 
+      statusBarTranslucent
       supportedOrientations={['portrait', 'landscape']}
       onRequestClose={closeModal}  // ✅ Android back button
     >

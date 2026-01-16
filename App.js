@@ -69,6 +69,11 @@ export default function App() {
     prepare();
   }, []);
 
+  useEffect(() => {
+    if (!appIsReady) return;
+    SplashScreen.hideAsync().catch(() => {});
+  }, [appIsReady]);
+
   const onLayoutRootView = useCallback(async () => {
     if (appIsReady) {
       await SplashScreen.hideAsync();

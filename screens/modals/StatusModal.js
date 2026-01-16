@@ -10,6 +10,7 @@ export default function StatusModal({ visible, title = "Saved", message, buttonL
       transparent
       animationType="fade"
       visible={visible}
+      statusBarTranslucent
       onRequestClose={onClose}
       supportedOrientations={["portrait", "landscape"]}
     >

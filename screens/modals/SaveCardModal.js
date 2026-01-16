@@ -53,6 +53,7 @@ export default function SaveCardModal({
       visible={visible}
       transparent
       animationType="fade"
+      statusBarTranslucent
       supportedOrientations={["portrait", "landscape"]}
       onRequestClose={onClose}
     >

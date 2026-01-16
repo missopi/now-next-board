@@ -11,6 +11,7 @@ export default function AddModal({ visible, navigation, onClose}) {
       transparent
       animationType="fade"
       visible={visible}
+      statusBarTranslucent
       onRequestClose={onClose}
       supportedOrientations={["portrait", "landscape"]}
     >
