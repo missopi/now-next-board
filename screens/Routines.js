@@ -88,18 +88,24 @@ export default function RoutineScreen({ navigation, route }) {
   const shorterSide = Math.min(width, height);
   const iconScale = Math.min(Math.max(shorterSide / 430, 1), 1.6);
   const saveButtonHeight = Math.round(40 * iconScale);
+  const saveButtonFontSize = Math.round(18 * (isHandheld ? 1 : iconScale));
+  const saveButtonHorizontalPadding = Math.round(16 * (isHandheld ? 1 : Math.max(iconScale, 1.2)));
+  const saveButtonMinWidth = Math.round(96 * (isHandheld ? 1 : 1.4));
   const { metrics } = getCardBaseStyles(width, height);
   const cardOuterInset = Math.max(16, Math.round((width - metrics.cardWidth) / 2));
   const listTopPadding = isHandheld ? 50 : 10;
   const styles = getStyles(width, height, "edit");
   const insets = useSafeAreaInsets();
-  const topButtonOffset = insets.top + (isHandheld ? 5 : 10);
+  const topButtonOffset = insets.top + (isHandheld ? 0 : 10);
+  const saveButtonTop = topButtonOffset + (isHandheld ? 0 : 8);
+  const saveButtonRight = Math.round(width * 0.03);
   const hasValidActivities = activities.some(
     (activity) => activity && ((activity.image && activity.image.uri) || activity.fromLibrary)
   );
   const isSaveEnabled = hasChanges && hasValidActivities;
-  const saveButtonBackground = isSaveEnabled ? "#2b7cceff" : "#cfcfcf";
-  const saveButtonTextColor = "#fff";
+  const saveButtonTextColor = isSaveEnabled ? "#2b7cceff" : "#8f8f8f";
+  const saveButtonBackground = "transparent";
+  const saveButtonBorderColor = "transparent";
   const categoryOptions = useMemo(
     () => allCategories.filter((cat) => cat.key !== "All").map((cat) => cat.label),
     []
@@ -310,7 +316,12 @@ export default function RoutineScreen({ navigation, route }) {
 
   return (
     <SafeAreaView
-      style={{ paddingHorizontal: 20, flex: 1, backgroundColor: "#f7fbff" }}
+      style={{ 
+        paddingTop: isHandheld ? 0 : (isPortrait ? 30 : 0),
+        paddingHorizontal: 20, 
+        flex: 1, 
+        backgroundColor: "#f7fbff" 
+      }}
       edges={['top', 'bottom', 'left', 'right']}
     >
       <View>
@@ -379,24 +390,23 @@ export default function RoutineScreen({ navigation, route }) {
         onPress={() => setIsSaveModalVisible(true)}
         style={{
           position: "absolute",
-          top: topButtonOffset,
-          right: cardOuterInset,
-          minWidth: 96,
+          top: saveButtonTop,
+          right: saveButtonRight,
+          minWidth: saveButtonMinWidth,
           height: saveButtonHeight,
-          paddingHorizontal: 16,
+          paddingHorizontal: saveButtonHorizontalPadding,
           borderRadius: 10,
           borderWidth: 0,
-          borderColor: saveButtonBackground,
+          borderColor: saveButtonBorderColor,
           backgroundColor: saveButtonBackground,
-          alignItems: "center",
+          alignItems: "flex-end",
           justifyContent: "center",
           zIndex: 10,
-          elevation: 10,
           opacity: 1,
         }}
       >
-        <Text style={{ color: saveButtonTextColor, fontSize: 18, fontWeight: "600" }}>
-          Save
+        <Text style={{ color: saveButtonTextColor, fontSize: saveButtonFontSize, fontWeight: "600" }}>
+          save
         </Text>
       </TouchableOpacity>
 

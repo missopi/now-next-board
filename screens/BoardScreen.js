@@ -68,6 +68,9 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
   const isHandheld = shorterSide < 700;
   const iconScale = Math.min(Math.max(shorterSide / 430, 1), 1.6);
   const saveButtonHeight = Math.round(40 * iconScale);
+  const saveButtonFontSize = Math.round(18 * (isHandheld ? 1 : iconScale));
+  const saveButtonHorizontalPadding = Math.round(16 * (isHandheld ? 1 : Math.max(iconScale, 1.2)));
+  const saveButtonMinWidth = Math.round(96 * (isHandheld ? 1 : 1.4));
   const { metrics } = getCardBaseStyles(width, height);
   const baseColumn = Math.min(shorterSide * 0.9, metrics.cardWidth);
   const columnWidth = isPortrait ? baseColumn : Math.min(width * 0.42, metrics.cardWidth);
@@ -76,10 +79,11 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
   const cardOuterInset = Math.max(16, Math.round((width - rowWidth) / 2));
   const styles = getStyles(isPortrait, width, height, "edit");
   const insets = useSafeAreaInsets();
-  const topButtonOffset = insets.top + (isHandheld ? 5 : 10);
+  const topButtonOffset = insets.top + (isHandheld ? 0 : 10);
+  const saveButtonTop = topButtonOffset + (isHandheld ? 0 : 8);
+  const saveButtonRight = Math.round(width * 0.05);
   const isSaveEnabled = hasChanges && !!(nowActivity && nextActivity);
-  const saveButtonBackground = isSaveEnabled ? "#2b7cceff" : "#cfcfcf";
-  const saveButtonTextColor = "#fff";
+  const saveButtonTextColor = isSaveEnabled ? "#2b7cceff" : "#8f8f8f";
   const categoryOptions = useMemo(
     () => allCategories.filter((cat) => cat.key !== "All").map((cat) => cat.label),
     []
@@ -302,24 +306,22 @@ export default function NowNextBoardScreen({ navigation, route }) {  // useState
         onPress={() => setIsSaveModalVisible(true)}
         style={{
           position: "absolute",
-          top: topButtonOffset,
-          right: cardOuterInset,
-          minWidth: 96,
+          top: saveButtonTop,
+          right: saveButtonRight,
+          minWidth: saveButtonMinWidth,
           height: saveButtonHeight,
-          paddingHorizontal: 16,
+          paddingHorizontal: saveButtonHorizontalPadding,
           borderRadius: 10,
           borderWidth: 0,
-          borderColor: saveButtonBackground,
-          backgroundColor: saveButtonBackground,
-          alignItems: "center",
+          backgroundColor: "transparent",
+          alignItems: "flex-end",
           justifyContent: "center",
           zIndex: 10,
-          elevation: 10,
           opacity: 1,
         }}
       >
-        <Text style={{ color: saveButtonTextColor, fontSize: 18, fontWeight: "600" }}>
-          Save
+        <Text style={{ color: saveButtonTextColor, fontSize: saveButtonFontSize, fontWeight: "600" }}>
+          save
         </Text>
       </TouchableOpacity>
       <View style={{ flex: 1 }}>
