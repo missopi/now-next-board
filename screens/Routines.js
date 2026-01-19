@@ -6,6 +6,7 @@ import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context"
 import DraggableFlatList from 'react-native-draggable-flatlist';
 import RoutineCard from "./components/RoutineCard";
 import getStyles from "./styles/RoutineStyles";
+import getCardBaseStyles from "./styles/CardBaseStyles";
 import { setActivityCallback } from "./components/CallbackStore";
 import { pickImage } from "../utilities/imagePickerHelper";
 import ImageCardCreatorModal from "./modals/ImageCardCreatorModal";
@@ -87,12 +88,28 @@ export default function RoutineScreen({ navigation, route }) {
   const isPortrait = height > width;
   const isHandheld = Math.min(width, height) < 700;
   const shorterSide = Math.min(width, height);
+  const horizontalPadding = 20;
   const iconScale = Math.min(Math.max(shorterSide / 430, 1), 1.6);
+  const { baseStyles, metrics } = getCardBaseStyles(width, height);
+  const cardWidth = metrics.cardWidth;
+  const cardMargin = baseStyles.card?.marginHorizontal || 0;
+  const cardOuterWidth = cardWidth + cardMargin * 2;
+  const cardGap = Math.round(shorterSide * 0.01);
   const listRef = useRef(null);
   const listTopPadding = isHandheld ? 50 : 10;
   const styles = getStyles(width, height, "edit");
   const insets = useSafeAreaInsets();
   const topButtonOffset = insets.top + (isHandheld ? 0 : 10);
+  const visibleCardCount = Math.max(1, Math.min(activities.length, 2));
+  const listAvailableWidth = width - (horizontalPadding * 2) - insets.left - insets.right;
+  const landscapeListPadding = !isPortrait
+    ? Math.max(
+      0,
+      Math.round(
+        (listAvailableWidth - (cardOuterWidth * visibleCardCount + cardGap * Math.max(visibleCardCount - 1, 0))) / 2
+      )
+    )
+    : 0;
   const hasValidActivities = activities.some(
     (activity) => activity && ((activity.image && activity.image.uri) || activity.fromLibrary)
   );
@@ -320,7 +337,7 @@ export default function RoutineScreen({ navigation, route }) {
     <SafeAreaView
       style={{ 
         paddingTop: isHandheld ? 0 : (isPortrait ? 30 : 0),
-        paddingHorizontal: 20, 
+        paddingHorizontal: horizontalPadding, 
         flex: 1, 
         backgroundColor: "#f7fbff" 
       }}
@@ -366,9 +383,10 @@ export default function RoutineScreen({ navigation, route }) {
           }}
           contentContainerStyle={
             {
-              gap: Math.round(shorterSide * 0.01),
+              gap: cardGap,
               paddingTop: listTopPadding,
               paddingBottom: isPortrait ? Math.max(120, insets.bottom + 80): 0,
+              paddingLeft: isPortrait ? 0 : landscapeListPadding,
             }
           }
 
