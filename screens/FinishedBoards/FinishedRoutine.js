@@ -59,8 +59,8 @@ export default function RoutineViewScreen({ route, navigation }) {
         contentContainerStyle={{
           gap: '1%',
           paddingTop: styles.listContentPaddingTop,
-          paddingBottom: isPortrait ? 50 : 0,
-          paddingRight: isPortrait ? 0 : 50,
+          paddingBottom: isPortrait ? Math.max(50, Math.round(height * 0.15)) + insets.bottom : 0,
+          paddingRight: isPortrait ? 0 : Math.max(50, Math.round(width * 0.15)) + insets.right,
         }}
       />
     </SafeAreaView>

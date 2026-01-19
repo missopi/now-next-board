@@ -103,12 +103,7 @@ export default function RoutineScreen({ navigation, route }) {
   const visibleCardCount = Math.max(1, Math.min(activities.length, 2));
   const listAvailableWidth = width - (horizontalPadding * 2) - insets.left - insets.right;
   const landscapeListPadding = !isPortrait
-    ? Math.max(
-      0,
-      Math.round(
-        (listAvailableWidth - (cardOuterWidth * visibleCardCount + cardGap * Math.max(visibleCardCount - 1, 0))) / 2
-      )
-    )
+    ? Math.max(0, Math.round((listAvailableWidth - (cardOuterWidth * visibleCardCount + cardGap * Math.max(visibleCardCount - 1, 0))) / 2))
     : 0;
   const hasValidActivities = activities.some(
     (activity) => activity && ((activity.image && activity.image.uri) || activity.fromLibrary)
