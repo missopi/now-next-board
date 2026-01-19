@@ -6,7 +6,6 @@ import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context"
 import DraggableFlatList from 'react-native-draggable-flatlist';
 import RoutineCard from "./components/RoutineCard";
 import getStyles from "./styles/RoutineStyles";
-import getCardBaseStyles from "./styles/CardBaseStyles";
 import { setActivityCallback } from "./components/CallbackStore";
 import { pickImage } from "../utilities/imagePickerHelper";
 import ImageCardCreatorModal from "./modals/ImageCardCreatorModal";
@@ -87,25 +86,15 @@ export default function RoutineScreen({ navigation, route }) {
   const isHandheld = Math.min(width, height) < 700;
   const shorterSide = Math.min(width, height);
   const iconScale = Math.min(Math.max(shorterSide / 430, 1), 1.6);
-  const saveButtonHeight = Math.round(40 * iconScale);
-  const saveButtonFontSize = Math.round(18 * (isHandheld ? 1 : iconScale));
-  const saveButtonHorizontalPadding = Math.round(16 * (isHandheld ? 1 : Math.max(iconScale, 1.2)));
-  const saveButtonMinWidth = Math.round(96 * (isHandheld ? 1 : 1.4));
-  const { metrics } = getCardBaseStyles(width, height);
-  const cardOuterInset = Math.max(16, Math.round((width - metrics.cardWidth) / 2));
+  const listRef = useRef(null);
   const listTopPadding = isHandheld ? 50 : 10;
   const styles = getStyles(width, height, "edit");
   const insets = useSafeAreaInsets();
   const topButtonOffset = insets.top + (isHandheld ? 0 : 10);
-  const saveButtonTop = topButtonOffset + (isHandheld ? 0 : 8);
-  const saveButtonRight = Math.round(width * 0.03);
   const hasValidActivities = activities.some(
     (activity) => activity && ((activity.image && activity.image.uri) || activity.fromLibrary)
   );
   const isSaveEnabled = hasChanges && hasValidActivities;
-  const saveButtonTextColor = isSaveEnabled ? "#2b7cceff" : "#8f8f8f";
-  const saveButtonBackground = "transparent";
-  const saveButtonBorderColor = "transparent";
   const categoryOptions = useMemo(
     () => allCategories.filter((cat) => cat.key !== "All").map((cat) => cat.label),
     []
@@ -304,6 +293,10 @@ export default function RoutineScreen({ navigation, route }) {
   const addEmptySlot = () => {
     const newSlot = { id: uuid.v4(), name: null, image: null };
     setActivities([...activities, newSlot]);
+    requestAnimationFrame(() => {
+      if (!listRef.current) return;
+      listRef.current.scrollToEnd({ animated: true });
+    });
   };
 
   const AddCardFooter = ({ onPress, styles }) => (
@@ -324,8 +317,9 @@ export default function RoutineScreen({ navigation, route }) {
       }}
       edges={['top', 'bottom', 'left', 'right']}
     >
-      <View>
+      <View style={{ flex: 1 }}>
         <DraggableFlatList
+          ref={listRef}
           data={activities}
           extraData={activities}
           style={{ height: '100%', width: '100%' }}
@@ -353,34 +347,51 @@ export default function RoutineScreen({ navigation, route }) {
           }}
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
+          onScrollToIndexFailed={({ index, averageItemLength }) => {
+            requestAnimationFrame(() => {
+              const estimatedOffset = averageItemLength
+                ? Math.max(0, averageItemLength * index)
+                : 0;
+              listRef.current?.scrollToOffset({ offset: estimatedOffset, animated: true });
+            })
+          }}
           contentContainerStyle={
-            { 
-              gap: '1%', 
-              paddingTop: listTopPadding, 
-              paddingBottom: isPortrait ? 50 : 0,
-              paddingLeft: isPortrait ? 0 : 20, 
+            {
+              gap: Math.round(shorterSide * 0.01),
+              paddingTop: listTopPadding,
+              paddingBottom: isPortrait ? Math.max(120, insets.bottom + 80): 0,
             }
           }
 
           // footer button that follows the last card
           ListFooterComponent={
-            <AddCardFooter
-              onPress={addEmptySlot}
-              isPortrait={isPortrait}
-              styles={styles}
-              cardWidth={styles.cardWidth || width * 0.4}
-            />
+            isPortrait ? (
+              <AddCardFooter
+                onPress={addEmptySlot}
+                isPortrait={isPortrait}
+                styles={styles}
+                cardWidth={styles.cardWidth || width * 0.4}
+              />
+            ) : null
           }
           ListFooterComponentStyle={
-            { 
-              justifyContent: 'center', 
-              paddingTop: isPortrait ? 20 : 0, 
-              paddingBottom: isPortrait ? 80 : 0, 
-              paddingRight: isPortrait ? 0 : 80,
-              paddingLeft: isPortrait ? 0 : 20, 
-            }
+            isPortrait
+              ? {
+                justifyContent: 'center',
+                paddingTop: 20,
+                paddingBottom: Math.max(20, insets.bottom),
+              }
+              : null
           }
         />
+        {!isPortrait ? (
+          // Add button absolutely positioned in landscape orientation
+          <View pointerEvents="box-none" style={styles.landscapeAddButton}>
+            <TouchableOpacity onPress={addEmptySlot} style={styles.addButton}>
+              <Text style={styles.addText}>Add Card</Text>
+            </TouchableOpacity>
+          </View>
+        ) : null}
       </View>
       <BackButton onPress={() => navigation.goBack()} style={{ zIndex: 10 }} />
       <TouchableOpacity
@@ -388,24 +399,13 @@ export default function RoutineScreen({ navigation, route }) {
         accessibilityLabel="Save routine"
         disabled={!isSaveEnabled}
         onPress={() => setIsSaveModalVisible(true)}
-        style={{
-          position: "absolute",
-          top: saveButtonTop,
-          right: saveButtonRight,
-          minWidth: saveButtonMinWidth,
-          height: saveButtonHeight,
-          paddingHorizontal: saveButtonHorizontalPadding,
-          borderRadius: 10,
-          borderWidth: 0,
-          borderColor: saveButtonBorderColor,
-          backgroundColor: saveButtonBackground,
-          alignItems: "flex-end",
-          justifyContent: "center",
-          zIndex: 10,
-          opacity: 1,
-        }}
+        style={[styles.saveButton, { top: topButtonOffset + (isHandheld ? 0 : 8) }]}
       >
-        <Text style={{ color: saveButtonTextColor, fontSize: saveButtonFontSize, fontWeight: "600" }}>
+        <Text style={{ 
+          color: isSaveEnabled ? "#2b7cceff" : "#8f8f8f", 
+          fontSize: Math.round(18 * (isHandheld ? 1 : iconScale)), 
+          fontWeight: "600", 
+        }}>
           save
         </Text>
       </TouchableOpacity>

@@ -13,6 +13,7 @@ export default function getStyles(width, height, mode = "edit") {
   const bigScreenBoost = shorter >= 800 ? shorter * 0.025 : shorter >= 700 ? shorter * 0.015 : 0;
   const portraitBoost = bigScreenBoost;
   const landscapeBoost = bigScreenBoost * 0.6;
+  const iconScale = Math.min(Math.max(shorter / 430, 1), 1.6);
 
   // In view mode keep header off the cards but allow more breathing room in portrait.
   const topPadding = mode === "view"
@@ -101,6 +102,27 @@ export default function getStyles(width, height, mode = "edit") {
       fontSize: shorter * 0.04,
       fontWeight: 'bold',
       lineHeight: shorter * 0.04,
+    },
+    saveButton: {
+      position: "absolute",
+      right: Math.round(width * 0.03),
+      minWidth: Math.round(96 * (isTablet ? 1.4 : 1)),
+      height: Math.round(40 * iconScale),
+      paddingHorizontal: Math.round(16 * (isTablet ? Math.max(iconScale, 1.2) : 1)),
+      borderRadius: 10,
+      borderWidth: 0,
+      borderColor: "transparent",
+      backgroundColor: "transparent",
+      alignItems: "flex-end",
+      justifyContent: "center",
+      zIndex: 10,
+      opacity: 1,
+    },
+    landscapeAddButton: {
+      position: "absolute",
+      bottom: '5%',
+      left: Math.max(0, Math.round((width - cardWidth) / 2)),
+      width: cardWidth,
     },
   });
 }
