@@ -86,11 +86,19 @@ export default function getStyles(width, height, mode = "edit") {
       shadowRadius: 3,
       elevation: 3,
     },
+    addButtonDisabled: {
+      backgroundColor: '#b0b0b0',
+      shadowOpacity: 0,
+      elevation: 0,
+    },
     addText: {
       color: '#fff',
       fontSize: textBody,
       fontWeight: 'bold',
       textAlign: 'center'
+    },
+    addTextDisabled: {
+      color: '#f5f5f5',
     },
     listContentPaddingTop: contentTopPadding,
     dragText: {

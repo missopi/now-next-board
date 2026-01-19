@@ -20,6 +20,8 @@ import { getCardImageUri, saveCustomCard } from "../utilities/CustomCardStore";
 import useHandheldPortraitLock from "../utilities/useHandheldPortraitLock";
 import BackButton from "./components/BackButton";
 
+const MAX_ROUTINE_CARDS = 6;
+
 export default function RoutineScreen({ navigation, route }) {
   const { mode, board } = route.params || {};
   const [isSaveModalVisible, setIsSaveModalVisible] = useState(false);
@@ -95,6 +97,7 @@ export default function RoutineScreen({ navigation, route }) {
     (activity) => activity && ((activity.image && activity.image.uri) || activity.fromLibrary)
   );
   const isSaveEnabled = hasChanges && hasValidActivities;
+  const isAtMaxCards = activities.length >= MAX_ROUTINE_CARDS;
   const categoryOptions = useMemo(
     () => allCategories.filter((cat) => cat.key !== "All").map((cat) => cat.label),
     []
@@ -291,6 +294,7 @@ export default function RoutineScreen({ navigation, route }) {
   };
 
   const addEmptySlot = () => {
+    if (activities.length >= MAX_ROUTINE_CARDS) return;
     const newSlot = { id: uuid.v4(), name: null, image: null };
     setActivities([...activities, newSlot]);
     requestAnimationFrame(() => {
@@ -299,10 +303,15 @@ export default function RoutineScreen({ navigation, route }) {
     });
   };
 
-  const AddCardFooter = ({ onPress, styles }) => (
+  const AddCardFooter = ({ onPress, styles, disabled }) => (
     <View style={styles.cardFooter}>
-      <TouchableOpacity onPress={onPress} style={styles.addButton}>
-        <Text style={styles.addText}>Add Card</Text>
+      <TouchableOpacity
+        onPress={onPress}
+        disabled={disabled}
+        accessibilityState={{ disabled }}
+        style={[styles.addButton, disabled && styles.addButtonDisabled]}
+      >
+        <Text style={[styles.addText, disabled && styles.addTextDisabled]}>Add Card</Text>
       </TouchableOpacity>
     </View>
   );
@@ -371,6 +380,7 @@ export default function RoutineScreen({ navigation, route }) {
                 isPortrait={isPortrait}
                 styles={styles}
                 cardWidth={styles.cardWidth || width * 0.4}
+                disabled={isAtMaxCards}
               />
             ) : null
           }
@@ -387,8 +397,13 @@ export default function RoutineScreen({ navigation, route }) {
         {!isPortrait ? (
           // Add button absolutely positioned in landscape orientation
           <View pointerEvents="box-none" style={styles.landscapeAddButton}>
-            <TouchableOpacity onPress={addEmptySlot} style={styles.addButton}>
-              <Text style={styles.addText}>Add Card</Text>
+            <TouchableOpacity
+              onPress={addEmptySlot}
+              disabled={isAtMaxCards}
+              accessibilityState={{ disabled: isAtMaxCards }}
+              style={[styles.addButton, isAtMaxCards && styles.addButtonDisabled]}
+            >
+              <Text style={[styles.addText, isAtMaxCards && styles.addTextDisabled]}>Add Card</Text>
             </TouchableOpacity>
           </View>
         ) : null}
