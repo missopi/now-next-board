@@ -54,8 +54,8 @@ const LibraryCardCreatorScreen = ({ navigation }) => {
     const buttonRowWidth = Math.min(buttonWidth, cardStyles.card.width);
     const buttonFontSize = Math.max(16, Math.min(shorter * 0.045, 24));
     const isTablet = shorter >= 700;
-    const primaryButtonSpacing = isTablet ? 50 : 18;
-    const secondaryButtonSpacing = isTablet ? 22 : 12;
+    const primaryButtonSpacing = 50;
+    const secondaryButtonSpacing = 22;
     const buttonPaddingVertical = isTablet ? 18 : 14;
     const buttonMinHeight = isTablet ? 60 : 52;
     return StyleSheet.create({
