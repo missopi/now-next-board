@@ -23,7 +23,11 @@ import BackButton from "./components/BackButton";
 import ActivityCard from "./components/ActivityCard";
 import getCardBaseStyles from "./styles/CardBaseStyles";
 import DeleteCardModal from "./modals/DeleteCardModal";
-import { deleteCustomCard, getCachedCustomCards, getCustomCards } from "../utilities/CustomCardStore";
+import EditCardModal from "./modals/EditCardModal";
+import EditCardNameModal from "./modals/EditCardNameModal";
+import EditCardImageModal from "./modals/EditCardImageModal";
+import { pickImage } from "../utilities/imagePickerHelper";
+import { deleteCustomCard, getCachedCustomCards, getCustomCards, updateCustomCard } from "../utilities/CustomCardStore";
 
 const LibraryScreen = ({ navigation, route }) => {
   const slot = route?.params?.slot;
@@ -34,6 +38,10 @@ const LibraryScreen = ({ navigation, route }) => {
   const [customCards, setCustomCards] = useState(() => getCachedCustomCards() || []);
   const [deleteCardVisible, setDeleteCardVisible] = useState(false);
   const [cardToDelete, setCardToDelete] = useState(null);
+  const [editCardVisible, setEditCardVisible] = useState(false);
+  const [editNameVisible, setEditNameVisible] = useState(false);
+  const [editImageVisible, setEditImageVisible] = useState(false);
+  const [cardToEdit, setCardToEdit] = useState(null);
   const insets = useSafeAreaInsets();
   const { width, height } = useWindowDimensions();
   const GAP = 8;
@@ -226,6 +234,48 @@ const LibraryScreen = ({ navigation, route }) => {
     setCardToDelete(null);
   };
 
+  const handleOpenEdit = (activity) => {
+    if (!activity?.isCustom) return;
+    setCardToEdit(activity);
+    setEditCardVisible(true);
+  };
+
+  const handleCloseEdit = () => {
+    setEditCardVisible(false);
+    setCardToEdit(null);
+  };
+
+  const handleChangeName = () => {
+    setEditCardVisible(false);
+    setEditNameVisible(true);
+  };
+
+  const handleSaveName = async (name) => {
+    if (!cardToEdit) return;
+    const updated = await updateCustomCard(cardToEdit.id, { name });
+    setCustomCards(updated);
+    setEditNameVisible(false);
+    setCardToEdit(null);
+  };
+
+  const handleChangeImage = () => {
+    setEditCardVisible(false);
+    setEditImageVisible(true);
+  };
+
+  const handlePickImage = async (source) => {
+    if (!cardToEdit) return;
+    setEditImageVisible(false);
+    const newImageUri = await pickImage(source);
+    if (!newImageUri) {
+      setCardToEdit(null);
+      return;
+    }
+    const updated = await updateCustomCard(cardToEdit.id, { imageUri: newImageUri });
+    setCustomCards(updated);
+    setCardToEdit(null);
+  };
+
   const paddingTop = Math.max(40 - insets.top, 0);
   const paddingBottom = Math.max(0 - insets.bottom, 0);
 
@@ -302,7 +352,13 @@ const LibraryScreen = ({ navigation, route }) => {
           <ActivityCard
             activity={{ ...item, fromLibrary: !item.isCustom, imageKey: item.id }}
             label=""
-            onPress={() => handlePress(item)}
+            onPress={() => {
+              if (item.isCustom && (isReadOnly || !slot)) {
+                handleOpenEdit(item);
+                return;
+              }
+              handlePress(item);
+            }}
             onLongPress={() => {
               if (!item.isCustom) return;
               setCardToDelete(item);
@@ -321,6 +377,31 @@ const LibraryScreen = ({ navigation, route }) => {
           setCardToDelete(null);
         }}
         onDelete={handleDeleteCard}
+      />
+      <EditCardModal
+        visible={editCardVisible}
+        card={cardToEdit}
+        onChangeImage={handleChangeImage}
+        onChangeName={handleChangeName}
+        onClose={handleCloseEdit}
+      />
+      <EditCardNameModal
+        visible={editNameVisible}
+        initialName={cardToEdit?.name || ""}
+        onSave={handleSaveName}
+        onClose={() => {
+          setEditNameVisible(false);
+          setCardToEdit(null);
+        }}
+      />
+      <EditCardImageModal
+        visible={editImageVisible}
+        onChooseCamera={() => handlePickImage("camera")}
+        onChooseGallery={() => handlePickImage("gallery")}
+        onClose={() => {
+          setEditImageVisible(false);
+          setCardToEdit(null);
+        }}
       />
     </SafeAreaView>
   );

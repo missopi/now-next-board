@@ -107,3 +107,33 @@ export const deleteCustomCard = async (id) => {
     return [];
   }
 };
+
+export const updateCustomCard = async (id, updates = {}) => {
+  try {
+    if (!id) return await getCustomCards();
+    const cards = await getCustomCards();
+    const updated = await Promise.all(
+      cards.map(async (card) => {
+        if (card.id !== id) return card;
+        const nextCard = { ...card };
+        if (typeof updates.name === "string") {
+          const trimmedName = updates.name.trim();
+          if (trimmedName) {
+            nextCard.name = trimmedName;
+          }
+        }
+        if (typeof updates.imageUri === "string") {
+          const persistedImageUri = await ensureStoredImageUri(updates.imageUri);
+          nextCard.imageUri = persistedImageUri || updates.imageUri;
+        }
+        return nextCard;
+      })
+    );
+    await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+    cachedCards = updated;
+    return updated;
+  } catch (err) {
+    console.error("Failed to update custom card:", err);
+    return await getCustomCards();
+  }
+};
